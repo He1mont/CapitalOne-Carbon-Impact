@@ -15,4 +15,4 @@
 
 - [User Requirements](User-Requirements.md)
 - [Research on the developer API](Developer-API.md)
-- [Research]
+- [Scoring system research](assets/Scoring_System_Research.pdf)
