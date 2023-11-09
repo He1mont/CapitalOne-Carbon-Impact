@@ -16,3 +16,4 @@
 - [User Requirements](User-Requirements.md)
 - [Research on the developer API](Developer-API.md)
 - [Scoring system research](assets/Scoring_System_Research.pdf)
+- [Collect and Calculate data](data_for_carbon.pdf)
