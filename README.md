@@ -15,5 +15,5 @@
 - [User requirements](documents/User-Requirements.md)
 - [Reasearch on the developer API](documents/developerAPI.md)
 - [Machine learning modelling](documents/ML-for-Modelling.md)
-- [Scoring system research](documents/)
-- [Scoring data reasearch](documents/)
+- [Scoring system UI research](documents/Scoring_System_Research.pdf)
+- [Scoring data reasearch](documents/data_for_carbon_footprint.pdf)
