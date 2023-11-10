@@ -10,3 +10,10 @@
 - [Benji](contributors/benji.md)
 - [Anqi](contributors/anqi.md)
 - [Yanqian](contributors/yanqian.md)
+
+# Documents
+- [User requirements](documents/User-Requirements.md)
+- [Reasearch on the developer API](documents/developerAPI.md)
+- [Machine learning modelling](documents/ML-for-Modelling.md)
+- [Scoring system research](documents/)
+- [Scoring data reasearch](documents/)
