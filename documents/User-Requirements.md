@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Personas](#personas)
-2.  [Component Diagram](#component-diagram)
+2. [Component Diagram](#component-diagram)
 3. [Sequence Diagram](#sequence-diagram)
 
 ## Personas
