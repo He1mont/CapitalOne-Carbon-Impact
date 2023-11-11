@@ -1,5 +1,8 @@
 # Group 7 Project Repository
 
+# Group weekly timetable
+![Timetable](assets/Group-Weekly-Plan.png)
+
 # Team Contributors
 
 - [Lucas](contributors/lucas.md)
