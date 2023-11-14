@@ -29,3 +29,4 @@
 ![Component Diagram](assets/Component-Diagram.png)
 
 ## Sequence Diagram
+![Sequence Diagram](../assets/Sequence-Diagram.png)
