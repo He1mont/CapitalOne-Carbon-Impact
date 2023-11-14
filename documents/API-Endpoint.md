@@ -13,7 +13,7 @@
 
 
 
-## 1. Customer Accounts
+## 1. Accounts
 
 
 
@@ -292,6 +292,51 @@
             "liveBalance": "false"
         }
     ]
+}
+```
+
+
+
+#### 5) PUT: Update a specific existing account
+
+-   Router: PUT `/accounts/$account-id`
+
+-   Response Content
+
+| Parameters    | Description                         |
+| ------------- | ----------------------------------- |
+|`id` (required)| ID of account that needs to be fetched.|
+|`body` (required)| Updated account object.|
+
+-   Example Output
+
+```JSON
+{
+  "code": 0,
+  "message": "string",
+  "fields": "string"
+}
+```
+
+
+
+#### 6) DELECT: The specific account
+
+-   Router: DELECT `/accounts/$account-id`
+
+-   Response Content
+
+| Parameters    | Description                         |
+| ------------- | ----------------------------------- |
+|`id` (required)| ID of account that needs to be fetched.|
+
+-   Example Output
+
+```JSON
+{
+  "code": 0,
+  "message": "string",
+  "fields": "string"
 }
 ```
 
@@ -747,5 +792,82 @@
             "pointOfSale": "In-store"
         }
     ]
+}
+```
+
+
+
+## 4. ATM
+
+
+
+#### 1) GET: all ATMs
+
+-   Router: GET `/atms`
+
+-   Note: Returns all of the Capital One ATMs in the speified search area.
+
+-   Response Arguments
+
+| Parameters    | Description                         |
+| ------------- | ----------------------------------- |
+|`lat` (38.9283)| Latitude of where you're looking for an ATM. Remember Negatives for West.|
+|`lng` (-77.1753)| Longitude of where you're looking for an ATM. Remember Negatives for South.|
+|`rad` (1)| Search radius in miles.|
+
+-   Example Output
+```JSON
+[
+  {
+    "_id": "string",
+    "name": "string",
+    "language_list": [
+      "string"
+    ],
+    "geocode": {
+      "lat": 0,
+      "lng": 0
+    },
+    "hours": [
+      "string"
+    ],
+    "accessibility": true,
+    "amount_left": 0
+  }
+]
+```
+
+
+
+#### 2) GET: ATM by ID
+
+-   Router: GET `/atms/$accountsID`
+
+-   Note: Returns the ATM with the specific id
+
+-   Response Arguments
+
+| Parameters    | Description                         |
+| ------------- | ----------------------------------- |
+|`id` (required)| ID of ATM that needs to be fetched.|
+
+-   Example Output
+
+```JSON
+{
+  "_id": "string",
+  "name": "string",
+  "language_list": [
+    "string"
+  ],
+  "geocode": {
+    "lat": 0,
+    "lng": 0
+  },
+  "hours": [
+    "string"
+  ],
+  "accessibility": true,
+  "amount_left": 0
 }
 ```
