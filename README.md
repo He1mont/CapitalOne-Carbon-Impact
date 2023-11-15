@@ -24,5 +24,5 @@
 - [Scoring system UI research](documents/Scoring_System_Research.pdf)
 - [Scoring data reasearch](documents/data_for_carbon_footprint.pdf)
 - [Database and algorithm research](documents/Database_and_Algorithm_Research.md)
-- [Initial Prototypes](documents/prototypes/)
+- [Initial Prototypes](assets/prototypes/)
 
