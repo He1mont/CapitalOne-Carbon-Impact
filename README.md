@@ -15,10 +15,13 @@
 - [Yanqian](contributors/yanqian.md)
 
 # Documents
+
 - [User requirements](documents/User-Requirements.md)
 - [Reasearch on the developer API](documents/developerAPI.md)
+- [API Design](./documents/API_Design.md)
+- [API Endpoint](./documents/API-Endpoint.md)
 - [Machine learning modelling](documents/ML-for-Modelling.md)
 - [Scoring system UI research](documents/Scoring_System_Research.pdf)
 - [Scoring data reasearch](documents/data_for_carbon_footprint.pdf)
-- [API Design](./documents/API_Design.md)
-- [API Endpoint](./documents/API-Endpoint.md)
+- [Database and algorithm research](documents\Database_and_Algorithm_Research.md)
+
