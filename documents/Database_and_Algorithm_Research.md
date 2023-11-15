@@ -2,7 +2,7 @@
 
 ## Literature Research
 
-**A novel approach to calculate individuals’ carbon footprints using financial transaction data - App development and design [(2020)](documents\Literature\Andersson_2020.pdf)**
+**A novel approach to calculate individuals’ carbon footprints using financial transaction data - App development and design [(2020)](Literature/Andersson_2020.pdf)**
 
 Abstract
 
@@ -19,7 +19,7 @@ Key points
 <p><br>
 
 
-**Explainable Automatic Industrial Carbon Footprint Estimation From Bank Transaction Classification Using Natural Language Processing [(2022)](documents\Literature\González-González_2022.pdf)**
+**Explainable Automatic Industrial Carbon Footprint Estimation From Bank Transaction Classification Using Natural Language Processing [(2022)](Literature/González-González_2022.pdf)**
 
 Abstract
 
@@ -35,7 +35,7 @@ Key points
 <p><br>
 
 
-**Estimating carbon footprints from large scale financial transaction data [(2023)](documents\Literature\Trendl_2023.pdf)**
+**Estimating carbon footprints from large scale financial transaction data [(2023)](Literature/Trendl_2023.pdf)**
 
 Abstract
 
@@ -49,7 +49,7 @@ Key points
 <p><br>
 
 
-**Visualization of an Individual Carbon Footprint Mitigation Plan Using Transaction Data [(2021)](documents\Literature\BRÅNEMARK_2021.pdf)**
+**Visualization of an Individual Carbon Footprint Mitigation Plan Using Transaction Data [(2021)](Literature/BRÅNEMARK_2021.pdf)**
 
 Abstract
 
