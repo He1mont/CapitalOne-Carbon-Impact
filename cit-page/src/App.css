@@ -53,6 +53,23 @@ html, body {
   line-height: 10px;
   color: white;
 }
+.mid-high-txt-right{
+  position: absolute;
+  text-align: right;
+  background-color: rgb(187, 32, 140);
+  top: 1%;
+  right: 30px;
+  color:white;
+  border-radius: 5px;
+}
+.login-btn{
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: white;
+  
+}
 .mid-high-profile{
   position: absolute;
   background-color: rgb(187, 32, 140);
@@ -60,6 +77,7 @@ html, body {
   top: 40px;
   width: 150px;
   height: 60px;
+  
 }
 /*---------- CENTER ----------*/
 .mid-center{
