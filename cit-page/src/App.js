@@ -6,6 +6,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './HomePage';
 import Login from './Login';
+import Transactions from './Transactions';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/" component={HomePage} />
+        <Route path="/Transactions" component={Transactions} />
       </Switch>
     </Router>
   );

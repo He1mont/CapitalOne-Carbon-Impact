@@ -16,7 +16,7 @@ function Mid() {
 
   function handleLoginClick() {
     // Redirect to the login page
-    history.push('/login');
+    history.push('/Login');
   }
 
   return (
@@ -31,8 +31,8 @@ function Mid() {
             Login
           </button>
         </div>
-        <div className="mid-high-profile"></div>
-      </div>
+      <div className="mid-high-profile"></div>
+    </div>
 
       <div className="mid-center">
         <img src="mid-box.png" className="mid-box" alt="Mid Box" />
