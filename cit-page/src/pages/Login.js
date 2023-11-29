@@ -1,5 +1,6 @@
 import React from 'react';
 import '../assets/styles/Login.css';
+
 function Head() {
   return (
     <div className="head-bar">
@@ -10,83 +11,59 @@ function Head() {
   );
 }
 function Mid() {
-  // const history = useHistory();
-
-  // function handleLoginClick() {
-  //   // Redirect to the login page
-  //   history.push('/login');
-  // }
-
   return (
     <div className="mid-bar-login">
       <div className="mid-high-login">
-        {/* <div className="mid-high-txt-left">
-          <p>Benjamin ... 1234</p>
-          <h1>Your Carbon Impact</h1>
-        </div> */}
-        {/* <div className="mid-high-txt-right">
-          <button className="login-btn" onClick={handleLoginClick}>
-            Login
-          </button>
-        </div> */}
-        <div className="mid-high-profile-login"></div>
       </div>
 
       <div className="mid-center-login">
         <div className="mid-box-login">
-        <h1 className="mid-box-txt-title-login">Login page</h1>
-        <form>
-          <div className="mb-3">
-            <label>Email address</label>
-            <br></br>
-            <input
+          <h1 className="mid-box-txt-title-login">Login to your account</h1>
+          <form className="login-form">
+            <div className="mb-3">
+              <div className="login-input-title">Username (email)</div>
+              <input
               type="email"
               className="form-control"
-              placeholder="Enter email"
-            />
-          </div>
+              />
+            </div>
           <div className="mb-3">
-          <label>Password</label>
-          <br></br>
+            <div className="login-input-title">Password</div>
           <input
             type="password"
             className="form-control"
-            placeholder="Enter password"
-  
           />
         </div>
 
         <div className="mb-3">
-          <div className="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              className="custom-control-input"
-              id="customCheck1"
-            />
-            <label className="custom-control-label" htmlFor="customCheck1">
-              Remember me
-            </label>
+          <div className="login-remember">
+            <div className="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="customCheck1"
+              />
+              <label className="custom-control-label" htmlFor="customCheck1">
+                Remember me
+              </label>
+            </div>
           </div>
         </div>
+        
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
-            Submit
+          <button type="submit" className="login-btn-submit">
+            Sign in
           </button>
         </div>
-        {/* <p className="forgot-password text-right">
-          Forgot <a href="#">password?</a>
-        </p> */}
         </form>
-        <p className="forgot-password text-right">
-          Forgot <a href="#">password?</a>
-        </p>
-        </div>
-        <div className="mid-box-txt-login">
-          
-          {/* <p>
-            Find out how your spending habits affect the planet
+        <div className="login-forgotten-btn">
+          <p className="forgot-username text-right">
+            <a href="#">Forgot your username?</a>
           </p>
-          <p>and how you can reduce your carbon footprint.</p> */}
+          <p className="forgot-password text-right">
+            <a href="#">Forgot your password?</a>
+          </p>
+        </div>
         </div>
       </div>
 
@@ -99,52 +76,14 @@ function Mid() {
   );
 }
 
-// function Low() {
-//   return (
-//     <div className="low-bar">
-//       <table className="low-bar-tbl">
-//         <tbody>
-//           <tr>
-//             <th>
-//               <button className="low-bar-btn">
-//                 <img
-//                   src="transactions.png"
-//                   className="low-bar-btn-img"
-//                   alt="Login"
-//                 />
-//                 <h2 className="low-bar-btn-title">Login</h2>
-//                 <p className="low-bar-btn-sub">
-//                   test
-//                 </p>
-//               </button>
-//             </th>
 
-          
-//           </tr>
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-//}
 function Login() {
   return (
     <div>
        <Head />
-       <Mid/>
-      
+       <Mid/>  
    </div>
-   
-   
   );
 }
-// function HomePage() {
-//   return (
-//     <div>
-//       <Head />
-//       <Mid />
-//       <Low />
-//     </div>
-//   );
-// }
 
 export default Login;
