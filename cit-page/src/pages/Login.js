@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../assets/styles/Login.css';
+
 function Head() {
   return (
     <div className="head-bar">
@@ -81,33 +82,9 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
   );
 }
 
-// function Low() {
-//   return (
-//     <div className="low-bar">
-//       <table className="low-bar-tbl">
-//         <tbody>
-//           <tr>
-//             <th>
-//               <button className="low-bar-btn">
-//                 <img
-//                   src="transactions.png"
-//                   className="low-bar-btn-img"
-//                   alt="Login"
-//                 />
-//                 <h2 className="low-bar-btn-title">Login</h2>
-//                 <p className="low-bar-btn-sub">
-//                   test
-//                 </p>
-//               </button>
-//             </th>
 
           
-//           </tr>
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-//}
+
 
 function Footer() {
   return (
@@ -159,18 +136,7 @@ function Login() {
        <Footer/>
       
    </div>
-   
-   
   );
 }
-// function HomePage() {
-//   return (
-//     <div>
-//       <Head />
-//       <Mid />
-//       <Low />
-//     </div>
-//   );
-// }
 
 export default Login;
