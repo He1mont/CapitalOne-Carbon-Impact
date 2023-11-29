@@ -4,10 +4,10 @@
 //import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import HomePage from './HomePage';
-import Login from './Login';
-import Transactions from './Transactions';
-import './App.css';
+import HomePage from './pages/HomePage';
+import Login from './pages/Login';
+import Transactions from './pages/Transactions';
+import './assets/styles/App.css';
 
 function App() {
   return (
