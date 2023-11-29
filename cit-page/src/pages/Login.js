@@ -10,66 +10,65 @@ function Head() {
     </div>
   );
 }
-
 function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe, loginMessage, handleSubmit }) {
   const isSuccess = loginMessage.includes('success');
-
   return (
     <div className="mid-bar-login">
-      <div className="mid-high-login">
-        <div className="mid-high-profile-login"></div>
-      </div>
+      <div className="mid-high-login"></div>
 
       <div className="mid-center-login">
         <div className={`mid-box-login ${isSuccess ? 'success' : 'error'}`}>
-          <h1 className="mid-box-txt-title-login">Login page</h1>
+          <h1 className="mid-box-txt-title-login">Login to your account</h1>
           {loginMessage && <p className="login-message">{loginMessage}</p>}
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label>Email address</label>
-              <br></br>
+              <div className="login-input-title">Username (email)</div>
               <input
                 type="email"
                 className="form-control"
-                placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+              <div className="mb-3">
+                <div className="login-input-title">Password</div>
+                  <input
+                    type="password"
+                    className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
             <div className="mb-3">
-              <label>Password</label>
-              <br></br>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <div className="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="customCheck1"
-                  checked={rememberMe}
-                  onChange={() => setRememberMe(!rememberMe)}
-                />
-                <label className="custom-control-label" htmlFor="customCheck1">
-                  Remember me
-                </label>
+              <div className="login-remember">
+                <div className="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    className="custom-control-input"
+                    id="customCheck1"
+                    checked={rememberMe}
+                    onChange={() => setRememberMe(!rememberMe)}
+                  />
+                  <label className="custom-control-label" htmlFor="customCheck1">
+                    Remember me
+                  </label>
+                </div>
               </div>
             </div>
             <div className="d-grid">
-              <button type="submit" className="btn btn-primary">
-                Submit
+              <button type="submit" className="login-btn-submit">
+                Sign in
               </button>
             </div>
           </form>
-          <p className="forgot-password text-right">
-            Forgot <a href="#">password?</a>
+          <div className="login-forgotten-btn">
+          <p className="forgot-username text-right">
+            <a href="#">Forgot your username?</a>
           </p>
+          <p className="forgot-password text-right">
+            <a href="#">Forgot your password?</a>
+          </p>
+          </div>
         </div>
       </div>
 
@@ -87,7 +86,7 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
 
 
 function Footer() {
-  return (
+  return(
     <div className="footer">
       <p>© 2023-2024 Team7. All rights reserved.</p>
     </div>
@@ -120,7 +119,7 @@ function Login() {
        // Failed login
        setLoginMessage('Username or password is incorrect.');
      }
-   };
+};
   return (
     <div>
        <Head />
