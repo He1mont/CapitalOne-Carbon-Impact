@@ -202,3 +202,25 @@ html, body {
   bottom: 0;
 
 }
+/*---------- KEY FRAMES -------- */
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.mid-box-txt-title,
+.mid-box-txt-line{
+  animation: slideInFromRight 1s ease-out;
+}
+
+
+
+
+
+

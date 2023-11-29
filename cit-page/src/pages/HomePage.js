@@ -31,29 +31,29 @@ function Head() {
 }
 
 function Mid() {
-
   return (
-    
     <div className="mid-bar">
-        
       <div className="mid-high">
-         {/*User name & Carbon Impact*/}
+        {/* User name & Carbon Impact */}
         <div className="mid-high-txt-left">
           <p>Fahad... 1234</p>
           <h1>Your Carbon Impact</h1>
         </div>
-
-      <div className="mid-high-profile"></div>
-    </div>
+        <div className="mid-high-profile"></div>
+      </div>
 
       <div className="mid-center">
+        
         <img src="mid-box.png" className="mid-box" alt="Mid Box" />
+      
         <div className="mid-box-txt">
           <h1 className="mid-box-txt-title">View your Carbon Impact</h1>
-          <p>
+          <p className="mid-box-txt-line">
             Find out how your spending habits affect the planet
           </p>
-          <p>and how you can reduce your carbon footprint.</p>
+          <p className="mid-box-txt-line">
+            and how you can reduce your carbon footprint.
+          </p>
         </div>
       </div>
 
@@ -63,8 +63,11 @@ function Mid() {
         </div>
       </div>
     </div>
+    
   );
 }
+
+
 
 function Low() {
   const history = useHistory();
@@ -135,6 +138,7 @@ function Footer() {
 function HomePage() {
   return (
     <div>
+      
       <Head />
       <Mid />
       <Low />
