@@ -30,6 +30,14 @@ html, body {
   left: -65px;
 }
 
+.head-high-txt-right {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  
+}
+
 /*------------------------------ MID ------------------------------*/
 .mid-bar{
   top: 65px;
@@ -37,7 +45,7 @@ html, body {
   height: 500px;
   position: absolute;
 }
-/*---------- HIGH ----------*/
+/*---------- MID-HIGH ----------*/
 .mid-high{
   user-select: none;
   width: 100%;
@@ -68,8 +76,11 @@ html, body {
   background-color: transparent;
   cursor: pointer;
   color: white;
-  
+  outline: none;
 }
+
+
+
 .mid-high-profile{
   position: absolute;
   background-color: rgb(187, 32, 140);
@@ -126,6 +137,12 @@ html, body {
   cursor: pointer;
   color: #3d85c6;
 }
+.mid-box-login {
+  /* default styles for the box */
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
 
 /*------------------------------ LOW ------------------------------*/
 .low-bar{
@@ -173,4 +190,15 @@ html, body {
 }
 .low-bar-btn-sub{
   color: #666666;
+}
+
+.footer {
+  width: 100%;
+  height: 50px;
+  background-color: #073763ff;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+
 }

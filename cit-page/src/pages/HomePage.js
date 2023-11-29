@@ -3,35 +3,46 @@ import  {useHistory}  from 'react-router-dom';
 import '../assets/styles/App.css';
 
 function Head() {
-  return (
-    <div className="head-bar">
-      <div className="head-center">
-        <img src="CapitalOneLogo.png" className="head-img" alt="Logo" />
-      </div>
-    </div>
-  );
-}
-
-function Mid() {
   const history = useHistory();
 
   function handleLoginClick() {
     // Redirect to the login page
     history.push('/Login');
   }
+  return (
+    
+    <div className="head-bar">
+      {/* Logo */}
+      <div className="head-center">
+        <img src="Logo1.png" className="head-img" alt="Logo" />
+      </div>
+
+        {/* Login */}
+      <div className="head-high-txt-right">
+        <button onClick={handleLoginClick} className="login-btn">
+          <img src="user.png" alt="Login" />
+        </button>
+      </div>
+
+    </div>
+
+    
+  );
+}
+
+function Mid() {
 
   return (
+    
     <div className="mid-bar">
+        
       <div className="mid-high">
+         {/*User name & Carbon Impact*/}
         <div className="mid-high-txt-left">
-          <p>Benjamin ... 1234</p>
+          <p>Fahad... 1234</p>
           <h1>Your Carbon Impact</h1>
         </div>
-        <div className="mid-high-txt-right">
-          <button className="login-btn" onClick={handleLoginClick}>
-            Login
-          </button>
-        </div>
+
       <div className="mid-high-profile"></div>
     </div>
 
@@ -113,12 +124,21 @@ function Low() {
   );
 }
 
+function Footer() {
+  return (
+    <div className="footer">
+      <p>© 2023-2024 Team7. All rights reserved.</p>
+    </div>
+  );
+}
+
 function HomePage() {
   return (
     <div>
       <Head />
       <Mid />
       <Low />
+      <Footer />
     </div>
   );
 }

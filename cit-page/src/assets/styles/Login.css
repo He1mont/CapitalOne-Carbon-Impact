@@ -79,7 +79,7 @@ tml, body {
     width: 800px;
     position: relative;
     margin-top: 50px;
-    height: 500px;
+    height: 400px;
     border-style: solid;
     border-radius: 3%;
     border-width: 10%;
@@ -124,3 +124,4 @@ tml, body {
     cursor: pointer;
     color: #3d85c6;
   }
+
