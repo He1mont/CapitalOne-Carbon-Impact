@@ -1,5 +1,7 @@
 import React from 'react';
 import './Transactions.css';
+import './utils/CreateRandomAccounts'
+import CreateRandomAccount from './utils/CreateRandomAccounts';
 
 function Head() {
   return (
@@ -73,11 +75,11 @@ function Low() {
 function Transactions(){
   return (
     <div>
-      <Head />
-
-      <Mid />
-
-      <Low />
+      <h1>Hello, World!</h1>
+      <p>Welcome to Transaction Page</p>
+      <button onClick={CreateRandomAccount}>
+        Request for API
+      </button>
     </div>
   )
 }

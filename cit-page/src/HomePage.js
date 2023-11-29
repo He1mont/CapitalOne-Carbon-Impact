@@ -1,6 +1,7 @@
 import React from 'react';
 import  {useHistory}  from 'react-router-dom';
 import './App.css';
+
 function Head() {
   return (
     <div className="head-bar">
@@ -55,13 +56,19 @@ function Mid() {
 }
 
 function Low() {
+  const history = useHistory();
+
+  function handleTransactionsClick() {
+    history.push('/Transactions');
+  }
+
   return (
     <div className="low-bar">
       <table className="low-bar-tbl">
         <tbody>
           <tr>
             <th>
-              <button className="low-bar-btn">
+              <button className="low-bar-btn" onClick={handleTransactionsClick}>
                 <img
                   src="transactions.png"
                   className="low-bar-btn-img"
