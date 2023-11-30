@@ -113,22 +113,18 @@ function Login() {
    const [rememberMe, setRememberMe] = useState(false);
    const [loginMessage, setLoginMessage] = useState('');
  
-   // HANDLING CHANGES
-  // const handleEmailChange = (e) => setEmail(e.target.value);
-   //const handlePasswordChange = (e) => setPassword(e.target.value);
-   //const handleRememberMeChange = () => setRememberMe(!rememberMe);
  
    const handleSubmit = (e) => {
      e.preventDefault();
  
-     // For testing purposes, you can check hardcoded values
+     // For testing purposes,
      const correctEmail = 'test@example.com';
-     const correctPassword = 'Test@123'; // Example password with special character, number, and capital letter
+     const correctPassword = 'Test@123'; // Example password
  
      if (email === correctEmail && password === correctPassword) {
        // Successful login
        setLoginMessage('Logged in successfully!');
-       // You might want to redirect or perform other actions here
+       // redirect or perform other actions here
     //  } 
      }
      if(email===''){
