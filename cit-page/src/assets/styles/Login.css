@@ -64,6 +64,7 @@ tml, body {
     background-color: white;
     color: black;
     text-align: center;
+    z-index:1;
   }
   .mid-box-txt-login{
     position: absolute;
@@ -73,12 +74,33 @@ tml, body {
     text-align: center;
     font-size: large;
     line-height: 8px;
+    z-index:1;
+    
   }
   .mid-box-txt-title-login{
     line-height: 70px;
     text-align: center;
     color: #1c2640ff;
     font-size: xx-large;
+    z-index:1;
+  }
+  .login-message{
+    border-style: solid;
+    background-color:#073763ff;
+    border-radius: 15px;
+    border-width: 10%;
+    position: absolute;
+    width: 550px;
+    height: 100px;
+    align-content: center;
+    color: white;
+    z-index: 51;
+    font-size: large;
+    padding-top: 70px;
+    vertical-align: middle;
+    margin-left: 125px;
+    border-color: whitesmoke;
+   
   }
   /*---------- Login Form ----------*/
   .login-form{
@@ -145,5 +167,6 @@ tml, body {
     cursor: pointer;
     color: #3d85c6;
   }
+
 
  

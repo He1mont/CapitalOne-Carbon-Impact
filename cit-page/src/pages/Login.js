@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
+import  {useHistory}  from 'react-router-dom';
 import '../assets/styles/Login.css';
 
+
 function Head() {
+  const history = useHistory();
+
+  function handleLoginClick() {
+    // Redirect to the home page
+    history.push('/');
+  }
   return (
     <div className="head-bar">
       <div className="head-center">
-        <img src="Logo1.png" className="head-img" alt="Logo" />
+        <img src="Logo1.png" className="head-img" alt="Logo" onClick={handleLoginClick} />
       </div>
     </div>
   );
@@ -19,10 +27,14 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
       <div className="mid-center-login">
         <div className={`mid-box-login ${isSuccess ? 'success' : 'error'}`}>
           <h1 className="mid-box-txt-title-login">Login to your account</h1>
-          {loginMessage && <p className="login-message">{loginMessage}</p>}
+
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <div className="login-input-title">Username (email)</div>
+            {loginMessage && <p className="login-message">{loginMessage}</p>}
+            {/* <div className='login-message-box'> </div> */}
+            <div className="login-input-title">Username (email)</div>
+          
+              
               <input
                 type="email"
                 className="form-control"
@@ -38,6 +50,7 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+               
                 </div>
             <div className="mb-3">
               <div className="login-remember">
@@ -70,6 +83,7 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
           </p>
           </div>
         </div>
+        
       </div>
 
       <div className="mid-low">
@@ -100,9 +114,9 @@ function Login() {
    const [loginMessage, setLoginMessage] = useState('');
  
    // HANDLING CHANGES
-   const handleEmailChange = (e) => setEmail(e.target.value);
-   const handlePasswordChange = (e) => setPassword(e.target.value);
-   const handleRememberMeChange = () => setRememberMe(!rememberMe);
+  // const handleEmailChange = (e) => setEmail(e.target.value);
+   //const handlePasswordChange = (e) => setPassword(e.target.value);
+   //const handleRememberMeChange = () => setRememberMe(!rememberMe);
  
    const handleSubmit = (e) => {
      e.preventDefault();
@@ -115,10 +129,24 @@ function Login() {
        // Successful login
        setLoginMessage('Logged in successfully!');
        // You might want to redirect or perform other actions here
-     } else {
-       // Failed login
-       setLoginMessage('Username or password is incorrect.');
+    //  } 
      }
+     if(email===''){
+      setLoginMessage('Please enter your username.');
+      e.preventDefault();
+     }
+     else if(password===''){
+      setLoginMessage('Please enter your password.');
+     }
+     else if(email===''&& password===''){
+      setLoginMessage('Please enter your email and password.');
+     }
+     if (email !== correctEmail && password !== correctPassword) {
+      setLoginMessage('Username or password is incorrect.');
+    }
+    setTimeout(() => {
+      setLoginMessage('');
+    }, 1000);
 };
   return (
     <div>
