@@ -1,16 +1,23 @@
 import React from 'react';
 import '../assets/styles/Transactions.css';
 import '../utils/CreateRandomAccounts'
+import  {useHistory}  from 'react-router-dom';
 import CreateRandomAccount from '../utils/CreateRandomAccounts';
 
 function Head() {
+  const history = useHistory();
+
+  function handleHomeClick() {
+    // Redirect to the home page
+    history.push('/');
+  }
   return (
     <div className="head-bar">
       <div className="head-center">
-        <img src='CapitalOneLogo.png' className="head-img"/>
+        <img src="Logo1.png" className="head-img" alt="Logo" onClick={handleHomeClick} />
       </div>
     </div>
-  )
+  );
 }
 
 function Mid() {
@@ -74,7 +81,9 @@ function Low() {
 
 function Transactions(){
   return (
+    
     <div>
+      <Head />
       <h1>Hello, World!</h1>
       <p>Welcome to Transaction Page</p>
       <button onClick={CreateRandomAccount}>

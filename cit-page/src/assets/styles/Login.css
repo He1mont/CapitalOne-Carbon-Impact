@@ -32,45 +32,22 @@ tml, body {
   
   /*------------------------------ MID ------------------------------*/
   .mid-bar-login{
-    top: 70px;
+    top: 65px;
     width: 100%;
-    height: 500px;
+    height: 120%;
     position: absolute;
   }
   /*---------- HIGH ----------*/
   .mid-high-login{
-    user-select: none;
     width: 100%;
-    height: 700px;
+    height: 300px;
     position: absolute;
     background-color: #073763ff;
-    
-  }
-  
-  .mid-high-txt-right{
-    position: absolute;
-    text-align: right;
-    background-color: rgb(187, 32, 140);
-    top: 1%;
-    right: 30px;
-    color:white;
-    border-radius: 5px;
-  }
- 
-  .mid-high-profile-login{
-    position: absolute;
-    background-color: rgb(187, 32, 140);
-    right: 40px;
-    top: 40px;
-    width: 150px;
-    height: 60px;
-    
   }
   /*---------- CENTER ----------*/
   .mid-center-login{
-    user-select: none;
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
     height: 300px;
     transform: translate(-50%, -50%);
@@ -79,14 +56,15 @@ tml, body {
     width: 800px;
     position: relative;
     margin-top: 50px;
-    height: 400px;
+    height: 510px;
     border-style: solid;
     border-radius: 3%;
     border-width: 10%;
-    border-color: aliceblue;
-    color: white;
+    border-color: whitesmoke;
+    background-color: white;
+    color: black;
     text-align: center;
-    /* background-color: rgb(94, 105, 227); */
+    z-index:1;
   }
   .mid-box-txt-login{
     position: absolute;
@@ -96,11 +74,76 @@ tml, body {
     text-align: center;
     font-size: large;
     line-height: 8px;
+    z-index:1;
+    
   }
   .mid-box-txt-title-login{
-    line-height: 40px;
+    line-height: 70px;
     text-align: center;
+    color: #1c2640ff;
+    font-size: xx-large;
+    z-index:1;
+  }
+  .login-message{
+    border-style: solid;
+    background-color:#073763ff;
+    border-radius: 15px;
+    border-width: 10%;
+    position: absolute;
+    width: 550px;
+    height: 100px;
+    align-content: center;
     color: white;
+    z-index: 51;
+    font-size: large;
+    padding-top: 70px;
+    vertical-align: middle;
+    margin-left: 125px;
+    border-color: whitesmoke;
+   
+  }
+  /*---------- Login Form ----------*/
+  .login-form{
+    margin-top: 40px;
+  }
+  .form-control{
+    width: 500px;
+    height: 40px;
+    font-size: 15px;
+    border-width: 2px;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .login-input-title{
+    margin-top: 35px;
+    text-align: left;
+    margin-left: 150px;
+    margin-bottom: 8px;
+  }
+  .login-remember{
+    margin-top: 10px;
+    text-align: left;
+    margin-left: 150px;
+  }
+  .login-btn-submit{
+    margin-top: 20px;
+    width: 250px;
+    height: 40px;
+    border-width: 2px;
+    border-radius: 5px;
+    background-color: whitesmoke;
+  }
+  .login-btn-submit:hover{
+    background-color: rgb(236, 236, 236);
+  }
+  .login-forgotten-btn{
+    text-align: left;
+    margin-top: 30px;
+    margin-left: 150px;
+  }
+  a{
+    text-decoration: none;
+    color: #1c2640ff;
   }
   /*---------- LOW ----------*/
   .mid-low{
@@ -114,7 +157,7 @@ tml, body {
   .mid-low-help{
     position: absolute;
     text-align: left;
-    bottom: 10px;
+    top: 5px;
     left: 20px;
   }
   .small-help-btn{
@@ -124,5 +167,6 @@ tml, body {
     cursor: pointer;
     color: #3d85c6;
   }
+
 
  
