@@ -10,11 +10,12 @@ headers = {
 }
 
 params = {
-  'state': 'eq:Open',
-  'balance': 'gt:100',
-  'balance': 'lte:500'
+  # 'state': 'eq:Open',
+  # 'balance': 'gt:100',
+  # 'balance': 'lte:500'
 }
 
 response = requests.get("https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts", headers=headers, params=params).text
 json_response = json.loads(response)
 print(json_response)
+
