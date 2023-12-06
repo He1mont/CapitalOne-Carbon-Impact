@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "team7-backend",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -8,7 +8,10 @@
   },
   "dependencies": {
     "egg": "^3.17.5",
+    "egg-cors": "^2.2.3",
     "egg-scripts": "2",
+    "mysql2": "^3.6.5",
+    "save": "^2.9.0",
     "unirest": "^0.6.0"
   },
   "devDependencies": {
@@ -21,8 +24,8 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-example",
-    "stop": "egg-scripts stop --title=egg-server-example",
+    "start": "egg-scripts start --daemon --title=egg-server-team7-backend",
+    "stop": "egg-scripts stop --title=egg-server-team7-backend",
     "dev": "egg-bin dev",
     "test": "npm run lint -- --fix && npm run test:local",
     "test:local": "egg-bin test",
