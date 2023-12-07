@@ -1,8 +1,8 @@
 import React from 'react';
 import '../assets/styles/Transactions.css';
-import '../utils/CreateRandomAccounts'
+import '../utils/Tools'
 import  {useHistory}  from 'react-router-dom';
-import CreateRandomAccount from '../utils/CreateRandomAccounts';
+import getAllAccounts from '../utils/Tools';
 
 function Head() {
   const history = useHistory();
@@ -81,12 +81,11 @@ function Low() {
 
 function Transactions(){
   return (
-    
     <div>
       <Head />
       <h1>Hello, World!</h1>
       <p>Welcome to Transaction Page</p>
-      <button onClick={CreateRandomAccount}>
+      <button onClick={getAllAccounts}>
         Request for API
       </button>
     </div>
