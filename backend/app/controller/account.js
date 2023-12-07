@@ -12,6 +12,7 @@ class AccountController extends Controller {
   async getAll() {
     const { ctx, service } = this
     const res = await service.account.getAll();
+    ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
   }
