@@ -1,17 +1,10 @@
 const { Controller } = require('egg');
 
-class AccountController extends Controller {
+class TransactionsController extends Controller {
 
-  async createRandom() {
-    const { ctx, service } = this
-    const res = await service.account.createRandom();
-    ctx.status = 200;
-    ctx.body = res;
-  }
-  
   async getAll() {
     const { ctx, service } = this
-    const res = await service.account.getAll();
+    const res = await service.transactions.getAll();
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
@@ -19,11 +12,20 @@ class AccountController extends Controller {
 
   async getByID() {
     const { ctx, service } = this
-    const res = await service.account.getByID();
+    const res = await service.transactions.getByID();
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
   }
+
+  async groupByDate() {
+    const { ctx, service } = this
+    const res = await service.transactions.groupByDate();
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
+
 }
 
-module.exports = AccountController;
+module.exports = TransactionsController;
