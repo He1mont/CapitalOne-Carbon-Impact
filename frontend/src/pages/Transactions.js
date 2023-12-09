@@ -1,94 +1,103 @@
 import React from 'react';
-import '../assets/styles/Transactions.css';
-import '../utils/CreateRandomAccounts'
+import styles from '../assets/styles/Transactions.module.css';
+import '../utils/Tools'
 import  {useHistory}  from 'react-router-dom';
-import CreateRandomAccount from '../utils/CreateRandomAccounts';
+import getAllAccounts from '../utils/Tools';
 
-function Head() {
-  const history = useHistory();
-
-  function handleHomeClick() {
-    // Redirect to the home page
-    history.push('/');
-  }
-  return (
-    <div className="head-bar">
-      <div className="head-center">
-        <img src="Logo1.png" className="head-img" alt="Logo" onClick={handleHomeClick} />
+function TransactionTbl() {
+  return(
+    <div>
+      <div className={styles.transaction_btns}>
+        <input className={styles.transaction_btns_search} placeholder='Search'></input>
+        <button className={styles.transaction_btns_filter}>Filter</button>
+      </div>
+      <div className={styles.transaction_tbl_container}>
+        <table className={styles.transaction_tbl}>
+          <tr>
+            <th className={styles.c}>Date</th>
+            <th className={styles.l}>Description</th>
+            <th className={styles.l}>Category</th>
+            <th className={styles.r}>Carbon Impact (kgco2)</th>
+            <th className={styles.r}>Cost</th>
+          </tr>
+          <tr>
+            <td className={styles.c}>1</td>
+            <td className={styles.l}>2</td>
+            <td className={styles.l}>3</td>
+            <td className={styles.r}>4</td>
+            <td className={styles.r}>5</td>
+          </tr>
+        </table>
       </div>
     </div>
   );
 }
 
+function Head() {
+  return (
+    <div className={styles.head_bar}>
+      <div className={styles.head_center}>
+        <img src='CapitaloneLogo.png' className={styles.head_img}/>
+      </div>
+    </div>
+  )
+}
+
 function Mid() {
   return (
-    <div className="mid-bar">
-      <div className="mid-high">
-        <div className="mid-high-txt-left">
+    <div className={styles.mid_bar}>
+      <div className={styles.mid_high}>
+        <div className={styles.mid_high_txt_left}>
           <p>Benjamin ... 1234</p>
           <h1>View Transactions</h1>
         </div>
-        <div className="mid-high-profile">
+        <div className={styles.mid_high_center}>
+          <table className={styles.month_select}>
+            <tr>
+              <th>  
+                <button className={styles.month_select_btn}>O</button>
+              </th>
+              <th>-  Month  -</th>
+              <th>  
+                <button className={styles.month_select_btn}>O</button>
+              </th>
+            </tr>
+          </table>
+        </div>
+        <div className={styles.mid_high_profile}>
 
         </div>
       </div>
 
-      <div className="mid-center">
-        <img src="mid-box.png" className="mid-box"/>
-        <div className="mid-box-txt">
-          <h1 className="mid-box-txt-title">View your Carbon Impact</h1>
-          <p>Find out how your spending habits affect the planet</p>
-          <p>and how you can reduce your carbon footprint.</p>
+      <div className={styles.mid_center}>
+        <img src="transactions-mid-box.png" className={styles.mid_box}/>
+        <div className={styles.mid_box_txt}>
+          <p>1000</p>
+          <p>kgco2</p>
+          <p>estimate</p>
         </div>
       </div>
 
-      <div className="mid-low">
-        <div className="mid-low-help">
-          <button className="small-help-btn">? Help</button>
-        </div>
-      </div>
+      <div className={styles.mid_low}></div>
     </div>
   )
 }
 
 function Low() {
   return (
-    <div className="low-bar">
-        <table class="low-bar-tbl">
-            <tr>
-            <th><button class="low-bar-btn">
-                <img src="transactions.png" class="low-bar-btn-img"/>
-                <h2 className="low-bar-btn-title">  View Transactions</h2>
-                <p className="low-bar-btn-sub">View the individual carbon  impact of each transaction you make.</p>
-            </button></th>
-
-            <th><button class="low-bar-btn">
-                <img src="goal.png" class="low-bar-btn-img"/>
-                <h2 className="low-bar-btn-title">  Carbon Goals</h2>
-                <p className="low-bar-btn-sub">Set goals to reduce your carbon impact in different spending categories.</p>
-            </button></th>
-
-            <th><button class="low-bar-btn">
-                <img src="history.png" class="low-bar-btn-img"/>
-                <h2 className="low-bar-btn-title">  Carbon History</h2>
-                <p className="low-bar-btn-sub">View your carbon impact over time to find see how you’ve improved.</p>
-            </button></th>
-            </tr>
-        </table>
+    <div className={styles.low_bar}>
+      <TransactionTbl />
     </div>
   )
 }
 
 function Transactions(){
+  
   return (
-    
     <div>
       <Head />
-      <h1>Hello, World!</h1>
-      <p>Welcome to Transaction Page</p>
-      <button onClick={CreateRandomAccount}>
-        Request for API
-      </button>
+      <Mid />
+      <Low />
     </div>
   )
 }
