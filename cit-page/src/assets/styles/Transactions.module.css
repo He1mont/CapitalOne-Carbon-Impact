@@ -7,7 +7,7 @@ html, body {
 }
 
 /*------------------------------ HEADER ------------------------------*/
-.head-bar{
+.head_bar{
   width: 100%;
   height: 65px;
   top: 0px;
@@ -17,13 +17,13 @@ html, body {
   overflow: hidden;
   z-index: 4;
 }
-.head-center{
+.head_center{
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.head-img{
+.head_img{
   position: absolute;
   width: 130px;
   top: -35px;
@@ -31,21 +31,21 @@ html, body {
 }
 
 /*------------------------------ MID ------------------------------*/
-.mid-bar{
+.mid_bar{
   top: 65px;
   width: 100%;
   height: 450px;
   position: absolute;
 }
 /*---------- HIGH ----------*/
-.mid-high{
+.mid_high{
   user-select: none;
   width: 100%;
   height: 300px;
   position: absolute;
   background-color: #073763ff;
 }
-.mid-high-txt-left{
+.mid_high_txt_left{
   position: absolute;
   text-align: left;
   left: 30px;
@@ -53,25 +53,25 @@ html, body {
   line-height: 10px;
   color: white;
 }
-.mid-high-center{
+.mid_high_center{
   position: absolute;
   top: 40px;
   left: 50%;
 }
-.month-select{
+.month_select{
   margin: 0 auto;
   transform: translate(-50%, -0%);
   color: white;
   font-size: x-large;
 }
-.month-select-btn{
+.month_select_btn{
   background-color: white;
   border-color: transparent;
 }
-.month-select-btn:hover{
+.month_select_btn:hover{
   background-color: whitesmoke;
 }
-.mid-high-profile{
+.mid_high_profile{
   position: absolute;
   background-color: rgb(187, 32, 140);
   right: 40px;
@@ -81,18 +81,18 @@ html, body {
 }
 
 /*---------- CENTER ----------*/
-.mid-center{
+.mid_center{
   user-select: none;
   position: absolute;
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.mid-box{
+.mid_box{
   width: 300px;
   position: relative;
 }
-.mid-box-txt{
+.mid_box_txt{
   position: absolute;
   top: 70px;
   color: white;
@@ -103,7 +103,7 @@ html, body {
 
 }
 /*---------- LOW ----------*/
-.mid-low{
+.mid_low{
   width: 100%;
   height: 100px;
   position: absolute;

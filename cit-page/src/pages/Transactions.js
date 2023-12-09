@@ -35,9 +35,9 @@ function TransactionTbl() {
 
 function Head() {
   return (
-    <div className="head-bar">
-      <div className="head-center">
-        <img src='CapitaloneLogo.png' className="head-img"/>
+    <div className={styles.head_bar}>
+      <div className={styles.head_center}>
+        <img src='CapitaloneLogo.png' className={styles.head_img}/>
       </div>
     </div>
   )
@@ -45,40 +45,40 @@ function Head() {
 
 function Mid() {
   return (
-    <div className="mid-bar">
-      <div className="mid-high">
-        <div className="mid-high-txt-left">
+    <div className={styles.mid_bar}>
+      <div className={styles.mid_high}>
+        <div className={styles.mid_high_txt_left}>
           <p>Benjamin ... 1234</p>
           <h1>View Transactions</h1>
         </div>
-        <div className="mid-high-center">
-          <table className="month-select">
+        <div className={styles.mid_high_center}>
+          <table className={styles.month_select}>
             <tr>
               <th>  
-                <button className="month-select-btn">O</button>
+                <button className={styles.month_select_btn}>O</button>
               </th>
               <th>-  Month  -</th>
               <th>  
-                <button className="month-select-btn">O</button>
+                <button className={styles.month_select_btn}>O</button>
               </th>
             </tr>
           </table>
         </div>
-        <div className="mid-high-profile">
+        <div className={styles.mid_high_profile}>
 
         </div>
       </div>
 
-      <div className="mid-center">
-        <img src="transactions-mid-box.png" className="mid-box"/>
-        <div className="mid-box-txt">
+      <div className={styles.mid_center}>
+        <img src="transactions-mid-box.png" className={styles.mid_box}/>
+        <div className={styles.mid_box_txt}>
           <p>1000</p>
           <p>kgco2</p>
           <p>estimate</p>
         </div>
       </div>
 
-      <div className="mid-low"></div>
+      <div className={styles.mid_low}></div>
     </div>
   )
 }
@@ -92,17 +92,12 @@ function Low() {
 }
 
 function Transactions(){
+  
   return (
     <div>
       <Head />
-      {/* <Mid /> */}
+      <Mid />
       <Low />
-
-      {/* <h1>Hello, World!</h1>
-      <p>Welcome to Transaction Page</p>
-      <button onClick={getAllAccounts}>
-        Request for API
-      </button> */}
     </div>
   )
 }
