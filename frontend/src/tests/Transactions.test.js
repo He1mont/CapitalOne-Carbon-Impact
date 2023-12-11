@@ -1,3 +1,4 @@
+// Transactions.test.js
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -6,6 +7,7 @@ import { createMemoryHistory } from 'history';
 import Transactions from '../pages/Transactions';
 
 describe('Transactions Component', () => {
+  // Test case for rendering the main components of the Transactions page
   it('renders the transaction page components', () => {
     const history = createMemoryHistory();
     render(
@@ -14,36 +16,26 @@ describe('Transactions Component', () => {
       </Router>
     );
 
-    // check Head
+    // Check Head
     expect(screen.getByAltText('Logo')).toBeInTheDocument();
 
-    // check Mid
+    // Check Mid
     expect(screen.getByText('Benjamin ... 1234')).toBeInTheDocument();
     expect(screen.getByText('View Transactions')).toBeInTheDocument();
     expect(screen.getByText('1000')).toBeInTheDocument();
     expect(screen.getByText('kgco2')).toBeInTheDocument();
     expect(screen.getByText('estimate')).toBeInTheDocument();
 
-    // check Low
-    // expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
-    // expect(screen.getByText('Filter')).toBeInTheDocument();
-    // expect(screen.getByText('Date')).toBeInTheDocument();
-    // expect(screen.getByText('Description')).toBeInTheDocument();
-    // expect(screen.getByText('Category')).toBeInTheDocument();
-    // expect(screen.getByText('Carbon Impact (kgco2)')).toBeInTheDocument();
-    // expect(screen.getByText('Cost')).toBeInTheDocument();
-    // expect(screen.getByText('1')).toBeInTheDocument(); // Example row data
+    // Check Low
+    expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
+    expect(screen.getByText('Filter')).toBeInTheDocument();
+
+    // Check Table
+    expect(screen.getByText('Date')).toBeInTheDocument();
+    expect(screen.getByText('Description')).toBeInTheDocument();
+    expect(screen.getByText('Category')).toBeInTheDocument();
+    expect(screen.getByText('Carbon Impact (kgco2)')).toBeInTheDocument();
+    expect(screen.getByText('Cost')).toBeInTheDocument();
+    expect(screen.getByText('1')).toBeInTheDocument(); // Example row data
   });
-
-  it('renders the Mid component with transaction details', () => {
-    render(<Transactions />);
-
-  });
-
-  it('renders the TransactionTbl component with table', () => {
-    render(<Transactions />);
-
-  });
-
-  // Additional tests can be written to cover other aspects or interactions in the component
 });
