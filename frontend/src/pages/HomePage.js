@@ -14,13 +14,13 @@ function Head() {
     <div className="head-bar">
       {/* Logo */}
       <div className="head-center">
-        <img src="Logo1.png" className="head-img" alt="Logo" />
+        <img src="/images/Logo1.png" className="head-img" alt="Logo" />
       </div>
 
         {/* Login */}
       <div className="head-high-txt-right">
         <button onClick={handleLoginClick} className="login-btn">
-          <img src="user.png" alt="Login" />
+          <img src="/images/user.png" alt="Login" />
         </button>
       </div>
 
@@ -44,7 +44,7 @@ function Mid() {
 
       <div className="mid-center">
         
-        <img src="mid-box.png" className="mid-box" alt="Mid Box" />
+        <img src="/images/mid-box.png" className="mid-box" alt="Mid Box" />
       
         <div className="mid-box-txt">
           <h1 className="mid-box-txt-title">View your Carbon Impact</h1>
@@ -84,7 +84,7 @@ function Low() {
             <th>
               <button className="low-bar-btn" onClick={handleTransactionsClick}>
                 <img
-                  src="transactions.png"
+                  src="/images/transactions.png"
                   className="low-bar-btn-img"
                   alt="Transactions"
                 />
@@ -98,7 +98,7 @@ function Low() {
 
             <th>
               <button className="low-bar-btn">
-                <img src="goal.png" className="low-bar-btn-img" alt="Goals" />
+                <img src="/images/goal.png" className="low-bar-btn-img" alt="Goals" />
                 <h2 className="low-bar-btn-title"> Carbon Goals</h2>
                 <p className="low-bar-btn-sub">
                   Set goals to reduce your carbon impact in different spending
@@ -110,7 +110,7 @@ function Low() {
             <th>
               <button className="low-bar-btn">
                 <img
-                  src="history.png"
+                  src="/images/history.png"
                   className="low-bar-btn-img"
                   alt="History"
                 />
@@ -138,7 +138,6 @@ function Footer() {
 function HomePage() {
   return (
     <div>
-      
       <Head />
       <Mid />
       <Low />

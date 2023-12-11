@@ -13,7 +13,7 @@ function Head() {
   return (
     <div className="head-bar">
       <div className="head-center">
-        <img src="Logo1.png" className="head-img" alt="Logo" onClick={handleLoginClick} />
+        <img src="/images/Logo1.png" className="head-img" alt="Logo" onClick={handleLoginClick} />
       </div>
     </div>
   );

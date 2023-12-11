@@ -37,7 +37,7 @@ function Head() {
   return (
     <div className={styles.head_bar}>
       <div className={styles.head_center}>
-        <img src='CapitaloneLogo.png' className={styles.head_img}/>
+        <img src='/images/Logo1.png' className={styles.head_img}/>
       </div>
     </div>
   )
@@ -70,7 +70,7 @@ function Mid() {
       </div>
 
       <div className={styles.mid_center}>
-        <img src="transactions-mid-box.png" className={styles.mid_box}/>
+        <img src="/images/transactions-mid-box.png" className={styles.mid_box}/>
         <div className={styles.mid_box_txt}>
           <p>1000</p>
           <p>kgco2</p>
