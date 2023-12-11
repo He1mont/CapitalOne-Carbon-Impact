@@ -1,5 +1,5 @@
 import React from 'react';
-import  {useHistory}  from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import '../assets/styles/App.css';
 
 function Head() {
@@ -10,14 +10,14 @@ function Head() {
     history.push('/Login');
   }
   return (
-    
+
     <div className="head-bar">
       {/* Logo */}
       <div className="head-center">
         <img src="/images/Logo1.png" className="head-img" alt="Logo" />
       </div>
 
-        {/* Login */}
+      {/* Login */}
       <div className="head-high-txt-right">
         <button onClick={handleLoginClick} className="login-btn">
           <img src="/images/user.png" alt="Login" />
@@ -26,7 +26,7 @@ function Head() {
 
     </div>
 
-    
+
   );
 }
 
@@ -43,9 +43,9 @@ function Mid() {
       </div>
 
       <div className="mid-center">
-        
+
         <img src="/images/mid-box.png" className="mid-box" alt="Mid Box" />
-      
+
         <div className="mid-box-txt">
           <h1 className="mid-box-txt-title">View your Carbon Impact</h1>
           <p className="mid-box-txt-line">
@@ -63,11 +63,9 @@ function Mid() {
         </div>
       </div>
     </div>
-    
+
   );
 }
-
-
 
 function Low() {
   const history = useHistory();

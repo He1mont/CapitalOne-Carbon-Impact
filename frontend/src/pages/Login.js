@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import  {useHistory}  from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import '../assets/styles/Login.css';
-
 
 function Head() {
   const history = useHistory();
@@ -18,6 +17,7 @@ function Head() {
     </div>
   );
 }
+
 function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe, loginMessage, handleSubmit }) {
   const isSuccess = loginMessage.includes('success');
   return (
@@ -30,28 +30,29 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-            {loginMessage && <p className="login-message">{loginMessage}</p>}
-            {/* <div className='login-message-box'> </div> */}
-            <div className="login-input-title">Username (email)</div>
-          
-              
+              {loginMessage && <p className="login-message">{loginMessage}</p>}
+              {/* <div className='login-message-box'> </div> */}
+              <div className="login-input-title">Username (email)</div>
+
               <input
                 type="email"
                 className="form-control"
+                aria-label="Username (email)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-              <div className="mb-3">
-                <div className="login-input-title">Password</div>
-                  <input
-                    type="password"
-                    className="form-control"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-               
-                </div>
+            <div className="mb-3">
+              <div className="login-input-title">Password</div>
+              <input
+                type="password"
+                className="form-control"
+                aria-label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+            </div>
             <div className="mb-3">
               <div className="login-remember">
                 <div className="custom-control custom-checkbox">
@@ -75,15 +76,14 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
             </div>
           </form>
           <div className="login-forgotten-btn">
-          <p className="forgot-username text-right">
-            <a href="#">Forgot your username?</a>
-          </p>
-          <p className="forgot-password text-right">
-            <a href="#">Forgot your password?</a>
-          </p>
+            <p className="forgot-username text-right">
+              <a href="#">Forgot your username?</a>
+            </p>
+            <p className="forgot-password text-right">
+              <a href="#">Forgot your password?</a>
+            </p>
           </div>
         </div>
-        
       </div>
 
       <div className="mid-low">
@@ -95,70 +95,67 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
   );
 }
 
-
-          
-
-
 function Footer() {
-  return(
+  return (
     <div className="footer">
       <p>© 2023-2024 Team7. All rights reserved.</p>
     </div>
   );
 }
+
 function Login() {
-   // CREATING LOCAL ID AND PASSWORD
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
-   const [rememberMe, setRememberMe] = useState(false);
-   const [loginMessage, setLoginMessage] = useState('');
- 
- 
-   const handleSubmit = (e) => {
-     e.preventDefault();
- 
-     // For testing purposes,
-     const correctEmail = 'test@example.com';
-     const correctPassword = 'Test@123'; // Example password
- 
-     if (email === correctEmail && password === correctPassword) {
-       // Successful login
-       setLoginMessage('Logged in successfully!');
-       // redirect or perform other actions here
-    //  } 
-     }
-     if(email===''){
+  // CREATING LOCAL ID AND PASSWORD
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loginMessage, setLoginMessage] = useState('');
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // For testing purposes,
+    const correctEmail = 'test@example.com';
+    const correctPassword = 'Test@123'; // Example password
+
+    if (email === correctEmail && password === correctPassword) {
+      // Successful login
+      setLoginMessage('Logged in successfully!');
+      // redirect or perform other actions here
+      //  } 
+    }
+    if (email === '') {
       setLoginMessage('Please enter your username.');
       e.preventDefault();
-     }
-     else if(password===''){
+    }
+    else if (password === '') {
       setLoginMessage('Please enter your password.');
-     }
-     else if(email===''&& password===''){
+    }
+    else if (email === '' && password === '') {
       setLoginMessage('Please enter your email and password.');
-     }
-     if (email !== correctEmail && password !== correctPassword) {
+    }
+    if (email !== correctEmail && password !== correctPassword) {
       setLoginMessage('Username or password is incorrect.');
     }
     setTimeout(() => {
       setLoginMessage('');
     }, 1000);
-};
+  };
   return (
     <div>
-       <Head />
-       <Mid
-       email={email}
+      <Head />
+      <Mid
+        email={email}
         setEmail={setEmail}
         password={password}
         setPassword={setPassword}
         rememberMe={rememberMe}
         setRememberMe={setRememberMe}
         loginMessage={loginMessage}
-        handleSubmit={handleSubmit}/>
-       <Footer/>
-      
-   </div>
+        handleSubmit={handleSubmit} />
+      <Footer />
+
+    </div>
   );
 }
 
