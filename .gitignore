@@ -3,5 +3,10 @@
 .DS_Store
 .DS_Store?
 
+# JetBrains WebStorm #
+######################
+.idea/
 
+# Node.js #
+###########
 */node_modules/
