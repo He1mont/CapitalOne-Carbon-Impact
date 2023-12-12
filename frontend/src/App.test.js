@@ -1,22 +1,32 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
 import App from './App';
-import { Suspense } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 
-
-// test('renders learn react link', () => {
-//   render(<App />);
-//   const linkElement = screen.getByText(/learn react/i);
-//   expect(linkElement).toBeInTheDocument();
-// });
-
-
-test('renders the HomePage component when on the home route', () => {
+// Test whether the home page renders properly
+test('renders home page', () => {
   render(
-    <Router>
+    <MemoryRouter initialEntries={['/']}>
       <App />
-    </Router>
+    </MemoryRouter>
   );
-
 });
 
+// Test whether the login page renders properly
+test('renders login page', () => {
+  render(
+    <MemoryRouter initialEntries={['/login']}>
+      <App />
+    </MemoryRouter>
+  );
+});
+
+// Test whether the transactions page renders properly
+test('renders transactions page', () => {
+  render(
+    <MemoryRouter initialEntries={['/transactions']}>
+      <App />
+    </MemoryRouter>
+  );
+});
