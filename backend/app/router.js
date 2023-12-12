@@ -10,5 +10,5 @@ module.exports = app => {
   router.get('/transactions/get-by-id/:accountID/:transactionID', controller.transactions.getByID);
   router.get('/transactions/group-by-date/:id', controller.transactions.groupByDate);
   router.get('/accounts/get-by-id/:id', controller.account.getByID);
-  router.get('/accounts/get-by-email/:email', controller.account.getByID);
+  router.get('/accounts/get-by-email/:email', controller.account.getByEmail);
 };
