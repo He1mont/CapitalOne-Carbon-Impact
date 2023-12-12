@@ -24,6 +24,13 @@ class AccountController extends Controller {
     ctx.status = 200;
     ctx.body = res;
   }
+  async getByEmail() {
+    const { ctx, service } = this
+    const res = await service.account.getByEmail();
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
 }
 
 module.exports = AccountController;

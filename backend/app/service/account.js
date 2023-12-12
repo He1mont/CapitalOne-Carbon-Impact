@@ -64,6 +64,37 @@ class AccountService extends Service {
 
     return response.body;
   }
+  async getByEmail() {
+    const id = this.ctx.params.id;
+    const response = await new Promise((resolve, reject) => {
+      unirest('GET', `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts`)
+          .headers({
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authJWT}`,
+              'version': '1.0',
+          })
+          .end(function (res) {
+            if (res.error) reject(new Error(res.error));
+            else resolve(res);
+          });
+    });
+
+    const groupedData = {};
+
+    response.body.Accounts.forEach(account => {
+        const email = account.email.split(' ')[0]; 
+      
+       
+        if (!groupedData[email]) {
+          groupedData[email] = [];
+        }
+
+        groupedData[email].push(account);
+      });
+
+    return groupedData;
+  }
+
 }
 
 module.exports = AccountService;
