@@ -35,7 +35,7 @@ exports.security = {
 
 // config/config.default.js
 exports.cors = {
-  origin: 'http://localhost:3000/Transactions',  // where react frontend runs
+  origin: 'http://localhost:3000/Transactions', // where react frontend runs
   allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   credentials: true,
 };
