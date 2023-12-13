@@ -83,13 +83,13 @@ class AccountService extends Service {
       // Assuming email is stored in the 'email' property of the account
       return account.email === emailToFind;
     });
-    
+
     if (foundAccounts.length > 0) {
       return foundAccounts[0].accountId;
-    } else {
-      // Return a default value or handle the case when no matching account is found
-      return null; // or throw an error, return a default ID, etc.
     }
+    // Return a default value or handle the case when no matching account is found
+    return null; // or throw an error, return a default ID, etc.
+
   }
 
 }
