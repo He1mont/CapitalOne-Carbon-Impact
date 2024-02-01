@@ -1,8 +1,8 @@
-## API Design
+# API Design
 
-### Account
+## Account
 
-#### 1. Create a random account
+### 1. Create a random account
 
 - GET `/accounts/create-random`
 
@@ -34,7 +34,7 @@
     ```
 
 
-#### 2. Get all accounts
+### 2. Get all accounts
 
 - GET `/accounts/get-all`
 
@@ -102,12 +102,12 @@
     ```
 
 
-#### 3. Get an account by accountID
+### 3. Get an account by accountID
 
 - GET `/accounts/get-by-id/:accountID`
 
 - sample output
-    - by account 00428702
+    - by account `00428702`
 
     ```json
         {
@@ -135,14 +135,14 @@
     ```
 
 
-### Transaction
+## Transaction
 
-#### 4. Get all transactions by accountID
+### 4. Get all transactions by accountID
 
 - GET `/transaction/get-all/:accountID`
 
 - sample output
-    - by account 72965642
+    - by account `72965642`
 
     ```json
         {
@@ -192,13 +192,13 @@
     ```
 
 
-#### 5. Get a transaction by accountID and transactionID
+### 5. Get a transaction by accountID and transactionID
 
 - GET `/transaction/get-by-id/:accountID/:transactionID`
 
 - sample output
-    - by account 72965642
-    - by transaction 69082761-2c4e-450b-90bb-5570cd76881e
+    - by account `72965642`
+    - by transaction `69082761-2c4e-450b-90bb-5570cd76881e`
 
     ```json
         {
@@ -227,12 +227,12 @@
         }
     ```
 
-#### 6. Group transaction by date
+### 6. Group transaction by date
 
 - GET `/transactions/group-by-date/:accountID`
 
 - sample output
-    - by account 41495172 
+    - by account `41495172`
 
     ```json
         {
@@ -286,45 +286,45 @@
     ```
 
 
-### Login
+## Login
 
-#### 7. Request for login
+### 7. Request for login
 
 - POST `/login/{login_content}`
 
 
 
-### Carbon emission goal
+## Carbon emission goal
 
-#### 8. Get the goal by ?
+### 8. Get the goal by ?
 
 - GET `/user/goal/?`
 
-#### 9. Set the goal
+### 9. Set the goal
 
 - POST `/user/goal/:?/{goal}`
 
-#### 10. Modify the goal
+### 10. Modify the goal
 
 - POST `/user/goal/:?/{goal}`
 
-#### 11. Delete the goal
+### 11. Delete the goal
 
 - DELETE `/user/goal/:?`
 
 
 
-### Emission factor
+## Emission factor
 
-#### 12. Store emission factor into database
+### 12. Store emission factor into database
 
 - POST `/factor/update`
 
-#### 13. Get em from db by factorID
+### 13. Get em from db by factorID
 
 - GET `/factor/:factorID`
 
-#### 14. Calculate carbon emissions for a certain transaction
+### 14. Calculate carbon emissions for a certain transaction
 
 - GET `/transaction/footprint/:accountID/:transactionID`
 
