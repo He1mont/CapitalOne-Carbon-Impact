@@ -1,8 +1,8 @@
 // const { app, assert } = require('egg-mock/bootstrap');
 // const axios = require('axios');
 
-// describe('AccountService', () => {
-//   it('createRandom should ????????????', async () => {
+// describe('TransactionService', () => {
+//   it('getAll should ????????????', async () => {
 
 //     const expectedData = { success: true };
 
@@ -10,9 +10,10 @@
 
 //     const ctx = app.mockContext();
 
-//     const result = await ctx.service.account.createRandom();
+//     const result = await ctx.service.transaction.getAll();
 
 //     assert.deepStrictEqual(result, expectedData);
+
 //   });
 
 // });
