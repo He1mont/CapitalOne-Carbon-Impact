@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../assets/styles/Login.css';
+import axios from 'axios';
 
 /**
  * Head component
@@ -152,36 +153,45 @@ function Login() {
    * Validates the user credentials and sets appropriate login messages.
    * @param {Event} e - Event triggered on form submission.
    */
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     // For testing purposes,
-    const correctEmail = 'test@example.com';
+    const correctEmail = 'Miguel.Christiansen@emailprovider.com';
     const correctPassword = 'Test@123'; // Example password
-
-    // Login validation logic
-    if (email === correctEmail && password === correctPassword) {
-      setLoginMessage('Logged in successfully!');
-      // redirect or perform other actions here
+    try {
+      const response = await axios.get(`http://127.0.0.1:7001/accounts/get-by-email/${email}`);
+      console.log(response.data);
+       // Login validation logic
+      if (email === correctEmail && password === correctPassword) {
+        setLoginMessage('Logged in successfully!');
+        if (email === '') {
+          setLoginMessage('Please enter your username.');
+          e.preventDefault();
+        }
+        else if (password === '') {
+          setLoginMessage('Please enter your password.');
+        }
+        else if (email === '' && password === '') {
+          setLoginMessage('Please enter your email and password.');
+        }
+        if (email !== correctEmail && password !== correctPassword) {
+          setLoginMessage('Username or password is incorrect.');
+        }
+        
+  
+    
+      }
+    } catch (error) {
+      console.error('Error fetching account by email:', error);
     }
-    if (email === '') {
-      setLoginMessage('Please enter your username.');
-      e.preventDefault();
-    }
-    else if (password === '') {
-      setLoginMessage('Please enter your password.');
-    }
-    else if (email === '' && password === '') {
-      setLoginMessage('Please enter your email and password.');
-    }
-    if (email !== correctEmail && password !== correctPassword) {
-      setLoginMessage('Username or password is incorrect.');
-    }
-
-    // Clear login message after a delay
-    setTimeout(() => {
-      setLoginMessage('');
-    }, 1000);
+      // Clear login message after a delay
+      setTimeout(() => {
+        setLoginMessage('');
+      }, 1000);
+   
+  
+   
   };
 
   return (
