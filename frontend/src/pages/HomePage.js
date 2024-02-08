@@ -23,7 +23,7 @@ function Head() {
     <div className="head-bar">
       {/* Logo */}
       <div className="head-center">
-        <img src="/images/Logo1.png" className="head-img" alt="Logo" />
+        <img src="/images/Logo.png" className="head-img" alt="Logo" />
       </div>
 
       {/* Login */}
@@ -95,6 +95,9 @@ function Low() {
   function handleTransactionsClick() {
     history.push('/Transactions');
   }
+  function handleGoalsClick() {
+    history.push('/Goals');
+  }
 
   return (
     <div className="low-bar">
@@ -120,7 +123,7 @@ function Low() {
 
             {/* Goals Button */}
             <th>
-              <button className="low-bar-btn">
+              <button className="low-bar-btn" onClick={handleGoalsClick}>
                 <img src="/images/goal.png" className="low-bar-btn-img" alt="Goals" />
                 <h2 className="low-bar-btn-title"> Carbon Goals</h2>
                 <p className="low-bar-btn-sub">
