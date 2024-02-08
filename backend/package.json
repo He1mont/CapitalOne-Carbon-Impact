@@ -7,6 +7,7 @@
     "declarations": true
   },
   "dependencies": {
+    "axios": "^1.6.7",
     "egg": "^3.17.5",
     "egg-cors": "^2.2.3",
     "egg-scripts": "2",
@@ -15,10 +16,11 @@
     "unirest": "^0.6.0"
   },
   "devDependencies": {
-    "egg-bin": "^6.5.2",
+    "egg-bin": "6",
     "egg-mock": "^5.10.9",
     "eslint": "8",
-    "eslint-config-egg": "13"
+    "eslint-config-egg": "13",
+    "mocha": "^10.2.0"
   },
   "engines": {
     "node": ">=18.0.0"

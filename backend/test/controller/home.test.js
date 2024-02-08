@@ -1,18 +1,11 @@
 const { app, assert } = require('egg-mock/bootstrap');
 
-describe('test/app/controller/home.test.js', () => {
-  it('should assert', async () => {
-    const pkg = require('../../../package.json');
-    assert(app.config.keys.startsWith(pkg.name));
-
-    // const ctx = app.mockContext({});
-    // yield ctx.service.xx();
-  });
-
-  it('should GET /', async () => {
-    return app.httpRequest()
+describe('HomeController', () => {
+  it('index should return "Hello from Egg.js backend"', async () => {
+    const result = await app.httpRequest()
       .get('/')
-      .expect('hi, egg')
       .expect(200);
+
+    assert.deepStrictEqual(result.body, { message: 'Hello from Egg.js backend' });
   });
 });
