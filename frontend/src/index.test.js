@@ -13,6 +13,9 @@ jest.mock('./reportWebVitals', () => jest.fn());
 
 const mockRoot = { render: jest.fn() };
 jest.spyOn(ReactDOM, 'createRoot').mockImplementation(() => mockRoot);
+//better to test for behaviour 
+//example check the page has the name rendered
+// defaulted in dark mode etc
 
 test('renders the App component with StrictMode', () => {
   // Import the index.js file after the mocks have been set up

@@ -15,8 +15,8 @@
     "unirest": "^0.6.0"
   },
   "devDependencies": {
-    "egg-bin": "6",
-    "egg-mock": "5",
+    "egg-bin": "^6.5.2",
+    "egg-mock": "^5.10.9",
     "eslint": "8",
     "eslint-config-egg": "13"
   },
