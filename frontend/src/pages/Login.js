@@ -19,6 +19,7 @@ function Head() {
   function handleLoginClick() {
     history.push('/');
   }
+  
 
   return (
     <div className="head-bar">
@@ -146,6 +147,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [loginMessage, setLoginMessage] = useState('');
+  const history = useHistory();
 
   /**
    * handleSubmit function
@@ -160,7 +162,7 @@ function Login() {
     const correctEmail = 'Miguel.Christiansen@emailprovider.com';
     const correctPassword = 'Test@123'; // Example password
     try {
-      const response = await axios.get(`http://127.0.0.1:7001/accounts/get-by-email/${email}`);
+      const response = await axios.get(`http://127.0.0.1:7001/account/get-by-email/${email}`);
       console.log(response.data);
        // Login validation logic
       if (email === correctEmail && password === correctPassword) {
@@ -178,6 +180,21 @@ function Login() {
         if (email !== correctEmail && password !== correctPassword) {
           setLoginMessage('Username or password is incorrect.');
         }
+        const name = await axios.get(`http://127.0.0.1:7001/account/get-by-id/${response.data}`);
+        if (name.data.Accounts && name.data.Accounts.length > 0) {
+          const fullname= `${name.data.Accounts[0].firstname} ${name.data.Accounts[0].lastname}`;
+          console.log(fullname);
+          history.push({
+            pathname: '/',
+            state: { name:fullname, id:response.data }
+          });
+          // console.log('First Name:', firstname);
+          // console.log('Last Name:', lastname);
+        }
+         // Extract first and last name from the response and store them together
+        //const fullName = `${name.data.Accounts.firstname} ${name.data.Accounts.lastname}`;
+        //console.log('Full Name:', fullName);
+      
         
   
     

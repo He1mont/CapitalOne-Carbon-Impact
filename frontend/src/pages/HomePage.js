@@ -1,6 +1,6 @@
 // HomePage.js
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory ,useLocation} from 'react-router-dom';
 import '../assets/styles/App.css';
 
 /**
@@ -42,14 +42,14 @@ function Head() {
  * Mid component
  * Displays the middle section of the homepage, including user information and button redirecting to other pages.
  */
-function Mid() {
+function Mid({name}) {
   return (
     <div className="mid-bar">
 
       {/* User Information and Carbon Impact Section */}
       <div className="mid-high">
         <div className="mid-high-txt-left">
-          <p>Fahad... 1234</p>
+          <p>{name }</p> 
           <h1>Your Carbon Impact</h1>
         </div>
         <div className="mid-high-profile"></div>
@@ -85,18 +85,29 @@ function Mid() {
  * Low component
  * Displays the lower section of the homepage, including buttons for transactions, goals, and history.
  */
-function Low() {
+function Low({name,id}) {
   const history = useHistory();
-
+ 
   /**
    * handleTransactionsClick function
    * Redirects user to the transactions page when the transactions button is clicked.
    */
   function handleTransactionsClick() {
-    history.push('/Transactions');
+    //history.push('/Transactions');
+   
+    history.push({
+      
+      pathname: '/Transactions',
+      state: { name:name,  id:id }
+    });
   }
   function handleGoalsClick() {
-    history.push('/Goals');
+    history.push({
+      
+      pathname: '/Goals',
+      state: { name:name,  id:id }
+    });
+    
   }
 
   return (
@@ -170,11 +181,15 @@ function Footer() {
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function HomePage() {
+  const history = useHistory();
+  const location = useLocation();
+  const name = location.state?.name || "You need to login"; 
+  const id=location.state?.id ;
   return (
     <div>
       <Head />
-      <Mid />
-      <Low />
+      <Mid name={name}/>
+      <Low name={name} id={id}/>
       <Footer />
     </div>
   );

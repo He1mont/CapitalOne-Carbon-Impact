@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Goals.module.css';
-import { useHistory } from 'react-router-dom';
+import { useHistory,useLocation } from 'react-router-dom';
 
 /**
  * Month selector component
@@ -189,10 +189,14 @@ class CarbonUseCircle extends Component {
  * Head component
  * Renders the header of the Goals page, including a logo.
  */
-function Head() {
+function Head({name,id}) {
     const history = useHistory();
     function handleLoginClick() {
-        history.push('/');
+      history.push({
+        pathname: '/',
+        state: { name:name, id:id }
+      });
+      
     }
     return (
         <div className={styles.head_bar}>
@@ -207,13 +211,13 @@ function Head() {
  * Mid component
  * Renders the middle section of the Goals page, providing contextual information.
  */
-function Mid() {
+function Mid({name,id}) {
     return (
         <div className={styles.mid_bar}>
             {/* User Information and Goal Overview */}
             <div className={styles.mid_high}>
                 <div className={styles.mid_high_txt_left}>
-                    <p>Benjamin ... 1234</p>
+                    <p>{name}</p>
                     <h1>Carbon Goals</h1>
                 </div>
                 <div className={styles.mid_high_center}>
@@ -248,13 +252,16 @@ function Low() {
  * Main component aggregating Head, Mid, and Low components to form the complete Goals page.
  */
 function Goals() {
+    const location = useLocation();
+    const name = location.state?.name || "You need to login"; 
+    const id=location.state?.id ;
     return (
-        <div>
-            <Head />
-            <Mid />
-            <Low />
-        </div>
-    )
+      <div>
+        <Head name={name} id={id}/>
+        <Mid name={name} id={id}/>
+        <Low />
+      </div>
+    )  
 }
 
 export default Goals;
