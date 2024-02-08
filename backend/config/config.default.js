@@ -1,5 +1,5 @@
 module.exports = appInfo => {
-  const config = exports = {};
+  const config = {};
 
   config.keys = appInfo.name + '_1701638477270_4148';
   config.middleware = [];
@@ -16,12 +16,5 @@ module.exports = appInfo => {
     credentials: true,
   };
 
-  const userConfig = {
-
-  };
-
-  return {
-    ...config,
-    ...userConfig,
-  };
+  return config;
 };
