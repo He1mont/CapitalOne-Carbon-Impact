@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
 import '../utils/Tools'
-import { useHistory } from 'react-router-dom';
+import { useHistory ,useLocation} from 'react-router-dom';
 import getAllAccounts from '../utils/Tools';
 
 /**
@@ -182,13 +182,13 @@ function Head() {
  * Mid component
  * Renders the middle section of the Transactions page, providing contextual information and additional controls.
  */
-function Mid() {
+function Mid({name}) {
   return (
     <div className={styles.mid_bar}>
       {/* User Information and Transaction Overview */}
       <div className={styles.mid_high}>
         <div className={styles.mid_high_txt_left}>
-          <p>Benjamin ... 1234</p>
+          <p>{name}</p>
           <h1>View Transactions</h1>
         </div>
         <div className={styles.mid_high_center}>
@@ -229,10 +229,13 @@ function Low() {
  * Main component aggregating Head, Mid, and Low components to form the complete Transactions page.
  */
 function Transactions() {
+  const location = useLocation();
+  const name = location.state?.name || "You need to login"; 
+  const id=location.state?.id ;
   return (
     <div>
       <Head />
-      <Mid />
+      <Mid name={name}/>
       <Low />
     </div>
   )
