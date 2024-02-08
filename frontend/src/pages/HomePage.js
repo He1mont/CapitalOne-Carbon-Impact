@@ -102,7 +102,12 @@ function Low({name,id}) {
     });
   }
   function handleGoalsClick() {
-    history.push('/Goals');
+    history.push({
+      
+      pathname: '/Goals',
+      state: { name:name,  id:id }
+    });
+    
   }
 
   return (

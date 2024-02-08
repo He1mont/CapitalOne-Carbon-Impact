@@ -164,10 +164,14 @@ class MonthSelect extends Component {
  * Head component
  * Renders the header of the Transactions page, including a logo.
  */
-function Head() {
+function Head({name,id}) {
   const history = useHistory();
   function handleLoginClick() {
-    history.push('/');
+    history.push({
+      pathname: '/',
+      state: { name:name, id:id }
+    });
+    
   }
   return (
     <div className={styles.head_bar}>
@@ -234,7 +238,7 @@ function Transactions() {
   const id=location.state?.id ;
   return (
     <div>
-      <Head />
+      <Head name={name} id={id} />
       <Mid name={name}/>
       <Low />
     </div>
