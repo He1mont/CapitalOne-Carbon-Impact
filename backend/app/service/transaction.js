@@ -5,7 +5,7 @@ const authJWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsIm
 class TransactionService extends Service {
 
   async createRandom(id) {
-    const quantity = 5;
+    const quantity = 3;
 
     try {
       const response = await axios.post(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/create`, {
