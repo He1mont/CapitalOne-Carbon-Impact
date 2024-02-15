@@ -125,4 +125,8 @@ describe('Login Component', () => {
     // Assert that the error message is displayed
     expect(screen.getByText('Username or password is incorrect.')).toBeInTheDocument();
   });
+  //test for if the username is empthy
+  //test that the email is in else error message
+  //check that if successful the page changes
+  //check that the name chnages on the home page?
 });
