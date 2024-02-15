@@ -1,8 +1,8 @@
 // Login.js
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import '../assets/styles/Login.css';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import "../assets/styles/Login.css";
+import axios from "axios";
 
 /**
  * Head component
@@ -17,14 +17,18 @@ function Head() {
    * Redirects the user to the home page when the logo is clicked.
    */
   function handleLoginClick() {
-    history.push('/');
+    history.push("/");
   }
-  
 
   return (
     <div className="head-bar">
       <div className="head-center">
-        <img src="/images/Logo.png" className="head-img" alt="Logo" onClick={handleLoginClick} />
+        <img
+          src="/images/Logo.png"
+          className="head-img"
+          alt="Logo"
+          onClick={handleLoginClick}
+        />
       </div>
     </div>
   );
@@ -35,16 +39,25 @@ function Head() {
  * Renders the login form including fields for email, password and a remember me checkbox.
  * @param {Object} props - Contains email, setEmail, password, setPassword, rememberMe, setRememberMe, loginMessage, and handleSubmit.
  */
-function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe, loginMessage, handleSubmit }) {
+function Mid({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  rememberMe,
+  setRememberMe,
+  loginMessage,
+  handleSubmit,
+}) {
   // Determines if the login message indicates a successful login
-  const isSuccess = loginMessage.includes('success');
+  const isSuccess = loginMessage.includes("success");
 
   return (
     <div className="mid-bar-login">
       <div className="mid-high-login"></div>
 
       <div className="mid-center-login">
-        <div className={`mid-box-login ${isSuccess ? 'success' : 'error'}`}>
+        <div className={`mid-box-login ${isSuccess ? "success" : "error"}`}>
           <h1 className="mid-box-txt-title-login">Login to your account</h1>
 
           {/* Login Form */}
@@ -86,7 +99,10 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
                     checked={rememberMe}
                     onChange={() => setRememberMe(!rememberMe)}
                   />
-                  <label className="custom-control-label" htmlFor="customCheck1">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="customCheck1"
+                  >
                     Remember me
                   </label>
                 </div>
@@ -143,10 +159,10 @@ function Footer() {
  */
 function Login() {
   // State for managing login credentials and messages
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [loginMessage, setLoginMessage] = useState('');
+  const [loginMessage, setLoginMessage] = useState("");
   const history = useHistory();
 
   /**
@@ -155,60 +171,56 @@ function Login() {
    * Validates the user credentials and sets appropriate login messages.
    * @param {Event} e - Event triggered on form submission.
    */
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // For testing purposes,
-    const correctEmail = 'Miguel.Christiansen@emailprovider.com';
-    const correctPassword = 'Test@123'; // Example password
+    const correctEmail = "Miguel.Christiansen@emailprovider.com";
+    const correctPassword = "Test@123"; // Example password
+    if (email === "" && password === "") {
+      setLoginMessage("Please enter your email and password.");
+    } else if (password === "") {
+      setLoginMessage("Please enter your password.");
+    } else if (email === "") {
+      setLoginMessage("Please enter your email.");
+    }
+
     try {
-      const response = await axios.get(`http://127.0.0.1:7001/account/get-by-email/${email}`);
+      const response = await axios.get(
+        `http://127.0.0.1:7001/account/get-by-email/${email}`
+      );
       console.log(response.data);
-       // Login validation logic
-      if (email === correctEmail && password === correctPassword) {
-        setLoginMessage('Logged in successfully!');
-        if (email === '') {
-          setLoginMessage('Please enter your username.');
-          e.preventDefault();
-        }
-        else if (password === '') {
-          setLoginMessage('Please enter your password.');
-        }
-        else if (email === '' && password === '') {
-          setLoginMessage('Please enter your email and password.');
-        }
-        if (email !== correctEmail && password !== correctPassword) {
-          setLoginMessage('Username or password is incorrect.');
-        }
-        const name = await axios.get(`http://127.0.0.1:7001/account/get-by-id/${response.data}`);
+      // Login validation logic
+      // if (email === correctEmail && password === correctPassword) {
+      //   setLoginMessage("Logged in successfully!");
+
+      // if (email !== correctEmail && password !== correctPassword) {
+      //   setLoginMessage("Email or password is incorrect.");
+      // }
+      try {
+        const name = await axios.get(
+          `http://127.0.0.1:7001/account/get-by-id/${response.data}`
+        );
         if (name.data.Accounts && name.data.Accounts.length > 0) {
-          const fullname= `${name.data.Accounts[0].firstname} ${name.data.Accounts[0].lastname}`;
+          const fullname = `${name.data.Accounts[0].firstname} ${name.data.Accounts[0].lastname}`;
           console.log(fullname);
+          setLoginMessage("Logged in successfully!");
           history.push({
-            pathname: '/',
-            state: { name:fullname, id:response.data }
+            pathname: "/",
+            state: { name: fullname, id: response.data },
           });
-          // console.log('First Name:', firstname);
-          // console.log('Last Name:', lastname);
         }
-         // Extract first and last name from the response and store them together
-        //const fullName = `${name.data.Accounts.firstname} ${name.data.Accounts.lastname}`;
-        //console.log('Full Name:', fullName);
-      
-        
-  
-    
+      } catch (error) {
+        setLoginMessage("Email has not been found");
       }
     } catch (error) {
-      console.error('Error fetching account by email:', error);
+      console.error("Error fetching account by email:", error);
     }
-      // Clear login message after a delay
-      setTimeout(() => {
-        setLoginMessage('');
-      }, 1000);
-   
-  
-   
+
+    // Clear login message after a delay
+    setTimeout(() => {
+      setLoginMessage("");
+    }, 1000);
   };
 
   return (
@@ -222,9 +234,9 @@ function Login() {
         rememberMe={rememberMe}
         setRememberMe={setRememberMe}
         loginMessage={loginMessage}
-        handleSubmit={handleSubmit} />
+        handleSubmit={handleSubmit}
+      />
       <Footer />
-
     </div>
   );
 }
