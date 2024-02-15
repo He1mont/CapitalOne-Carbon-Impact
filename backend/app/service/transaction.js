@@ -5,12 +5,11 @@ const authJWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsIm
 class TransactionService extends Service {
 
   async createRandom(id) {
-    const url = `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/create`;
-    const quantity = 10;
+    const quantity = 5;
 
     try {
-      const response = await axios.post(url, {
-        quantity: quantity
+      const response = await axios.post(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/create`, {
+        quantity,
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +69,7 @@ class TransactionService extends Service {
       const groupedData = {};
 
       response.data.Transaction.forEach(transaction => {
-        const timestamp = transaction.timestamp.split(' ')[0]; // 提取日期部分
+        const timestamp = transaction.timestamp.split(' ')[0]; // extract the date section
 
         if (!groupedData[timestamp]) {
           groupedData[timestamp] = [];
