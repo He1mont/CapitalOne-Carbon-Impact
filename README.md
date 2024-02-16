@@ -76,3 +76,16 @@ The frontend has been thoroughly tested, and all tests have successfully passed.
 npm test /src/tests
 ```
 
+## 4. Create Fake Data
+
+### Account and Transaction
+
+Create a random account with two transactions:
+```shell
+curl -X POST http://localhost:7001/account/create-random
+```
+
+Create five random transactions for a sepcified account:
+```shell
+curl -X POST http://localhost:7001/transaction/create-random/:accountID
+```

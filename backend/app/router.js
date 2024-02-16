@@ -3,7 +3,7 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  
+
   router.get('/', controller.home.index);
   router.post('/account/create-random', controller.account.createRandom);
   router.get('/account/get-all', controller.account.getAll);

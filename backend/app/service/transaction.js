@@ -15,9 +15,9 @@ class TransactionService extends Service {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authJWT}`,
           version: '1.0',
-        }
+        },
       });
-      return response.data
+      return response.data;
 
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
@@ -68,15 +68,17 @@ class TransactionService extends Service {
 
       const groupedData = {};
 
-      response.data.Transaction.forEach(transaction => {
-        const timestamp = transaction.timestamp.split(' ')[0]; // extract the date section
+      if (response.data.Transaction && response.data.Transaction.length > 0) {
+        response.data.Transaction.forEach(transaction => {
+          // extract the date section
+          const timestamp = transaction.timestamp.split(' ')[0];
 
-        if (!groupedData[timestamp]) {
-          groupedData[timestamp] = [];
-        }
-
-        groupedData[timestamp].push(transaction);
-      });
+          if (!groupedData[timestamp]) {
+            groupedData[timestamp] = [];
+          }
+          groupedData[timestamp].push(transaction);
+        });
+      }
       return groupedData;
 
     } catch (error) {
