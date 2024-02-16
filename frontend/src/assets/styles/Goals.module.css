@@ -126,7 +126,8 @@ html, body {
   .low_bar{
     position: absolute;
     top: 615px;
-    height: 300px;
+    min-height: 300px;
+    height: auto;
     width: 100%;
     background-color: rgb(245, 245, 245);
     padding-top: 20px;
@@ -153,5 +154,101 @@ html, body {
   /*------------------------------ CARBON USE CIRCLE ------------------------------*/
   .img_box{
     width: 400px;
-    
   }
+
+  /*------------------------------ LEADERBOARD ------------------------------*/
+
+  .leaderboard_container{
+    width: 50%;
+    margin: 0 auto;
+    font-size: small;
+    min-width: 450px;
+  }
+  .leaderboard_addfriend{
+    float: left;
+    height: 30px;
+    width: 60%;
+    background-color: rgb(252, 252, 252);
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    padding-left: 10px;
+  }
+  .leaderboard_managefriends{
+    float: right;
+    height: 32px;
+    width: 25%;
+    background-color: rgb(252, 252, 252);
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+  }
+  .leaderboard_managefriendstoggle{
+    width: 100%;
+  }
+  .leaderboard_list_container {
+    width: 100%;
+    min-height: 50px;
+    height: auto;
+    background-color: rgb(253, 253, 253);
+    margin-top: 20px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .leaderboard_list {
+    margin-left: 30px;
+    margin-right: 30px;
+    border-collapse: collapse;
+    table-layout: initial;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+  }
+  .leaderboard_tablerow {
+    border-bottom: 1px solid black;
+    height: 30px;
+  }
+  .leaderboard_tablerow:last-child {
+    border-bottom: none;
+  }
+
+/*------------------------------ DROPDOWN ------------------------------*/
+.dropdown {
+  float: right;
+}
+.dropbtn {
+  height: 35px;
+  width: 150px;
+  background-color: rgb(252, 252, 252);
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+}
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdownContent.show {
+  display: block;
+}
+.dropdownContent a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdownContent a:hover {
+  background-color: #f1f1f1;
+}
+.dropdown_delete_icon {
+  float: right;
+  height: 20px;
+}

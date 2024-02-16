@@ -40,7 +40,7 @@ class TransactionTbl extends Component {
     console.log(column, newDir);
   }
 
-  showArrow(){
+  showArrow() {
     const { currentDir } = this.state;
     if (currentDir === 0){
       return
