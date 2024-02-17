@@ -198,8 +198,6 @@ function Mid({name}) {
         <div className={styles.mid_high_center}>
           <MonthSelect />
         </div>
-        <div className={styles.mid_high_profile}>
-        </div>
       </div>
 
       {/* Transaction Summary Box */}

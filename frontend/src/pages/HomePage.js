@@ -52,7 +52,6 @@ function Mid({name}) {
           <p>{name }</p> 
           <h1>Your Carbon Impact</h1>
         </div>
-        <div className="mid-high-profile"></div>
       </div>
 
       {/* Carbon Impact Information Box */}
@@ -109,6 +108,14 @@ function Low({name,id}) {
     });
     
   }
+  function handleHistoryClick() {
+    history.push({
+      
+      pathname: '/History',
+      state: { name:name,  id:id }
+    });
+    
+  }
 
   return (
     <div className="low-bar">
@@ -146,7 +153,7 @@ function Low({name,id}) {
 
             {/* History Button */}
             <th>
-              <button className="low-bar-btn">
+              <button className="low-bar-btn" onClick={handleHistoryClick}>
                 <img
                   src="/images/history.png"
                   className="low-bar-btn-img"
