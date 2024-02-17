@@ -219,7 +219,7 @@ class ManageFriends extends React.Component {
     handleFriendClick(item) {
         this.props.removeFriend(item);
     }
-    
+
     render() {
         const { list } = this.props;
         return (
@@ -242,7 +242,7 @@ class Leaderboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            friendList: ['Test1', 'Test2', 'Test3'],
+            friendList: [],
             newFriend: ''
         };
         this.handleChange = this.handleChange.bind(this);
@@ -350,10 +350,28 @@ function Head({name,id}) {
  * Mid component
  * Renders the middle section of the Goals page, providing contextual information.
  */
-function Mid({name,id}) {
+function Mid({ name, id }) {
+    let carbonEm = 1200;
+    const [goalEm, setGoalEm] = useState(2300);
+    const [inputValue, setInputValue] = useState('');
+
+    const handleGoalInputChange = (event) => {
+        if (event.key === 'Enter') {
+            let value = event.target.value;
+            if (value <= 0) {
+                value = 0;
+            }
+            else if (value >= 99999) {
+                value = 99999;
+            }
+            setGoalEm(parseFloat(value));
+            setInputValue('');
+        }
+    };
+
     return (
         <div className={styles.mid_bar}>
-            {/* User Information and Goal Overview */}
+
             <div className={styles.mid_high}>
                 <div className={styles.mid_high_txt_left}>
                     <p>{name}</p>
@@ -365,11 +383,21 @@ function Mid({name,id}) {
                 <div className={styles.mid_high_profile}></div>
             </div>
 
-            {/* Render CarbonUseCircle component */}
             <div className={styles.mid_center}>
-                <CarbonUseCircle carbonEmission='200' goalEmissions='2300' />
+                <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} />
             </div>
-            <div className={styles.mid_low}></div>
+
+            <div className={styles.mid_low}>
+                <div className={styles.goal_input}>
+                    <input 
+                    id="goalInput" 
+                    placeholder='Set Goal' 
+                    onKeyPress={handleGoalInputChange} 
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    className={styles.goal_input_box}/>
+                </div>
+            </div>
         </div>
     );
 }
