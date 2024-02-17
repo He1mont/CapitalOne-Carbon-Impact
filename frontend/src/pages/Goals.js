@@ -70,25 +70,25 @@ class CarbonUseCircle extends Component {
 
     drawCircle = ({ color }) => {
         let percentage = 0;
-
+    
         if (color === 'white') {
             percentage = 100;
         } else {
             percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
         }
-
+    
         const diameter = 350;
         const radius = diameter / 2;
         const strokeWidth = 20;
         const viewBoxSize = diameter + strokeWidth;
         const circumference = 2 * Math.PI * radius;
         const strokeDashoffset = ((100 - percentage) * circumference) / 100;
-
+    
         if (color !== 'white') {
             const hue = ((100 - percentage) / 100) * 120;
             color = `hsl(${hue}, 100%, 50%)`;
         }
-
+    
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                 <svg height={diameter} width={diameter} viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}>
@@ -103,6 +103,7 @@ class CarbonUseCircle extends Component {
                             strokeDasharray={circumference}
                             strokeDashoffset={percentage ? strokeDashoffset : 0}
                             strokeLinecap="round"
+                            style={{ transition: 'stroke-dashoffset 1s ease' }} // Added transition
                         />
                     </g>
                 </svg>
@@ -391,7 +392,7 @@ function Mid({ name, id }) {
                 <div className={styles.goal_input}>
                     <input 
                     id="goalInput" 
-                    placeholder='Set Goal' 
+                    placeholder= {'Current Goal: ' + goalEm}
                     onKeyPress={handleGoalInputChange} 
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
