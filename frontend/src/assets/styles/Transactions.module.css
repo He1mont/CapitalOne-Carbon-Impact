@@ -112,7 +112,6 @@ html, body {
   position: absolute;
   background-color: white;
   bottom: 0px;
-  z-index: -1;
 }
 /*------------------------------ LOW ------------------------------*/
 .low_bar{
