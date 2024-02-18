@@ -53,10 +53,9 @@ html, body {
     line-height: 10px;
     color: white;
   }
-  .mid_high_center{
-    position: absolute;
-    top: 30px;
-    left: 50%;
+  .mid_high_center_container{
+    display: flex;
+    justify-content: center;
   } 
   /*---------- CENTER ----------*/
   .mid_center{
@@ -97,4 +96,38 @@ html, body {
     width: 100%;
     background-color: white;
     padding-top: 20px;
+  }
+
+  /*------------------------------ MONTH RANGE PICKER ------------------------------*/
+  .month_range_container {
+    margin-top: 40px;
+    position: absolute;
+    width: 450px;
+    height: 70px;
+    background-color: rgb(253, 253, 253);
+    padding: auto;
+    border-radius: 10px;
+    border-color: rgb(228, 228, 228);
+    border-width: 3px;
+    border-style: solid;
+    justify-content: center;
+    display: flex;
+  }
+  .month_select{
+    margin: 0;
+    color: rgb(0, 0, 0);
+    font-size: x-large;
+    table-layout: initial;
+    width: 150px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    
+
+  }
+  .month_select_btn{
+    background-color: transparent;
+    border-color: transparent;
+    background-repeat: no-repeat;
+    user-select: none;
   }
