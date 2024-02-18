@@ -8,7 +8,12 @@ import getAllAccounts from '../utils/Tools';
 
 class MonthRangeSelect extends Component {
     render() {
-        const { startMonth, endMonth, decreaseStartMonth, increaseStartMonth, decreaseEndMonth, increaseEndMonth } = this.props;
+        const { startMonth, 
+            endMonth, 
+            decreaseStartMonth, 
+            increaseStartMonth, 
+            decreaseEndMonth, 
+            increaseEndMonth } = this.props;
 
         return (
             <div className={styles.month_range_container}>
@@ -65,17 +70,32 @@ class Graphs extends Component {
         super(props);
         this.state = {
             graphSelection: 1,
-            home: true,
-            food: true,
-            goods: true,
-            services: true,
-            travel: true
+            home: false,
+            food: false,
+            goods: false,
+            services: false,
+            travel: false
         };
     }
 
     changeSelection = (sel) => {
         console.log("Changing selection to:", sel);
         this.setState({ graphSelection: sel });
+    }
+    handleHomeButtonClick = () => {
+        this.setState(prevState => ({ home: !prevState.home }));
+    }
+    handleFoodButtonClick = () => {
+        this.setState(prevState => ({ food: !prevState.food }));
+    }
+    handleGoodsButtonClick = () => {
+        this.setState(prevState => ({ goods: !prevState.goods }));
+    }
+    handleServicesButtonClick = () => {
+        this.setState(prevState => ({ services: !prevState.services }));
+    }
+    handleTravelButtonClick = () => {
+        this.setState(prevState => ({ travel: !prevState.travel }));
     }
 
     render() {
@@ -111,8 +131,84 @@ class Graphs extends Component {
                     </thead>
                 </table>
                 <div className={styles.graphs_inner_container}>
-                    <div className={styles.graph_category_container}>
 
+                    <div className={styles.graph_category_container}>
+                        <table className={styles.graph_category_picker}>
+                            <thead>
+                                <tr>
+                                    <th style={{ width: '20%' }}>
+                                        <button className={styles.graph_category_btn} 
+                                            style={{ borderColor: this.state.home ? '#D00000' : 'black' }} 
+                                            onClick={this.handleHomeButtonClick}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <div className={styles.graph_category_circle} 
+                                                    style={{ backgroundColor: this.state.home ? '#D00000' : 'rgb(172, 172, 172)' }}>
+                                                </div>
+                                                <div style={{ marginLeft: '10px' }}>
+                                                    Home
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </th>
+                                    <th style={{ width: '20%' }}>
+                                        <button className={styles.graph_category_btn} 
+                                            style={{ borderColor: this.state.food ? '#A657AE' : 'black' }} 
+                                            onClick={this.handleFoodButtonClick}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <div className={styles.graph_category_circle} 
+                                                    style={{ backgroundColor: this.state.food ? '#A657AE' : 'rgb(172, 172, 172)' }}>
+                                                </div>
+                                                <div style={{ marginLeft: '10px' }}>
+                                                    Food
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </th>
+                                    <th style={{ width: '20%' }}>
+                                        <button className={styles.graph_category_btn} 
+                                            style={{ borderColor: this.state.goods ? '#399E5A' : 'black' }} 
+                                            onClick={this.handleGoodsButtonClick}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <div className={styles.graph_category_circle} 
+                                                    style={{ backgroundColor: this.state.goods ? '#399E5A' : 'rgb(172, 172, 172)' }}>
+                                                </div>
+                                                <div style={{ marginLeft: '10px' }}>
+                                                    Goods
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </th>
+                                    <th style={{ width: '20%' }}>
+                                        <button className={styles.graph_category_btn} 
+                                            style={{ borderColor: this.state.services ? '#60B2E5' : 'black' }}
+                                            onClick={this.handleServicesButtonClick}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <div className={styles.graph_category_circle} 
+                                                    style={{ backgroundColor: this.state.services ? '#60B2E5' : 'rgb(172, 172, 172)' }}>
+                                                </div>
+                                                <div style={{ marginLeft: '10px' }}>
+                                                    Services
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </th>
+                                    <th style={{ width: '20%' }}>
+                                        <button className={styles.graph_category_btn} 
+                                            style={{ borderColor: this.state.travel ? '#EE7B30' : 'black' }}
+                                            onClick={this.handleTravelButtonClick}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <div className={styles.graph_category_circle} 
+                                                style={{ backgroundColor: this.state.travel ? '#EE7B30' : 'rgb(172, 172, 172)' }}>
+                                                </div>
+                                                <div style={{ marginLeft: '10px' }}>
+                                                    Travel
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>

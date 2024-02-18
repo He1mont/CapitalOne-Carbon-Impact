@@ -149,17 +149,46 @@ html, body {
 .graph_selection_heads:hover {
     background-color: rgb(255, 255, 255);
 }
+.selected {
+    background-color: white;
+}
 .graphs_inner_container {
     position: absolute;
+    display: flex;
+    justify-content: center;
     top: 70px;
     width: 100%;
     min-height: 500px;
     background-color: white;
-    
-}
-.selected {
-    background-color: white;
+    padding-bottom: 20px;
+    padding-top: 30px;
 }
 .graph_category_container {
-    margin-bottom: 20px;
+    margin-top: auto;
+    position: relative;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+}
+.graph_category_picker {
+    position: relative;
+    width: 70%;
+    max-width: 700px;
+    column-width: initial;
+}
+.graph_category_btn {
+    z-index: 4;
+    width: 115px;
+    height: 40px;
+    border-radius: 7px;
+    border-color: rgb(64, 64, 64);
+    border-style: solid;
+    background-color: white;
+}
+.graph_category_circle {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgb(172, 172, 172);
 }
