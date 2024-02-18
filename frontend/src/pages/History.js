@@ -70,11 +70,11 @@ class Graphs extends Component {
         super(props);
         this.state = {
             graphSelection: 1,
-            home: false,
-            food: false,
-            goods: false,
-            services: false,
-            travel: false
+            home: true,
+            food: true,
+            goods: true,
+            services: true,
+            travel: true
         };
     }
 
