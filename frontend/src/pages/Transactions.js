@@ -60,7 +60,7 @@ class TransactionTbl extends Component {
     console.log(column, newDir);
   }
 
-  showArrow(){
+  showArrow() {
     const { currentDir } = this.state;
     if (currentDir === 0){
       return
@@ -224,8 +224,6 @@ function Mid({name, month, onMonthChange}) {
         </div>
         <div className={styles.mid_high_center}>
           <MonthSelect month={month} onMonthChange={onMonthChange} />
-        </div>
-        <div className={styles.mid_high_profile}>
         </div>
       </div>
 
