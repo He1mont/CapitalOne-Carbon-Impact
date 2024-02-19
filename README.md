@@ -23,16 +23,8 @@ npm install
 ```
 
 In backend, we use the library `axios` to interact with [Hackathon API](https://hackathon.capitalone.co.uk). So we need to install `axios` beforehand.
- 
-```shell
-npm install axios
-```
 
 The `egg-mock` framework and `mocha` library is adopted as the test tools for backend. It could be installed by the following command
-
-```shell
-npm install egg-mock mocha --save-dev
-```
 
 ### Frontend
 

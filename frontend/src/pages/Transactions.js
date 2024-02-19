@@ -1,10 +1,9 @@
 // Transactions.js
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
-import '../utils/Tools'
 import { useHistory ,useLocation} from 'react-router-dom';
-import getAllAccounts from '../utils/Tools';
+import * as tranAPI from '../services/transactionService';
 
 /**
  * TransactionTbl component
@@ -16,7 +15,28 @@ class TransactionTbl extends Component {
     this.state = {
       currentCol: null,
       currentDir: 0,
+      transactions: [],   // create an attribute to store all transactions
     };
+  }
+
+  // intialize transactions using tranAPI
+  componentDidMount() {
+    const id = this.props.id;
+    tranAPI.getTransactions(id)
+      .then(data => {
+        this.setState({ transactions: data.Transactions });
+      })
+      .catch(error => {
+        console.error('Error fetching transactions:', error);
+      });
+  }
+
+  // helper function to convert timestamp into format DD/MM
+  formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}/${month}`;
   }
 
   changeSort = (col) => {
@@ -52,8 +72,17 @@ class TransactionTbl extends Component {
       return <img src='/images/transaction-down.png' alt="down" style={{height:"15px"}}/>
     }
   }
-  
+
   render() {
+    // show transaction of the corresponding month
+    const { month } = this.props;
+    const startOfMonth = month.clone().startOf('month');
+    const endOfMonth = month.clone().endOf('month');  
+    const filteredTransactions = this.state.transactions.filter(transaction => {
+      const transactionDate = moment(transaction.timestamp);
+      return transactionDate.isSameOrAfter(startOfMonth) && transactionDate.isSameOrBefore(endOfMonth);
+    });
+
     return (
       <div>
         {/* Search and Filter Functionality */}
@@ -90,14 +119,15 @@ class TransactionTbl extends Component {
               </tr>
             </thead>
             <tbody>
-              {/* Sample Row - Dynamic Data should replace this in a real-world scenario */}
-              <tr>
-                <td className={styles.c}>11/12/23</td>
-                <td className={styles.l}>Uber</td>
-                <td className={styles.l}>Transport</td>
-                <td className={styles.r}>-</td>
-                <td className={styles.r}>$7.99</td>
-              </tr>
+              {filteredTransactions.map((transaction) => (
+                <tr key={transaction.transactionUUID}>
+                  <td>{this.formatDate(transaction.timestamp)}</td>
+                  <td>{transaction.merchant.name}</td>
+                  <td>{transaction.merchant.category}</td>
+                  <td>{'To Be Confirmed'}</td>
+                  <td>{transaction.amount}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -111,29 +141,26 @@ class TransactionTbl extends Component {
  * Renders a month selector for the user to use to view data from a given month
  */
 class MonthSelect extends Component {
-  state = {
-    month: moment(),
-  };
   decreaseMonth = () => {
-    const nextMonth = this.state.month.clone().subtract(1, 'month');
+    const { month, onMonthChange } = this.props;
+    const nextMonth = month.clone().subtract(1, 'month');
     const minDate = moment('2021-01-01');
-    if (nextMonth.isSameOrAfter(minDate)){ //Only allow month reduction if it goes to a data after the start of 2021
-      this.setState(
-      (prevState) => ({ month: prevState.month.clone().subtract(1, 'month') })
-      );
+    //Only allow month reduction if it goes to a data after the start of 2021
+    if (nextMonth.isSameOrAfter(minDate)){ 
+      onMonthChange(nextMonth);
     } 
   };
+
   increaseMonth = () => {
-    const nextMonth = this.state.month.clone().add(1, 'month');
-    if (nextMonth > moment()) {
-      return; // Do nothing if attempting to go to a future month
+    const { month, onMonthChange } = this.props;
+    const nextMonth = month.clone().add(1, 'month');
+    if (nextMonth <= moment()) {
+      onMonthChange(nextMonth);
     }
-    this.setState(
-      (prevState) => ({ month: nextMonth })
-    );
   };
 
   render() {
+    const { month } = this.props;
     return (
       <table className={styles.month_select}>
         <tbody>
@@ -143,12 +170,12 @@ class MonthSelect extends Component {
                 <img src="/images/month-left.png" alt="Left Arrow" width="30px" />
               </button>
             </th>
-            <th style={{ width: '34%' }}><span>{this.state.month.format('MMM YYYY')}</span></th>
+            <th style={{ width: '34%' }}><span>{month.format('MMM YYYY')}</span></th>
             <th style={{ width: '33%' }}>
               <button
                 className={styles.month_select_btn}
                 onClick={this.increaseMonth}
-                disabled={this.state.month.clone().add(1, 'hour') > moment()}
+                disabled={month.clone().add(1, 'hour') > moment()}
               >
                 <img src="/images/month-right.png" alt="Right Arrow" width="30px" />
               </button>
@@ -186,7 +213,7 @@ function Head({name,id}) {
  * Mid component
  * Renders the middle section of the Transactions page, providing contextual information and additional controls.
  */
-function Mid({name}) {
+function Mid({name, month, onMonthChange}) {
   return (
     <div className={styles.mid_bar}>
       {/* User Information and Transaction Overview */}
@@ -196,7 +223,7 @@ function Mid({name}) {
           <h1>View Transactions</h1>
         </div>
         <div className={styles.mid_high_center}>
-          <MonthSelect />
+          <MonthSelect month={month} onMonthChange={onMonthChange} />
         </div>
       </div>
 
@@ -218,10 +245,10 @@ function Mid({name}) {
  * Low component
  * Renders the lower section of the Transactions page, mainly comprising the TransactionTbl component.
  */
-function Low() {
+function Low({name, id, month}) {
   return (
     <div className={styles.low_bar}>
-      <TransactionTbl />
+      <TransactionTbl name={name} id={id} month={month}/>
     </div>
   )
 }
@@ -233,12 +260,18 @@ function Low() {
 function Transactions() {
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
-  const id=location.state?.id ;
+  const id = location.state?.id ;
+  const [month, setMonth] = useState(moment()); // 使用useState管理月份状态
+
+  const handleMonthChange = (newMonth) => {
+    setMonth(newMonth);
+  };
+
   return (
     <div>
       <Head name={name} id={id} />
-      <Mid name={name}/>
-      <Low />
+      <Mid name={name} month={month} onMonthChange={handleMonthChange}/>
+      <Low name={name} id={id} month={month}/>
     </div>
   )
 }

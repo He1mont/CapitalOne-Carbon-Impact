@@ -1,47 +1,44 @@
 const { app, assert } = require('egg-mock/bootstrap');
 
 describe('TransactionController', () => {
-  it('getAll should return transactions with 200 status', async () => {
+  it('should GET /transaction/get-all/:id', async () => {
+    const mockId = 1;
     app.mockService('transaction', 'getAll', async () => {
-      return [{ id: 1, name: 'Transaction 1' }, { id: 2, name: 'Transaction 2' }];
+      return [{ id: mockId, name: 'Transaction 1' }];
     });
 
-    const result = await app.httpRequest()
-      .get('/transaction/all')
-      .expect(200);
+    const result = await app.httpRequest().get(`/transaction/get-all/${mockId}`).expect(200);
 
-    assert(result.body.length === 2);
-    assert(result.headers['access-control-allow-origin'] === '*');
+    assert.deepStrictEqual(result.body, [{ id: mockId, name: 'Transaction 1' }]);
+    assert.strictEqual(result.headers['access-control-allow-origin'], '*');
   });
 
-  it('getByID should return a specific transaction with 200 status', async () => {
-    const expectedTransaction = { id: 1, name: 'Transaction 1' };
+  it('should GET /transaction/get-by-id/:accountID/:transactionID', async () => {
+    const mockAccountID = '123';
+    const mockTransactionID = '456';
+    const expectedTransaction = { id: mockTransactionID, name: 'Transaction Specific' };
     app.mockService('transaction', 'getByID', async () => {
       return expectedTransaction;
     });
 
-    const result = await app.httpRequest()
-      .get('/transaction/by-id/1')
-      .expect(200);
+    const result = await app.httpRequest().get(`/transaction/get-by-id/${mockAccountID}/${mockTransactionID}`).expect(200);
 
     assert.deepStrictEqual(result.body, expectedTransaction);
-    assert(result.headers['access-control-allow-origin'] === '*');
+    assert.strictEqual(result.headers['access-control-allow-origin'], '*');
   });
 
-//   it('groupByDate should return transactions grouped by date with 200 status', async () => {
-//     const expectedGroupedData = {
-//       '2021-01-01': [{ id: 1, name: 'Transaction 1' }],
-//       '2021-01-02': [{ id: 2, name: 'Transaction 2' }]
-//     };
-//     app.mockService('transaction', 'groupByDate', async () => {
-//       return expectedGroupedData;
-//     });
+  it('should GET /transaction/group-by-date/:id', async () => {
+    const mockId = 1; 
+    const expectedGroupedData = {
+      '2020-01-01': [{ id: mockId, name: 'Transaction Grouped' }],
+    };
+    app.mockService('transaction', 'groupByDate', async () => {
+      return expectedGroupedData;
+    });
 
-//     const result = await app.httpRequest()
-//       .get('/transaction/group-by-date')
-//       .expect(200);
+    const result = await app.httpRequest().get(`/transaction/group-by-date/${mockId}`).expect(200);
 
-//     assert.deepStrictEqual(result.body, expectedGroupedData);
-//     assert(result.headers['access-control-allow-origin'] === '*');
-//   });
+    assert.deepStrictEqual(result.body, expectedGroupedData);
+    assert.strictEqual(result.headers['access-control-allow-origin'], '*');
+  });
 });
