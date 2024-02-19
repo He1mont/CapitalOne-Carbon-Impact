@@ -1,14 +1,14 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { mount } from '@cypress/react';
-import HomePage from '../pages/HomePage'; 
+import { MemoryRouter } from 'react-router-dom';
+import HomePage from '../pages/HomePage';
 
 describe('HomePage Component', () => {
   it('successfully renders', () => {
     mount(
-      <BrowserRouter>
+      <MemoryRouter>
         <HomePage />
-      </BrowserRouter>
+      </MemoryRouter>
     );
     
     cy.get('.login-btn').should('exist');
