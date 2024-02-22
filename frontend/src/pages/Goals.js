@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Goals.module.css';
 import { useHistory,useLocation } from 'react-router-dom';
@@ -70,25 +70,25 @@ class CarbonUseCircle extends Component {
 
     drawCircle = ({ color }) => {
         let percentage = 0;
-
+    
         if (color === 'white') {
             percentage = 100;
         } else {
             percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
         }
-
+    
         const diameter = 350;
         const radius = diameter / 2;
         const strokeWidth = 20;
         const viewBoxSize = diameter + strokeWidth;
         const circumference = 2 * Math.PI * radius;
         const strokeDashoffset = ((100 - percentage) * circumference) / 100;
-
+    
         if (color !== 'white') {
             const hue = ((100 - percentage) / 100) * 120;
             color = `hsl(${hue}, 100%, 50%)`;
         }
-
+    
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                 <svg height={diameter} width={diameter} viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}>
@@ -103,6 +103,7 @@ class CarbonUseCircle extends Component {
                             strokeDasharray={circumference}
                             strokeDashoffset={percentage ? strokeDashoffset : 0}
                             strokeLinecap="round"
+                            style={{ transition: 'stroke-dashoffset 1s ease' }} // Added transition
                         />
                     </g>
                 </svg>
@@ -185,6 +186,145 @@ class CarbonUseCircle extends Component {
     }
 }
 
+class ManageFriends extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showDropdown: false
+        };
+        this.dropdownRef = React.createRef();
+        this.toggleDropdown = this.toggleDropdown.bind(this);
+        this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    }
+
+  
+    toggleDropdown() {
+        this.setState(prevState => ({
+            showDropdown: !prevState.showDropdown
+        }));
+    }
+    handleOutsideClick(event) {
+        if (this.dropdownRef.current && !this.dropdownRef.current.contains(event.target)) {
+            this.setState({
+                showDropdown: false
+            });
+        }
+    }
+    componentDidMount() {
+        document.addEventListener('click', this.handleOutsideClick, false);
+    }
+    componentWillUnmount() {
+        document.removeEventListener('click', this.handleOutsideClick, false);
+    }
+    //Create method here to remove friend from list
+    handleFriendClick(item) {
+        this.props.removeFriend(item);
+    }
+
+    render() {
+        const { list } = this.props;
+        return (
+            <div className={styles.dropdown} ref={this.dropdownRef}>
+                <button onClick={this.toggleDropdown} className={styles.dropbtn}>Manage Friends</button>
+                <div id="myDropdown" className={`${styles.dropdownContent} ${this.state.showDropdown ? styles.show : ''}`}>
+                    {list.map((item, index) => (
+                        <a key={index} onClick={() => this.handleFriendClick(item)}>
+                            {item}
+                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon} />
+                        </a>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+}
+
+class Leaderboard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            friendList: [],
+            newFriend: ''
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.removeFriend = this.removeFriend.bind(this);
+    }
+
+    addFriend() {
+        if (this.state.newFriend.trim() !== '') {
+            this.setState(prevState => ({
+                friendList: [...prevState.friendList, prevState.newFriend],
+                newFriend: ''
+            }));
+        }
+    }
+
+    handleChange(event) {
+        this.setState({ newFriend: event.target.value });
+    }
+
+    handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            this.addFriend();
+        }
+    }
+
+    removeFriend(friendName) {
+        this.setState(prevState => ({
+            friendList: prevState.friendList.filter(friend => friend !== friendName)
+        }));
+    }
+
+    render () {
+        return (
+            <div style={{
+                width: '100%',
+                height: 'auto',
+                justifyContent: 'center',
+                marginTop: '20px',
+                minWidth: '700px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                <div className={styles.leaderboard_container}>
+                    Your ID: {this.props.userID}
+                </div>
+                <div className={styles.leaderboard_container}>
+                    <input
+                        className={styles.leaderboard_addfriend}
+                        placeholder="Enter your friend's ID"
+                        value={this.state.newFriend}
+                        onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
+                    />
+                    <ManageFriends list={this.state.friendList} removeFriend={this.removeFriend}/>
+                </div>
+                <div className={styles.leaderboard_container}>
+                    {this.state.friendList.length === 0 ? (
+                        <p style={{ textAlign: 'center' }}>To view friends, add them by entering their ID</p>
+                    ) : (
+                        <div className={styles.leaderboard_list_container}>
+                            <table className={styles.leaderboard_list}>
+                                <tbody>
+                                    {this.state.friendList.map((item, index) => (
+                                    <tr key={index} className={styles.leaderboard_tablerow}>
+                                        <td style={{width: '10%'}}>{'#' + (index + 1)}</td>
+                                        <td style={{width: '70%'}}>{item}</td>
+                                        <td style={{width: '20%'}}>-xxxxxx-</td>
+                                    </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
+}
+
 /**
  * Head component
  * Renders the header of the Goals page, including a logo.
@@ -211,10 +351,28 @@ function Head({name,id}) {
  * Mid component
  * Renders the middle section of the Goals page, providing contextual information.
  */
-function Mid({name,id}) {
+function Mid({ name, id }) {
+    let carbonEm = 1200;
+    const [goalEm, setGoalEm] = useState(2300);
+    const [inputValue, setInputValue] = useState('');
+
+    const handleGoalInputChange = (event) => {
+        if (event.key === 'Enter') {
+            let value = event.target.value;
+            if (value <= 0) {
+                value = 0;
+            }
+            else if (value >= 99999) {
+                value = 99999;
+            }
+            setGoalEm(parseFloat(value));
+            setInputValue('');
+        }
+    };
+
     return (
         <div className={styles.mid_bar}>
-            {/* User Information and Goal Overview */}
+
             <div className={styles.mid_high}>
                 <div className={styles.mid_high_txt_left}>
                     <p>{name}</p>
@@ -223,14 +381,23 @@ function Mid({name,id}) {
                 <div className={styles.mid_high_center}>
                     <MonthSelect />
                 </div>
-                <div className={styles.mid_high_profile}></div>
             </div>
 
-            {/* Render CarbonUseCircle component */}
             <div className={styles.mid_center}>
-                <CarbonUseCircle carbonEmission='1600' goalEmissions='2000' />
+                <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} />
             </div>
-            <div className={styles.mid_low}></div>
+
+            <div className={styles.mid_low}>
+                <div className={styles.goal_input}>
+                    <input 
+                    id="goalInput" 
+                    placeholder= {'Current Goal: ' + goalEm}
+                    onKeyPress={handleGoalInputChange} 
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    className={styles.goal_input_box}/>
+                </div>
+            </div>
         </div>
     );
 }
@@ -239,10 +406,10 @@ function Mid({name,id}) {
  * Low component
  * Renders the lower section of the Goals page.
  */
-function Low() {
+function Low({name, id}) {
     return (
         <div className={styles.low_bar}>
-
+            <Leaderboard userID={id}/>
         </div>
     )
 }
@@ -259,7 +426,7 @@ function Goals() {
       <div>
         <Head name={name} id={id}/>
         <Mid name={name} id={id}/>
-        <Low />
+        <Low name={name} id={id}/>
       </div>
     )  
 }
