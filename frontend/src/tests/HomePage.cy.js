@@ -10,7 +10,7 @@ describe('HomePage Component', () => {
         <HomePage />
       </MemoryRouter>
     );
-    
+
     cy.get('.login-btn').should('exist');
     cy.contains('Your Carbon Impact').should('exist');
     cy.get('.low-bar-btn').should('have.length', 3);
