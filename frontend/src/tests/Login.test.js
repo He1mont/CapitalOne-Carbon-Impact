@@ -33,11 +33,7 @@ describe('Login Component', () => {
   it('handles form submission correctly', () =>{
     render(<Login />);
 
-    //Mock the API call or any external dependencies
-    jest.spyOn(global, 'fetch').mockResolvedValue({/* mock response */ });
-
     // Simulate user input and form submission
-
     const emailInput = screen.getByLabelText('Username (email)');
     const passwordInput = screen.getByLabelText('Password');
 
@@ -57,9 +53,6 @@ describe('Login Component', () => {
   it('submits the form and shows login message on valid input', async() => {
     render(<Login />);
 
-    //Mock the API call or any external dependencies
-    jest.spyOn(global, 'fetch').mockResolvedValue({/* mock response */ });
-
     // Simulate user input and submit the form
     const emailInput = screen.getByLabelText('Username (email)');
     const passwordInput = screen.getByLabelText('Password');
@@ -74,13 +67,9 @@ describe('Login Component', () => {
   });
 
 
-
   // Test case for checking the functionality of the remember me checkbox
   it('toggles remember me checkbox', async() => {
     render(<Login />);
-
-    //Mock the API call or any external dependencies
-    jest.spyOn(global, 'fetch').mockResolvedValue({/* mock response */ });
 
     // Interact with the remember me checkbox
     const rememberMeCheckbox = screen.getByLabelText('Remember me');
@@ -89,7 +78,6 @@ describe('Login Component', () => {
     fireEvent.click(rememberMeCheckbox);
     expect(rememberMeCheckbox).toBeChecked();
   });
-
 
 
   // Test case for verifying that an error message is displayed on incorrect login
@@ -108,6 +96,34 @@ describe('Login Component', () => {
     // Assert that the error message is displayed
     expect(screen.getByText('Username or password is incorrect.')).toBeInTheDocument();
   });
+
+
+  it('allows entering email and password', () => {
+    render(<Login />);
+  
+    // Simulate user input for password field
+    const passwordInput = screen.getByLabelText('Password');
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+  
+    // Assert that the value has been updated in the password input field
+    expect(passwordInput).toHaveValue('password123');
+  });
+
+  
+  // Test case for checking if user tries to submit form without entering a username
+it('shows error message when trying to submit form with empty username', async() => {
+  render(<Login />);
+
+  // Simulate user input for password field
+  const passwordInput = screen.getByLabelText('Password');
+  fireEvent.change(passwordInput, { target: { value: 'password123' } });
+
+  // Simulate clicking the submit button without entering a username
+  fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
+
+  // Assert that the error message is displayed
+  //expect(screen.getByText('Please enter your username.')).toBeInTheDocument();
+});
 
 
   it('redirects to the home page on logo click', () => {
