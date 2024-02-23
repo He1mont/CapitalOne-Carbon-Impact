@@ -76,3 +76,13 @@ The frontend has been thoroughly tested, and all tests have successfully passed.
 npm test /src/tests
 ```
 
+### Cypress
+
+Cypress could be launched using either following command:
+
+```shell
+npm run cypress:open
+npx cypress open
+```
+
+More detailed documentation could be found [here](https://docs.cypress.io/guides/overview/why-cypress/)
