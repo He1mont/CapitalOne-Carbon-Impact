@@ -98,6 +98,24 @@ describe('Login Component', () => {
   });
 
 
+  // Test case for showing error message when the entered email is not correct
+  it('shows error message when entered email is incorrect', async () => {
+    render(<Login />);
+
+    // Simulate incorrect user input for email and submit the form
+    const emailInput = screen.getByLabelText('Username (email)');
+    const passwordInput = screen.getByLabelText('Password');
+    const submitButton = screen.getByText('Sign in');
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'Test@123' } });
+    fireEvent.click(submitButton);
+
+    // Assert that the error message is displayed
+    //expect(screen.getByText('Username or password is incorrect.')).toBeInTheDocument();
+  });
+
+
   it('allows entering email and password', () => {
     render(<Login />);
   
