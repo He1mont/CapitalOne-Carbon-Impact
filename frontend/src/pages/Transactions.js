@@ -4,6 +4,7 @@ import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
 import { useHistory ,useLocation} from 'react-router-dom';
 import * as tranAPI from '../services/transactionService';
+import Sorter from '../services/sorter';
 
 /**
  * TransactionTbl component
@@ -16,15 +17,20 @@ class TransactionTbl extends Component {
       currentCol: null,
       currentDir: 0,
       transactions: [],   // create an attribute to store all transactions
+      searchInput: '',    // input in search bar
+      searchedTransactions: [],
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClickSearch = this.handleClickSearch.bind(this);
   }
 
   // intialize transactions using tranAPI
   componentDidMount() {
     const id = this.props.id;
-    tranAPI.getTransactions(id)
+    tranAPI.getTransactions(id)   // calls Hackathon API
       .then(data => {
         this.setState({ transactions: data.Transactions });
+        this.setState({ searchedTransactions: data.Transactions });   // set default value 
       })
       .catch(error => {
         console.error('Error fetching transactions:', error);
@@ -73,12 +79,38 @@ class TransactionTbl extends Component {
     }
   }
 
+  handleInputChange(event) {
+    this.setState({searchInput: event.target.value});
+  }
+
+  handleClickSearch = async () => { 
+    try {
+      const data = await Sorter(this.state.transactions, null, null, this.state.searchInput, null);
+
+      this.setState({
+        searchedTransactions: data,
+        searchInput: ''
+      });
+    } catch (error) {
+      console.error('Error during sorting:', error);
+    }
+  }
+
+  // handleClickSearch() {
+  //   const input = this.state.searchInput
+  //   const data = this.state.transactions
+  //   this.setState({
+  //     searchedTransactions: Sorter(data, null, null, input, null),
+  //     searchInput: ''
+  //   })
+  // }
+
   render() {
     // show transaction of the corresponding month
     const { month } = this.props;
     const startOfMonth = month.clone().startOf('month');
     const endOfMonth = month.clone().endOf('month');  
-    const filteredTransactions = this.state.transactions.filter(transaction => {
+    const filteredTransactions = this.state.searchedTransactions.filter(transaction => {
       const transactionDate = moment(transaction.timestamp);
       return transactionDate.isSameOrAfter(startOfMonth) && transactionDate.isSameOrBefore(endOfMonth);
     });
@@ -87,8 +119,18 @@ class TransactionTbl extends Component {
       <div>
         {/* Search and Filter Functionality */}
         <div className={styles.transaction_btns}>
-          <input className={styles.transaction_btns_search} placeholder='Search transaction id, date or description'></input>
-          <button className={styles.transaction_btns_download}>Download transactions</button>
+          <input 
+            className={styles.transaction_btns_search} 
+            type="text"
+            value={this.state.searchInput}
+            onChange={this.handleInputChange}
+            placeholder='Search transaction id, date or description'>
+          </input>
+          <button 
+            className={styles.transaction_btns_download}
+            onClick={this.handleClickSearch}>
+              Download transactions
+          </button>
         </div>
 
         {/* Transaction Table Container */}
