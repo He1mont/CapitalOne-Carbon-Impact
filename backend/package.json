@@ -12,6 +12,7 @@
     "egg-cors": "^2.2.3",
     "egg-scripts": "2",
     "mysql2": "^3.6.5",
+    "node-fetch": "^3.3.2",
     "save": "^2.9.0",
     "unirest": "^0.6.0"
   },
@@ -20,7 +21,7 @@
     "egg-mock": "^5.10.9",
     "eslint": "8",
     "eslint-config-egg": "13",
-    "mocha": "^10.2.0"
+    "mocha": "^10.3.0"
   },
   "engines": {
     "node": ">=18.0.0"
