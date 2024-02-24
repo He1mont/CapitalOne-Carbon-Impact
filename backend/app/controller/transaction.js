@@ -38,6 +38,16 @@ class TransactionController extends Controller {
     ctx.status = 200;
     ctx.body = res;
   }
+
+  async getCarbonImpact() {
+    const { ctx, service } = this;
+    const accountID = this.ctx.params.accountID;
+    const transactionID = this.ctx.params.transactionID;
+    const res = await service.transaction.getCarbonImpact(accountID, transactionID);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
 }
 
 module.exports = TransactionController;

@@ -70,12 +70,77 @@ class TransactionService extends Service {
   }
 
   async getCarbonImpact(accountID, transactionID){
-
     // get transaction from carbon API
     // return transaction.carbon_grams
-
     try {
 
+      const hackathonResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${authJWT}`,
+                version: '1.0'
+            }
+        });
+
+        if (hackathonResponse.status === 200) {
+            // const hackathonData = hackathonResponse.data;
+
+            const carbonResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${CARBON_API_KEY}`,
+                }
+            });
+
+            const carbonData = carbonResponse.data;
+            let cardProfileID = -1;
+
+            for (const account of carbonData) {
+                if (account.data.attributes.external_id === accountID) {
+                    cardProfileID = account.data.id;
+                    break;
+                }
+            }
+
+            if (cardProfileID === -1) {
+                throw new Error("Card Profile hasn't been created for this account. Create a Card Profile first.");
+            }
+
+            const hackathonTransactionResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authJWT}`,
+                    version: '1.0',
+                },
+            });
+
+            if (hackathonTransactionResponse.status === 200) {
+                const carbonTransactionResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${CARBON_API_KEY}`,
+                    },
+                });
+
+                const carbonTransactionData = carbonTransactionResponse.data;
+                let carbonTransactionID = -1;
+
+                for (const transaction of carbonTransactionData) {
+                    if (transaction.data.attributes.external_id === transactionID) {
+                      carbonTransactionID = transaction.data.id;
+                      if (carbonTransactionID === -1) {
+                        throw new Error("Transaction data hasn't been created for this transaction.");
+                      }
+                      return transaction.data.attributes.carbon_grams;
+                    }
+                }
+
+            } else {
+                throw new Error("This transaction ID doesn't exist.");
+            }
+        } else {
+            throw new Error("This account doesn't exist.");
+        }
 
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
@@ -121,7 +186,7 @@ class TransactionService extends Service {
         });
 
         if (hackathonResponse.status === 200) {
-            const hackathonData = hackathonResponse.data;
+            // const hackathonData = hackathonResponse.data;
 
             const carbonResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
                 headers: {
@@ -131,16 +196,16 @@ class TransactionService extends Service {
             });
 
             const carbonData = carbonResponse.data;
-            let accountCarbonID = -1;
+            let cardProfileID = -1;
 
             for (const account of carbonData) {
                 if (account.data.attributes.external_id === accountID) {
-                    accountCarbonID = account.data.id;
+                    cardProfileID = account.data.id;
                     break;
                 }
             }
 
-            if (accountCarbonID === -1) {
+            if (cardProfileID === -1) {
                 throw new Error("Card Profile hasn't been created for this account. Create a Card Profile first.");
             }
 
@@ -191,7 +256,7 @@ class TransactionService extends Service {
                 }
 
                 const transactionData = {
-                    accountCarbonID: accountCarbonID,
+                    cardProfileID: cardProfileID,
                     transaction: {
                         amount_cents: transaction.amount * 100,
                         currency: "USD",
@@ -206,7 +271,7 @@ class TransactionService extends Service {
                     }
                 };
 
-                const addTransactionResponse = await axios.post(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${accountCarbonID}/transactions`, transactionData.transaction, {
+                const addTransactionResponse = await axios.post(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`, transactionData.transaction, {
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${CARBON_API_KEY}`,
