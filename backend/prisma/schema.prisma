@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model UserGoals {
+  id    Int    @id @default(autoincrement())
+  name  String
+  accountID Int
+  goal  Int
+  username String @unique
+  totalCarbonScore Float @unique
+  friends1   Friends[] @relation("FriendUser")
+  friends2   Friends[] @relation("FriendScore")
+}
+model Transaction {
+  id        Int     @id @default(autoincrement())
+  transactionUUID String @unique
+  accountID     Int
+  carbonScore Float 
+}
+model Friends{
+  id        Int     @id @default(autoincrement())
+  username String
+  usernameID  UserGoals @relation("FriendUser",fields: [username],references: [username])
+  totalCarbonScore Float
+  score    UserGoals    @relation("FriendScore",fields: [totalCarbonScore], references: [totalCarbonScore])
+}
+
