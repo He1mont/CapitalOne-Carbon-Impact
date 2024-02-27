@@ -374,38 +374,50 @@
     ```
 
 
-## Carbon emission goal
+## Carbon Goal
+### 9. Create a goal
 
-### Get the goal by ?
+- POST `/carbon-goal/create/:accountID/{goal}`
 
-- GET `/user/goal/?`
+    - `goal`: Int
+    - Store in the database `UserGoals`
 
-### Set the goal
+### 10. Get the goal by accountID
 
-- POST `/user/goal/:?/{goal}`
+- GET `/carbon-goal/get/:accountID`
 
-### Modify the goal
+### 11. Modify the goal
 
-- POST `/user/goal/:?/{goal}`
+- POST `/carbon-goal/update/:accountID/{goal}`
 
-### Delete the goal
+### 12. Delete the goal
 
-- DELETE `/user/goal/:?`
+- DELETE `/carbon-goal/delete/:accountID`
 
 
+## Carbon Impact
+### 13. Calculate the carbon impact for one transaction
 
-## Emission factor
+- POST `/carbon-footprint/calculate-one/:accountID/:transactionID`
 
-### Store emission factor into database
+    - Store in the database `Transaction`
 
-- POST `/factor/update`
+### 14. Calculate the total carbon impact
 
-### Get em from db by factorID
+- GET `/carbon-footprint/get-all/:accountID`
 
-- GET `/factor/:factorID`
+    - Using the carbon score stored in the database `Transaction`
 
-### Calculate carbon emissions for a certain transaction
 
-- GET `/transaction/footprint/:accountID/:transactionID`
+## Friends
+### 15. Create a username
 
+- POST `/friend/create-username/:accountID`
+
+    - Automatically generate a username
+    - Store in the database `Friend`
+
+### 16. Get the accountID by username
+
+- GET `/friend/get-id/:username`
 
