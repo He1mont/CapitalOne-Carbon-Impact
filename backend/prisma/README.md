@@ -6,7 +6,7 @@
 
 - using port `127.0.0.1:3306`
 
-- create user with privelleges to edit the SQL database the username and password will be needed fpr the `DATABASE-URL`
+- create user with privileges to edit the SQL database the username and password will be needed fpr the `DATABASE-URL`
 
 - create a `.env` file
 
