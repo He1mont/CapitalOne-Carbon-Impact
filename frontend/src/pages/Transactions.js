@@ -21,6 +21,7 @@ class TransactionTbl extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClickSearch = this.handleClickSearch.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   // intialize transactions using tranAPI
@@ -98,6 +99,12 @@ class TransactionTbl extends Component {
     }
   }
 
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.handleClickSearch();
+    }
+  }
+
   render() {
     // show transaction of the corresponding month
     const { month } = this.props;
@@ -117,6 +124,7 @@ class TransactionTbl extends Component {
             type="text"
             value={this.state.searchInput}
             onChange={this.handleInputChange}
+            onKeyPress={this.handleKeyPress}
             placeholder='Search transaction id, date or description'>
           </input>
           <button 
