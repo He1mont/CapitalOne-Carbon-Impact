@@ -18,7 +18,6 @@ class TransactionTbl extends Component {
       currentDir: 0,
       transactions: [],   // create an attribute to store all transactions
       searchInput: '',    // input in search bar
-      searchedTransactions: [],
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClickSearch = this.handleClickSearch.bind(this);
@@ -30,10 +29,10 @@ class TransactionTbl extends Component {
     tranAPI.getTransactions(id)   // calls Hackathon API
       .then(data => {
         this.setState({ transactions: data.Transactions });
-        this.setState({ searchedTransactions: data.Transactions });   // set default value 
       })
       .catch(error => {
         console.error('Error fetching transactions:', error);
+        this.setState({ transactions: [] });    // set transactions to empty list when failed to call Hack-API
       });
   }
 
@@ -45,25 +44,28 @@ class TransactionTbl extends Component {
     return `${day}/${month}`;
   }
 
-  changeSort = (col) => {
+  changeSort = async(col) => {
     const column = parseInt(col, 10);
     const { currentCol, currentDir } = this.state;
   
+    let newTransactions;
     let newDir;
     if (currentCol !== column) {
       newDir = 1;
+      newTransactions = await Sorter(this.state.transactions, column, true, null, null);   // true for ascending
     } else if ((currentDir + 1) <= 2) {
       newDir = currentDir + 1;
+      newTransactions = await Sorter(this.state.transactions, column, false, null, null);  // false for descending
     } else {
-      newDir = 0;
+      const data = await tranAPI.getTransactions(this.props.id)
+      newTransactions = data.Transactions
     }
-  
+
     this.setState({
       currentCol: column,
       currentDir: newDir,
+      transactions: newTransactions
     });
-  
-    console.log(column, newDir);
   }
 
   showArrow(){
@@ -88,7 +90,7 @@ class TransactionTbl extends Component {
       const data = await Sorter(this.state.transactions, null, null, this.state.searchInput, null);
 
       this.setState({
-        searchedTransactions: data,
+        transactions: data,
         searchInput: ''
       });
     } catch (error) {
@@ -96,21 +98,12 @@ class TransactionTbl extends Component {
     }
   }
 
-  // handleClickSearch() {
-  //   const input = this.state.searchInput
-  //   const data = this.state.transactions
-  //   this.setState({
-  //     searchedTransactions: Sorter(data, null, null, input, null),
-  //     searchInput: ''
-  //   })
-  // }
-
   render() {
     // show transaction of the corresponding month
     const { month } = this.props;
     const startOfMonth = month.clone().startOf('month');
     const endOfMonth = month.clone().endOf('month');  
-    const filteredTransactions = this.state.searchedTransactions.filter(transaction => {
+    const filteredTransactions = this.state.transactions.filter(transaction => {
       const transactionDate = moment(transaction.timestamp);
       return transactionDate.isSameOrAfter(startOfMonth) && transactionDate.isSameOrBefore(endOfMonth);
     });
@@ -129,7 +122,7 @@ class TransactionTbl extends Component {
           <button 
             className={styles.transaction_btns_download}
             onClick={this.handleClickSearch}>
-              Download transactions
+              Search
           </button>
         </div>
 
