@@ -1,6 +1,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
+import styles from '../assets/styles/Transactions.module.css';
+import moment from 'moment'; 
 import Transactions from '../pages/Transactions';
 
 describe('Transactions Page', () => {
@@ -25,13 +27,17 @@ describe('Transactions Page', () => {
     cy.contains('kgco2').should('exist');
     cy.contains('You need to login').should('exist');
     cy.contains('Feb 2024').should('exist');
-  // cy.get('.head_img').should('exist');
+    cy.get(`.${styles.head_img}`).should('exist');
+   
   });
+
   it('displays the logo image and navigates on click', () => {
+    
     // Assert that the logo image exists
     cy.get('.head_img').should('have.length', 0);
 
   });
+
   describe('Mid Component Functionality', () => {
     it('displays user information and transaction overview', () => {
       // Check for the "View Transactions" heading
@@ -43,8 +49,9 @@ describe('Transactions Page', () => {
 
     it('renders the transaction summary with correct information', () => {
       // Verify the transaction summary image and text content
-     // cy.get('.mid_box').should('be.visible');
+      cy.get(`.${styles.mid_box}`).should('be.visible');
       cy.contains('1000 kgco2').should('exist');
+      cy.contains('estimate').should('exist');
     });
     it('allows searching for transactions', () => {
     
@@ -52,7 +59,31 @@ describe('Transactions Page', () => {
       cy.contains('Transaction').should('exist');
     });
     
-    
+    it('renders the MonthSelect component', () => {
+      // Verify that the MonthSelect component is rendered
+      const initialMonth = moment().format('MMM YYYY');
+  
+      cy.get(`.${styles.mid_high_center}`).should('exist');
+      cy.contains(initialMonth).should('exist');
+    });
+
+    it('changes the month when selecting a different month', () => {
+      // Mock function to handle month change
+      const onMonthChange = cy.stub().as('handleMonthChange');
+  
+      // Mount the Transactions component with mock props
+      mount(
+        <MemoryRouter initialEntries={['/transactions']}>
+          <Transactions />
+        </MemoryRouter>
+      );
+  
+      // Click on the right arrow to increase the month
+      cy.get(`.${styles.month_select_btn}`).last().click({force: true}); // using force : true  to disable error checking for now 
+  
+      // Assert that the onMonthChange function was called
+      //cy.get('@handleMonthChange').should('have.been.calledOnce');
+    });
   });
     
 

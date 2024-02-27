@@ -78,7 +78,6 @@ describe('<Goals />', () => {
     // Click on the logo to navigate to the home page
     cy.get(`.${styles.head_img}`).click();
 
-    // URL has changed to the home page
    // cy.url().should('eq', 'http://localhost:8080/');
   });
 
