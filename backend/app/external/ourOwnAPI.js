@@ -9,17 +9,21 @@ const PORT = process.env.PORT || 7001;
 app.use(express.json());
 
 // Route to create a new user goal
-//check if username is not already there if it is just goal and total carbon score
+//check if account alrady exists if not create else update
+//create 
+//update
+//delete
+//get
 app.post('/user-goals', async (req, res) => {
   const { name, accountID, goal, username, totalCarbonScore } = req.body;
   try {
     const newUserGoal = await prisma.userGoals.create({
       data: {
-        name,
+      
         accountID,
         goal,
-        username,
-        totalCarbonScore,
+        
+  
       },
     });
     res.json(newUserGoal);
@@ -32,6 +36,10 @@ app.post('/user-goals', async (req, res) => {
 // Route to create a new transaction in the database
 // are first storying the info including genere etc with blank score then calling carbon api then amending the score
 //or after the carbon score is created are we storing it in the database 
+
+
+// in the api only work out total carbon score using the account id
+
 app.post('/transactions', async (req, res) => {
   const { transactionUUID, accountID, carbonScore } = req.body;
   try {
@@ -49,24 +57,22 @@ app.post('/transactions', async (req, res) => {
   }
 });
 
-// Route to create a new friend
-app.post('/friends', async (req, res) => {
-  const { username, usernameID, totalCarbonScore, score } = req.body;
-  try {
-    const newFriend = await prisma.friends.create({
-      data: {
-        username,
-        usernameID,
-        totalCarbonScore,
-        score,
-      },
-    });
-    res.json(newFriend);
-  } catch (error) {
-    console.error('Error creating friend:', error);
-    res.status(500).json({ error: 'Failed to create friend' });
-  }
-});
+//friends
+//leaderboard page
+// search by username to get id
+//then use id to and call the total carbon score api
+//then return
+//create
+//update
+//get
+
+//if they try to set a goal make sure they have a username first
+//api to create the username which would be the first name first leter of surname and a number
+//store in the database and front end
+//get
+//update
+//delete
+//make sure unqiue 
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

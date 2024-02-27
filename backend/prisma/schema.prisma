@@ -16,13 +16,8 @@ datasource db {
 
 model UserGoals {
   id    Int    @id @default(autoincrement())
-  name  String
   accountID Int
   goal  Int
-  username String @unique
-  totalCarbonScore Float @unique
-  friends1   Friends[] @relation("FriendUser")
-  friends2   Friends[] @relation("FriendScore")
 }
 model Transaction {
   id        Int     @id @default(autoincrement())
@@ -33,8 +28,7 @@ model Transaction {
 model Friends{
   id        Int     @id @default(autoincrement())
   username String
-  usernameID  UserGoals @relation("FriendUser",fields: [username],references: [username])
-  totalCarbonScore Float
-  score    UserGoals    @relation("FriendScore",fields: [totalCarbonScore], references: [totalCarbonScore])
+  accountID Int
+
 }
 
