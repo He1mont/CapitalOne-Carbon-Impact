@@ -413,6 +413,42 @@
         {"accountID":"48151457"}
     ```
 
+## User Goals
+
+### 11. Create a user goal
+
+- POST `/userGoal/create-goal/:id/:goal`
+- if the there already is a goal for that id update the goal else create a new one
+
+- sample output
+    -  id `48151457` goal `5000`
+
+```json 
+{
+    "message":"User goal created successfully" 
+}
+```
+
+### 12. Delete a user goal
+
+- DELETE `/userGoal/delete-goal/:id`
+- id `48151457`
+ ```json 
+ {
+    "message":"User goal deleted successfully" 
+}
+ ```
+
+### 13. Get a users goal from the database
+
+- id `48151457`
+ ```json 
+{
+    "id": 1,
+    "accountID": "48151457",
+    "goal": "5000"
+}
+```
 
 ## Carbon Goal
 ### Create a goal

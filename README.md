@@ -49,6 +49,8 @@ After starting the server, access it via http://localhost:7001/.
 
 The currently implemented APIs are detailed in the [router configuration file](./backend/app/router.js). And the full API document could be found [here](./API-Schema.md)
 
+Information on how to connect the database using prism can be found [here](./backend/prisma/README.md)
+
 ### Frontend
 
 In [frontend](./frontend/) directory, the project could be started by running the following command:
