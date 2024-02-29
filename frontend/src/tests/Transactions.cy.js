@@ -14,10 +14,9 @@ describe('Transactions Page', () => {
     );
   });
 
-
   it('successfully renders the Transactions page components', () => {
-   cy.contains('View Transactions').should('exist');
-   cy.contains('Carbon Impact (kgco2)').should('exist');
+    cy.contains('View Transactions').should('exist');
+    cy.contains('Carbon Impact (kgco2)').should('exist');
     cy.contains('Date').should('exist');
     cy.contains('Category').should('exist');
     cy.contains('Amount').should('exist');
@@ -28,14 +27,12 @@ describe('Transactions Page', () => {
     cy.contains('You need to login').should('exist');
     cy.contains('Feb 2024').should('exist');
     cy.get(`.${styles.head_img}`).should('exist');
-   
   });
 
-  it('displays the logo image and navigates on click', () => {
-    
-    // Assert that the logo image exists
-    cy.get('.head_img').should('have.length', 0);
-
+  describe('Head Component Functionality', () => {
+    it('renders the logo image', () => {
+      cy.get('img').should('have.attr', 'src', '/images/Logo.png');
+    });
   });
 
   describe('Mid Component Functionality', () => {
@@ -46,13 +43,13 @@ describe('Transactions Page', () => {
       cy.contains('You need to login').should('exist');
     });
   
-
     it('renders the transaction summary with correct information', () => {
       // Verify the transaction summary image and text content
       cy.get(`.${styles.mid_box}`).should('be.visible');
       cy.contains('1000 kgco2').should('exist');
       cy.contains('estimate').should('exist');
     });
+
     it('allows searching for transactions', () => {
     
       // Check if the transactions are filtered correctly
@@ -85,7 +82,17 @@ describe('Transactions Page', () => {
       //cy.get('@handleMonthChange').should('have.been.calledOnce');
     });
   });
-    
+
+  // describe('Low Component Functionality', () => {
+  //   it('renders the whole transaction table', () => {
+  //     mount(
+  //       <MemoryRouter>
+  //         <Transactions />
+  //       </MemoryRouter>
+  //     );
+  //     cy.get('.transaction_tbl').should('exist');
+  //   });
+  // });
 
 });
 
