@@ -19,14 +19,16 @@ class AccountController extends Controller {
 
   async getByID() {
     const { ctx, service } = this;
-    const res = await service.account.getByID();
+    const id = ctx.params.id;
+    const res = await service.account.getByID(id);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
   }
   async getByEmail() {
     const { ctx, service } = this;
-    const res = await service.account.getByEmail();
+    const emailToFind = ctx.params.email;
+    const res = await service.account.getByEmail(emailToFind);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;

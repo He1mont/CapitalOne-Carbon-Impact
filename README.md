@@ -86,3 +86,19 @@ npx cypress open
 ```
 
 More detailed documentation could be found [here](https://docs.cypress.io/guides/overview/why-cypress/)
+
+
+## 4. Create Fake Data
+
+### Account and Transaction
+
+Create a random account with two transactions:
+```shell
+curl -X POST http://localhost:7001/account/create-random
+```
+
+Create five random transactions for a sepcified account:
+```shell
+curl -X POST http://localhost:7001/transaction/create-random/:accountID
+```
+
