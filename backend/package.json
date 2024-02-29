@@ -9,6 +9,7 @@
   "dependencies": {
     "@prisma/client": "^5.10.2",
     "axios": "^1.6.7",
+    "dotenv": "^16.4.5",
     "egg": "^3.17.5",
     "egg-cors": "^2.2.3",
     "egg-scripts": "2",

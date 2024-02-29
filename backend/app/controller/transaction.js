@@ -22,8 +22,8 @@ class TransactionController extends Controller {
 
   async getByID() {
     const { ctx, service } = this;
-    const accountID = this.ctx.params.accountID;
-    const transactionID = this.ctx.params.transactionID;
+    const accountID = ctx.params.accountID;
+    const transactionID = ctx.params.transactionID;
     const res = await service.transaction.getByID(accountID, transactionID);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
