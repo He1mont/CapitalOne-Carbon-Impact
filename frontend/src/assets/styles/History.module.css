@@ -158,17 +158,19 @@ html, body {
     justify-content: center;
     top: 70px;
     width: 100%;
-    min-height: 500px;
+    min-height: 550px;
+    height: auto;
     background-color: white;
     padding-bottom: 20px;
     padding-top: 30px;
 }
 .graph_category_container {
     margin-top: auto;
-    position: relative;
+    position: absolute;
     width: 70%;
     display: flex;
     justify-content: center;
+    bottom: 10px;
 }
 .graph_category_picker {
     position: relative;
@@ -178,7 +180,7 @@ html, body {
 }
 .graph_category_btn {
     z-index: 4;
-    width: 115px;
+    width: 140px;
     height: 40px;
     border-radius: 7px;
     border-color: rgb(64, 64, 64);
@@ -191,4 +193,23 @@ html, body {
     height: 20px;
     border-radius: 50%;
     background-color: rgb(172, 172, 172);
+}
+.graph_container_pie {
+  margin-top: -80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 105px;
+}
+.graph_container_line {
+  margin-top: -80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.graph_container_bar {
+  margin-top: -80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
