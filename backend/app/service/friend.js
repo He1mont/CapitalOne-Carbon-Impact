@@ -56,7 +56,7 @@ class FriendService extends Service {
         if (!friend) {
           throw new Error(
             JSON.stringify({
-              errorCode: 132,
+              errorCode: 131,
               message: "Can't find this friend.",
             })
           );
