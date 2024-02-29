@@ -142,16 +142,6 @@ class Graphs extends Component {
         this.setState({ randomNumbers: newRandomNumbers });
     };
 
-
-    handleButtonClick = (category) => {
-        this.setState(prevState => ({
-            categories: {
-                ...prevState.categories,
-                [category]: !prevState.categories[category]
-            }
-        }));
-    }
-
     handleEntertainmentButtonClick = () => {
         this.setState(prevState => ({ entertainment: !prevState.entertainment }));
     }
@@ -227,7 +217,8 @@ class Graphs extends Component {
                 />
             </div>;
         } else if (this.state.graphSelection === 2) {
-            selectedGraph = 
+            if (randomNumbers.length === monthList.length) {
+                selectedGraph = 
             <div className={styles.graph_container_line}>
                 <LineChart
                     xAxis={[{ scaleType: 'point', data: monthList.map(item => item.month) }]}
@@ -240,6 +231,10 @@ class Graphs extends Component {
                     height={400}
                 />
             </div>;
+            } else {
+                selectedGraph = null;
+            }
+            
         } else if (this.state.graphSelection === 3) {
             selectedGraph = 
             <div className={styles.graph_container_bar}>
@@ -262,7 +257,7 @@ class Graphs extends Component {
                     slotProps={{ legend: { hidden: Hidden } }}
                 />
             </div>;
-    }
+        }
     
         return (
             <div className={styles.graphs_container}>
