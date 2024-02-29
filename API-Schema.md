@@ -374,50 +374,79 @@
     ```
 
 
+## Friends
+### 9. Create a username
+
+- POST `/friend/create-username/:accountID`
+
+    - Automatically generate a username: `firstname + lastname + '_' + accountID`
+    - Store in the database `Friend`
+    - If the user already has a username, an error will be reported:
+        ```json
+            {
+                errorCode: 130,
+                message: "This user has already have a username.",
+            }
+        ```
+
+- sample output
+    - by account `48151457`
+    ```json
+        {"id":1,"username":"FelipeMcLaughlin_48151457","accountID":"48151457"}
+    ```
+
+### 10. Get the accountID by username
+
+- GET `/friend/get-id/:username`
+
+    - If the username is not exist in the database, an error will be reported:
+    ```json
+        {
+            errorCode: 131,
+            message: "Can't find this friend.",
+        }
+    ```
+
+- sample output
+    - by username `FelipeMcLaughlin_48151457`
+    ```json
+        {"accountID":"48151457"}
+    ```
+
+
 ## Carbon Goal
-### 9. Create a goal
+### Create a goal
 
 - POST `/carbon-goal/create/:accountID/{goal}`
 
     - `goal`: Int
     - Store in the database `UserGoals`
 
-### 10. Get the goal by accountID
+### Get the goal by accountID
 
 - GET `/carbon-goal/get/:accountID`
 
-### 11. Modify the goal
+### Modify the goal
 
 - POST `/carbon-goal/update/:accountID/{goal}`
 
-### 12. Delete the goal
+### Delete the goal
 
 - DELETE `/carbon-goal/delete/:accountID`
 
 
 ## Carbon Impact
-### 13. Calculate the carbon impact for one transaction
+### Calculate the carbon impact for one transaction
 
 - POST `/carbon-footprint/calculate-one/:accountID/:transactionID`
 
     - Store in the database `Transaction`
 
-### 14. Calculate the total carbon impact
+### Calculate the total carbon impact
 
 - GET `/carbon-footprint/get-all/:accountID`
 
     - Using the carbon score stored in the database `Transaction`
 
 
-## Friends
-### 15. Create a username
-
-- POST `/friend/create-username/:accountID`
-
-    - Automatically generate a username
-    - Store in the database `Friend`
-
-### 16. Get the accountID by username
-
-- GET `/friend/get-id/:username`
 
