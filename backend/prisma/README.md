@@ -22,7 +22,7 @@
 
 - Creating our own API to CREATE, UPDATE, DELETE, GET information
 
-- More details can be found [here](/backend/app/external/OwnAPI.md).
+- More details can be found [here](/API-Schema.md).
 
 ## Tables
 
