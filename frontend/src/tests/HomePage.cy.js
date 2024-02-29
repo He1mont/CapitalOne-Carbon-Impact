@@ -11,10 +11,8 @@ describe('HomePage Component', () => {
       </MemoryRouter>
     );
 
-    
     // Check if the Head component renders correctly
     cy.get('.head-bar').should('exist');
-
     cy.get('.login-btn').should('exist');
 
     // Check if the Mid component renders with default name

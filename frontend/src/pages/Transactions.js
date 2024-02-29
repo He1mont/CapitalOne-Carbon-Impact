@@ -236,17 +236,16 @@ class MonthSelect extends Component {
  */
 function Head({name,id}) {
   const history = useHistory();
-  function handleLoginClick() {
+  function handleLogoClick() {
     history.push({
       pathname: '/',
       state: { name:name, id:id }
     });
-    
   }
   return (
     <div className={styles.head_bar}>
       <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleLoginClick}/>
+        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleLogoClick}/>
       </div>
     </div>
   )
@@ -291,6 +290,7 @@ function Mid({name, month, onMonthChange}) {
  * Renders the lower section of the Transactions page, mainly comprising the TransactionTbl component.
  */
 function Low({name, id, month}) {
+  
   return (
     <div className={styles.low_bar}>
       <TransactionTbl name={name} id={id} month={month}/>
@@ -306,7 +306,7 @@ function Transactions() {
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
   const id = location.state?.id ;
-  const [month, setMonth] = useState(moment()); // 使用useState管理月份状态
+  const [month, setMonth] = useState(moment());
 
   const handleMonthChange = (newMonth) => {
     setMonth(newMonth);
@@ -322,3 +322,4 @@ function Transactions() {
 }
 
 export default Transactions;
+export { TransactionTbl };
