@@ -4,8 +4,27 @@ const authJWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsIm
 
 class TransactionService extends Service {
 
-  async getAll() {
-    const id = this.ctx.params.id;
+  async createRandom(id) {
+    const quantity = 3;
+
+    try {
+      const response = await axios.post(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/create`, {
+        quantity,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authJWT}`,
+          version: '1.0',
+        },
+      });
+      return response.data;
+
+    } catch (error) {
+      throw new Error(error.response ? error.response.data : error.message);
+    }
+  }
+
+  async getAll(id) {
     try {
       const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/transactions`, {
         headers: {
@@ -21,9 +40,7 @@ class TransactionService extends Service {
     }
   }
 
-  async getByID() {
-    const accountID = this.ctx.params.accountID;
-    const transactionID = this.ctx.params.transactionID;
+  async getByID(accountID, transactionID) {
     try {
       const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`, {
         headers: {
@@ -39,8 +56,7 @@ class TransactionService extends Service {
     }
   }
 
-  async groupByDate() {
-    const id = this.ctx.params.id;
+  async groupByDate(id) {
     try {
       const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/transactions`, {
         headers: {
@@ -52,15 +68,17 @@ class TransactionService extends Service {
 
       const groupedData = {};
 
-      response.data.Transaction.forEach(transaction => {
-        const timestamp = transaction.timestamp.split(' ')[0]; // 提取日期部分
+      if (response.data.Transaction && response.data.Transaction.length > 0) {
+        response.data.Transaction.forEach(transaction => {
+          // extract the date section
+          const timestamp = transaction.timestamp.split(' ')[0];
 
-        if (!groupedData[timestamp]) {
-          groupedData[timestamp] = [];
-        }
-
-        groupedData[timestamp].push(transaction);
-      });
+          if (!groupedData[timestamp]) {
+            groupedData[timestamp] = [];
+          }
+          groupedData[timestamp].push(transaction);
+        });
+      }
       return groupedData;
 
     } catch (error) {

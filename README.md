@@ -23,16 +23,8 @@ npm install
 ```
 
 In backend, we use the library `axios` to interact with [Hackathon API](https://hackathon.capitalone.co.uk). So we need to install `axios` beforehand.
- 
-```shell
-npm install axios
-```
 
 The `egg-mock` framework and `mocha` library is adopted as the test tools for backend. It could be installed by the following command
-
-```shell
-npm install egg-mock mocha --save-dev
-```
 
 ### Frontend
 
@@ -82,5 +74,31 @@ The frontend has been thoroughly tested, and all tests have successfully passed.
 
 ```shell
 npm test /src/tests
+```
+
+### Cypress
+
+Cypress could be launched using either following command:
+
+```shell
+npm run cypress:open
+npx cypress open
+```
+
+More detailed documentation could be found [here](https://docs.cypress.io/guides/overview/why-cypress/)
+
+
+## 4. Create Fake Data
+
+### Account and Transaction
+
+Create a random account with two transactions:
+```shell
+curl -X POST http://localhost:7001/account/create-random
+```
+
+Create five random transactions for a sepcified account:
+```shell
+curl -X POST http://localhost:7001/transaction/create-random/:accountID
 ```
 
