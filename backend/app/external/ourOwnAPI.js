@@ -15,21 +15,88 @@ app.use(express.json());
 //delete
 //get
 app.post('/user-goals', async (req, res) => {
-  const { name, accountID, goal, username, totalCarbonScore } = req.body;
+  const {accountID, goal} = req.body;
   try {
-    const newUserGoal = await prisma.userGoals.create({
-      data: {
-      
-        accountID,
-        goal,
-        
-  
-      },
+    let existingUserGoal = await prisma.userGoals.findUnique({
+      where: {
+        accountID: accountID
+      }
     });
-    res.json(newUserGoal);
+    if (existingUserGoal) {
+      // If the account already exists, update its goal
+      existingUserGoal = await prisma.userGoals.update({
+        where: {
+          accountID: accountID
+        },
+        data: {
+          goal: goal
+        }
+      });
+    } else {
+      // If the account doesn't exist, create it with the goal
+      const newUserGoal = await prisma.userGoals.create({
+        data: {
+          accountID: accountID,
+          goal: goal,
+        },
+      });
+      res.json(newUserGoal);
+    }
   } catch (error) {
-    console.error('Error creating user goal:', error);
-    res.status(500).json({ error: 'Failed to create user goal' });
+    console.error('Error creating or updating user goal:', error);
+    res.status(500).json({ error: 'Failed to create or update user goal' });
+  }
+});
+
+// API endpoint to get the goal by accountID
+app.get('/user-goals/:accountID', async (req, res) => {
+  const { accountID } = req.params;
+  try {
+    // Find the user goal by accountID
+    const userGoal = await prisma.userGoals.findUnique({
+      where: {
+        accountID: accountID
+      }
+    });
+
+    if (userGoal) {
+      // If user goal is found return 
+      res.json(userGoal);
+    } else {
+      // If user goal is not found, return a 404 Not Found error
+      res.status(404).json({ error: 'User goal not found' });
+    }
+  } catch (error) {
+    console.error('Error retrieving user goal:', error);
+    res.status(500).json({ error: 'Failed to retrieve user goal' });
+  }
+});
+// API endpoint to delete the goal by accountID
+app.delete('/delete-user-goals/:accountID', async (req, res) => {
+  const { accountID } = req.params;
+  try {
+    // Find the user goal by accountID
+    const userGoal = await prisma.userGoals.findUnique({
+      where: {
+        accountID: accountID
+      }
+    });
+
+    if (userGoal) {
+      // If user goal is found, delete it
+      await prisma.userGoals.delete({
+        where: {
+          accountID: accountID
+        }
+      });
+      res.json({ message: 'User goal deleted successfully' });
+    } else {
+      // If user goal is not found, return a 404 Not Found error
+      res.status(404).json({ error: 'User goal not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting user goal:', error);
+    res.status(500).json({ error: 'Failed to delete user goal' });
   }
 });
 

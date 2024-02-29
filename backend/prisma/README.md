@@ -6,11 +6,17 @@
 
 - using port `127.0.0.1:3306`
 
-- create user with privileges to edit the SQL database the username and password will be needed fpr the `DATABASE-URL`
+- create user with privileges to edit the SQL database the username and password will be needed for the `DATABASE-URL`
 
 - create a `.env` file
 
 - add this line to the file `DATABASE_URL="mysql://username:password@127.0.0.1:3306/databaseName"`
+
+- in your terminal do `npx prisma db push` to get all the tables created
+
+- if you made changes to the schema have to create a migrations using the command `npx prisma migrate dev --name comment on the chnage`
+
+- to see the database in a web browser use command `npx prisma studio`
 
 ## Managing the database
 

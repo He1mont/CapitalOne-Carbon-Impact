@@ -15,4 +15,7 @@ module.exports = app => {
   router.get('/transaction/group-by-date/:id', controller.transaction.groupByDate);
   router.post('/friend/create-username/:id', controller.friend.createUsername);
   router.get('/friend/get-id/:username', controller.friend.getID);
+  router.post('/userGoal/create-goal/:id/:goal', controller.userGoal.createGoal);
+  router.delete('/userGoal/delete-goal/:id', controller.userGoal.deleteUserGoal);
+  router.get('/userGoal/get-goal/:id', controller.userGoal.getUserGoal);
 };
