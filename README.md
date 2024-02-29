@@ -76,6 +76,18 @@ The frontend has been thoroughly tested, and all tests have successfully passed.
 npm test /src/tests
 ```
 
+### Cypress
+
+Cypress could be launched using either following command:
+
+```shell
+npm run cypress:open
+npx cypress open
+```
+
+More detailed documentation could be found [here](https://docs.cypress.io/guides/overview/why-cypress/)
+
+
 ## 4. Create Fake Data
 
 ### Account and Transaction
@@ -89,3 +101,4 @@ Create five random transactions for a sepcified account:
 ```shell
 curl -X POST http://localhost:7001/transaction/create-random/:accountID
 ```
+
