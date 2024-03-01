@@ -2,9 +2,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/History.module.css';
-import '../utils/Tools'
 import { useHistory ,useLocation} from 'react-router-dom';
-import getAllAccounts from '../utils/Tools';
 import { PieChart } from '@mui/x-charts';
 import { LineChart } from '@mui/x-charts';
 import { BarChart } from '@mui/x-charts';
