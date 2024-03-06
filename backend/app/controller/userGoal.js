@@ -5,7 +5,8 @@ class UserGoalController extends Controller {
     const { ctx, service } = this;
     const id = ctx.params.id;
     const goal = ctx.params.goal;
-    const res = await service.userGoal.createGoal(id, goal);
+    const month=ctx.params.month;
+    const res = await service.userGoal.createGoal(id, goal,month);
     ctx.status = 200;
     ctx.body = res;
   }

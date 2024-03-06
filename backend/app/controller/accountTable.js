@@ -1,11 +1,11 @@
 const { Controller } = require('egg');
 
-class FriendController extends Controller {
+class AccountTableController extends Controller {
 
   async createUsername() {
     const { ctx, service } = this;
     const id = ctx.params.id;
-    const res = await service.friend.createUsername(id);
+    const res = await service.accountTable.createUsername(id);
     ctx.status = 200;
     ctx.body = res;
   }
@@ -13,10 +13,10 @@ class FriendController extends Controller {
   async getID() {
     const { ctx, service } = this;
     const username = ctx.params.username;
-    const res = await service.friend.getID(username);
+    const res = await service.accountTable.getID(username);
     ctx.status = 200;
     ctx.body = res;
   }
 }
 
-module.exports = FriendController;
+module.exports = AccountTableController;

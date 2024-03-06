@@ -2,13 +2,16 @@ const Service = require("egg").Service;
 require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-
+// add a date for the goal
+//do it so it just recognises the method
+// don't need all the slashes etc
 class userGoalService extends Service {
-  async createGoal(id, goal) {
+  async createGoal(id, goal,month) {
     try {
-      let existingUserGoal = await prisma.usergoals.findUnique({
+      let existingUserGoal = await prisma.userGoals.findUnique({
         where: {
           accountID: id,
+          //check month
         },
       });
       if (existingUserGoal) {
@@ -19,12 +22,14 @@ class userGoalService extends Service {
           },
           data: {
             goal: goal,
+            month: month,
+            //have to also add the month
           },
         });
         return existingUserGoal;
       } else {
         // If the account doesn't exist, create it with the goal
-        const newUserGoal = await prisma.usergoals.create({
+        const newUserGoal = await prisma.userGoals.create({
           data: {
             accountID: id,
             goal: goal,
@@ -39,7 +44,7 @@ class userGoalService extends Service {
   async deleteUserGoal(id) {
     try {
       // Find the user goal by accountID
-      const userGoal = await prisma.usergoals.findUnique({
+      const userGoal = await prisma.userGoals.findUnique({
         where: {
           accountID: id
         }
@@ -64,7 +69,7 @@ class userGoalService extends Service {
   }
   async getUserGoals(id) {
     try {
-      const userGoal = await prisma.usergoals.findUnique({
+      const userGoal = await prisma.userGoals.findUnique({
         where: {
           accountID: id
         }
