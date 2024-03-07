@@ -61,8 +61,7 @@ class AccountService extends Service {
     }
   }
 
-  async getByID() {
-    const id = this.ctx.params.id;
+  async getByID(id) {
     try {
       const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${id}`, {
         headers: {
@@ -77,8 +76,7 @@ class AccountService extends Service {
     }
   }
 
-  async getByEmail() {
-    const emailToFind = this.ctx.params.email;
+  async getByEmail(emailToFind) {
     try {
       const response = await axios.get('https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts', {
         headers: {

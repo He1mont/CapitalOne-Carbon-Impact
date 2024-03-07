@@ -4,7 +4,7 @@
 
 ### 1. Create a random account
 
-- GET `/accounts/create-random`
+- POST `/accounts/create-random`
 
 - sample output
 
@@ -134,10 +134,99 @@
         }
     ```
 
+### 4. Get an account by email
+
+- GET `/accounts/get-by-email/:email`
+- Return the corresponding accountID if the email is found; otherwise print an error message.
+
+- sample output
+    - by email `Hunter.Schroeder@emailshere.com`
+
+    ```json
+        "04295728"
+    ```
+
 
 ## Transaction
+### 5. Create 3 random transactions by accountID
 
-### 4. Get all transactions by accountID
+- POST `/transaction/create-random/:accountID`
+
+- sample output
+    - by account `21950161`
+
+    ```json
+        {
+            "Transactions": [
+                {
+                    "transactionUUID":"02a05558-d94a-42d5-917e-fae9f40eccec",
+                    "accountUUID":"21950161",
+                    "merchantUUID":"9",
+                    "merchant":{
+                        "name":"MoonHog",
+                        "category":"Gifts & Donations",
+                        "description":"Beautiful personal cards for every occasion.",
+                        "pointOfSale":["Online"]
+                    },
+                    "amount":-1752.43,
+                    "creditDebitIndicator":"Debit",
+                    "currency":"AUD",
+                    "timestamp":"2023-12-24 17:18:05",
+                    "emoji":"🤑",
+                    "latitude":-25.031748903392394,
+                    "longitude":136.29744800030647,
+                    "status":"Successful",
+                    "message":"Court damage of 1752.43 (AUD, positive) from MoonHog",
+                    "pointOfSale":"Online"
+                },
+                {
+                    "transactionUUID":"751d6e8c-44f7-408b-8ae4-fbca0a2897ec",
+                    "accountUUID":"21950161",
+                    "merchantUUID":"5",
+                    "merchant":{
+                        "name":"Capital Two",
+                        "category":"Bills & Utilities",
+                        "description":"Credit Card Company",
+                        "pointOfSale":["Online"]
+                    },
+                    "amount":349.99,
+                    "creditDebitIndicator":"Debit",
+                    "currency":"AUD",
+                    "timestamp":"2024-02-03 21:46:28",
+                    "emoji":"💸",
+                    "latitude":-25.741535853065624,
+                    "longitude":130.63109903034177,
+                    "status":"Successful",
+                    "message":"Bills & Utilities purchase of 349.99 (AUD, negative) at Capital Two",
+                    "pointOfSale":"Online"
+                },
+                {
+                    "transactionUUID":"20134545-a6a5-46f9-a5ea-c99508dd5185",
+                    "accountUUID":"21950161",
+                    "merchantUUID":"14",
+                    "merchant":{
+                        "name":"Boardwalk Games",
+                        "category":"Entertainment",
+                        "description":"Events company specialising in board games near the sea.",
+                        "pointOfSale":["Online"]
+                    },
+                    "amount":210.26,
+                    "creditDebitIndicator":"Debit",
+                    "currency":"AUD",
+                    "timestamp":"2023-09-07 22:51:28",
+                    "emoji":"🥰",
+                    "latitude":-27.648646211296764,
+                    "longitude":134.07231799868683,
+                    "status":"Successful",
+                    "message":"Entertainment purchase of 210.26 (AUD, negative) at Boardwalk Games",
+                    "catointOfSale":"Online"
+                },
+            ]
+        }
+    ``` 
+
+
+### 6. Get all transactions by accountID
 
 - GET `/transaction/get-all/:accountID`
 
@@ -191,8 +280,7 @@
         }
     ```
 
-
-### 5. Get a transaction by accountID and transactionID
+### 7. Get a transaction by accountID and transactionID
 
 - GET `/transaction/get-by-id/:accountID/:transactionID`
 
@@ -227,7 +315,7 @@
         }
     ```
 
-### 6. Group transaction by date
+### 8. Group daily transactions by accountID
 
 - GET `/transactions/group-by-date/:accountID`
 
@@ -286,29 +374,21 @@
     ```
 
 
-## Login
-
-### 7. Request for login
-
-- POST `/login/{login_content}`
-
-
-
 ## Carbon emission goal
 
-### 8. Get the goal by ?
+### Get the goal by ?
 
 - GET `/user/goal/?`
 
-### 9. Set the goal
+### Set the goal
 
 - POST `/user/goal/:?/{goal}`
 
-### 10. Modify the goal
+### Modify the goal
 
 - POST `/user/goal/:?/{goal}`
 
-### 11. Delete the goal
+### Delete the goal
 
 - DELETE `/user/goal/:?`
 
@@ -316,15 +396,15 @@
 
 ## Emission factor
 
-### 12. Store emission factor into database
+### Store emission factor into database
 
 - POST `/factor/update`
 
-### 13. Get em from db by factorID
+### Get em from db by factorID
 
 - GET `/factor/:factorID`
 
-### 14. Calculate carbon emissions for a certain transaction
+### Calculate carbon emissions for a certain transaction
 
 - GET `/transaction/footprint/:accountID/:transactionID`
 

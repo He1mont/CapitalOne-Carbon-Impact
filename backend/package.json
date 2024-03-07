@@ -11,9 +11,11 @@
     "egg": "^3.17.5",
     "egg-cors": "^2.2.3",
     "egg-scripts": "2",
+    "jest": "^29.7.0",
     "mysql2": "^3.6.5",
     "node-fetch": "^3.3.2",
     "save": "^2.9.0",
+    "sinon": "^17.0.1",
     "unirest": "^0.6.0"
   },
   "devDependencies": {
