@@ -1,4 +1,4 @@
-const Service = require("egg").Service;
+const Service = require('egg').Service;
 require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
@@ -15,7 +15,7 @@ class userGoalService extends Service {
       });
       if (existingUserGoal) {
         // If the account already exists, update its goal
-        existingUserGoal = await prisma.usergoals.update({
+        existingUserGoal = await prisma.userGoals.update({
           where: {
             accountID: id,
             month: month,
@@ -52,7 +52,7 @@ class userGoalService extends Service {
 
       if (userGoal) {
         // If user goal is found, delete it
-        await prisma.usergoals.delete({
+        await prisma.userGoals.delete({
           where: {
             accountID: id,
 
@@ -68,10 +68,10 @@ class userGoalService extends Service {
       return { error: 'Failed to delete user goal' };
     }
   }
-  //might have to change don;t know if we want to get the goals for all the months or the current month
+  //might have to change don't know if we want to get the goals for all the months or the current month
   async getUserGoals(id) {
     try {
-      const userGoal = await prisma.userGoals.findUnique({
+      const userGoal = await prisma.userGoals.findMany({
         where: {
           accountID: id,
           

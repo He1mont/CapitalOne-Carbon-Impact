@@ -1,6 +1,7 @@
 const { Controller } = require("egg");
 
 class UserGoalController extends Controller {
+
   async createGoal() {
     const { ctx, service } = this;
     const id = ctx.params.id;
@@ -11,7 +12,7 @@ class UserGoalController extends Controller {
     ctx.body = res;
   }
 
-  async userGoal() {
+  async userGoals() {
     const { ctx, service } = this;
     const id = ctx.params.id;
 
