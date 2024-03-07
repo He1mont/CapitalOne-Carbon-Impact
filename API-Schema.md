@@ -414,61 +414,46 @@
     ```
 
 ## User Goals
-
 ### 11. Create a user goal
 
-- POST `/userGoal/create-goal/:id/:goal`
-- if the there already is a goal for that id update the goal else create a new one
+- POST `/userGoal/create-goal/:accountID/:goal`
+    - if there already is a goal for that id update the goal else create a new one
 
 - sample output
     -  id `48151457` goal `5000`
 
-```json 
-{
-    "message":"User goal created successfully" 
-}
-```
+    ```json 
+    {
+        "message":"User goal created successfully" 
+    }
+    ```
 
 ### 12. Delete a user goal
 
-- DELETE `/userGoal/delete-goal/:id`
-- id `48151457`
- ```json 
- {
-    "message":"User goal deleted successfully" 
-}
- ```
+- DELETE `/userGoal/delete-goal/:accountID`
+
+- sample output
+    - id `48151457`
+    ```json 
+    {
+        "message":"User goal deleted successfully" 
+    }
+    ```
 
 ### 13. Get a users goal from the database
 
-- id `48151457`
- ```json 
-{
-    "id": 1,
-    "accountID": "48151457",
-    "goal": "5000"
-}
-```
+- GET `/userGoal/get-goal/:accountID`
 
-## Carbon Goal
-### Create a goal
+- sample output
+    - id `48151457`
+    ```json 
+    {
+        "id": 1,
+        "accountID": "48151457",
+        "goal": "5000"
+    }
+    ```
 
-- POST `/carbon-goal/create/:accountID/{goal}`
-
-    - `goal`: Int
-    - Store in the database `UserGoals`
-
-### Get the goal by accountID
-
-- GET `/carbon-goal/get/:accountID`
-
-### Modify the goal
-
-- POST `/carbon-goal/update/:accountID/{goal}`
-
-### Delete the goal
-
-- DELETE `/carbon-goal/delete/:accountID`
 
 
 ## Carbon Impact

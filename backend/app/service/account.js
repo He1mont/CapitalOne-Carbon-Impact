@@ -8,7 +8,9 @@ class AccountService extends Service {
     const quantity = 1;
     const numTransactions = 2;
     const liveBalance = false;
+    const account = null;
 
+    // Create an account through Hackathon API
     try {
       const response = await axios.post('https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/create', {
         quantity,
@@ -21,11 +23,31 @@ class AccountService extends Service {
           version: '1.0',
         },
       });
-      return response.data;
+      account = response.data
 
     } catch (error) {
+      error.message = "Error when generating the account.";
       throw new Error(error.response ? error.response.data : error.message);
     }
+
+    // Create username for the new account
+    try {
+      const randomNumber = Math.random()*10;
+      const userName = account.firstname + account.lastname[0] + randomNumber;
+
+      // Store the username into database
+      await prisma.account.create({
+          data: {
+          username: userName,
+          accountID: account.accountID,
+          },
+      });
+    } catch (error) {
+        error.message = "Error when creating the username.";
+        throw new Error(error.response ? error.response.data : error.message);
+    }
+
+    return account;
   }
 
   async getAll() {
