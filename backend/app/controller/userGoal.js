@@ -5,31 +5,38 @@ class UserGoalController extends Controller {
     const { ctx, service } = this;
     const id = ctx.params.id;
     const goal = ctx.params.goal;
-    const month=ctx.params.month;
-    const res = await service.userGoal.createGoal(id, goal,month);
+    const month = ctx.params.month;
+    const res = await service.userGoal.createGoal(id, goal, month);
     ctx.status = 200;
     ctx.body = res;
   }
 
-  async deleteUserGoal() {
+  async userGoal() {
     const { ctx, service } = this;
     const id = ctx.params.id;
-    const res = await service.userGoal.deleteUserGoal(id);
-    ctx.status = 200;
-    ctx.body = res;
-  }
-  async getUserGoal() {
-    const { ctx, service } = this;
-    const id = ctx.params.id;
-    const userGoal = await service.userGoal.getUserGoals(id);
-    if (userGoal) {
-      ctx.status = 200;
-      ctx.body = userGoal;
-    } else {
-      ctx.status = 404;
-      ctx.body = { error: "User goal not found" };
+
+    switch (ctx.method) {
+      case "DELETE":
+        const deleteRes = await service.userGoal.deleteUserGoal(id);
+        ctx.status = 200;
+        ctx.body = deleteRes;
+        break;
+      case "GET":
+        const userGoal = await service.userGoal.getUserGoals(id);
+        if (userGoal) {
+          ctx.status = 200;
+          ctx.body = userGoal;
+        } else {
+          ctx.status = 404;
+          ctx.body = { error: "User goal not found" };
+        }
+        break;
+      default:
+        ctx.status = 405; 
+        ctx.body = { error: "Method not allowed" };
     }
   }
+
 }
 
 module.exports = UserGoalController;

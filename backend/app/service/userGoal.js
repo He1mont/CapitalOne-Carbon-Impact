@@ -2,15 +2,14 @@ const Service = require("egg").Service;
 require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-// add a date for the goal
-//do it so it just recognises the method
-// don't need all the slashes etc
+
 class userGoalService extends Service {
   async createGoal(id, goal,month) {
     try {
       let existingUserGoal = await prisma.userGoals.findUnique({
         where: {
           accountID: id,
+          month:month,
           //check month
         },
       });
@@ -19,10 +18,10 @@ class userGoalService extends Service {
         existingUserGoal = await prisma.usergoals.update({
           where: {
             accountID: id,
+            month: month,
           },
           data: {
             goal: goal,
-            month: month,
             //have to also add the month
           },
         });
@@ -33,6 +32,7 @@ class userGoalService extends Service {
           data: {
             accountID: id,
             goal: goal,
+            month: month,
           },
         });
         return newUserGoal;
@@ -54,7 +54,8 @@ class userGoalService extends Service {
         // If user goal is found, delete it
         await prisma.usergoals.delete({
           where: {
-            accountID: id
+            accountID: id,
+
           }
         });
         return { message: 'User goal deleted successfully' };
@@ -67,11 +68,13 @@ class userGoalService extends Service {
       return { error: 'Failed to delete user goal' };
     }
   }
+  //might have to change don;t know if we want to get the goals for all the months or the current month
   async getUserGoals(id) {
     try {
       const userGoal = await prisma.userGoals.findUnique({
         where: {
-          accountID: id
+          accountID: id,
+          
         }
       });
       return userGoal;
