@@ -374,38 +374,100 @@
     ```
 
 
-## Carbon emission goal
+## Friends
+### 9. Create a username
 
-### Get the goal by ?
+- POST `/friend/create-username/:accountID`
 
-- GET `/user/goal/?`
+    - Automatically generate a username: `firstname + lastname + '_' + accountID`
+    - Store in the database `Friend`
+    - If the user already has a username, an error will be reported:
+        ```json
+            {
+                errorCode: 130,
+                message: "This user has already have a username.",
+            }
+        ```
 
-### Set the goal
+- sample output
+    - by account `48151457`
+    ```json
+        {"id":1,"username":"FelipeMcLaughlin_48151457","accountID":"48151457"}
+    ```
 
-- POST `/user/goal/:?/{goal}`
+### 10. Get the accountID by username
 
-### Modify the goal
+- GET `/friend/get-id/:username`
 
-- POST `/user/goal/:?/{goal}`
+    - If the username is not exist in the database, an error will be reported:
+    ```json
+        {
+            errorCode: 131,
+            message: "Can't find this friend.",
+        }
+    ```
 
-### Delete the goal
+- sample output
+    - by username `FelipeMcLaughlin_48151457`
+    ```json
+        {"accountID":"48151457"}
+    ```
 
-- DELETE `/user/goal/:?`
+## User Goals
+### 11. Create a user goal
+
+- POST `/userGoal/create-goal/:accountID/:goal`
+    - if there already is a goal for that id update the goal else create a new one
+
+- sample output
+    -  id `48151457` goal `5000`
+
+    ```json 
+    {
+        "message":"User goal created successfully" 
+    }
+    ```
+
+### 12. Delete a user goal
+
+- DELETE `/userGoal/delete-goal/:accountID`
+
+- sample output
+    - id `48151457`
+    ```json 
+    {
+        "message":"User goal deleted successfully" 
+    }
+    ```
+
+### 13. Get a users goal from the database
+
+- GET `/userGoal/get-goal/:accountID`
+
+- sample output
+    - id `48151457`
+    ```json 
+    {
+        "id": 1,
+        "accountID": "48151457",
+        "goal": "5000"
+    }
+    ```
 
 
 
-## Emission factor
+## Carbon Impact
+### Calculate the carbon impact for one transaction
 
-### Store emission factor into database
+- POST `/carbon-footprint/calculate-one/:accountID/:transactionID`
 
-- POST `/factor/update`
+    - Store in the database `Transaction`
 
-### Get em from db by factorID
+### Calculate the total carbon impact
 
-- GET `/factor/:factorID`
+- GET `/carbon-footprint/get-all/:accountID`
 
-### Calculate carbon emissions for a certain transaction
+    - Using the carbon score stored in the database `Transaction`
 
-- GET `/transaction/footprint/:accountID/:transactionID`
 
 

@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model friendship {
+  id       Int    @id @default(autoincrement())
+  userID   String @unique //foreign keys join (friend account id and name) // Account ID of the user
+  friendID String @unique
+  friend account @relation("Friends", fields: [friendID], references: [accountID])
+}
+
+model transaction {
+  id              Int     @id @default(autoincrement())
+  transactionUUID String  @unique(map: "Transaction_transactionUUID_key") //add a date range
+  accountID       String  @unique
+  account         account @relation(fields: [accountID], references: [accountID])
+  carbonScore     Float
+  date            String 
+  category        String
+  merchantName    String
+  amount          Float
+}
+
+model userGoals {
+  id        Int     @id @default(autoincrement())
+  accountID String  @unique
+  account   account @relation(fields: [accountID], references: [accountID])
+  goal      String
+  month     String
+}
+
+model account {
+  id        Int    @id @default(autoincrement())
+  username  String
+  accountID String @unique
+
+  userID      userGoals? 
+  transaction transaction?
+
+  friend friendship? @relation("Friends")
+}
