@@ -15,6 +15,7 @@ numTransactions = input("Please enter the number of transactions: ")
 liveBalance = False
 payload = json.dumps({"quantity": quantity, "numTransactions": numTransactions, "liveBalance": liveBalance})
 
-response = requests.post("https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/create", headers=headers, data=payload).text
-json_response = json.loads(response)
-print(json_response)
+response = requests.post("https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/create", headers=headers, data=payload)
+print(response) 
+json_response = json.loads(response.text)
+

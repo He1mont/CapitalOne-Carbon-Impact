@@ -69,6 +69,7 @@ class userGoalService extends Service {
     }
   }
   //might have to change don't know if we want to get the goals for all the months or the current month
+  //just business logic
   async getUserGoals(id) {
     try {
       const userGoal = await prisma.userGoals.findMany({

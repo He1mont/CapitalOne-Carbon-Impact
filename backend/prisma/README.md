@@ -10,13 +10,29 @@
 
 - create a `.env` file
 
-- add this line to the file `DATABASE_URL="mysql://username:password@127.0.0.1:3306/databaseName"`
+- add this line to the file
 
-- in your terminal do `npx prisma db push` to get all the tables created
+ ```shell
+ DATABASE_URL="mysql://username:password@127.0.0.1:3306/databaseName"
+ ```
 
-- if you made changes to the schema have to create a migrations using the command `npx prisma migrate dev --name comment on the chnage`
+- to get all the tables created to show in SQL workbench
 
-- to see the database in a web browser use command `npx prisma studio`
+ ```shell
+ npx prisma db push
+ ```
+
+- if you made changes to the schema have to create a migrations using the command
+
+```shell
+npx prisma migrate dev --name comment on the change
+```
+
+- to see the database in a web browser use command
+
+```shell
+npx prisma studio
+```
 
 ## Managing the database
 
