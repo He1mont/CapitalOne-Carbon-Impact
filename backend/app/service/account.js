@@ -1,6 +1,9 @@
 const Service = require('egg').Service;
 const axios = require('axios');
 const authJWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsImFwaV9zdWIiOiI5ZmViZWE1ZmQ1MjgxZjY2Y2QxMDY4NTg0MzJmZjRmYzU1YzMxNTBlYzEwZTMzY2NmZGJlZTljODFmZTAxOWRiMTcxNzIwMDAwMDAwMCIsInBsYyI6IjVkY2VjNzRhZTk3NzAxMGUwM2FkNjQ5NSIsImV4cCI6MTcxNzIwMDAwMCwiZGV2ZWxvcGVyX2lkIjoiOWZlYmVhNWZkNTI4MWY2NmNkMTA2ODU4NDMyZmY0ZmM1NWMzMTUwZWMxMGUzM2NjZmRiZWU5YzgxZmUwMTlkYiJ9.XkBwptx8AlmawzOqgGfGh0E6BvI_WDZv-oHWVHmUWtPhBcEKC051nJt0yhRCWq0Ce3Fu_T4cd7WzQQr8uiHG09_42xsq78jzHb0m0-o3CY9aK4ChbXfAHcg7yPDmuHZbaG4168F1BB3hU-w4XZgcfFZL85OM-NMVuVcQt12-H3gsebLGSfsjXnf3dn0XZAScXQFff9zuri18_krnmTyEI2RVhChOHcQpNZMZBKLo8yjQ-OYOjGSSIrqNoXsuXeQUc3he8bhROf0yD5c6bUVRQzNrB1Zda3AGH5MysxIQI7h4YvkoEtjh1If-QQ1lkLhlHxUPBBmvDAortiQHEtua9w';
+require("dotenv").config();
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 class AccountService extends Service {
 
@@ -8,10 +11,10 @@ class AccountService extends Service {
     const quantity = 1;
     const numTransactions = 2;
     const liveBalance = false;
-    const account = null;
+    let account = null;
 
-    // Create an account through Hackathon API
     try {
+      // Create an account through Hackathon API
       const response = await axios.post('https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/create', {
         quantity,
         numTransactions,
@@ -23,27 +26,21 @@ class AccountService extends Service {
           version: '1.0',
         },
       });
-      account = response.data
 
-    } catch (error) {
-      error.message = "Error when generating the account.";
-      throw new Error(error.response ? error.response.data : error.message);
-    }
+      account = response.data.Accounts[0]
 
-    // Create username for the new account
-    try {
-      const randomNumber = Math.random()*10;
+      // Create username for the new account
+      const randomNumber = Math.floor(Math.random() * 90000) + 10000;
       const userName = account.firstname + account.lastname[0] + randomNumber;
 
       // Store the username into database
       await prisma.account.create({
           data: {
           username: userName,
-          accountID: account.accountID,
+          accountID: account.accountId,
           },
       });
     } catch (error) {
-        error.message = "Error when creating the username.";
         throw new Error(error.response ? error.response.data : error.message);
     }
 
