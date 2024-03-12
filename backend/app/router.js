@@ -13,8 +13,9 @@ module.exports = app => {
   router.get('/transaction/get-all/:id', controller.transaction.getAll);
   router.get('/transaction/get-by-id/:accountID/:transactionID', controller.transaction.getByID);
   router.get('/transaction/group-by-date/:id', controller.transaction.groupByDate);
+  router.get('/transaction/get-carbon-impact/:accountID/:transactionID', controller.transaction.getCarbonImpact);
   router.get('/friend/get-id/:username', controller.accountTable.getID);
   router.post('/userGoal/create-goal/:id/:goal/:month', controller.userGoal.createGoal);
-  router.delete('/userGoal/delete-goal/:id', controller.userGoal.deleteUserGoal);
-  router.get('/userGoal/get-goal/:id', controller.userGoal.getUserGoal);
+  router.delete('/userGoal/:id', controller.userGoal.userGoals);
+  router.get('/userGoal/:id', controller.userGoal.userGoals);
 };

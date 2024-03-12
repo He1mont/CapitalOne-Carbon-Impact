@@ -4,6 +4,7 @@ import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
 import { useHistory ,useLocation} from 'react-router-dom';
 import * as tranAPI from '../services/transactionService';
+import Sorter from '../services/sorter';
 
 /**
  * TransactionTbl component
@@ -16,18 +17,23 @@ class TransactionTbl extends Component {
       currentCol: null,
       currentDir: 0,
       transactions: [],   // create an attribute to store all transactions
+      searchInput: '',    // input in search bar
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClickSearch = this.handleClickSearch.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   // intialize transactions using tranAPI
   componentDidMount() {
     const id = this.props.id;
-    tranAPI.getTransactions(id)
+    tranAPI.getTransactions(id)   // calls Hackathon API
       .then(data => {
         this.setState({ transactions: data.Transactions });
       })
       .catch(error => {
         console.error('Error fetching transactions:', error);
+        this.setState({ transactions: [] });    // set transactions to empty list when failed to call Hack-API
       });
   }
 
@@ -39,25 +45,28 @@ class TransactionTbl extends Component {
     return `${day}/${month}`;
   }
 
-  changeSort = (col) => {
+  changeSort = async(col) => {
     const column = parseInt(col, 10);
     const { currentCol, currentDir } = this.state;
   
+    let newTransactions;
     let newDir;
     if (currentCol !== column) {
       newDir = 1;
+      newTransactions = await Sorter(this.state.transactions, column, true, null, null);   // true for ascending
     } else if ((currentDir + 1) <= 2) {
       newDir = currentDir + 1;
+      newTransactions = await Sorter(this.state.transactions, column, false, null, null);  // false for descending
     } else {
-      newDir = 0;
+      const data = await tranAPI.getTransactions(this.props.id)
+      newTransactions = data.Transactions
     }
-  
+
     this.setState({
       currentCol: column,
       currentDir: newDir,
+      transactions: newTransactions
     });
-  
-    console.log(column, newDir);
   }
 
   showArrow() {
@@ -70,6 +79,29 @@ class TransactionTbl extends Component {
     }
     if (currentDir === 2){
       return <img src='/images/transaction-down.png' alt="down" style={{height:"15px"}}/>
+    }
+  }
+
+  handleInputChange(event) {
+    this.setState({searchInput: event.target.value});
+  }
+
+  handleClickSearch = async () => { 
+    try {
+      const data = await Sorter(this.state.transactions, null, null, this.state.searchInput, null);
+
+      this.setState({
+        transactions: data,
+        searchInput: ''
+      });
+    } catch (error) {
+      console.error('Error during sorting:', error);
+    }
+  }
+
+  handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.handleClickSearch();
     }
   }
 
@@ -87,8 +119,19 @@ class TransactionTbl extends Component {
       <div>
         {/* Search and Filter Functionality */}
         <div className={styles.transaction_btns}>
-          <input className={styles.transaction_btns_search} placeholder='Search transaction id, date or description'></input>
-          <button className={styles.transaction_btns_download}>Download transactions</button>
+          <input 
+            className={styles.transaction_btns_search} 
+            type="text"
+            value={this.state.searchInput}
+            onChange={this.handleInputChange}
+            onKeyPress={this.handleKeyPress}
+            placeholder='Search transaction id, date or description'>
+          </input>
+          <button 
+            className={styles.transaction_btns_download}
+            onClick={this.handleClickSearch}>
+              Search
+          </button>
         </div>
 
         {/* Transaction Table Container */}
@@ -193,17 +236,16 @@ class MonthSelect extends Component {
  */
 function Head({name,id}) {
   const history = useHistory();
-  function handleLoginClick() {
+  function handleLogoClick() {
     history.push({
       pathname: '/',
       state: { name:name, id:id }
     });
-    
   }
   return (
     <div className={styles.head_bar}>
       <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleLoginClick}/>
+        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleLogoClick}/>
       </div>
     </div>
   )
@@ -246,6 +288,7 @@ function Mid({name, month, onMonthChange}) {
  * Renders the lower section of the Transactions page, mainly comprising the TransactionTbl component.
  */
 function Low({name, id, month}) {
+  
   return (
     <div className={styles.low_bar}>
       <TransactionTbl name={name} id={id} month={month}/>
@@ -261,7 +304,7 @@ function Transactions() {
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
   const id = location.state?.id ;
-  const [month, setMonth] = useState(moment()); // 使用useState管理月份状态
+  const [month, setMonth] = useState(moment());
 
   const handleMonthChange = (newMonth) => {
     setMonth(newMonth);
@@ -277,3 +320,4 @@ function Transactions() {
 }
 
 export default Transactions;
+export { TransactionTbl };
