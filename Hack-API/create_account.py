@@ -32,7 +32,7 @@ def getCurrency():
 def generate_random_data():
     return {
         "accountId": ''.join(random.choices(string.digits, k=8)),
-        "firstname": random.choice(getFirstName),
+        "firstname": random.choice(getFirstName()),
         "phoneNumber": "+" + ''.join(random.choices(string.digits, k=12)),
         "developerId": ''.join(random.choices(string.digits, k=3)),
         "uci": ''.join(random.choices(string.digits, k=6)),
@@ -41,7 +41,7 @@ def generate_random_data():
         "currencyCode": random.choice(getCurrency()),
         "productType": random.choice(["Credit", "Debit"]),
         "email": ''.join(random.choices(string.ascii_lowercase, k=10)) + "@emailservice.com",
-        "lastname": random.choice(getLastName),
+        "lastname": random.choice(getLastName()),
         "homeAddress": ''.join(random.choices(string.ascii_letters + string.digits + " ", k=40)),
         "state": random.choice(["open", "closed", "suspended"]),
         "creditLimit": str(random.randint(1000, 10000)),
