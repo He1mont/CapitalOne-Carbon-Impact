@@ -9,29 +9,30 @@
 - sample output
 
     ```json
-    {
-        "Accounts": [
-            {
-                "accountId": "66512652",
-                "firstname": "Blondell",
-                "phoneNumber": "+44873425431",
-                "developerId": "123",
-                "uci": "103583",
-                "riskScore": "22",
-                "creditScore": "450",
-                "currencyCode": "GBP",
-                "productType": "Credit",
-                "email": "Blondell.Bartell@emailservice.co.uk",
-                "lastname": "Bartell",
-                "homeAddress": "72 Richard Road, Oxford, United Kingdom",
-                "state": "open",
-                "creditLimit": "1000",
-                "balance": "1000",
-                "liveBalance": "true"
-            }
-        ]
-    }
+        {
+            "firstname":"Agustin",
+            "creditScore":"253",
+            "liveBalance":"false",
+            "lastname":"Klein",
+            "accountId":"62839645",
+            "developerId":"9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
+            "phoneNumber":"+44806234270",
+            "balance":"378.0",
+            "creditLimit":"0.0",
+            "uci":"035329",
+            "riskScore":"25",
+            "state":"open",
+            "currencyCode":"GBP",
+            "email":"Agustin.Klein@bmail.com",
+            "productType":"Debit",
+            "homeAddress":"44 Mill Way, Walthamstow, United Kingdom"
+        }
     ```
+
+- There will be a username created for this user and store in the database
+   - id
+   - username
+   - accountID
 
 
 ### 2. Get all accounts

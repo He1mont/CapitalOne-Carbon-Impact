@@ -19,8 +19,8 @@ class UserGoalController extends Controller {
     switch (ctx.method) {
       case "DELETE":
         const deleteRes = await service.userGoal.deleteUserGoal(id);
-        ctx.status = 200;
-        ctx.body = deleteRes;
+        ctx.status = 204;
+        ctx.body = "";
         break;
       case "GET":
         const userGoal = await service.userGoal.getUserGoals(id);

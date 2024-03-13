@@ -6,8 +6,28 @@
 # JetBrains WebStorm #
 ######################
 .idea/
-
+run/
 
 # Node.js #
 ###########
+node_modules/
 */node_modules/
+
+# Environment #
+###############
+.env
+*-lock.json
+*-lock.yaml
+
+# Logs #
+#########
+logs/
+npm-debug.log
+yarn-error.log
+yarn.lock
+
+coverage/
+*.sw*
+*.un~
+typings/
+.nyc_output/
