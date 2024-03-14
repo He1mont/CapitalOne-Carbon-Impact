@@ -15,7 +15,7 @@ class AccountService extends Service {
 
   async createRandom() {
     const quantity = 1;
-    const numTransactions = 2;
+    const numTransactions = 0;
     const liveBalance = false;
 
     try {

@@ -22,12 +22,31 @@ class TransactionService extends Service {
         },
       });
 
-      // create a transaction in the Carbon API, attached to the user's card profile
-      for(let i=0; i<quantity; i++){
-        const tranUUID = response.data.Transactions[i].transactionUUID;
-        // console.log("tran UUID: ", tranUUID);
-        await this.addTransactionToCarbonAPI(id, tranUUID);
+      for (const item of response.data.Transactions) {
+        // create a transaction in the Carbon API, attached to the user's card profile
+        await this.addTransactionToCarbonAPI(id, item.transactionUUID);
+        
+        await prisma.transaction.create({
+          data: {
+            transactionUUID: "unique-uuid-1234",
+            accountID: "61068612", 
+            merchantName: "Sample Merchant",
+            category: "Sample Category",
+            amount: 123.45,
+            date: new Date(),  
+            carbonScore: 9.8
+            // transactionUUID: item.transactionUUID,
+            // accountID: item.accountUUID,
+            // carbonScore: 100.0,
+            // // carbonScore: this.getCarbonImpact(tran.accountUUID, tran.transactionUUID),
+            // date: date.getTime(),
+            // category: item.merchant.category, 
+            // merchantName: item.merchant.name,
+            // amount: parseFloat(item.amount)
+          }
+        });
       }
+
       return response.data
 
     } catch (error) {
@@ -68,78 +87,78 @@ class TransactionService extends Service {
     }
   }
 
-  async getCarbonImpact(accountID, transactionID){
+  async getCarbonImpact(accountID, transactionID) {
     // get transaction from carbon API
     // return transaction.carbon_grams
     try {
 
       const hackathonResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${authJWT}`,
-                version: '1.0'
-            }
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authJWT}`,
+          version: '1.0'
+        }
+      });
+
+      if (hackathonResponse.status === 200) {
+        // const hackathonData = hackathonResponse.data;
+
+        const carbonResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${CARBON_API_KEY}`,
+          }
         });
 
-        if (hackathonResponse.status === 200) {
-            // const hackathonData = hackathonResponse.data;
+        const carbonData = carbonResponse.data;
+        let cardProfileID = -1;
 
-            const carbonResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${CARBON_API_KEY}`,
-                }
-            });
-
-            const carbonData = carbonResponse.data;
-            let cardProfileID = -1;
-
-            for (const account of carbonData) {
-                if (account.data.attributes.external_id === accountID) {
-                    cardProfileID = account.data.id;
-                    break;
-                }
-            }
-
-            if (cardProfileID === -1) {
-                throw new Error("Card Profile hasn't been created for this account. Create a Card Profile first.");
-            }
-
-            const hackathonTransactionResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${authJWT}`,
-                    version: '1.0',
-                },
-            });
-
-            if (hackathonTransactionResponse.status === 200) {
-                const carbonTransactionResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${CARBON_API_KEY}`,
-                    },
-                });
-
-                const carbonTransactionData = carbonTransactionResponse.data;
-                let carbonTransactionID = -1;
-
-                for (const transaction of carbonTransactionData) {
-                    if (transaction.data.attributes.external_id === transactionID) {
-                      carbonTransactionID = transaction.data.id;
-                      if (carbonTransactionID === -1) {
-                        throw new Error("Transaction data hasn't been created for this transaction.");
-                      }
-                      return transaction.data.attributes.carbon_grams;
-                    }
-                }
-
-            } else {
-                throw new Error("This transaction ID doesn't exist.");
-            }
-        } else {
-            throw new Error("This account doesn't exist.");
+        for (const account of carbonData) {
+          if (account.data.attributes.external_id === accountID) {
+            cardProfileID = account.data.id;
+            break;
+          }
         }
+
+        if (cardProfileID === -1) {
+          throw new Error("Card Profile hasn't been created for this account. Create a Card Profile first.");
+        }
+
+        const hackathonTransactionResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authJWT}`,
+            version: '1.0',
+          },
+        });
+
+        if (hackathonTransactionResponse.status === 200) {
+          const carbonTransactionResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${CARBON_API_KEY}`,
+            },
+          });
+
+          const carbonTransactionData = carbonTransactionResponse.data;
+          let carbonTransactionID = -1;
+
+          for (const transaction of carbonTransactionData) {
+            if (transaction.data.attributes.external_id === transactionID) {
+              carbonTransactionID = transaction.data.id;
+              if (carbonTransactionID === -1) {
+                throw new Error("Transaction data hasn't been created for this transaction.");
+              }
+              return transaction.data.attributes.carbon_grams;
+            }
+          }
+
+        } else {
+          throw new Error("This transaction ID doesn't exist.");
+        }
+      } else {
+        throw new Error("This account doesn't exist.");
+      }
 
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
@@ -178,116 +197,116 @@ class TransactionService extends Service {
 
   async addTransactionToCarbonAPI(accountID, transactionID) {
     try {
-        const hackathonResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${authJWT}`,
-                version: '1.0'
-            }
+      const hackathonResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authJWT}`,
+          version: '1.0'
+        }
+      });
+
+      if (hackathonResponse.status === 200) {
+        // const hackathonData = hackathonResponse.data;
+
+        const carbonResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${CARBON_API_KEY}`,
+          }
         });
 
-        if (hackathonResponse.status === 200) {
-            // const hackathonData = hackathonResponse.data;
+        const carbonData = carbonResponse.data;
+        let cardProfileID = -1;
 
-            const carbonResponse = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${CARBON_API_KEY}`,
-                }
-            });
-
-            const carbonData = carbonResponse.data;
-            let cardProfileID = -1;
-
-            for (const account of carbonData) {
-                if (account.data.attributes.external_id === accountID) {
-                    cardProfileID = account.data.id;
-                    break;
-                }
-            }
-
-            if (cardProfileID === -1) {
-                throw new Error("Card Profile hasn't been created for this account. Create a Card Profile first.");
-            }
-
-            const transactionResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${authJWT}`,
-                    version: '1.0',
-                },
-            });
-
-            if (transactionResponse.status === 200) {
-                const transaction = transactionResponse.data;
-                let mcc;
-                switch (transaction.merchant.category) {
-                  case "Entertainment":
-                      mcc = "7996";
-                      break;
-                  case "Education":
-                      mcc = "5942";
-                      break;
-                  case "Shopping":
-                      mcc = "5691";
-                      break;
-                  case "Personal Care":
-                      mcc = "8050";
-                      break;
-                  case "Health & Fitness":
-                      mcc = "7298";
-                      break;
-                  case "Food & Dining":
-                      mcc = "5812";
-                      break;
-                  case "Gifts & Donations":
-                      mcc = "5947";
-                      break;
-                  case "Bills & Utilities":
-                      mcc = "4900";
-                      break;
-                  case "Auto & Transport":
-                      mcc = "4111";
-                      break;
-                  case "Travel":
-                      mcc = "4582";
-                      break;
-                  default:
-                      mcc = "5399";
-                }
-
-                const transactionData = {
-                    cardProfileID: cardProfileID,
-                    transaction: {
-                        amount_cents: transaction.amount * 100,
-                        currency: "USD",
-                        external_id: transaction.transactionUUID,
-                        merchant_category: transaction.merchant.category,
-                        merchant_category_code: mcc,
-                        merchant_name: transaction.merchant.name,
-                        merchant_country: "US",
-                        merchant_state: "CA",
-                        merchant_city: "San Francisco",
-                        merchant_postal_code: "90210"
-                    }
-                };
-
-                const addTransactionResponse = await axios.post(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`, transactionData.transaction, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${CARBON_API_KEY}`,
-                    },
-                });
-
-                return addTransactionResponse.data;
-            } else {
-                throw new Error("This transaction ID doesn't exist.");
-            }
-        } else {
-            throw new Error("This account doesn't exist.");
+        for (const account of carbonData) {
+          if (account.data.attributes.external_id === accountID) {
+            cardProfileID = account.data.id;
+            break;
+          }
         }
+
+        if (cardProfileID === -1) {
+          throw new Error("Card Profile hasn't been created for this account. Create a Card Profile first.");
+        }
+
+        const transactionResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authJWT}`,
+            version: '1.0',
+          },
+        });
+
+        if (transactionResponse.status === 200) {
+          const transaction = transactionResponse.data;
+          let mcc;
+          switch (transaction.merchant.category) {
+            case "Entertainment":
+              mcc = "7996";
+              break;
+            case "Education":
+              mcc = "5942";
+              break;
+            case "Shopping":
+              mcc = "5691";
+              break;
+            case "Personal Care":
+              mcc = "8050";
+              break;
+            case "Health & Fitness":
+              mcc = "7298";
+              break;
+            case "Food & Dining":
+              mcc = "5812";
+              break;
+            case "Gifts & Donations":
+              mcc = "5947";
+              break;
+            case "Bills & Utilities":
+              mcc = "4900";
+              break;
+            case "Auto & Transport":
+              mcc = "4111";
+              break;
+            case "Travel":
+              mcc = "4582";
+              break;
+            default:
+              mcc = "5399";
+          }
+
+          const transactionData = {
+            cardProfileID: cardProfileID,
+            transaction: {
+              amount_cents: transaction.amount * 100,
+              currency: "USD",
+              external_id: transaction.transactionUUID,
+              merchant_category: transaction.merchant.category,
+              merchant_category_code: mcc,
+              merchant_name: transaction.merchant.name,
+              merchant_country: "US",
+              merchant_state: "CA",
+              merchant_city: "San Francisco",
+              merchant_postal_code: "90210"
+            }
+          };
+
+          const addTransactionResponse = await axios.post(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`, transactionData.transaction, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${CARBON_API_KEY}`,
+            },
+          });
+
+          return addTransactionResponse.data;
+        } else {
+          throw new Error("This transaction ID doesn't exist.");
+        }
+      } else {
+        throw new Error("This account doesn't exist.");
+      }
     } catch (error) {
-        throw new Error(error.response ? error.response.data : error.message);
+      throw new Error(error.response ? error.response.data : error.message);
     }
   }
 
