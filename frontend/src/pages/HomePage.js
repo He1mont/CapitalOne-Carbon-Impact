@@ -43,6 +43,10 @@ function Head() {
  * Displays the middle section of the homepage, including user information and button redirecting to other pages.
  */
 function Mid({name}) {
+  const history = useHistory();
+  function handleHelpClick() {
+    history.push('/Help');
+  }
   return (
     <div className="mid-bar">
 
@@ -72,7 +76,7 @@ function Mid({name}) {
       {/* Help Button */}
       <div className="mid-low">
         <div className="mid-low-help">
-          <button className="small-help-btn">? Help</button>
+          <button className="small-help-btn-h" onClick={handleHelpClick}>? Help</button>
         </div>
       </div>
     </div>

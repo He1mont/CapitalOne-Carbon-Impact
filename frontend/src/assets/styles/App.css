@@ -122,20 +122,18 @@ html, body {
   position: absolute;
   background-color: white;
   bottom: 0px;
-  z-index: -1;
+  z-index: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
-.mid-low-help{
-  position: absolute;
-  text-align: left;
-  bottom: 10px;
-  left: 20px;
-}
-.small-help-btn{
+.small-help-btn-h{
+  z-index: 4;
   font-size: 14px;
-  border: none;
-  background-color: transparent;
   cursor: pointer;
-  color: #3d85c6;
+  /*color: #3d85c6;*/
+  color: black;
+  user-select: all;
 }
 .mid-box-login {
   /* default styles for the box */
