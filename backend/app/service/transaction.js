@@ -1,6 +1,13 @@
 const Service = require('egg').Service;
 const axios = require('axios');
+
+// for the Hackathon API
 const authJWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsImFwaV9zdWIiOiI5ZmViZWE1ZmQ1MjgxZjY2Y2QxMDY4NTg0MzJmZjRmYzU1YzMxNTBlYzEwZTMzY2NmZGJlZTljODFmZTAxOWRiMTcxNzIwMDAwMDAwMCIsInBsYyI6IjVkY2VjNzRhZTk3NzAxMGUwM2FkNjQ5NSIsImV4cCI6MTcxNzIwMDAwMCwiZGV2ZWxvcGVyX2lkIjoiOWZlYmVhNWZkNTI4MWY2NmNkMTA2ODU4NDMyZmY0ZmM1NWMzMTUwZWMxMGUzM2NjZmRiZWU5YzgxZmUwMTlkYiJ9.XkBwptx8AlmawzOqgGfGh0E6BvI_WDZv-oHWVHmUWtPhBcEKC051nJt0yhRCWq0Ce3Fu_T4cd7WzQQr8uiHG09_42xsq78jzHb0m0-o3CY9aK4ChbXfAHcg7yPDmuHZbaG4168F1BB3hU-w4XZgcfFZL85OM-NMVuVcQt12-H3gsebLGSfsjXnf3dn0XZAScXQFff9zuri18_krnmTyEI2RVhChOHcQpNZMZBKLo8yjQ-OYOjGSSIrqNoXsuXeQUc3he8bhROf0yD5c6bUVRQzNrB1Zda3AGH5MysxIQI7h4YvkoEtjh1If-QQ1lkLhlHxUPBBmvDAortiQHEtua9w';
+
+// for Prisma database
+require("dotenv").config();
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 // for the Carbon API
 const PROGRAM_UUID = "ddd7027e-2032-4fff-a721-565ac87e7869";
@@ -25,66 +32,45 @@ class TransactionService extends Service {
       for (const item of response.data.Transactions) {
         // create a transaction in the Carbon API, attached to the user's card profile
         await this.addTransactionToCarbonAPI(id, item.transactionUUID);
-        
+
         await prisma.transaction.create({
           data: {
-            transactionUUID: "unique-uuid-1234",
-            accountID: "61068612", 
-            merchantName: "Sample Merchant",
-            category: "Sample Category",
-            amount: 123.45,
-            date: new Date(),  
-            carbonScore: 9.8
-            // transactionUUID: item.transactionUUID,
-            // accountID: item.accountUUID,
-            // carbonScore: 100.0,
-            // // carbonScore: this.getCarbonImpact(tran.accountUUID, tran.transactionUUID),
-            // date: date.getTime(),
-            // category: item.merchant.category, 
-            // merchantName: item.merchant.name,
-            // amount: parseFloat(item.amount)
+            transactionUUID: item.transactionUUID,
+            accountID: item.accountUUID,
+            merchantName: item.merchant.name,
+            category: item.merchant.category,
+            amount: parseFloat(item.amount),
+            date: new Date(item.timestamp),
+            carbonScore: 100.0
           }
         });
       }
-
       return response.data
 
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
     }
-
   }
 
+  // get all transactions by accountID
   async getAll(id) {
-    try {
-      const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/transactions`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authJWT}`,
-          version: '1.0',
-        },
-      });
-      return response.data;
-
-    } catch (error) {
-      throw new Error(error.response ? error.response.data : error.message);
-    }
+    const account = await prisma.transaction.findMany({
+      where: {
+        accountID: id
+      }
+    });
+    return account
   }
 
+  // get transaction by transactionID
   async getByID(accountID, transactionID) {
-    try {
-      const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authJWT}`,
-          version: '1.0',
-        },
-      });
-      return response.data;
-
-    } catch (error) {
-      throw new Error(error.response ? error.response.data : error.message);
-    }
+    const account = await prisma.transaction.findMany({
+      where: {
+        accountID: accountID,
+        transactionUUID: transactionID,
+      }
+    });
+    return account
   }
 
   async getCarbonImpact(accountID, transactionID) {
