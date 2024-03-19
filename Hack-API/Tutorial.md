@@ -50,4 +50,25 @@
 
 3) Once all required information is entered, the details of the specific transaction (if found) in the account specified will be printed to the terminal
 
+## Create fake data without using Hack-API
+
+There are two python files for create temporary fake data of accounts and transactions.
+
+Run these files separately, it would generate an `Account.json` file and `Transaction.json` file in the current working directory, which conform to the format of Hackathon API.
+
+```shell
+python create_account.py
+python create_transaction.py
+```
+
+The default number of created accounts and transactions are `5`, and the default `accountID` of the created transactions are `12345678`. Feel free to modify it manually in function `main()`.
+
+```python
+def main():
+    numOfAccounts = 5
+
+def main():
+    numOfTransactions = 5
+    account_id = '12345678'
+```
 
