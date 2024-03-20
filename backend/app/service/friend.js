@@ -11,7 +11,6 @@ class FriendService extends Service {
         // Search username in the database
         const friend = await prisma.account.findUnique({
           where: { username: username },
-          select: { accountID: true },
         });
         
         if (friend == null) {
@@ -31,7 +30,7 @@ class FriendService extends Service {
         );
       }
   
-      // Check the friendship relation
+      // Check the following relation
       const ifFollowing = await prisma.following.findUnique({
         where: { 
           Unique_accountID_followingID: {
@@ -50,7 +49,7 @@ class FriendService extends Service {
         );
       }
 
-      // Store the friendship into database
+      // Store the following relation into database
       await prisma.following.create({
         data: {
           accountID: id,
@@ -58,8 +57,8 @@ class FriendService extends Service {
         },
       });
 
-      // Return friend's data
-      return this.service.account.getByID(friend.accountID);
+      // Return information of following user's
+      return friend;
 
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
@@ -67,13 +66,19 @@ class FriendService extends Service {
   }
 
   // then call the calculate totalcarbon score api
+  async getAll(id) {
+    const allfollowings = await prisma.following.findMany({
+      where: { accountID: id },
+      include: { account: true }
+    });
+    return allfollowings.map(item => item.account)
+  }
 
   async deleteFriend(id, username) {
     try {
       // Search username in the database
       const friend = await prisma.account.findUnique({
         where: { username: username },
-        select: { accountID: true },
       });
       
       if (friend == null) {

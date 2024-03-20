@@ -403,30 +403,59 @@
     ```
 
 - sample output
-    - by id `66666988` username `MichalB55475`
+- return following user's info
     ```json
-        {"Accounts":
-            [{
-                "creditScore":"338",
-                "firstname":"Michal",
-                "liveBalance":"false",
-                "lastname":"Block",
-                "accountId":"41972841",
-                "phoneNumber":"+44825262350",
-                "developerId":"9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
-                "balance":"600",
-                "creditLimit":"0",
-                "uci":"385239",
-                "riskScore":"70",
-                "state":"open",
-                "currencyCode":"GBP",
-                "productType":"Debit",
-                "email":"Michal.Block@sendemails.com",
-                "homeAddress":"11 Mill Way, Birmingham, United Kingdom"
-            }]
+        {
+            "firstname": "Dirk",
+            "creditScore": "513",
+            "liveBalance": "false",
+            "lastname": "Jenkins",
+            "accountId": "61187062",
+            "developerId": "9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
+            "phoneNumber": "+44800624217",
+            "balance": "349.0",
+            "creditLimit": "349.0",
+            "uci": "387869",
+            "riskScore": "73",
+            "state": "closed",
+            "currencyCode": "GBP",
+            "email": "Dirk.Jenkins@emailshere.com",
+            "productType": "Credit",
+            "homeAddress": "92 White Road, Wakefield, United Kingdom"
         }
     ```
 
+### Get all following users
+
+- GET `/friend/get-all/:id`
+- sample output
+    ```json
+    [
+        {
+            "id": 4,
+            "username": "EddyD27176",
+            "accountID": "34330204",
+            "email": "Eddy.Davis@bmail.com"
+        },
+        {
+            "id": 2,
+            "username": "BrockB60703",
+            "accountID": "44591710",
+            "email": "Brock.Bins@booglemail.co.uk"
+        },
+        {
+            "id": 3,
+            "username": "KeriC11006",
+            "accountID": "77083294",
+            "email": "Keri.Champlin@emailprovider.com"
+        }
+    ]
+    ```
+
+### Delete a following relation
+
+- DELETE `/friend/delete/:id/:username`
+- no output
 
 ## User Goals
 ### 11. Create a user goal
