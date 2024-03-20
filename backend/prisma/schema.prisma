@@ -9,7 +9,7 @@ datasource db {
 
 model account {
   id        Int    @id @default(autoincrement())
-  username  String
+  username  String @unique
   accountID String @unique
   email     String @unique
   
@@ -37,7 +37,8 @@ model following {
   accountID     String
   followingID   String
 
-  account       account @relation(fields: [accountID], references: [accountID])
+  @@unique([accountID, followingID], name: "Unique_accountID_followingID")
+  account       account @relation(fields: [followingID], references: [accountID])
 }
 
 model userGoals {

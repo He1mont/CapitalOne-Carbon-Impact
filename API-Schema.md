@@ -376,43 +376,57 @@
 
 
 ## Friends
-### 9. Create a username
+### 10. Add a friend by username
 
-- POST `/friend/create-username/:accountID`
-
-    - Automatically generate a username: `firstname + lastname + '_' + accountID`
-    - Store in the database `Friend`
-    - If the user already has a username, an error will be reported:
-        ```json
-            {
-                errorCode: 130,
-                message: "This user has already have a username.",
-            }
-        ```
-
-- sample output
-    - by account `48151457`
-    ```json
-        {"id":1,"username":"FelipeMcLaughlin_48151457","accountID":"48151457"}
-    ```
-
-### 10. Get the accountID by username
-
-- GET `/friend/get-id/:username`
+- POST `/friend/add-by-username/:id/:username`
 
     - If the username is not exist in the database, an error will be reported:
     ```json
         {
             errorCode: 131,
-            message: "Can't find this friend.",
+            message: "Can't find this friend: " + username,
+        }
+    ```
+    - If the user search his own username:
+    ```json
+        {
+            errorCode: 132,
+            message: "Can't add yourself as friends.",
+        }
+    ```
+    - If these two users are already friends
+    ```json
+        {
+            errorCode: 133,
+            message: "This user is already your friend.",
         }
     ```
 
 - sample output
-    - by username `FelipeMcLaughlin_48151457`
+    - by id `66666988` username `MichalB55475`
     ```json
-        {"accountID":"48151457"}
+        {"Accounts":
+            [{
+                "creditScore":"338",
+                "firstname":"Michal",
+                "liveBalance":"false",
+                "lastname":"Block",
+                "accountId":"41972841",
+                "phoneNumber":"+44825262350",
+                "developerId":"9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
+                "balance":"600",
+                "creditLimit":"0",
+                "uci":"385239",
+                "riskScore":"70",
+                "state":"open",
+                "currencyCode":"GBP",
+                "productType":"Debit",
+                "email":"Michal.Block@sendemails.com",
+                "homeAddress":"11 Mill Way, Birmingham, United Kingdom"
+            }]
+        }
     ```
+
 
 ## User Goals
 ### 11. Create a user goal
@@ -460,15 +474,9 @@
 ## Carbon Impact
 ### Calculate the carbon impact for one transaction
 
-- POST `/carbon-footprint/calculate-one/:accountID/:transactionID`
+- POST 
 
     - Store in the database `Transaction`
 
 ### Calculate the total carbon impact
-
-- GET `/carbon-footprint/get-all/:accountID`
-
-    - Using the carbon score stored in the database `Transaction`
-
-
 

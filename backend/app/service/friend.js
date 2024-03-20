@@ -1,0 +1,102 @@
+const Service = require('egg').Service;
+// Load environment variables in the .env file
+require('dotenv').config();
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+class FriendService extends Service {
+
+  async addByUsername(id, username) {
+    try {
+        // Search username in the database
+        const friend = await prisma.account.findUnique({
+          where: { username: username },
+          select: { accountID: true },
+        });
+        
+        if (friend == null) {
+          throw new Error(
+            JSON.stringify({
+              errorCode: 131,
+              message: "Can't find this friend: " + username,
+            })
+          );
+        }
+        if (friend.accountID == id) {
+        throw new Error(
+          JSON.stringify({
+            errorCode: 132,
+            message: "Can't add yourself as friends.",
+          })
+        );
+      }
+  
+      // Check the friendship relation
+      const ifFollowing = await prisma.following.findUnique({
+        where: { 
+          Unique_accountID_followingID: {
+            accountID: id,
+            followingID: friend.accountID,
+          }
+        },
+      });
+
+      if (ifFollowing) {
+        throw new Error(
+          JSON.stringify({
+            errorCode: 133,
+            message: "This user is already your friend.",
+          })
+        );
+      }
+
+      // Store the friendship into database
+      await prisma.following.create({
+        data: {
+          accountID: id,
+          followingID: friend.accountID,
+        },
+      });
+
+      // Return friend's data
+      return this.service.account.getByID(friend.accountID);
+
+    } catch (error) {
+      throw new Error(error.response ? error.response.data : error.message);
+    }
+  }
+
+  // then call the calculate totalcarbon score api
+
+  async deleteFriend(id, username) {
+    try {
+      // Search username in the database
+      const friend = await prisma.account.findUnique({
+        where: { username: username },
+        select: { accountID: true },
+      });
+      
+      if (friend == null) {
+        throw new Error(
+          JSON.stringify({
+            errorCode: 131,
+            message: "Can't find this friend: " + username,
+          })
+        );
+      }
+
+      await prisma.following.delete({
+        where: {
+          Unique_accountID_followingID: {
+            accountID: id,
+            followingID: friend.accountID,
+          }
+        }
+      });
+    } catch (error) {
+      throw new Error(error.response ? error.response.data : error.message);
+    }
+  }
+}
+
+module.exports = FriendService;
