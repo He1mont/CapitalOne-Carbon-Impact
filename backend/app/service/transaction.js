@@ -16,7 +16,7 @@ const CARBON_API_KEY = "sQyPyTxcWvlFiLWFjmUlA";
 class TransactionService extends Service {
 
   async createRandom(id) {
-    const quantity = 3;
+    const quantity = 10;
 
     try {
       const response = await axios.post(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/create`, {
@@ -130,15 +130,25 @@ class TransactionService extends Service {
           const carbonTransactionData = carbonTransactionResponse.data;
           let carbonTransactionID = -1;
 
+          let carbonInGrams = 0;
+
           for (const transaction of carbonTransactionData) {
             if (transaction.data.attributes.external_id === transactionID) {
               carbonTransactionID = transaction.data.id;
               if (carbonTransactionID === -1) {
                 throw new Error("Transaction data hasn't been created for this transaction.");
               }
-              return transaction.data.attributes.carbon_grams;
+              carbonInGrams =  transaction.data.attributes.carbon_grams;
             }
           }
+          let carbonScore = Math.abs(carbonInGrams);
+
+          // include point of sale:
+          if(hackathonTransactionResponse.data.pointOfSale = "Online"){
+            carbonScore = carbonScore/2
+          }
+
+          return Math.ceil(carbonScore/1000);
 
         } else {
           throw new Error("This transaction ID doesn't exist.");
