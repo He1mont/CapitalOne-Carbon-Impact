@@ -14,11 +14,6 @@ const PROGRAM_UUID = "ddd7027e-2032-4fff-a721-565ac87e7869";
 const CARBON_API_KEY = "sQyPyTxcWvlFiLWFjmUlA";
 
 class TransactionService extends Service {
-  constructor(ctx) {
-    super(ctx);
-    this.ctx = ctx;
-    this.app = ctx.app;
-  } 
 
   async createRandom(id) {
     const quantity = 3;
@@ -304,4 +299,4 @@ class TransactionService extends Service {
 
 }
 
-module.exports = {TransactionService};
+module.exports = TransactionService;
