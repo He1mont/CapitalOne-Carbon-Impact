@@ -20,12 +20,18 @@ class FriendService extends Service {
             message: "Can't find this friend: " + username,
           })
         );
-      }
-      if (friend.accountID === id) {
+      } else if (friend.accountID === id) {
         throw new Error(
           JSON.stringify({
             errorCode: 132,
             message: "Can't add yourself as friends.",
+          })
+        );
+      } else if (friend.state === "closed" || friend.state === "suspended") {
+        throw new Error(
+          JSON.stringify({
+            errorCode: 133,
+            message: "This user is invalid.",
           })
         );
       }
@@ -43,7 +49,7 @@ class FriendService extends Service {
       if (ifFollowing) {
         throw new Error(
           JSON.stringify({
-            errorCode: 133,
+            errorCode: 134,
             message: 'This user is already your friend.',
           })
         );
