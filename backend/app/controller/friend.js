@@ -10,6 +10,14 @@ class FriendController extends Controller {
     ctx.body = res;
   }
 
+  async getAll() {
+    const { ctx, service } = this;
+    const id = ctx.params.id;
+    const res = await service.friend.getAll(id);
+    ctx.status = 200;
+    ctx.body = res;
+  }
+
   async deleteFriend() {
     const { ctx, service } = this;
     const username = ctx.params.username;
