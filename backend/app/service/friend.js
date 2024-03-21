@@ -8,20 +8,20 @@ class FriendService extends Service {
 
   async addByUsername(id, username) {
     try {
-        // Search username in the database
-        const friend = await prisma.account.findUnique({
-          where: { username: username },
-        });
-        
-        if (friend == null) {
-          throw new Error(
-            JSON.stringify({
-              errorCode: 131,
-              message: "Can't find this friend: " + username,
-            })
-          );
-        }
-        if (friend.accountID == id) {
+      // Search username in the database
+      const friend = await prisma.account.findUnique({
+        where: { username },
+      });
+
+      if (friend === null) {
+        throw new Error(
+          JSON.stringify({
+            errorCode: 131,
+            message: "Can't find this friend: " + username,
+          })
+        );
+      }
+      if (friend.accountID === id) {
         throw new Error(
           JSON.stringify({
             errorCode: 132,
@@ -29,14 +29,14 @@ class FriendService extends Service {
           })
         );
       }
-  
+
       // Check the following relation
       const ifFollowing = await prisma.following.findUnique({
-        where: { 
+        where: {
           Unique_accountID_followingID: {
             accountID: id,
             followingID: friend.accountID,
-          }
+          },
         },
       });
 
@@ -44,7 +44,7 @@ class FriendService extends Service {
         throw new Error(
           JSON.stringify({
             errorCode: 133,
-            message: "This user is already your friend.",
+            message: 'This user is already your friend.',
           })
         );
       }
@@ -69,18 +69,18 @@ class FriendService extends Service {
   async getAll(id) {
     const allfollowings = await prisma.following.findMany({
       where: { accountID: id },
-      include: { account: true }
+      include: { account: true },
     });
-    return allfollowings.map(item => item.account)
+    return allfollowings.map(item => item.account);
   }
 
   async deleteFriend(id, username) {
     try {
       // Search username in the database
       const friend = await prisma.account.findUnique({
-        where: { username: username },
+        where: { username },
       });
-      
+
       if (friend == null) {
         throw new Error(
           JSON.stringify({
@@ -95,8 +95,8 @@ class FriendService extends Service {
           Unique_accountID_followingID: {
             accountID: id,
             followingID: friend.accountID,
-          }
-        }
+          },
+        },
       });
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);

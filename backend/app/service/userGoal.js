@@ -1,16 +1,16 @@
 const Service = require('egg').Service;
-require("dotenv").config();
-const { PrismaClient } = require("@prisma/client");
+require('dotenv').config();
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 class userGoalService extends Service {
-  async createGoal(id, goal,month) {
+  async createGoal(id, goal, month) {
     try {
       let existingUserGoal = await prisma.userGoals.findUnique({
         where: {
           accountID: id,
-          month:month,
-          //check month
+          month,
+          // check month
         },
       });
       if (existingUserGoal) {
@@ -18,25 +18,25 @@ class userGoalService extends Service {
         existingUserGoal = await prisma.userGoals.update({
           where: {
             accountID: id,
-            month: month,
+            month,
           },
           data: {
-            goal: goal,
-            //have to also add the month
+            goal,
+            // have to also add the month
           },
         });
         return existingUserGoal;
-      } else {
-        // If the account doesn't exist, create it with the goal
-        const newUserGoal = await prisma.userGoals.create({
-          data: {
-            accountID: id,
-            goal: goal,
-            month: month,
-          },
-        });
-        return newUserGoal;
       }
+      // If the account doesn't exist, create it with the goal
+      const newUserGoal = await prisma.userGoals.create({
+        data: {
+          accountID: id,
+          goal,
+          month,
+        },
+      });
+      return newUserGoal;
+
     } catch (error) {
       throw error;
     }
@@ -46,8 +46,8 @@ class userGoalService extends Service {
       // Find the user goal by accountID
       const userGoal = await prisma.userGoals.findUnique({
         where: {
-          accountID: id
-        }
+          accountID: id,
+        },
       });
 
       if (userGoal) {
@@ -56,27 +56,27 @@ class userGoalService extends Service {
           where: {
             accountID: id,
 
-          }
+          },
         });
         return { message: 'User goal deleted successfully' };
-      } else {
-        // If user goal is not found, return a 404 Not Found error
-        return { error: 'User goal not found' };
       }
+      // If user goal is not found, return a 404 Not Found error
+      return { error: 'User goal not found' };
+
     } catch (error) {
       console.error('Error deleting user goal:', error);
       return { error: 'Failed to delete user goal' };
     }
   }
-  //might have to change don't know if we want to get the goals for all the months or the current month
-  //just business logic
+  // might have to change don't know if we want to get the goals for all the months or the current month
+  // just business logic
   async getUserGoals(id) {
     try {
       const userGoal = await prisma.userGoals.findMany({
         where: {
           accountID: id,
-          
-        }
+
+        },
       });
       return userGoal;
     } catch (error) {

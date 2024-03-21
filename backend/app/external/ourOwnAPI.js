@@ -9,35 +9,35 @@ const PORT = process.env.PORT || 7001;
 app.use(express.json());
 
 // Route to create a new user goal
-//check if account alrady exists if not create else update
-//create 
-//update
-//delete
-//get
+// check if account alrady exists if not create else update
+// create
+// update
+// delete
+// get
 app.post('/user-goals', async (req, res) => {
-  const {accountID, goal} = req.body;
+  const { accountID, goal } = req.body;
   try {
     let existingUserGoal = await prisma.userGoals.findUnique({
       where: {
-        accountID: accountID
-      }
+        accountID,
+      },
     });
     if (existingUserGoal) {
       // If the account already exists, update its goal
       existingUserGoal = await prisma.userGoals.update({
         where: {
-          accountID: accountID
+          accountID,
         },
         data: {
-          goal: goal
-        }
+          goal,
+        },
       });
     } else {
       // If the account doesn't exist, create it with the goal
       const newUserGoal = await prisma.userGoals.create({
         data: {
-          accountID: accountID,
-          goal: goal,
+          accountID,
+          goal,
         },
       });
       res.json(newUserGoal);
@@ -55,12 +55,12 @@ app.get('/user-goals/:accountID', async (req, res) => {
     // Find the user goal by accountID
     const userGoal = await prisma.userGoals.findUnique({
       where: {
-        accountID: accountID
-      }
+        accountID,
+      },
     });
 
     if (userGoal) {
-      // If user goal is found return 
+      // If user goal is found return
       res.json(userGoal);
     } else {
       // If user goal is not found, return a 404 Not Found error
@@ -78,16 +78,16 @@ app.delete('/delete-user-goals/:accountID', async (req, res) => {
     // Find the user goal by accountID
     const userGoal = await prisma.userGoals.findUnique({
       where: {
-        accountID: accountID
-      }
+        accountID,
+      },
     });
 
     if (userGoal) {
       // If user goal is found, delete it
       await prisma.userGoals.delete({
         where: {
-          accountID: accountID
-        }
+          accountID,
+        },
       });
       res.json({ message: 'User goal deleted successfully' });
     } else {
@@ -102,7 +102,7 @@ app.delete('/delete-user-goals/:accountID', async (req, res) => {
 
 // Route to create a new transaction in the database
 // are first storying the info including genere etc with blank score then calling carbon api then amending the score
-//or after the carbon score is created are we storing it in the database 
+// or after the carbon score is created are we storing it in the database
 
 
 // in the api only work out total carbon score using the account id
@@ -124,22 +124,22 @@ app.post('/transactions', async (req, res) => {
   }
 });
 
-//friends
-//leaderboard page
+// friends
+// leaderboard page
 // search by username to get id
-//then use id to and call the total carbon score api
-//then return
-//create
-//update
-//get
+// then use id to and call the total carbon score api
+// then return
+// create
+// update
+// get
 
-//if they try to set a goal make sure they have a username first
-//api to create the username which would be the first name first leter of surname and a number
-//store in the database and front end
-//get
-//update
-//delete
-//make sure unqiue 
+// if they try to set a goal make sure they have a username first
+// api to create the username which would be the first name first leter of surname and a number
+// store in the database and front end
+// get
+// update
+// delete
+// make sure unqiue
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
