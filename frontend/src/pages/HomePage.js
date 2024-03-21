@@ -46,6 +46,7 @@ function Mid({name}) {
   const history = useHistory();
   function handleHelpClick() {
     history.push('/Help');
+    console.log("AHHH")
   }
   return (
     <div className="mid-bar">
@@ -75,12 +76,9 @@ function Mid({name}) {
 
       {/* Help Button */}
       <div className="mid-low">
-        <div className="mid-low-help">
-          <button className="small-help-btn-h" onClick={handleHelpClick}>? Help</button>
-        </div>
+        <button className="small-help-btn" onClick={handleHelpClick}>? Help</button>
       </div>
     </div>
-
   );
 }
 

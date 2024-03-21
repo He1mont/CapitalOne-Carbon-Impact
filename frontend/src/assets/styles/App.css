@@ -97,6 +97,7 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
 }
 .mid-box{
   width: 1200px;
@@ -120,20 +121,23 @@ html, body {
   width: 100%;
   height: 100px;
   position: absolute;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   bottom: 0px;
   z-index: 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
 }
-.small-help-btn-h{
-  z-index: 4;
-  font-size: 14px;
-  cursor: pointer;
-  /*color: #3d85c6;*/
-  color: black;
+.small-help-btn {
   user-select: all;
+  font-size: 14px;
+  border: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+  color: #3d85c6;
+  z-index: 4;
+  bottom: 10px;
+  left: 20px;
+  position: absolute;
 }
 .mid-box-login {
   /* default styles for the box */
