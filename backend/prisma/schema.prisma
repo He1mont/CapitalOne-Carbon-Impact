@@ -12,6 +12,7 @@ model account {
   username  String @unique
   accountID String @unique
   email     String @unique
+  state     String 
   
   transactions   transaction[]
   followings     following[]

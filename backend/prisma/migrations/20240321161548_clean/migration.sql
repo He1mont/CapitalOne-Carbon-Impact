@@ -4,6 +4,7 @@ CREATE TABLE `account` (
     `username` VARCHAR(191) NOT NULL,
     `accountID` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
+    `state` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `account_username_key`(`username`),
     UNIQUE INDEX `account_accountID_key`(`accountID`),
