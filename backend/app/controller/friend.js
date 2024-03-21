@@ -1,7 +1,6 @@
 const { Controller } = require('egg');
 
 class FriendController extends Controller {
-
   async addByUsername() {
     const { ctx, service } = this;
     const username = ctx.params.username;

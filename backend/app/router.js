@@ -16,7 +16,7 @@ module.exports = app => {
   router.get('/transaction/group-by-date/:id', controller.transaction.groupByDate);
   router.get('/transaction/get-carbon-impact/:accountID/:transactionID', controller.transaction.getCarbonImpact);
   router.post('/friend/add-by-username/:id/:username', controller.friend.addByUsername);
-  //router.get('/friend/get-all/:id', controller.friend.getAll);
+  // router.get('/friend/get-all/:id', controller.friend.getAll);
   router.delete('/friend/delete/:id/:username', controller.friend.deleteFriend);
   router.post('/userGoal/create-goal/:id/:goal/:month', controller.userGoal.createGoal);
   router.delete('/userGoal/:id', controller.userGoal.userGoals);

@@ -1,7 +1,6 @@
 const { Controller } = require('egg');
 
 class TransactionController extends Controller {
-
   async createRandom() {
     const { ctx, service } = this;
     const id = ctx.params.id;
@@ -43,7 +42,10 @@ class TransactionController extends Controller {
     const { ctx, service } = this;
     const accountID = this.ctx.params.accountID;
     const transactionID = this.ctx.params.transactionID;
-    const res = await service.transaction.getCarbonImpact(accountID, transactionID);
+    const res = await service.transaction.getCarbonImpact(
+      accountID,
+      transactionID
+    );
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
