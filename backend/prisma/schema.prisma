@@ -13,9 +13,11 @@ model account {
   accountID String @unique
   email     String @unique
   
-  transactions transaction[]
-  followings   following[]
-  userID       userGoals[]
+  transactions   transaction[]
+  followings     following[]
+  goals userGoals[]
+
+  //userID      userGoals? 
 }
 
 model transaction {
@@ -42,11 +44,12 @@ model following {
 
 model userGoals {
   id        Int     @id @default(autoincrement())
-  accountID String
+  accountID String  
+  //account   account @relation(fields: [accountID], references: [accountID])
   goal      String
   month     String
 
   @@unique([accountID, month], name: "Unique_accountID_month")
-  account   account @relation(fields: [accountID], references: [accountID])
+  account       account @relation(fields: [accountID], references: [accountID])
 }
 

@@ -474,7 +474,7 @@
 
 ### 12. Delete a user goal
 
-- DELETE `/userGoal/delete-goal/:accountID`
+- DELETE `/userGoal/:accountID`
 
 - sample output
     - id `48151457`
@@ -486,7 +486,7 @@
 
 ### 13. Get a users goal from the database
 
-- GET `/userGoal/get-goal/:accountID`
+- GET `/userGoal/:accountID`
 
 - sample output
     - id `48151457`

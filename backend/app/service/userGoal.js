@@ -8,17 +8,22 @@ class userGoalService extends Service {
     try {
       let existingUserGoal = await prisma.userGoals.findUnique({
         where: {
-          accountID: id,
-          month,
+          Unique_accountID_month: {
+            accountID: id,
+            month,
+          },
+
           // check month
         },
       });
       if (existingUserGoal) {
-        // If the account already exists, update its goal
+        // If the account already exists , update its goal
         existingUserGoal = await prisma.userGoals.update({
           where: {
-            accountID: id,
-            month,
+            Unique_accountID_month: {
+              accountID: id,
+              month,
+            },
           },
           data: {
             goal,
@@ -29,6 +34,12 @@ class userGoalService extends Service {
       }
       // If the account doesn't exist, create it with the goal
       const newUserGoal = await prisma.userGoals.create({
+        // where:{
+        //   unique_accountID_month:{
+
+        //   },
+
+        // },
         data: {
           accountID: id,
           goal,
@@ -36,7 +47,6 @@ class userGoalService extends Service {
         },
       });
       return newUserGoal;
-
     } catch (error) {
       throw error;
     }
@@ -46,7 +56,10 @@ class userGoalService extends Service {
       // Find the user goal by accountID
       const userGoal = await prisma.userGoals.findUnique({
         where: {
-          accountID: id,
+          Unique_accountID_month: {
+            accountID: id,
+          },
+
         },
       });
 
@@ -55,14 +68,12 @@ class userGoalService extends Service {
         await prisma.userGoals.delete({
           where: {
             accountID: id,
-
           },
         });
         return { message: 'User goal deleted successfully' };
       }
       // If user goal is not found, return a 404 Not Found error
       return { error: 'User goal not found' };
-
     } catch (error) {
       console.error('Error deleting user goal:', error);
       return { error: 'Failed to delete user goal' };
@@ -75,7 +86,6 @@ class userGoalService extends Service {
       const userGoal = await prisma.userGoals.findMany({
         where: {
           accountID: id,
-
         },
       });
       return userGoal;
