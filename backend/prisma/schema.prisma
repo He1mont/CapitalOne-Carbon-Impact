@@ -45,11 +45,12 @@ model following {
 model userGoals {
   id        Int     @id @default(autoincrement())
   accountID String  
+  account       account @relation(fields: [accountID], references: [accountID])
   //account   account @relation(fields: [accountID], references: [accountID])
   goal      String
   month     String
 
-  @@unique([accountID, month], name: "Unique_accountID_month")
-  account       account @relation(fields: [accountID], references: [accountID])
+ // @@unique([accountID, month], name: "Unique_accountID_month")
+  
 }
 

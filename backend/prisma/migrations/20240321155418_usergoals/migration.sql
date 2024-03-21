@@ -43,7 +43,6 @@ CREATE TABLE `userGoals` (
     `goal` VARCHAR(191) NOT NULL,
     `month` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `userGoals_accountID_month_key`(`accountID`, `month`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
