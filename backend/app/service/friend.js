@@ -5,25 +5,9 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 class FriendService extends Service {
+
   async addByUsername(id, username) {
     try {
-<<<<<<< HEAD
-      // Search username in the database
-      const friend = await prisma.account.findUnique({
-        where: { username },
-        select: { accountID: true },
-      });
-
-      if (friend == null) {
-        throw new Error(
-          JSON.stringify({
-            errorCode: 131,
-            message: "Can't find this friend: " + username,
-          })
-        );
-      }
-      if (friend.accountID == id) {
-=======
         // Search username in the database
         const friend = await prisma.account.findUnique({
           where: { username: username },
@@ -38,7 +22,6 @@ class FriendService extends Service {
           );
         }
         if (friend.accountID == id) {
->>>>>>> 195a6827067ccf3dae71b57b318c349287565cc7
         throw new Error(
           JSON.stringify({
             errorCode: 132,
@@ -46,19 +29,14 @@ class FriendService extends Service {
           })
         );
       }
-<<<<<<< HEAD
-
-      // Check the friendship relation
-=======
   
       // Check the following relation
->>>>>>> 195a6827067ccf3dae71b57b318c349287565cc7
       const ifFollowing = await prisma.following.findUnique({
-        where: {
+        where: { 
           Unique_accountID_followingID: {
             accountID: id,
             followingID: friend.accountID,
-          },
+          }
         },
       });
 
@@ -66,7 +44,7 @@ class FriendService extends Service {
         throw new Error(
           JSON.stringify({
             errorCode: 133,
-            message: 'This user is already your friend.',
+            message: "This user is already your friend.",
           })
         );
       }
@@ -100,14 +78,9 @@ class FriendService extends Service {
     try {
       // Search username in the database
       const friend = await prisma.account.findUnique({
-<<<<<<< HEAD
-        where: { username },
-        select: { accountID: true },
-=======
         where: { username: username },
->>>>>>> 195a6827067ccf3dae71b57b318c349287565cc7
       });
-
+      
       if (friend == null) {
         throw new Error(
           JSON.stringify({
@@ -122,8 +95,8 @@ class FriendService extends Service {
           Unique_accountID_followingID: {
             accountID: id,
             followingID: friend.accountID,
-          },
-        },
+          }
+        }
       });
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
