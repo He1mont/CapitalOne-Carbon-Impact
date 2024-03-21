@@ -16,7 +16,6 @@ node_modules/
 
 # Environment #
 ###############
-.env
 *-lock.json
 *-lock.yaml
 
