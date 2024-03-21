@@ -20,7 +20,7 @@ const CARBON_API_KEY = 'sQyPyTxcWvlFiLWFjmUlA';
 class AccountService extends Service {
   async createRandom() {
     const quantity = 1;
-    const numTransactions = 1;
+    const numTransactions = 0;
     const liveBalance = false;
 
     try {
@@ -52,6 +52,7 @@ class AccountService extends Service {
           username: userName,
           accountID: account.accountId,
           email: account.email,
+          state: account.state
         },
       });
 

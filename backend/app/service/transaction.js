@@ -16,7 +16,35 @@ const CARBON_API_KEY = 'sQyPyTxcWvlFiLWFjmUlA';
 
 class TransactionService extends Service {
   async createRandom(id) {
-    const quantity = 10;
+    // number of created transactions
+    const quantity = 5;
+
+    // find the account in the database
+    const account = await prisma.account.findMany({
+      where: {
+        accountID: id,
+      },
+    });
+
+    // if accountID does not exist
+    if (account.length === 0) {   
+      throw new Error(
+        JSON.stringify({
+          errorCode: 131,
+          message: "The account does not exist.",
+        })
+      );
+    }
+  
+    // if accountID is suspended or closed
+    if (["closed", "suspended"].includes(account[0].state)) {
+      throw new Error(
+        JSON.stringify({
+          errorCode: 131,
+          message: "The account is closed or suspended.",
+        })
+      );
+    }
 
     try {
       const response = await axios.post(
