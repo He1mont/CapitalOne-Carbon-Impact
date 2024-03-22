@@ -30,7 +30,7 @@ class TransactionService extends Service {
     if (account.length === 0) {   
       throw new Error(
         JSON.stringify({
-          errorCode: 131,
+          errorCode: 400,
           message: "The account does not exist.",
         })
       );
@@ -40,7 +40,7 @@ class TransactionService extends Service {
     if (["closed", "suspended"].includes(account[0].state)) {
       throw new Error(
         JSON.stringify({
-          errorCode: 131,
+          errorCode: 400,
           message: "The account is closed or suspended.",
         })
       );
