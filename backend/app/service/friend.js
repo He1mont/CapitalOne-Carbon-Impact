@@ -16,22 +16,22 @@ class FriendService extends Service {
       if (friend === null) {
         throw new Error(
           JSON.stringify({
-            errorCode: 131,
-            message: "Can't find this friend: " + username,
+            errorCode: 400,
+            message: "Can't find this account: " + username,
           })
         );
       } else if (friend.accountID === id) {
         throw new Error(
           JSON.stringify({
-            errorCode: 132,
-            message: "Can't add yourself as friends.",
+            errorCode: 400,
+            message: "Can't following yourself.",
           })
         );
       } else if (friend.state === "closed" || friend.state === "suspended") {
         throw new Error(
           JSON.stringify({
-            errorCode: 133,
-            message: "This user is invalid.",
+            errorCode: 400,
+            message: "The account is closed or suspended.",
           })
         );
       }
@@ -49,8 +49,8 @@ class FriendService extends Service {
       if (ifFollowing) {
         throw new Error(
           JSON.stringify({
-            errorCode: 134,
-            message: 'This user is already your friend.',
+            errorCode: 400,
+            message: 'You have already followed this account.',
           })
         );
       }
@@ -90,8 +90,8 @@ class FriendService extends Service {
       if (friend == null) {
         throw new Error(
           JSON.stringify({
-            errorCode: 131,
-            message: "Can't find this friend: " + username,
+            errorCode: 400,
+            message: "Can't find this account: " + username,
           })
         );
       }
