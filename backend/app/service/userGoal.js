@@ -6,25 +6,24 @@ const prisma = new PrismaClient();
 class userGoalService extends Service {
   async createGoal(id, goal, month) {
     try {
-      const existingUserGoal = await prisma.userGoals.findMany({
+      const UserGoal = await prisma.userGoals.findMany({
         where: {
           accountID: id,
           month: month,
         },
       });
-      if (existingUserGoal.length > 0) {
+      if (UserGoal.length > 0) {
         // If the account already exists , update its goal
-        existingUserGoal = await prisma.userGoals.update({
+        const existingUserGoal = await prisma.userGoals.updateMany({
           where: {
             accountID: id,
             month: month,
           },
           data: {
-            goal,
-            // have to also add the month
+            goal: goal,
           },
         });
-        return existingUserGoal;
+        return { errorCode: 200, message: "Sucessfully updated the user goal" };
       } else {
         // If the account doesn't exist, create it with the goal
         const newUserGoal = await prisma.userGoals.create({
@@ -37,7 +36,7 @@ class userGoalService extends Service {
         return newUserGoal;
       }
     } catch (error) {
-      throw error;
+      throw new Error(error.response ? error.response.data : error.message);
     }
   }
   async deleteUserGoal(id) {
@@ -45,9 +44,7 @@ class userGoalService extends Service {
       // Find the user goal by accountID
       const userGoal = await prisma.userGoals.findMany({
         where: {
-          
-            accountID: id,
-          
+          accountID: id,
         },
       });
 
@@ -58,13 +55,23 @@ class userGoalService extends Service {
             accountID: id,
           },
         });
-        return { message: "User goal deleted successfully" };
+        throw new Error(
+          JSON.stringify({
+            errorCode: 200,
+            message: "User goal deleted successfully",
+          })
+        );
       }
       // If user goal is not found, return a 404 Not Found error
-      return { error: "User goal not found" };
+      throw new Error(
+        JSON.stringify({
+          errorCode: 404,
+          message: "User goal not found",
+        })
+      );
     } catch (error) {
       console.error("Error deleting user goal:", error);
-      return { error: "Failed to delete user goal" };
+      throw new Error(error.response ? error.response.data : error.message);
     }
   }
   // might have to change don't know if we want to get the goals for all the months or the current month
@@ -79,8 +86,8 @@ class userGoalService extends Service {
       return userGoal;
     } catch (error) {
       console.error("Error retrieving user goal:", error);
-      throw new Error("Failed to retrieve user goal");
+      throw new Error(error.response ? error.response.data : error.message);
     }
   }
- }
- module.exports = userGoalService;
+}
+module.exports = userGoalService;
