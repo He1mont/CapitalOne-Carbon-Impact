@@ -2,21 +2,35 @@
 
 ## Setup
 
-- Create a connection in mySQL workbend
+- Create a connection in mySQL workbench
+  - Connection Name: team7
+  - Connection Method: Standard(TCP/IP)
+  - Host name: `grp-database.cdk4m0ww43dq.eu-west-2.rds.amazonaws.com`
+  - Port: 3306
+  - Username: `admin`
+  - Password: `hello-world`
+  - Click `Test Connection` and `OK`
+  - The official document could be found [here](https://repost.aws/knowledge-center/connect-rds-mysql-workbench)
 
-- using port `127.0.0.1:3306`
+- Make sure you have a `.env` file in the `backend` directory.
 
-- create user with privileges to edit the SQL database the username and password will be needed for the `DATABASE-URL`
+- To get all the tables created to show in SQL workbench
 
-- create a `.env` file
+ ```shell
+ npx prisma db push
+ ```
 
-- add this line to the file `DATABASE_URL="mysql://username:password@127.0.0.1:3306/databaseName"`
+- if you made changes to the schema have to create a migrations using the command
 
-- in your terminal do `npx prisma db push` to get all the tables created
+```shell
+npx prisma migrate dev --name comment on the change
+```
 
-- if you made changes to the schema have to create a migrations using the command `npx prisma migrate dev --name comment on the chnage`
+- to see the database in a web browser use command
 
-- to see the database in a web browser use command `npx prisma studio`
+```shell
+npx prisma studio
+```
 
 ## Managing the database
 
@@ -31,3 +45,5 @@
 - Friends which has all the `usernames` of the users (a combination of firstname, surname, and random int)
 
 - Transaction which has the `transactionUUID`, `accountID` and `carbon score` which is populpated using the third party API
+
+- The database schema is written in [`schema.prisma`](./schema.prisma)
