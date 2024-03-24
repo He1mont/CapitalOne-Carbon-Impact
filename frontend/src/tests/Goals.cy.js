@@ -90,7 +90,7 @@ describe('<Goals />', () => {
     cy.get(`.${styles.mid_high_profile}`).click();
   
     // URL has changed to the profile page
-   // cy.url().should('eq', 'http://localhost:8080/')
+   // cy.url().should('include', '/');
   });
 
 
@@ -109,6 +109,8 @@ describe('<Goals />', () => {
    // Clear any stored authentication tokens
     cy.clearLocalStorage();
   });
+
+  
 
 
 

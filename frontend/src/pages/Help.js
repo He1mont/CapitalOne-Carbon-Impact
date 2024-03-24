@@ -5,6 +5,7 @@ import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
 
 
+
 /**
  * Collapsible component
  */
