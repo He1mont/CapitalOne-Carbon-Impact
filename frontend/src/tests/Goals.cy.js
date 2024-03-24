@@ -15,9 +15,6 @@ describe('<Goals />', () => {
 
        // Rendering
        cy.contains('Carbon Goals').should('exist');
-       
-
-       
   });
   
   it('renders the month selector with correct initial month', () => {
@@ -27,7 +24,7 @@ describe('<Goals />', () => {
       </MemoryRouter>
     );
 
-    // Checking format of currentMonth existing
+    // Checking format of currentMonth existing with moment library (used to handle date and time)
     const currentMonth = moment().format('MMM YYYY'); 
     cy.contains(currentMonth).should('exist');
   });
@@ -68,6 +65,7 @@ describe('<Goals />', () => {
       cy.contains('2000 kgco2').should('exist');
     });
   });*/
+
   it('navigates to home page on logo click', () => {
     mount(
       <MemoryRouter>
@@ -109,10 +107,12 @@ describe('<Goals />', () => {
 
   it('redirects unauthenticated users to login page', () => {
    // Clear any stored authentication tokens
-    cy.clearLocalStorage(); 
-    
-
+    cy.clearLocalStorage();
   });
+
+
+
+  
   
 
 });
