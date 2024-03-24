@@ -9,29 +9,30 @@
 - sample output
 
     ```json
-    {
-        "Accounts": [
-            {
-                "accountId": "66512652",
-                "firstname": "Blondell",
-                "phoneNumber": "+44873425431",
-                "developerId": "123",
-                "uci": "103583",
-                "riskScore": "22",
-                "creditScore": "450",
-                "currencyCode": "GBP",
-                "productType": "Credit",
-                "email": "Blondell.Bartell@emailservice.co.uk",
-                "lastname": "Bartell",
-                "homeAddress": "72 Richard Road, Oxford, United Kingdom",
-                "state": "open",
-                "creditLimit": "1000",
-                "balance": "1000",
-                "liveBalance": "true"
-            }
-        ]
-    }
+        {
+            "firstname":"Agustin",
+            "creditScore":"253",
+            "liveBalance":"false",
+            "lastname":"Klein",
+            "accountId":"62839645",
+            "developerId":"9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
+            "phoneNumber":"+44806234270",
+            "balance":"378.0",
+            "creditLimit":"0.0",
+            "uci":"035329",
+            "riskScore":"25",
+            "state":"open",
+            "currencyCode":"GBP",
+            "email":"Agustin.Klein@bmail.com",
+            "productType":"Debit",
+            "homeAddress":"44 Mill Way, Walthamstow, United Kingdom"
+        }
     ```
+
+- There will be a username created for this user and store in the database
+   - id
+   - username
+   - accountID
 
 
 ### 2. Get all accounts
@@ -375,43 +376,86 @@
 
 
 ## Friends
-### 9. Create a username
+### 10. Add a friend by username
 
-- POST `/friend/create-username/:accountID`
-
-    - Automatically generate a username: `firstname + lastname + '_' + accountID`
-    - Store in the database `Friend`
-    - If the user already has a username, an error will be reported:
-        ```json
-            {
-                errorCode: 130,
-                message: "This user has already have a username.",
-            }
-        ```
-
-- sample output
-    - by account `48151457`
-    ```json
-        {"id":1,"username":"FelipeMcLaughlin_48151457","accountID":"48151457"}
-    ```
-
-### 10. Get the accountID by username
-
-- GET `/friend/get-id/:username`
+- POST `/friend/add-by-username/:id/:username`
 
     - If the username is not exist in the database, an error will be reported:
     ```json
         {
             errorCode: 131,
-            message: "Can't find this friend.",
+            message: "Can't find this friend: " + username,
+        }
+    ```
+    - If the user search his own username:
+    ```json
+        {
+            errorCode: 132,
+            message: "Can't add yourself as friends.",
+        }
+    ```
+    - If these two users are already friends
+    ```json
+        {
+            errorCode: 133,
+            message: "This user is already your friend.",
         }
     ```
 
 - sample output
-    - by username `FelipeMcLaughlin_48151457`
+- return following user's info
     ```json
-        {"accountID":"48151457"}
+        {
+            "firstname": "Dirk",
+            "creditScore": "513",
+            "liveBalance": "false",
+            "lastname": "Jenkins",
+            "accountId": "61187062",
+            "developerId": "9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
+            "phoneNumber": "+44800624217",
+            "balance": "349.0",
+            "creditLimit": "349.0",
+            "uci": "387869",
+            "riskScore": "73",
+            "state": "closed",
+            "currencyCode": "GBP",
+            "email": "Dirk.Jenkins@emailshere.com",
+            "productType": "Credit",
+            "homeAddress": "92 White Road, Wakefield, United Kingdom"
+        }
     ```
+
+### Get all following users
+
+- GET `/friend/get-all/:id`
+- sample output
+    ```json
+    [
+        {
+            "id": 4,
+            "username": "EddyD27176",
+            "accountID": "34330204",
+            "email": "Eddy.Davis@bmail.com"
+        },
+        {
+            "id": 2,
+            "username": "BrockB60703",
+            "accountID": "44591710",
+            "email": "Brock.Bins@booglemail.co.uk"
+        },
+        {
+            "id": 3,
+            "username": "KeriC11006",
+            "accountID": "77083294",
+            "email": "Keri.Champlin@emailprovider.com"
+        }
+    ]
+    ```
+
+### Delete a following relation
+
+- DELETE `/friend/delete/:id/:username`
+- no output
 
 ## User Goals
 ### 11. Create a user goal
@@ -430,7 +474,7 @@
 
 ### 12. Delete a user goal
 
-- DELETE `/userGoal/delete-goal/:accountID`
+- DELETE `/userGoal/:accountID`
 
 - sample output
     - id `48151457`
@@ -442,7 +486,7 @@
 
 ### 13. Get a users goal from the database
 
-- GET `/userGoal/get-goal/:accountID`
+- GET `/userGoal/:accountID`
 
 - sample output
     - id `48151457`
@@ -459,15 +503,9 @@
 ## Carbon Impact
 ### Calculate the carbon impact for one transaction
 
-- POST `/carbon-footprint/calculate-one/:accountID/:transactionID`
+- POST 
 
     - Store in the database `Transaction`
 
 ### Calculate the total carbon impact
-
-- GET `/carbon-footprint/get-all/:accountID`
-
-    - Using the carbon score stored in the database `Transaction`
-
-
 

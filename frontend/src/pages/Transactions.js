@@ -164,10 +164,10 @@ class TransactionTbl extends Component {
             <tbody>
               {filteredTransactions.map((transaction) => (
                 <tr key={transaction.transactionUUID}>
-                  <td>{this.formatDate(transaction.timestamp)}</td>
-                  <td>{transaction.merchant.name}</td>
-                  <td>{transaction.merchant.category}</td>
-                  <td>{'To Be Confirmed'}</td>
+                  <td>{this.formatDate(transaction.date)}</td>
+                  <td>{transaction.merchantName}</td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.carbonScore}</td>
                   <td>{transaction.amount}</td>
                 </tr>
               ))}
