@@ -1,5 +1,5 @@
 // HomePage.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory ,useLocation} from 'react-router-dom';
 import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
@@ -149,6 +149,20 @@ function HomePage() {
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
   const id=location.state?.id ;
+
+  useEffect(() => {
+    (function(d, w, c) {
+        w.ChatraID = 'e3qJrWY3yZqK9zBrt';
+        var s = d.createElement('script');
+        w[c] = w[c] || function() {
+            (w[c].q = w[c].q || []).push(arguments);
+        };
+        s.async = true;
+        s.src = 'https://call.chatra.io/chatra.js';
+        if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  }, []); // [] effect runs only once upon mounting
+
   return (
     <div>
       <Head />

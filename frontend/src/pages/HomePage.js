@@ -1,7 +1,10 @@
 // HomePage.js
+// useEffect - tool to perform side effects in function components.
 import React from 'react';
 import { useHistory ,useLocation} from 'react-router-dom';
 import '../assets/styles/App.css';
+
+
 
 /**
  * Head component
@@ -32,6 +35,7 @@ function Head() {
           <img src="/images/user.png" alt="Login" />
         </button>
       </div>
+      
 
     </div>
 
@@ -194,6 +198,10 @@ function HomePage() {
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
   const id=location.state?.id ;
+
+  
+
+
   return (
     <div>
       <Head />
