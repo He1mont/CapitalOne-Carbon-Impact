@@ -16,7 +16,7 @@ function Head() {
    * Redirects user to the login page when the login button is clicked.
    */
   function handleLoginClick() {
-    history.push('/Login');
+    history.push('/login');
   }
   return (
 

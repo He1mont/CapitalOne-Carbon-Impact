@@ -3,7 +3,7 @@ import React, { Component, useState } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
 import { useHistory ,useLocation} from 'react-router-dom';
-import * as tranAPI from '../services/transactionService';
+import * as API from '../services/api';
 import Sorter from '../services/sorter';
 
 /**
@@ -27,9 +27,9 @@ class TransactionTbl extends Component {
   // intialize transactions using tranAPI
   componentDidMount() {
     const id = this.props.id;
-    tranAPI.getTransactions(id)   // calls Hackathon API
+    API.getTransactions(id)   // calls Hackathon API
       .then(data => {
-        this.setState({ transactions: data.Transactions });
+        this.setState({ transactions: data });
       })
       .catch(error => {
         console.error('Error fetching transactions:', error);
@@ -58,7 +58,7 @@ class TransactionTbl extends Component {
       newDir = currentDir + 1;
       newTransactions = await Sorter(this.state.transactions, column, false, null, null);  // false for descending
     } else {
-      const data = await tranAPI.getTransactions(this.props.id)
+      const data = await API.getTransactions(this.props.id)
       newTransactions = data.Transactions
     }
 

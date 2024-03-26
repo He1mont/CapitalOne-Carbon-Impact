@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "../assets/styles/Login.css";
 import axios from "axios";
+import * as API from '../services/api';
+import Sorter from '../services/sorter';
 
 /**
  * Head component
@@ -174,9 +176,6 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // For testing purposes,
-    const correctEmail = "Miguel.Christiansen@emailprovider.com";
-    const correctPassword = "Test@123"; // Example password
     if (email === "" && password === "") {
       setLoginMessage("Please enter your email and password.");
     } else if (password === "") {
@@ -185,37 +184,35 @@ function Login() {
       setLoginMessage("Please enter your email.");
     }
 
-    try {
-      const response = await axios.get(
-        `http://127.0.0.1:7001/account/get-by-email/${email}`
-      );
-      console.log(response.data);
-      // Login validation logic
-      // if (email === correctEmail && password === correctPassword) {
-      //   setLoginMessage("Logged in successfully!");
+    // call backend API
+    const data = await API.getAccountByEmail(email);
 
-      // if (email !== correctEmail && password !== correctPassword) {
-      //   setLoginMessage("Email or password is incorrect.");
-      // }
-      try {
-        const name = await axios.get(
-          `http://127.0.0.1:7001/account/get-by-id/${response.data}`
-        );
-        if (name.data.Accounts && name.data.Accounts.length > 0) {
-          const fullname = `${name.data.Accounts[0].firstname} ${name.data.Accounts[0].lastname}`;
-          console.log(fullname);
-          setLoginMessage("Logged in successfully!");
-          history.push({
-            pathname: "/",
-            state: { name: fullname, id: response.data },
-          });
-        }
-      } catch (error) {
-        setLoginMessage("Email has not been found");
+    // email does not exist
+    if (data.length === 0) {
+      setLoginMessage("Email Not Found!");
+
+    } else {
+      const account = data[0]
+
+      // email is suspended or closed
+      if (account.state === "closed") {
+        setLoginMessage("Your account has been closed!");
+  
+      } else if (account.state === "suspended") {
+        setLoginMessage("Your account has been suspended!");
+  
+      // email is open or flagged
+      } else {
+        const username = account.username;
+        setLoginMessage("Log in successfully!");
+        history.push({
+          pathname: "/",
+          state: { name: username, id: account.accountID },
+        });
       }
-    } catch (error) {
-      console.error("Error fetching account by email:", error);
     }
+
+
 
     // Clear login message after a delay
     setTimeout(() => {
