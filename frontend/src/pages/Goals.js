@@ -198,7 +198,6 @@ class ManageFriends extends React.Component {
         this.handleOutsideClick = this.handleOutsideClick.bind(this);
     }
 
-  
     toggleDropdown() {
         this.setState(prevState => ({
             showDropdown: !prevState.showDropdown
@@ -230,7 +229,7 @@ class ManageFriends extends React.Component {
                 <div id="myDropdown" className={`${styles.dropdownContent} ${this.state.showDropdown ? styles.show : ''}`}>
                     {list.map((item, index) => (
                         <a key={index} onClick={() => this.handleFriendClick(item)}>
-                            {item}
+                            {item.username}
                             <img src={`/images/bin.png`} className={styles.dropdown_delete_icon} />
                         </a>
                     ))}
@@ -239,6 +238,29 @@ class ManageFriends extends React.Component {
         );
     }
 }
+
+// function HandleFriendInput(friend, currentID) {
+//     const addFollowingMessage = useState("");
+
+//     // Check if the input is invalid
+//     if (friend === null) {
+//         addFollowingMessage("Can't find this account!");
+
+//     } else if (friend.accountID === currentID) {
+//         addFollowingMessage("Can't following yourself!");
+
+//     } else if (friend.state === "closed") {
+//         addFollowingMessage("This account has been closed!");
+  
+//     } else if (friend.state === "suspended") {
+//         addFollowingMessage("This account has been suspended!");
+
+//     } else {
+//         return true
+//     }
+
+//     return false
+// }
 
 class Leaderboard extends Component {
     constructor(props) {
@@ -256,21 +278,54 @@ class Leaderboard extends Component {
     componentDidMount() {
         const id = this.props.userID;
         API.getAllFollowings(id) 
-          .then(data => {
-            this.setState({ friendList: data });
-        })
-          .catch(error => {
-            console.error('Error fetching following users:', error);
-            this.setState({ friendList: [] });
-        });
+            .then(data => {
+                this.setState({ friendList: data });
+            })
+            .catch(error => {
+                console.error('Error fetching following users:', error);
+                this.setState({ friendList: [] });
+            });
     }
 
-    addFriend() {
+    async addFriend() {
+        const currentID = this.props.userID;
+
         if (this.state.newFriend.trim() !== '') {
-            this.setState(prevState => ({
-                friendList: [...prevState.friendList, prevState.newFriend],
-                newFriend: ''
-            }));
+            const username = this.state.newFriend;
+            let friend;
+
+            // Get the friend's info
+            await API.getAccountByUsername(username) 
+                .then(response => {
+                    friend = response;
+                })
+                .catch(error => {
+                    console.error('Error fetching user:', error);
+                    this.setState({ newFriend: '' });
+                });
+
+            // Check if the input is invalid
+            if (friend === null) {
+
+            } else if (friend.accountID === currentID) {
+
+            } else if (friend.state === "closed") {
+        
+            } else if (friend.state === "suspended") {
+
+            } else {
+                // Add the following relation
+                await API.addFollowing(currentID, friend.accountID) 
+                    .then(following => {
+                        this.setState(prevState => ({
+                            friendList: [...prevState.friendList, friend],
+                            newFriend: ''
+                        }));
+                    })
+                .catch(error => {
+                    console.error('Error adding following users:', error);
+                });
+            }             
         }
     }
 
@@ -307,16 +362,16 @@ class Leaderboard extends Component {
                 <div className={styles.leaderboard_container}>
                     Your ID: {this.props.userID}
                 </div>
-                {/* <div className={styles.leaderboard_container}>
+                <div className={styles.leaderboard_container}>
                     <input
                         className={styles.leaderboard_addfriend}
-                        placeholder="Enter your friend's ID"
+                        placeholder="Enter your friend's username"
                         value={this.state.newFriend}
                         onChange={this.handleChange}
                         onKeyPress={this.handleKeyPress}
                     />
-                    <ManageFriends list={this.state.friendList} removeFriend={this.removeFriend}/>
-                </div> */}
+                    <ManageFriends list={followingUsers} removeFriend={this.removeFriend}/>
+                </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
                         <p style={{ textAlign: 'center' }}>To view friends, add them by entering their ID</p>

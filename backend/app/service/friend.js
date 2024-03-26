@@ -6,43 +6,6 @@ const prisma = new PrismaClient();
 
 class FriendService extends Service {
 
-  // async getByUsername(username) {
-  //   try {
-  //     // Search username in the database
-  //     const friend = await prisma.account.findUnique({
-  //       where: { username },
-  //     });
-
-      // if (friend === null) {
-      //   throw new Error(
-      //     JSON.stringify({
-      //       errorCode: 400,
-      //       message: "Can't find this account: " + username,
-      //     })
-      //   );
-      // } else if (friend.accountID === id) {
-      //   throw new Error(
-      //     JSON.stringify({
-      //       errorCode: 400,
-      //       message: "Can't following yourself.",
-      //     })
-      //   );
-      // } else if (friend.state === "closed" || friend.state === "suspended") {
-      //   throw new Error(
-      //     JSON.stringify({
-      //       errorCode: 400,
-      //       message: "The account is closed or suspended.",
-      //     })
-      //   );
-      // }
-
-  //     return friend;
-
-  //   } catch (error) {
-  //     throw new Error(error.response ? error.response.data : error.message);
-  //   }
-  // }
-
   async addByID(accountID, friendID) {
     try {
       // Check the following relation
