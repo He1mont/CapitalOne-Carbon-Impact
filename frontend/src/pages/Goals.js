@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Goals.module.css';
 import { useHistory,useLocation } from 'react-router-dom';
+import * as API from '../services/api';
 
 /**
  * Month selector component
@@ -251,6 +252,19 @@ class Leaderboard extends Component {
         this.removeFriend = this.removeFriend.bind(this);
     }
 
+    // initialize and display the friendList
+    componentDidMount() {
+        const id = this.props.userID;
+        API.getAllFollowings(id) 
+          .then(data => {
+            this.setState({ friendList: data });
+        })
+          .catch(error => {
+            console.error('Error fetching following users:', error);
+            this.setState({ friendList: [] });
+        });
+    }
+
     addFriend() {
         if (this.state.newFriend.trim() !== '') {
             this.setState(prevState => ({
@@ -277,6 +291,8 @@ class Leaderboard extends Component {
     }
 
     render () {
+        const followingUsers = this.state.friendList;
+
         return (
             <div style={{
                 width: '100%',
@@ -291,7 +307,7 @@ class Leaderboard extends Component {
                 <div className={styles.leaderboard_container}>
                     Your ID: {this.props.userID}
                 </div>
-                <div className={styles.leaderboard_container}>
+                {/* <div className={styles.leaderboard_container}>
                     <input
                         className={styles.leaderboard_addfriend}
                         placeholder="Enter your friend's ID"
@@ -300,19 +316,26 @@ class Leaderboard extends Component {
                         onKeyPress={this.handleKeyPress}
                     />
                     <ManageFriends list={this.state.friendList} removeFriend={this.removeFriend}/>
-                </div>
+                </div> */}
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
                         <p style={{ textAlign: 'center' }}>To view friends, add them by entering their ID</p>
                     ) : (
                         <div className={styles.leaderboard_list_container}>
                             <table className={styles.leaderboard_list}>
+                                <thead>
+                                    <tr>
+                                        <th style={{width: '10%'}}> <div>ID</div> </th>
+                                        <th style={{width: '60%'}}> <div>Username</div> </th>
+                                        <th style={{width: '30%'}}> <div>Carbon Score</div> </th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    {this.state.friendList.map((item, index) => (
+                                    {followingUsers.map((followingUser, index) => (
                                     <tr key={index} className={styles.leaderboard_tablerow}>
-                                        <td style={{width: '10%'}}>{'#' + (index + 1)}</td>
-                                        <td style={{width: '70%'}}>{item}</td>
-                                        <td style={{width: '20%'}}>-xxxxxx-</td>
+                                        <td style={{width: '10%', textAlign: 'center'}}>{'#' + (index + 1)}</td>
+                                        <td style={{width: '60%', textAlign: 'center'}}>{followingUser.username}</td>
+                                        <td style={{width: '30%', textAlign: 'center'}}>-xxxxxx-</td>
                                     </tr>
                                     ))}
                                 </tbody>

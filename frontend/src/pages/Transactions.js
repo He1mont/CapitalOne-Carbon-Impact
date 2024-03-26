@@ -27,7 +27,7 @@ class TransactionTbl extends Component {
   // intialize transactions using tranAPI
   componentDidMount() {
     const id = this.props.id;
-    API.getTransactions(id)   // calls Hackathon API
+    API.getAllTransactions(id)
       .then(data => {
         this.setState({ transactions: data });
       })
@@ -58,7 +58,7 @@ class TransactionTbl extends Component {
       newDir = currentDir + 1;
       newTransactions = await Sorter(this.state.transactions, column, false, null, null);  // false for descending
     } else {
-      const data = await API.getTransactions(this.props.id)
+      const data = await API.getAllTransactions(this.props.id)
       newTransactions = data.Transactions
     }
 
