@@ -1,6 +1,7 @@
 // src/services/api.js
 import axios from 'axios';
 
+// account
 export async function getAccountByEmail(email) {
   try {
     const response = await axios.get(`http://127.0.0.1:7001/account/get-by-email/${email}`);
@@ -11,9 +12,10 @@ export async function getAccountByEmail(email) {
   }
 }
 
-export async function getTransactions(account_id) {
+// transaction
+export async function getAllTransactions(accountID) {
   try {
-    const response = await axios.get(`http://localhost:7001/transaction/get-all/${account_id}`);
+    const response = await axios.get(`http://localhost:7001/transaction/get-all/${accountID}`);
     return response.data;
     
   } catch (error) {
@@ -22,3 +24,38 @@ export async function getTransactions(account_id) {
   }
 }
 
+// friend
+export async function getAllFollowings(accountID) {
+  try {
+    const response = await axios.get(`http://localhost:7001/friend/get-all/${accountID}`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching following users:', error);
+    throw error;
+  }
+}
+
+export async function addFollowing(accountID, friendID) {
+  try {
+    const response = await axios.post(`http://localhost:7001/friend/add-by-id/${accountID}/${friendID}`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching following users:', error);
+    throw error;
+  }
+}
+
+export async function addFollowing(accountID, username) {
+  try {
+    const response = await axios.delete(`http://localhost:7001/friend/delete/${accountID}/${username}`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching following users:', error);
+    throw error;
+  }
+}
+
+// user goal
