@@ -57,9 +57,9 @@ export async function addFollowing(accountID, friendID) {
   }
 }
 
-export async function deleteFollowing(accountID, username) {
+export async function deleteFollowing(accountID, friendID) {
   try {
-    const response = await axios.delete(`http://localhost:7001/friend/delete/${accountID}/${username}`);
+    const response = await axios.delete(`http://localhost:7001/friend/delete/${accountID}/${friendID}`);
     return response.data;
     
   } catch (error) {

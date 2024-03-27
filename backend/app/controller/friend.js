@@ -20,9 +20,8 @@ class FriendController extends Controller {
 
   async deleteFriend() {
     const { ctx, service } = this;
-    const username = ctx.params.username;
-    const id = ctx.params.id;
-    const res = await service.friend.deleteFriend(id, username);
+    const { accountID, friendID} = ctx.params;
+    const res = await service.friend.deleteFriend(accountID, friendID);
     ctx.status = 200;
     ctx.body = res;
   }

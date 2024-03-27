@@ -52,27 +52,13 @@ class FriendService extends Service {
     return allfollowings.map(item => item.account);
   }
 
-  async deleteFriend(id, username) {
+  async deleteFriend(accountID, friendID) {
     try {
-      // Search username in the database
-      const friend = await prisma.account.findUnique({
-        where: { username },
-      });
-
-      if (friend == null) {
-        throw new Error(
-          JSON.stringify({
-            errorCode: 400,
-            message: "Can't find this account: " + username,
-          })
-        );
-      }
-
       await prisma.following.delete({
         where: {
           Unique_accountID_followingID: {
-            accountID: id,
-            followingID: friend.accountID,
+            accountID: accountID,
+            followingID: friendID,
           },
         },
       });
