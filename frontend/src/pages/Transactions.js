@@ -25,9 +25,9 @@ class TransactionTbl extends Component {
   }
 
   // intialize transactions using tranAPI
-  componentDidMount() {
+  async componentDidMount() {
     const id = this.props.id;
-    API.getAllTransactions(id)
+    await API.getAllTransactions(id)
       .then(data => {
         this.setState({ transactions: data });
       })

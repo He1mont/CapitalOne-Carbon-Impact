@@ -216,8 +216,7 @@ class ManageFriends extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('click', this.handleOutsideClick, false);
     }
-    //Create method here to remove friend from list
-    handleFriendClick(item) {
+    handleDeleteFriendClick(item) {
         this.props.removeFriend(item);
     }
 
@@ -228,9 +227,10 @@ class ManageFriends extends React.Component {
                 <button onClick={this.toggleDropdown} className={styles.dropbtn}>Manage Friends</button>
                 <div id="myDropdown" className={`${styles.dropdownContent} ${this.state.showDropdown ? styles.show : ''}`}>
                     {list.map((item, index) => (
-                        <a key={index} onClick={() => this.handleFriendClick(item)}>
+                        <a key={index} >
                             {item.username}
-                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon} />
+                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon} 
+                            onClick={() => this.handleDeleteFriendClick(item)}/>
                         </a>
                     ))}
                 </div>
@@ -275,9 +275,9 @@ class Leaderboard extends Component {
     }
 
     // initialize and display the friendList
-    componentDidMount() {
+    async componentDidMount() {
         const id = this.props.userID;
-        API.getAllFollowings(id) 
+        await API.getAllFollowings(id) 
             .then(data => {
                 this.setState({ friendList: data });
             })
@@ -339,10 +339,16 @@ class Leaderboard extends Component {
         }
     }
 
-    removeFriend(friendName) {
-        this.setState(prevState => ({
-            friendList: prevState.friendList.filter(friend => friend !== friendName)
-        }));
+    async removeFriend(friend) {
+        await API.deleteFollowing(this.props.userID, friend.accountID) 
+            .then(following => {
+                this.setState(prevState => ({
+                    friendList: prevState.friendList.filter(followingUser => followingUser !== friend)
+                }));
+            })
+        .catch(error => {
+            console.error('Error deleting following users:', error);
+        });
     }
 
     render () {
@@ -374,7 +380,7 @@ class Leaderboard extends Component {
                 </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
-                        <p style={{ textAlign: 'center' }}>To view friends, add them by entering their ID</p>
+                        <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
                     ) : (
                         <div className={styles.leaderboard_list_container}>
                             <table className={styles.leaderboard_list}>
