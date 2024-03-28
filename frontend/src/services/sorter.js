@@ -81,19 +81,25 @@ export function searchSort(transactions, searchInput) {
     return matchingTransactions
 }
 
-export async function returnDataForPieChart(transactions, monthList) {
-    // // monthList is a list of strings representing timestamp
-    // for (const month of monthList) {
-    //     ret = await API.getCarbonScoreByMonthInCategory()
-    // }
+export async function returnDataForPieChart(accountID, dateList, data) {
+    let ret = []
+    for (const date of dateList) {
+        const obj = await API.getCarbonScoreByMonthInCategory(accountID, date.getFullYear(), date.getMonth());
+        let item = {}
+        for (const key of Object.keys(obj)) {
+            item[key] += obj.key
+        }
+        ret.push(item)
+    }
+    return ret
 }
 
-export function returnDataForLineGraph(transactions, monthList) {
+export function returnDataForLineGraph(accountID, dateList, data) {
     
     return []
 }
 
-export function returnDataForBarGraph(transactions, monthList) {
+export function returnDataForBarGraph(accountID, dateList, data) {
     
     return []
 }
