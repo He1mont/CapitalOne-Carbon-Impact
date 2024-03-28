@@ -74,8 +74,7 @@ class userGoalService extends Service {
       throw new Error(error.response ? error.response.data : error.message);
     }
   }
-  // might have to change don't know if we want to get the goals for all the months or the current month
-  // just business logic
+
   async getUserGoals(id) {
     try {
       const userGoal = await prisma.userGoals.findMany({
@@ -83,11 +82,14 @@ class userGoalService extends Service {
           accountID: id,
         },
       });
+
       return userGoal;
+
     } catch (error) {
       console.error("Error retrieving user goal:", error);
       throw new Error(error.response ? error.response.data : error.message);
     }
   }
 }
+
 module.exports = userGoalService;
