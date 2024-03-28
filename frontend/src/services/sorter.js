@@ -82,10 +82,10 @@ export function searchSort(transactions, searchInput) {
 }
 
 export async function returnDataForPieChart(transactions, monthList) {
-    // monthList is a list of strings representing timestamp
-    for (const month of monthList) {
-        ret = await API.getCarbonScoreByMonthInCategory()
-    }
+    // // monthList is a list of strings representing timestamp
+    // for (const month of monthList) {
+    //     ret = await API.getCarbonScoreByMonthInCategory()
+    // }
 }
 
 export function returnDataForLineGraph(transactions, monthList) {
