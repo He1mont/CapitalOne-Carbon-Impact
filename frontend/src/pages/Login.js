@@ -1,7 +1,7 @@
 // Login.js
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import "../assets/styles/Login.css";
+import styles from "../assets/styles/Login.module.css";
 import axios from "axios";
 import * as API from '../services/api';
 import Sorter from '../services/sorter';
@@ -23,11 +23,11 @@ function Head() {
   }
 
   return (
-    <div className="head-bar">
-      <div className="head-center">
+    <div className={styles.headBar}>
+      <div className={styles.headCenter}>
         <img
           src="/images/Logo.png"
-          className="head-img"
+          className={styles.headImg}
           alt="Logo"
           onClick={handleLoginClick}
         />
@@ -55,23 +55,23 @@ function Mid({
   const isSuccess = loginMessage.includes("success");
 
   return (
-    <div className="mid-bar-login">
-      <div className="mid-high-login"></div>
+    <div className={styles.midBarLogin}>
+      <div className={styles.midHighLogin}></div>
 
-      <div className="mid-center-login">
-        <div className={`mid-box-login ${isSuccess ? "success" : "error"}`}>
-          <h1 className="mid-box-txt-title-login">Login to your account</h1>
+      <div className={styles.midCenterLogin}>
+        <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
+          <h1 className={styles.midBoxTxtTitleLogin}>Login to your account</h1>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
             {/* Email Input */}
-            <div className="mb-3">
-              {loginMessage && <p className="login-message">{loginMessage}</p>}
+            <div className={styles.mb3}>
+              {loginMessage && <p className={styles.loginMessage}>{loginMessage}</p>}
               {/* <div className='login-message-box'> </div> */}
-              <div className="login-input-title">Username (email)</div>
+              <div className={styles.loginInputTitle}>Username (email)</div>
               <input
                 type="email"
-                className="form-control"
+                className={styles.formControl}
                 aria-label="Username (email)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -79,11 +79,11 @@ function Mid({
             </div>
 
             {/* Password Input */}
-            <div className="mb-3">
-              <div className="login-input-title">Password</div>
+            <div className={styles.mb3}>
+              <div className={styles.loginInputTitle}>Password</div>
               <input
                 type="password"
-                className="form-control"
+                className={styles.formControl}
                 aria-label="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -91,18 +91,18 @@ function Mid({
             </div>
 
             {/* Remember Me Checkbox */}
-            <div className="mb-3">
-              <div className="login-remember">
-                <div className="custom-control custom-checkbox">
+            <div className={styles.mb3}>
+              <div className={styles.loginRemember}>
+                <div className={styles.customControl}>
                   <input
                     type="checkbox"
-                    className="custom-control-input"
+                    className={styles.customControlInput}
                     id="customCheck1"
                     checked={rememberMe}
                     onChange={() => setRememberMe(!rememberMe)}
                   />
                   <label
-                    className="custom-control-label"
+                    className={styles.customControlLabel}
                     htmlFor="customCheck1"
                   >
                     Remember me
@@ -112,19 +112,19 @@ function Mid({
             </div>
 
             {/* Submit Button */}
-            <div className="d-grid">
-              <button type="submit" className="login-btn-submit">
+            <div className={styles.dGrid}>
+              <button type="submit" className={styles.loginBtnSubmit}>
                 Sign in
               </button>
             </div>
           </form>
 
           {/* Forgotten Credentials Links */}
-          <div className="login-forgotten-btn">
-            <p className="forgot-username text-right">
+          <div className={styles.loginForgottenBtn}>
+            <p className={styles.forgotUsername + " " + styles.textRight}>
               <a href="#">Forgot your username?</a>
             </p>
-            <p className="forgot-password text-right">
+            <p className={styles.forgotPassword + " " + styles.textRight}>
               <a href="#">Forgot your password?</a>
             </p>
           </div>
@@ -132,9 +132,9 @@ function Mid({
       </div>
 
       {/* Help Button */}
-      <div className="mid-low">
-        <div className="mid-low-help">
-          <button className="small-help-btn">? Help</button>
+      <div className={styles.midLow}>
+        <div className={styles.midLowHelp}>
+          <button className={styles.smallHelpBtn}>? Help</button>
         </div>
       </div>
     </div>
@@ -147,7 +147,7 @@ function Mid({
  */
 function Footer() {
   return (
-    <div className="footer">
+    <div className={styles.footer}>
       <p>© 2023-2024 Team7. All rights reserved.</p>
     </div>
   );
