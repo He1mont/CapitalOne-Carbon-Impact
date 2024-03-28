@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/History.module.css';
 import { useHistory ,useLocation} from 'react-router-dom';
-import { PieChart } from '@mui/x-charts';
-import { LineChart } from '@mui/x-charts';
-import { BarChart } from '@mui/x-charts';
+import { PieChart, LineChart, BarChart } from '@mui/x-charts';
 import { Hidden } from '@mui/material';
-
+import * as API from '../services/api';
+import * as Sorter from '../services/sorter';
 
 class MonthRangeSelect extends Component {
     render() {
@@ -75,6 +74,10 @@ class Graphs extends Component {
             graphSelection: 1,
             monthList: [this.props.startmonth],
             randomNumbers: [],
+            // data for each graph
+            dataForPie: [],
+            dataForLine: [],
+            dataForBar: [],
             //boolean for if category is shown
             entertainment: true,
             education: true,
@@ -122,6 +125,18 @@ class Graphs extends Component {
         }));
     }
 
+    returnTemplateForPie() {
+
+    }
+
+    returnTemplateForLine() {
+        
+    }
+
+    returnTemplateForBar() {
+        
+    }
+    
     generateMonthList = () => {
         const { startMonth, endMonth } = this.props;
         const start = new Date(startMonth);

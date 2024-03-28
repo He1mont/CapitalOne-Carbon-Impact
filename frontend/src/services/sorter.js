@@ -81,6 +81,7 @@ export function searchSort(transactions, searchInput) {
     return matchingTransactions
 }
 
+<<<<<<< HEAD
 function getCategories() {
     return [
         'Entertainment',
@@ -110,11 +111,27 @@ export async function returnDataForLineGraph(accountID, dateList) {
                 (accountID, date.getFullYear(), date.getMonth());
         }
       }
+=======
+export async function returnDataForPieChart(accountID, dateList, data) {
+    let ret = []
+    for (const date of dateList) {
+        const obj = await API.getCarbonScoreByMonthInCategory(accountID, date.getFullYear(), date.getMonth());
+        let item = {}
+        for (const key of Object.keys(obj)) {
+            item[key] += obj.key
+        }
+        ret.push(item)
+    }
+    return ret
+}
+
+export function returnDataForLineGraph(accountID, dateList, data) {
+>>>>>>> 7beeb2bc2c508d0756897bef679735c7beb1a71e
     
     return []
 }
 
-export function returnDataForBarGraph(transactions, monthList) {
+export function returnDataForBarGraph(accountID, dateList, data) {
     
     return []
 }
