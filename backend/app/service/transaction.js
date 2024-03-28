@@ -27,7 +27,7 @@ class TransactionService extends Service {
     });
 
     // if accountID does not exist
-    if (account.length === 0) {   
+    if (account.length === 0) {
       throw new Error(
         JSON.stringify({
           errorCode: 400,
@@ -35,7 +35,7 @@ class TransactionService extends Service {
         })
       );
     }
-  
+
     // if accountID is suspended or closed
     if (["closed", "suspended"].includes(account[0].state)) {
       throw new Error(
@@ -86,23 +86,23 @@ class TransactionService extends Service {
 
   // get all transactions by accountID
   async getAll(id) {
-    const account = await prisma.transaction.findMany({
+    const transactions = await prisma.transaction.findMany({
       where: {
         accountID: id,
       },
     });
-    return account;
+    return transactions;
   }
 
   // get transaction by transactionID
   async getByID(accountID, transactionID) {
-    const account = await prisma.transaction.findMany({
+    const transaction = await prisma.transaction.findMany({
       where: {
         accountID,
         transactionUUID: transactionID,
       },
     });
-    return account;
+    return transaction;
   }
 
   async getCarbonImpact(accountID, transactionID) {
@@ -201,6 +201,46 @@ class TransactionService extends Service {
       throw new Error(error.response ? error.response.data : error.message);
     }
   }
+
+  // return a list of transactions of a certain month, month in range(1, 12)
+  async getTransactionsByMonth(accountID, year, month) {
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        accountID: accountID,
+      },
+    });
+    // getMonth returns 0 for Jan, 1 for Feb, ...
+    return transactions.filter(item => {
+      return item.date.getFullYear() === year && item.date.getMonth() === month - 1;
+    });
+  }
+
+  // return carbon score of a certain month
+  async getCarbonScoreByMonth(accountID, year, month) {
+    const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
+    return filteredTransactions.reduce((acc, item) => acc + item.carbonScore, 0);
+  }
+
+  async getCarbonScoreByMonthInCategory(accountID, year, month) {
+    const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
+    let ret = {
+      "Entertainment": 0,
+      "Education": 0,
+      "Shopping": 0,
+      "Personal Care": 0,
+      "Health & Fitness": 0,
+      "Food & Dining": 0,
+      "Gifts & Donations": 0,
+      "Bills & Utilities": 0,
+      "Auto & Transport": 0,
+      "Travel": 0
+    };
+    for (const item of filteredTransactions) {
+      ret[item.category] += item.carbonScore;
+    }
+    return ret;
+  }
+
 
   async groupByDate(id) {
     try {

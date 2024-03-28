@@ -42,10 +42,40 @@ class TransactionController extends Controller {
     const { ctx, service } = this;
     const accountID = this.ctx.params.accountID;
     const transactionID = this.ctx.params.transactionID;
-    const res = await service.transaction.getCarbonImpact(
-      accountID,
-      transactionID
-    );
+    const res = await service.transaction.getCarbonImpact(accountID, transactionID);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
+
+  async getTransactionsByMonth() {
+    const { ctx, service } = this;
+    const accountID = this.ctx.params.accountID;
+    const year = parseInt(this.ctx.params.year, 10)
+    const month = parseInt(this.ctx.params.month, 10)
+    const res = await service.transaction.getTransactionsByMonth(accountID, year, month);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
+
+  async getCarbonScoreByMonth() {
+    const { ctx, service } = this;
+    const accountID = this.ctx.params.accountID;
+    const year = parseInt(this.ctx.params.year, 10)
+    const month = parseInt(this.ctx.params.month, 10)
+    const res = await service.transaction.getCarbonScoreByMonth(accountID, year, month);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
+
+  async getCarbonScoreByMonthInCategory() {
+    const { ctx, service } = this;
+    const accountID = this.ctx.params.accountID;
+    const year = parseInt(this.ctx.params.year, 10)
+    const month = parseInt(this.ctx.params.month, 10)
+    const res = await service.transaction.getCarbonScoreByMonthInCategory(accountID, year, month);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
