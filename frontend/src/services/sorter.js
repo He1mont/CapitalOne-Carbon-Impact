@@ -81,6 +81,21 @@ export function searchSort(transactions, searchInput) {
     return matchingTransactions
 }
 
+function getCategories() {
+    return [
+        'Entertainment',
+        'Education',
+        'Shopping',
+        'Personal Care',
+        'Health & Fitness',
+        'Food & Dining',
+        'Gifts & Donations',
+        'Bills & Utilities',
+        'Auto & Transport',
+        'Travel'
+    ];
+}
+
 export async function returnDataForPieChart(transactions, monthList) {
     // // monthList is a list of strings representing timestamp
     // for (const month of monthList) {
@@ -88,7 +103,13 @@ export async function returnDataForPieChart(transactions, monthList) {
     // }
 }
 
-export function returnDataForLineGraph(transactions, monthList) {
+export async function returnDataForLineGraph(accountID, dateList) {
+    for (const date of dateList) {
+        async () => {
+            const response = await API.getCarbonScoreByMonthInCategory
+                (accountID, date.getFullYear(), date.getMonth());
+        }
+      }
     
     return []
 }
