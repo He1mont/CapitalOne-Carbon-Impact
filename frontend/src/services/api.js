@@ -34,9 +34,9 @@ export async function getAllTransactions(accountID) {
   }
 }
 
-export async function getCarbonScoreByMonth(accountID, month) {
+export async function getCarbonScoreByMonth(accountID, year, month) {
   try {
-    const response = await axios.get(`http://localhost:7001/transaction/get-carbonscore-by-month/${accountID}/${month}`);
+    const response = await axios.get(`http://localhost:7001/transaction/get-carbonscore-by-month/${accountID}/${year}/${month}`);
     return response.data;
     
   } catch (error) {
@@ -45,9 +45,9 @@ export async function getCarbonScoreByMonth(accountID, month) {
   }
 }
 
-export async function getCarbonScoreByMonthInCategory(accountID, month) {
+export async function getCarbonScoreByMonthInCategory(accountID, year, month) {
   try {
-    const response = await axios.get(`http://localhost:7001/transaction/get-carbonscore-by-month-in-category/${accountID}/${month}`);
+    const response = await axios.get(`http://localhost:7001/transaction/get-carbonscore-by-month-in-category/${accountID}/${year}/${month}`);
     return response.data;
     
   } catch (error) {
