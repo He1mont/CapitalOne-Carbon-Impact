@@ -12,13 +12,20 @@ class MonthSelect extends Component {
     state = {
         month: moment(),
     };
+
+    async componentDidMount() {
+        this.props.getGoal(this.props.userID, this.state.month.format('MMMM'));
+    }
+
     decreaseMonth = () => {
         const nextMonth = this.state.month.clone().subtract(1, 'month');
         const minDate = moment('2021-01-01');
-        if (nextMonth.isSameOrAfter(minDate)){ //Only allow month reduction if it goes to a data after the start of 2021
+        // Only allow month reduction if it goes to a data after the start of 2021
+        if (nextMonth.isSameOrAfter(minDate)){
             this.setState(
                 (prevState) => ({ month: prevState.month.clone().subtract(1, 'month') })
             );
+            this.props.getGoal(this.props.userID, nextMonth.format('MMMM'));
         } 
     };
     increaseMonth = () => {
@@ -29,9 +36,11 @@ class MonthSelect extends Component {
         this.setState(
             (prevState) => ({ month: nextMonth })
         );
+        this.props.getGoal(this.props.userID, nextMonth.format('MMMM'));
     };
 
     render() {
+        const{month}=this.props;
         return (
             <table className={styles.month_select}>
                 <tbody>
@@ -239,29 +248,6 @@ class ManageFriends extends React.Component {
     }
 }
 
-// function HandleFriendInput(friend, currentID) {
-//     const addFollowingMessage = useState("");
-
-//     // Check if the input is invalid
-//     if (friend === null) {
-//         addFollowingMessage("Can't find this account!");
-
-//     } else if (friend.accountID === currentID) {
-//         addFollowingMessage("Can't following yourself!");
-
-//     } else if (friend.state === "closed") {
-//         addFollowingMessage("This account has been closed!");
-  
-//     } else if (friend.state === "suspended") {
-//         addFollowingMessage("This account has been suspended!");
-
-//     } else {
-//         return true
-//     }
-
-//     return false
-// }
-
 class Leaderboard extends Component {
     constructor(props) {
         super(props);
@@ -437,20 +423,55 @@ function Head({name,id}) {
  */
 function Mid({ name, id }) {
     let carbonEm = 1200;
-    const [goalEm, setGoalEm] = useState(2300);
+    let month;
+    const [goalEm, setGoalEm] = useState(0);
     const [inputValue, setInputValue] = useState('');
+
+    async function getGoal(id, month) {
+        let goals;
+        let ifSet = false;
+        
+        await API.getUserGoal(id)
+            .then(response => {
+                goals = response;
+            })
+            .catch(error => {
+                console.error('Error fetching goals:', error);
+            });
+
+        goals.map(goalItem => {
+            if (month === goalItem.month) {
+                setGoalEm(goalItem.goal);
+                ifSet = true;
+            }
+        });
+        if(!ifSet) {
+            // Didn't set a goal for this month 
+            setGoalEm(0);
+        }
+    };
+
+    async function setGoal(id, inputGoal, month) {
+        await API.setUserGoal(id, inputGoal, month)
+            .then(() => {
+                setGoalEm(inputGoal);
+            })
+            .catch(error => {
+                console.error('Error setting goal:', error);
+            });
+    };
 
     const handleGoalInputChange = (event) => {
         if (event.key === 'Enter') {
-            let value = event.target.value;
-            if (value <= 0) {
-                value = 0;
+            let inputGoal = event.target.value;
+            if (inputGoal <= 0) {
+                inputGoal = 0;
+            } else if (inputGoal >= 99999) {
+                inputGoal = 99999;
+            } else {
+                setGoalEm(parseFloat(inputGoal))
+                setInputValue('');
             }
-            else if (value >= 99999) {
-                value = 99999;
-            }
-            setGoalEm(parseFloat(value));
-            setInputValue('');
         }
     };
 
@@ -463,7 +484,7 @@ function Mid({ name, id }) {
                     <h1>Carbon Goals</h1>
                 </div>
                 <div className={styles.mid_high_center}>
-                    <MonthSelect />
+                    <MonthSelect getGoal={getGoal} userID={id}/>
                 </div>
             </div>
 
@@ -506,6 +527,7 @@ function Goals() {
     const location = useLocation();
     const name = location.state?.name || "You need to login"; 
     const id=location.state?.id ;
+
     return (
       <div>
         <Head name={name} id={id}/>

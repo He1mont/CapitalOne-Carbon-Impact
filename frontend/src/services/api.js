@@ -69,3 +69,24 @@ export async function deleteFollowing(accountID, friendID) {
 }
 
 // user goal
+export async function getUserGoal(accountID) {
+  try {
+    const response = await axios.get(`http://localhost:7001/userGoal/${accountID}`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching following users:', error);
+    throw error;
+  }
+}
+
+export async function setUserGoal(accountID, goal, month) {
+  try {
+    const response = await axios.get(`http://localhost:7001/userGoal/set-goal/${accountID}/${goal}/${month}`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching following users:', error);
+    throw error;
+  }
+}
