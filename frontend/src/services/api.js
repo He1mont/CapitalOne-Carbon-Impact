@@ -45,6 +45,17 @@ export async function getCarbonScoreByMonth(accountID, month) {
   }
 }
 
+export async function getCarbonScoreByMonthInCategory(accountID, month) {
+  try {
+    const response = await axios.get(`http://localhost:7001/transaction/get-carbonscore-by-month-in-category/${accountID}/${month}`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching carbon scores by month:', error);
+    throw error;
+  }
+}
+
 // ####################### Friend ############################
 export async function getAllFollowings(accountID) {
   try {

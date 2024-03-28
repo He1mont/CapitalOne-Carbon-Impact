@@ -1,3 +1,5 @@
+import * as API from './api';
+
 // 5 helper functions for column sort
 function sortByDate(transactions, flag) {
     return transactions.sort((a, b) => {
@@ -79,5 +81,19 @@ export function searchSort(transactions, searchInput) {
     return matchingTransactions
 }
 
+export async function returnDataForPieChart(transactions, monthList) {
+    // monthList is a list of strings representing timestamp
+    for (const month of monthList) {
+        ret = await API.getCarbonScoreByMonthInCategory()
+    }
+}
 
+export function returnDataForLineGraph(transactions, monthList) {
+    
+    return []
+}
 
+export function returnDataForBarGraph(transactions, monthList) {
+    
+    return []
+}
