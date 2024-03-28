@@ -1,7 +1,7 @@
 // src/services/api.js
 import axios from 'axios';
 
-// account
+// ####################### Account ############################
 export async function getAccountByEmail(email) {
   try {
     const response = await axios.get(`http://127.0.0.1:7001/account/get-by-email/${email}`);
@@ -18,11 +18,11 @@ export async function getAccountByUsername(username) {
     return response.data[0]
 
   } catch (error) {
-    console.error("Error fetching account by email:", error);
+    console.error("Error fetching account by username:", error);
   }
 }
 
-// transaction
+// ####################### Transaction ############################
 export async function getAllTransactions(accountID) {
   try {
     const response = await axios.get(`http://localhost:7001/transaction/get-all/${accountID}`);
@@ -34,14 +34,25 @@ export async function getAllTransactions(accountID) {
   }
 }
 
-// friend
+export async function getCarbonScoreByMonth(accountID, month) {
+  try {
+    const response = await axios.get(`http://localhost:7001/transaction/get-carbonscore-by-month/${accountID}/${month}`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching carbon scores by month:', error);
+    throw error;
+  }
+}
+
+// ####################### Friend ############################
 export async function getAllFollowings(accountID) {
   try {
     const response = await axios.get(`http://localhost:7001/friend/get-all/${accountID}`);
     return response.data;
     
   } catch (error) {
-    console.error('Error fetching following users:', error);
+    console.error('Error in fetching following users:', error);
     throw error;
   }
 }
@@ -52,7 +63,7 @@ export async function addFollowing(accountID, friendID) {
     return response.data;
     
   } catch (error) {
-    console.error('Error fetching following users:', error);
+    console.error('Error in adding following users:', error);
     throw error;
   }
 }
@@ -63,9 +74,9 @@ export async function deleteFollowing(accountID, friendID) {
     return response.data;
     
   } catch (error) {
-    console.error('Error fetching following users:', error);
+    console.error('Error in deleting following users:', error);
     throw error;
   }
 }
 
-// user goal
+// ####################### Goal ############################
