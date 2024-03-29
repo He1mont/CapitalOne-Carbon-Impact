@@ -109,9 +109,28 @@ export async function returnDataForPieChart(accountID, dateList, data) {
     return ret
 }
 
-export function returnDataForLineGraph(accountID, dateList, data) {
-    
-    return []
+export async function returnDataForLineGraph(accountID, dateList) {
+    // initialize the list
+    let targetData = getCategories().map(category => ({
+        id: category,
+        label: `grams of co2 for ${category.toLowerCase()}`,
+        data: 0,
+        stack: 'total',
+        area: true,
+        showMark: false
+      }));
+
+    let response;
+    // process for each month
+    for (const date of dateList) {
+        response = await API.getCarbonScoreByMonthInCategory
+            (accountID, date.getFullYear(), date.getMonth()+1);
+        for (const item of targetData) {
+            item.data += response[item.id];            
+        }
+    }
+
+    return targetData
 }
 
 export function returnDataForBarGraph(accountID, dateList, data) {
