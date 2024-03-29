@@ -295,7 +295,17 @@ function Low({name, id, month}) {
     </div>
   )
 }
-
+/**
+ * Footer component
+ * Displays the footer of the homepage, including copyright information.
+ */
+function Footer() {
+  return (
+    <div className="footer">
+      <p>© 2023-2024 Team7. All rights reserved.</p>
+    </div>
+  );
+}
 /**
  * Transactions component
  * Main component aggregating Head, Mid, and Low components to form the complete Transactions page.
@@ -315,6 +325,7 @@ function Transactions() {
       <Head name={name} id={id} />
       <Mid name={name} month={month} onMonthChange={handleMonthChange}/>
       <Low name={name} id={id} month={month}/>
+       <Footer /> {/* Add the Footer component here */}
     </div>
   )
 }

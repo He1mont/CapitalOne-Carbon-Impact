@@ -62,10 +62,13 @@ function Mid({
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
-            {/* Email Input */}
+           {/* Email Input */}
             <div className={styles.mb3}>
-              {loginMessage && <p className={styles.loginMessage}>{loginMessage}</p>}
-              {/* <div className='login-message-box'> </div> */}
+              {loginMessage && (
+                <div className={styles.inputErrorMessage}>
+                  {loginMessage}
+                </div>
+              )}
               <div className={styles.loginInputTitle}>Username (email)</div>
               <input
                 type="email"
@@ -75,6 +78,7 @@ function Mid({
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+
 
             {/* Password Input */}
             <div className={styles.mb3}>
@@ -217,10 +221,7 @@ function Login() {
       console.error("Error fetching account by email:", error);
     }
 
-    // Clear login message after a delay
-    setTimeout(() => {
-      setLoginMessage("");
-    }, 1000);
+   
   };
 
   return (

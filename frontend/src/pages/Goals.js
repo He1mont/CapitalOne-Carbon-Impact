@@ -413,7 +413,17 @@ function Low({name, id}) {
         </div>
     )
 }
-
+/**
+ * Footer component
+ * Displays the footer of the homepage, including copyright information.
+ */
+function Footer() {
+    return (
+      <div className="footer">
+        <p>© 2023-2024 Team7. All rights reserved.</p>
+      </div>
+    );
+  }
 /**
  * Goals component
  * Main component aggregating Head, Mid, and Low components to form the complete Goals page.
@@ -427,6 +437,7 @@ function Goals() {
         <Head name={name} id={id}/>
         <Mid name={name} id={id}/>
         <Low name={name} id={id}/>
+        <Footer />
       </div>
     )  
 }

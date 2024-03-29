@@ -125,26 +125,37 @@ html, body {
   bottom: 0px;
   z-index: 0;
 }
-.small-help-btn {
-  user-select: all;
-  font-size: 14px;
-  border: solid;
-  border-width: 2px;
-  border-radius: 5px;
-  background-color: white;
-  cursor: pointer;
-  color: #3d85c6;
-  z-index: 4;
-  bottom: 10px;
-  left: 20px;
-  position: absolute;
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  background-color: #ffffff; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+  transform-origin: top right;
+  transform: scaleY(0);
+  transition: transform 0.3s ease, opacity 0.3s ease; 
 }
+
+/* Animation Trigger */
+.show-dropdown {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+.dropdown-item {
+  font-size: 16px; 
+  cursor: pointer;
+}
+.dropdown-item:hover, .dropdown-item:focus { 
+  color: #046ac9; 
+  cursor: pointer; 
+}
+
+
 .mid-box-login {
   /* default styles for the box */
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid darkblue;
 }
-
 
 /*------------------------------ LOW ------------------------------*/
 .low-bar{
@@ -204,10 +215,24 @@ html, body {
   bottom: 0;
 
 }
+
+@keyframes flashBorder {
+  0% {
+    border-color: darkblue;
+  }
+  3% {
+    border-color:darkblue; /* Change to the desired color */
+    box-shadow: 0 0 10px darkblue;
+  }
+  5% {
+    border-color: darkblue;
+  }
+}
+
 /*---------- KEY FRAMES -------- */
 @keyframes slideInFromRight {
   0% {
-    transform: translateX(100%);
+    transform: translateX(50%);
     opacity: 0;
   }
   100% {
@@ -216,10 +241,31 @@ html, body {
   }
 }
 
+
+@keyframes slideBoxTextInFromRight {
+  0% {
+    transform: translateX(5%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.low-bar-btn h2,
+.low-bar-btn p{
+  animation: slideBoxTextInFromRight 1s ease-out;
+}
+
+.low-bar-btn:nth-child(1) .low-bar-btn-img,
 .mid-box-txt-title,
 .mid-box-txt-line{
   animation: slideInFromRight 1s ease-out;
 }
+
+
+
+
 
 
 

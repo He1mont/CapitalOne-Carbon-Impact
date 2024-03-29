@@ -73,6 +73,7 @@ class Graphs extends Component {
         super(props);
         this.state = {
             graphSelection: 1,
+            loading: true,
             monthList: [this.props.startmonth],
             randomNumbers: [],
             //boolean for if category is shown
@@ -108,6 +109,10 @@ class Graphs extends Component {
     
     componentDidMount() {
         this.generateMonthList();
+
+        setTimeout(() => {
+            this.setState({ loading: false }); // After 3 seconds, set loading to false
+        }, 800);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -257,6 +262,7 @@ class Graphs extends Component {
     render() {
         const { startMonth, endMonth } = this.props;
         const { monthList, randomNumbers } = this.state;
+        const { loading } = this.state;
         let selectedGraph;
 
         const stackStrategy = {
@@ -290,6 +296,14 @@ class Graphs extends Component {
             travel: '#37FF8B',
           };
 
+          if (loading) {
+            // Render the spinner if loading is true
+            selectedGraph = (
+                <div className={styles.spinnerContainer}>
+                    <div className={styles.spinner}></div>
+                </div>
+            );
+        } else {
         // Determine which graph is shown based on graphSelection
         if (monthList.length === randomNumbers.length) {
             if (this.state.graphSelection === 1) {
@@ -345,6 +359,10 @@ class Graphs extends Component {
                 </div>;
             }
         }
+
+        }
+
+     
         
     
         return (
@@ -652,6 +670,17 @@ class Mid extends Component {
         );
     }
 }
+/**
+ * Footer component
+ * Displays the footer of the homepage, including copyright information.
+ */
+function Footer() {
+    return (
+      <div className="footer">
+        <p>© 2023-2024 Team7. All rights reserved.</p>
+      </div>
+    );
+}
 
 function History() {
     const location = useLocation();
@@ -661,6 +690,7 @@ function History() {
         <div>
             <Head name={name} id={id} />
             <Mid name={name} id={id} />
+            <Footer /> 
         </div>
     )
 }

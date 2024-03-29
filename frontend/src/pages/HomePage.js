@@ -1,6 +1,6 @@
 // HomePage.js
 // useEffect - tool to perform side effects in function components.
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory ,useLocation} from 'react-router-dom';
 import '../assets/styles/App.css';
 
@@ -11,18 +11,8 @@ import '../assets/styles/App.css';
  * Displays the top part of the homepage including the logo and login button.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head() {
-  const history = useHistory();
-
-  /**
-   * handleLoginClick function
-   * Redirects user to the login page when the login button is clicked.
-   */
-  function handleLoginClick() {
-    history.push('/Login');
-  }
+function Head({ onLoginClick }) {
   return (
-
     <div className="head-bar">
       {/* Logo */}
       <div className="head-center">
@@ -31,34 +21,42 @@ function Head() {
 
       {/* Login */}
       <div className="head-high-txt-right">
-        <button onClick={handleLoginClick} className="login-btn">
+        <button onClick={onLoginClick} className="login-btn">
           <img src="/images/user.png" alt="Login" />
         </button>
       </div>
-      
-
     </div>
-
-
   );
 }
+
 /**
  * Mid component
- * Displays the middle section of the homepage, including user information and button redirecting to other pages.
+ * Displays the middle section of the homepage, includes a dropdown for help and user settings.
  */
-function Mid({name}) {
+function Mid({ name, showDropdown }) {
   const history = useHistory();
+  
   function handleHelpClick() {
     history.push('/Help');
-    console.log("AHHH")
   }
+
+  function handleUserSettingsClick() {
+    // ' for user settings
+    history.push('/UserSettings');
+  }
+
+  function handlePwdClick() {
+    // for user settings
+    history.push('/ChangePassword');
+  }
+
+  const dropdownClass = showDropdown ? "dropdown-menu show-dropdown" : "dropdown-menu";
   return (
     <div className="mid-bar">
-
       {/* User Information and Carbon Impact Section */}
       <div className="mid-high">
         <div className="mid-high-txt-left">
-          <p>{name }</p> 
+          <p>{name}</p>
           <h1>Your Carbon Impact</h1>
         </div>
       </div>
@@ -77,14 +75,19 @@ function Mid({name}) {
           </p>
         </div>
       </div>
-
-      {/* Help Button */}
-      <div className="mid-low">
-        <button className="small-help-btn" onClick={handleHelpClick}>? Help</button>
+      
+      {/* Drop Down*/}
+      <div className={dropdownClass}>
+        <button onClick={handleUserSettingsClick} className="dropdown-item">Profile</button>
+        <button onClick={handlePwdClick} className="dropdown-item">Change Password</button>
+        <button onClick={handleHelpClick} className="dropdown-item">Help</button>
       </div>
     </div>
+
+  
   );
 }
+
 
 /**
  * Low component
@@ -194,18 +197,18 @@ function Footer() {
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function HomePage() {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
+  
   const history = useHistory();
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
-  const id=location.state?.id ;
-
-  
-
+  const id = location.state?.id;
 
   return (
     <div>
-      <Head />
-      <Mid name={name}/>
+      <Head onLoginClick={toggleDropdown} />
+      <Mid name={name} showDropdown={showDropdown}/>
       <Low name={name} id={id}/>
       <Footer />
     </div>
