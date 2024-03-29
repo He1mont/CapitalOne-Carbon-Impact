@@ -281,7 +281,6 @@ class Leaderboard extends Component {
         this.state = {
             friendList: [],
             newFriend: '',
-            previousMonth: this.props.month,
             carbonScoreList: [],
         };
         this.handleChange = this.handleChange.bind(this);
@@ -305,11 +304,9 @@ class Leaderboard extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        console.log(prevProps.month.format('MM'));
         // Check if the month has changed
-        if (prevProps.month !== this.state.previousMonth) {
+        if (prevProps.month.format('MM') !== this.props.month.format('MM')) {
             await this.fetchCarbonScoreForFriends();
-            this.setState({ previousMonth: prevProps.month });
         }
     }
 
@@ -321,8 +318,9 @@ class Leaderboard extends Component {
         await Promise.all(friends.map(async (friend) => {
             const carbonScore = await API.getCarbonScoreByMonth(friend.accountID, 
                 month.format('YYYY'), month.format('MM'));
-            carbonScoreList.push(carbonScore);
+            carbonScoreList.push({ [friend.username]: carbonScore });
         }));
+
         this.setState({ carbonScoreList });
     };
 
@@ -393,6 +391,14 @@ class Leaderboard extends Component {
     render () {
         const followingUsers = this.state.friendList;
         const carbonScoreList = this.state.carbonScoreList;
+        const getCarbonScore = (username) => {
+            for (const obj of carbonScoreList) {
+                if (obj.hasOwnProperty(username)) {
+                    return obj[username];
+                }
+            }
+            return null;
+        };
 
         return (
             <div style={{
@@ -436,7 +442,7 @@ class Leaderboard extends Component {
                                     <tr key={index} className={styles.leaderboard_tablerow}>
                                         <td style={{width: '10%', textAlign: 'center'}}>{'#' + (index + 1)}</td>
                                         <td style={{width: '60%', textAlign: 'center'}}>{followingUser.username}</td>
-                                        <td style={{width: '30%', textAlign: 'center'}}>{carbonScoreList[index]}</td>
+                                        <td style={{width: '30%', textAlign: 'center'}}>{getCarbonScore(followingUser.username)}</td>
                                     </tr>
                                     ))}
                                 </tbody>
