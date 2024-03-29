@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Goals.module.css';
 import { useHistory,useLocation } from 'react-router-dom';
@@ -9,38 +9,26 @@ import * as API from '../services/api';
  * Renders a month selector for the user to use to view data from a given month
  */
 class MonthSelect extends Component {
-    state = {
-        month: moment(),
-    };
-
-    async componentDidMount() {
-        this.props.getGoal(this.props.userID, this.state.month.format('MMMM'));
-    }
 
     decreaseMonth = () => {
-        const nextMonth = this.state.month.clone().subtract(1, 'month');
+        const { month, onMonthChange } = this.props;
+        const nextMonth = month.clone().subtract(1, 'month');
         const minDate = moment('2021-01-01');
         // Only allow month reduction if it goes to a data after the start of 2021
         if (nextMonth.isSameOrAfter(minDate)){
-            this.setState(
-                (prevState) => ({ month: prevState.month.clone().subtract(1, 'month') })
-            );
-            this.props.getGoal(this.props.userID, nextMonth.format('MMMM'));
+            onMonthChange(nextMonth);
         } 
     };
     increaseMonth = () => {
-        const nextMonth = this.state.month.clone().add(1, 'month');
-        if (nextMonth > moment()) {
-            return; // Do nothing if attempting to go to a future month
+        const { month, onMonthChange } = this.props;
+        const nextMonth = month.clone().add(1, 'month');
+        if (nextMonth <= moment()) {
+            onMonthChange(nextMonth);
         }
-        this.setState(
-            (prevState) => ({ month: nextMonth })
-        );
-        this.props.getGoal(this.props.userID, nextMonth.format('MMMM'));
     };
 
     render() {
-        const{month}=this.props;
+        const{month} = this.props;
         return (
             <table className={styles.month_select}>
                 <tbody>
@@ -51,13 +39,13 @@ class MonthSelect extends Component {
                             </button>
                         </th>
                         <th style={{ width: '34%', textAlign: 'center' }}>
-                            <span>{this.state.month.format('MMM YYYY')}</span>
+                            <span>{month.format('MMM YYYY')}</span>
                         </th>
                         <th style={{ width: '33%', textAlign: 'left' }}>
                             <button
                                 className={styles.month_select_btn}
                                 onClick={this.increaseMonth}
-                                disabled={this.state.month.clone().add(1, 'hour') > moment()}
+                                disabled={month.clone().add(1, 'hour') > moment()}
                             >
                                 <img src="/images/month-right.png" alt="Right Arrow" width="30px" />
                             </button>
@@ -70,12 +58,41 @@ class MonthSelect extends Component {
 }
 
 class CarbonUseCircle extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            previousMonth: this.props.month,
+            scoreLastMonth: 0,
+        };
+    }
+
+    componentDidMount() {
+        this.fetchLastMonthCarbonScore();
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+        // Check if the month has changed
+        if (prevProps.month !== this.state.previousMonth) {
+            this.fetchLastMonthCarbonScore();
+            this.setState({ previousMonth: prevProps.month });
+        }
+    }
+
     getPercentage = (carbonEmission, goalEmissions) => {
         let percentage = carbonEmission / goalEmissions;
         if (percentage > 1) {
             percentage = 1;
         }
         return percentage * 100;
+    };
+
+    fetchLastMonthCarbonScore = async () => {
+        const {id, month} = this.props;
+        const previousMonth = month.clone().subtract(1, 'month');
+        await API.getCarbonScoreByMonth(id, previousMonth.format('YYYY'), previousMonth.format('MM'))
+        .then(data => {
+            this.setState({ scoreLastMonth: data });
+        });
     };
 
     drawCircle = ({ color }) => {
@@ -122,6 +139,16 @@ class CarbonUseCircle extends Component {
     };
 
     render() {
+        let difference, returnSetence;
+        const {goalEmissions, carbonEmission} = this.props;
+        if(goalEmissions >= carbonEmission) {
+            difference = goalEmissions - carbonEmission;
+            returnSetence = "below goal";
+        } else {
+            difference = carbonEmission - goalEmissions;
+            returnSetence = "above goal";
+        }
+
         return (
             <div style={{ position: 'relative', height: '100%' }}>
                 
@@ -141,7 +168,7 @@ class CarbonUseCircle extends Component {
                                                 lineHeight: '6px',
                                                 fontSize: '18px'
                                             }}>
-                                            <h1>#holder#</h1>
+                                            <h1>{this.state.scoreLastMonth}</h1>
                                             <p>kgco2</p>
                                             <p>last month</p>
                                         </div>
@@ -181,9 +208,9 @@ class CarbonUseCircle extends Component {
                                                 lineHeight: '6px',
                                                 fontSize: '18px'
                                             }}>
-                                            <h1>{this.props.goalEmissions - this.props.carbonEmission}</h1>
+                                            <h1>{difference}</h1>
                                             <p>kgco2</p>
-                                            <p>below goal</p>
+                                            <p>{returnSetence}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -253,7 +280,9 @@ class Leaderboard extends Component {
         super(props);
         this.state = {
             friendList: [],
-            newFriend: ''
+            newFriend: '',
+            previousMonth: this.props.month,
+            carbonScoreList: [],
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -271,7 +300,31 @@ class Leaderboard extends Component {
                 console.error('Error fetching following users:', error);
                 this.setState({ friendList: [] });
             });
+
+        this.fetchCarbonScoreForFriends();
     }
+
+    async componentDidUpdate(prevProps, prevState) {
+        console.log(prevProps.month.format('MM'));
+        // Check if the month has changed
+        if (prevProps.month !== this.state.previousMonth) {
+            await this.fetchCarbonScoreForFriends();
+            this.setState({ previousMonth: prevProps.month });
+        }
+    }
+
+    fetchCarbonScoreForFriends = async () => {
+        let friends = this.state.friendList;
+        const month = this.props.month;
+        let carbonScoreList = [];
+
+        await Promise.all(friends.map(async (friend) => {
+            const carbonScore = await API.getCarbonScoreByMonth(friend.accountID, 
+                month.format('YYYY'), month.format('MM'));
+            carbonScoreList.push(carbonScore);
+        }));
+        this.setState({ carbonScoreList });
+    };
 
     async addFriend() {
         const currentID = this.props.userID;
@@ -311,7 +364,7 @@ class Leaderboard extends Component {
                 .catch(error => {
                     console.error('Error adding following users:', error);
                 });
-            }             
+            }    
         }
     }
 
@@ -339,6 +392,7 @@ class Leaderboard extends Component {
 
     render () {
         const followingUsers = this.state.friendList;
+        const carbonScoreList = this.state.carbonScoreList;
 
         return (
             <div style={{
@@ -382,7 +436,7 @@ class Leaderboard extends Component {
                                     <tr key={index} className={styles.leaderboard_tablerow}>
                                         <td style={{width: '10%', textAlign: 'center'}}>{'#' + (index + 1)}</td>
                                         <td style={{width: '60%', textAlign: 'center'}}>{followingUser.username}</td>
-                                        <td style={{width: '30%', textAlign: 'center'}}>-xxxxxx-</td>
+                                        <td style={{width: '30%', textAlign: 'center'}}>{carbonScoreList[index]}</td>
                                     </tr>
                                     ))}
                                 </tbody>
@@ -421,26 +475,27 @@ function Head({name,id}) {
  * Mid component
  * Renders the middle section of the Goals page, providing contextual information.
  */
-function Mid({ name, id }) {
-    let carbonEm = 1200;
-    let month;
+function Mid({ name, id, month, onMonthChange }) {
+    const [carbonEm, setCarbonEm] = useState(0);
     const [goalEm, setGoalEm] = useState(0);
     const [inputValue, setInputValue] = useState('');
 
-    async function getGoal(id, month) {
-        let goals;
-        let ifSet = false;
-        
-        await API.getUserGoal(id)
-            .then(response => {
-                goals = response;
-            })
-            .catch(error => {
-                console.error('Error fetching goals:', error);
-            });
+    useEffect(() => {
+        const fetchCarbonScore = async () => {
+          const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
+          setCarbonEm(data);
+        };
+    
+        fetchCarbonScore();
+        updateGoal();
+      }, [month]);    // recall useEffect when `month` is changed
+
+    async function updateGoal() {
+        let ifSet = false; 
+        let goals = await API.getUserGoal(id);
 
         goals.map(goalItem => {
-            if (month === goalItem.month) {
+            if (month.format('MMMM') === goalItem.month) {
                 setGoalEm(goalItem.goal);
                 ifSet = true;
             }
@@ -451,14 +506,11 @@ function Mid({ name, id }) {
         }
     };
 
-    async function setGoal(id, inputGoal, month) {
-        await API.setUserGoal(id, inputGoal, month)
+    async function setGoal(inputGoal) {
+        await API.setUserGoal(id, inputGoal, month.format('MMMM'))
             .then(() => {
                 setGoalEm(inputGoal);
             })
-            .catch(error => {
-                console.error('Error setting goal:', error);
-            });
     };
 
     const handleGoalInputChange = (event) => {
@@ -468,10 +520,9 @@ function Mid({ name, id }) {
                 inputGoal = 0;
             } else if (inputGoal >= 99999) {
                 inputGoal = 99999;
-            } else {
-                setGoalEm(parseFloat(inputGoal))
-                setInputValue('');
             }
+            setGoal(inputGoal)
+            setInputValue('');
         }
     };
 
@@ -484,12 +535,12 @@ function Mid({ name, id }) {
                     <h1>Carbon Goals</h1>
                 </div>
                 <div className={styles.mid_high_center}>
-                    <MonthSelect getGoal={getGoal} userID={id}/>
+                    <MonthSelect month={month} onMonthChange={onMonthChange} />
                 </div>
             </div>
 
             <div className={styles.mid_center}>
-                <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} />
+                <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} id={id} month={month}/>
             </div>
 
             <div className={styles.mid_low}>
@@ -511,10 +562,10 @@ function Mid({ name, id }) {
  * Low component
  * Renders the lower section of the Goals page.
  */
-function Low({name, id}) {
+function Low({id, month}) {
     return (
         <div className={styles.low_bar}>
-            <Leaderboard userID={id}/>
+            <Leaderboard userID={id} month={month}/>
         </div>
     )
 }
@@ -527,12 +578,17 @@ function Goals() {
     const location = useLocation();
     const name = location.state?.name || "You need to login"; 
     const id=location.state?.id ;
+    const [month, setMonth] = useState(moment());
+
+    const handleMonthChange = (newMonth) => {
+        setMonth(newMonth);
+      };
 
     return (
       <div>
         <Head name={name} id={id}/>
-        <Mid name={name} id={id}/>
-        <Low name={name} id={id}/>
+        <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange}/>
+        <Low name={name} id={id} month={month}/>
       </div>
     )  
 }
