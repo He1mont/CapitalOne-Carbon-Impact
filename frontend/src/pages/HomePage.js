@@ -45,9 +45,13 @@ function Mid({ name, showDropdown }) {
     history.push('/UserSettings');
   }
 
-  function handlePwdClick() {
+  function handleDetailsClick() {
     // for user settings
     history.push('/ChangePassword');
+  }
+  function handleLogoutClick() {
+    // for user settings
+    history.push('/Login');
   }
 
   const dropdownClass = showDropdown ? "dropdown-menu show-dropdown" : "dropdown-menu";
@@ -79,7 +83,8 @@ function Mid({ name, showDropdown }) {
       {/* Drop Down*/}
       <div className={dropdownClass}>
         <button onClick={handleUserSettingsClick} className="dropdown-item">Profile</button>
-        <button onClick={handlePwdClick} className="dropdown-item">Change Password</button>
+        <button onClick={handleDetailsClick} className="dropdown-item">Update Details</button>
+        <button onClick={handleLogoutClick} className="dropdown-item">Logout</button>
         <button onClick={handleHelpClick} className="dropdown-item">Help</button>
       </div>
     </div>
