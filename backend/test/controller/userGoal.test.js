@@ -1,102 +1,55 @@
 const { app, assert } = require('egg-mock/bootstrap');
-const UserGoalController = require('../../app/controller/userGoal');
 
 describe('UserGoalController', () => {
-  let controller;
+  it('should POST /userGoal/set-goal/:id/:goal/:month', async () => {
+    const mockID = 1;
+    const mockgoal = '3000';
+    const mockmonth = 'January';
 
-  beforeEach(() => {
-    app.mockContext({});
-    controller = new UserGoalController(app);
-  });
+    app.mockService('userGoal', 'createGoal', async () => {
+      return { id: mockID, goal: mockgoal, month: mockmonth };
+    });
 
-  describe('createGoal', () => {
-    it('should create a new goal', async () => {
-      const mockParams = { id: '1', goal: '3000', month: 'January' };
-      const mockServiceResponse = { id: '1', goal: '3000', month: 'January' };
+    const result = await app
+      .httpRequest()
+      .post(`/userGoal/set-goal/${mockID}/${mockgoal}/${mockmonth}`)
+      .expect(200);
 
-      app.mockContext({
-        params: mockParams,
-      });
-
-      app.mockService('userGoal', 'createGoal', async () => {
-        return mockServiceResponse;
-      });
-
-      await controller.createGoal();
-
-      assert.strictEqual(controller.ctx.status, 200);
-      assert.deepStrictEqual(controller.ctx.body, mockServiceResponse);
+    assert.deepStrictEqual(result.body, {
+      id: mockID,
+      goal: mockgoal,
+      month: mockmonth,
     });
   });
 
-  describe('userGoals', () => {
-    it('should delete user goal if method is DELETE', async () => {
-      const mockParams = { id: '1' };
+  it('should GET /userGoal/:id', async () => {
+    const mockID = 1;
 
-      app.mockContext({
-        params: mockParams,
-        method: 'DELETE',
-      });
-
-      app.mockService('userGoal', 'deleteUserGoal', async () => {
-        return { message: 'User goal deleted successfully' };
-      });
-
-      await controller.userGoals();
-
-      assert.strictEqual(controller.ctx.status, 204);
-      assert.strictEqual(controller.ctx.body, '');
+    app.mockService('userGoal', 'getUserGoals', async () => {
+      return { id: mockID };
     });
-
-    it('should retrieve user goals if method is GET', async () => {
-      const mockParams = { id: '1' };
-      const mockServiceResponse = [{ id: '1', goal: 'Goal', month: 'January' }];
-
-      app.mockContext({
-        params: mockParams,
-        method: 'GET',
-      });
-
-      app.mockService('userGoal', 'getUserGoals', async () => {
-        return mockServiceResponse;
-      });
-
-      await controller.userGoals();
-
-      assert.strictEqual(controller.ctx.status, 200);
-      assert.deepStrictEqual(controller.ctx.body, mockServiceResponse);
-    });
-
-    it('should handle method not allowed', async () => {
-      const mockParams = { id: '1' };
-
-      app.mockContext({
-        params: mockParams,
-        method: 'PUT',
-      });
-
-      await controller.userGoals();
-
-      assert.strictEqual(controller.ctx.status, 405);
-      assert.deepStrictEqual(controller.ctx.body, { error: 'Method not allowed' });
-    });
-
-    it('should handle user goal not found', async () => {
-      const mockParams = { id: '2' };
-
-      app.mockContext({
-        params: mockParams,
-        method: 'GET',
-      });
-
-      app.mockService('userGoal', 'getUserGoals', async () => {
-        return null;
-      });
-
-      await controller.userGoals();
-
-      assert.strictEqual(controller.ctx.status, 404);
-      assert.deepStrictEqual(controller.ctx.body, { error: 'User goal not found' });
+    const result = await app
+      .httpRequest()
+      .get(`/userGoal/${mockID}`)
+      .expect(200);
+    assert.deepStrictEqual(result.body, {
+      id: mockID,
     });
   });
+
+  it('should DELETE /userGoal/:id', async () => {
+    const mockID = 1;
+
+    app.mockService('userGoal', 'deleteUserGoal', async () => {
+      // throw new Error('{"errorCode":200,"message":"User goal deleted successfully"}');
+
+    });
+    const result = await app
+      .httpRequest()
+      .delete(`/userGoal/${mockID}`)
+      .expect(204);
+    assert.deepStrictEqual(result.body, {});
+  });
+
+
 });

@@ -52,7 +52,7 @@ class AccountService extends Service {
           username: userName,
           accountID: account.accountId,
           email: account.email,
-          state: account.state
+          state: account.state,
         },
       });
 
@@ -426,12 +426,12 @@ class AccountService extends Service {
               carbonInGrams = transaction.data.attributes.carbon_grams;
             }
           }
-          let carbonScore = Math.abs(carbonInGrams);
+          const carbonScore = Math.abs(carbonInGrams);
 
           // include point of sale:
-          if ((hackathonTransactionResponse.data.pointOfSale = 'Online')) {
-            carbonScore = carbonScore / 2;
-          }
+          // if ((hackathonTransactionResponse.data.pointOfSale = 'Online')) {
+          //   carbonScore = carbonScore / 2;
+          // }
 
           return Math.ceil(carbonScore / 1000);
         }

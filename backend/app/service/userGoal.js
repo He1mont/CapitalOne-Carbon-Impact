@@ -1,6 +1,6 @@
-const Service = require("egg").Service;
-require("dotenv").config();
-const { PrismaClient } = require("@prisma/client");
+const Service = require('egg').Service;
+require('dotenv').config();
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 class userGoalService extends Service {
@@ -9,32 +9,32 @@ class userGoalService extends Service {
       const UserGoal = await prisma.userGoals.findMany({
         where: {
           accountID: id,
-          month: month,
+          month,
         },
       });
       if (UserGoal.length > 0) {
         // If the account already exists , update its goal
-        const existingUserGoal = await prisma.userGoals.updateMany({
+        await prisma.userGoals.updateMany({
           where: {
             accountID: id,
-            month: month,
+            month,
           },
           data: {
-            goal: goal,
+            goal,
           },
         });
-        return { errorCode: 200, message: "Sucessfully updated the user goal" };
-      } else {
-        // If the account doesn't exist, create it with the goal
-        const newUserGoal = await prisma.userGoals.create({
-          data: {
-            accountID: id,
-            goal: goal,
-            month: month,
-          },
-        });
-        return newUserGoal;
+        return { errorCode: 200, message: 'Sucessfully updated the user goal' };
       }
+      // If the account doesn't exist, create it with the goal
+      const newUserGoal = await prisma.userGoals.create({
+        data: {
+          accountID: id,
+          goal,
+          month,
+        },
+      });
+      return newUserGoal;
+
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
     }
@@ -58,7 +58,7 @@ class userGoalService extends Service {
         throw new Error(
           JSON.stringify({
             errorCode: 200,
-            message: "User goal deleted successfully",
+            message: 'User goal deleted successfully',
           })
         );
       }
@@ -66,11 +66,11 @@ class userGoalService extends Service {
       throw new Error(
         JSON.stringify({
           errorCode: 404,
-          message: "User goal not found",
+          message: 'User goal not found',
         })
       );
     } catch (error) {
-      console.error("Error deleting user goal:", error);
+      console.error('Error deleting user goal:', error);
       throw new Error(error.response ? error.response.data : error.message);
     }
   }
@@ -86,7 +86,7 @@ class userGoalService extends Service {
       return userGoal;
 
     } catch (error) {
-      console.error("Error retrieving user goal:", error);
+      console.error('Error retrieving user goal:', error);
       throw new Error(error.response ? error.response.data : error.message);
     }
   }

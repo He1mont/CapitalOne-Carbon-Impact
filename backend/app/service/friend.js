@@ -12,7 +12,7 @@ class FriendService extends Service {
       const following = await prisma.following.findUnique({
         where: {
           Unique_accountID_followingID: {
-            accountID: accountID,
+            accountID,
             followingID: friendID,
           },
         },
@@ -30,7 +30,7 @@ class FriendService extends Service {
       // Store the following relation into database
       const followingRelation = await prisma.following.create({
         data: {
-          accountID: accountID,
+          accountID,
           followingID: friendID,
         },
       });
@@ -57,7 +57,7 @@ class FriendService extends Service {
       await prisma.following.delete({
         where: {
           Unique_accountID_followingID: {
-            accountID: accountID,
+            accountID,
             followingID: friendID,
           },
         },

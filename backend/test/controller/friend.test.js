@@ -1,19 +1,19 @@
 const { app, assert } = require('egg-mock/bootstrap');
 
 describe('FriendController', () => {
-  it('should POST /friend/add-by-username/:id/:username', async () => {
+  it('should POST /friend/add-by-id/:accountID/:friendID', async () => {
     const mockAccountID = 1;
-    const mockUsername = 'Mike';
-    app.mockService('friend', 'addByUsername', async () => {
-      return { id: mockAccountID, username: mockUsername };
+    const mockFriendID = 2;
+    app.mockService('friend', 'addByID', async () => {
+      return { accountID: mockAccountID, friendID: mockFriendID };
     });
 
     const result = await app.httpRequest()
-      .post(`/friend/add-by-username/${mockAccountID}/${mockUsername}`)
+      .post(`/friend/add-by-id/${mockAccountID}/${mockFriendID}`)
       .expect(200);
 
     assert.deepStrictEqual(result.body,
-      { id: mockAccountID, username: mockUsername });
+      { accountID: mockAccountID, friendID: mockFriendID });
   });
 
   it('should GET /friend/get-all/:id', async () => {
@@ -32,15 +32,15 @@ describe('FriendController', () => {
       [{ id: mockFollowing1 }, { id: mockFollowing2 }]);
   });
 
-  it('should DELETE /friend/delete/:id/:username', async () => {
+  it('should DELETE /friend/delete/:accountID/:friendID', async () => {
     const mockAccountID = 1;
-    const mockUsername = 'Mike';
-    app.mockService('friend', 'delete', async () => {
+    const mockFriendID = 2;
+    app.mockService('friend', 'deleteFriend', async () => {
       return 1;
     });
 
     const result = await app.httpRequest()
-      .delete(`/friend/delete/${mockAccountID}/${mockUsername}`)
+      .delete(`/friend/delete/${mockAccountID}/${mockFriendID}`)
       .expect(200);
 
     assert.deepStrictEqual(result.body, 1);
