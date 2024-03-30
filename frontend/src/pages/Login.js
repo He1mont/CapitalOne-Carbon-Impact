@@ -69,7 +69,7 @@ function Mid({
                   {loginMessage}
                 </div>
               )}
-              <div className={styles.loginInputTitle}>Username (email)</div>
+              <div className={styles.loginInputTitle}>Email</div>
               <input
                 type="email"
                 className={styles.formControl}

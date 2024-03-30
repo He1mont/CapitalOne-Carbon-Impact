@@ -18,6 +18,8 @@ class TransactionTbl extends Component {
       currentDir: 0,
       transactions: [],   // create an attribute to store all transactions
       searchInput: '',    // input in search bar
+      errorMessage: '',
+      
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClickSearch = this.handleClickSearch.bind(this);
@@ -89,13 +91,23 @@ class TransactionTbl extends Component {
   handleClickSearch = async () => { 
     try {
       const data = await Sorter(this.state.transactions, null, null, this.state.searchInput, null);
-
-      this.setState({
-        transactions: data,
-        searchInput: ''
-      });
+  
+      if (data.length === 0) { // Check if no transactions were found
+        this.setState({
+          errorMessage: `Transaction : "${this.state.searchInput}" No results found. Please try again.`,
+          transactions: [], 
+          searchInput: ''
+        });
+      } else {
+        this.setState({
+          transactions: data,
+          searchInput: '',
+          errorMessage: '' // Clear the error message if transactions are found
+        });
+      }
     } catch (error) {
       console.error('Error during sorting:', error);
+      this.setState({ errorMessage: 'An error occurred during the search' }); // Handle any exceptions
     }
   }
 
@@ -116,24 +128,50 @@ class TransactionTbl extends Component {
     });
 
     return (
+      
       <div>
-        {/* Search and Filter Functionality */}
-        <div className={styles.transaction_btns}>
-          <input 
-            className={styles.transaction_btns_search} 
-            type="text"
-            value={this.state.searchInput}
-            onChange={this.handleInputChange}
-            onKeyPress={this.handleKeyPress}
-            placeholder='Search transaction id, date or description'>
-          </input>
-          <button 
-            className={styles.transaction_btns_download}
-            onClick={this.handleClickSearch}>
-              Search
-          </button>
-        </div>
+          {/* Adjust the margin here for spacing */}
+          {this.state.errorMessage && (
+            <div style={{ 
+              backgroundColor: 'red', 
+              color: 'white', 
+              padding: '5px', 
+              textAlign: 'center', 
+              marginBottom: '20px', // Adjust this value as needed to create space below the error message
+              marginTop: '20px', // This creates space above the error message
+              width: '25%', 
+              borderRadius: '5px',
+              margin: '20px auto',
+              fontSize: '14px',
+          
+              }}>
+              {this.state.errorMessage}
+            </div>
+          )}
 
+          {/* Search and Filter Functionality */}
+          <div className={styles.transaction_btns}>
+            <input 
+              className={styles.transaction_btns_search} 
+              type="text"
+              value={this.state.searchInput}
+              onChange={this.handleInputChange}
+              onKeyPress={this.handleKeyPress}
+              placeholder='Search transaction id, date or description'>
+            </input>
+            <button 
+              className={styles.transaction_btns_download}
+              onClick={this.handleClickSearch}>
+                Search
+            </button>
+            
+          </div>
+  
+          
+        
+  
+
+        
         {/* Transaction Table Container */}
         <div className={styles.transaction_tbl_container}>
           <table className={styles.transaction_tbl}>

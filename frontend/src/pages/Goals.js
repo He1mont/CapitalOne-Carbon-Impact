@@ -289,12 +289,12 @@ class Leaderboard extends Component {
                 alignItems: 'center',
             }}>
                 <div className={styles.leaderboard_container}>
-                    Your ID: {this.props.userID}
+                    Your Username: {this.props.userID}
                 </div>
                 <div className={styles.leaderboard_container}>
                     <input
                         className={styles.leaderboard_addfriend}
-                        placeholder="Enter your friend's ID"
+                        placeholder="Enter your friend's "
                         value={this.state.newFriend}
                         onChange={this.handleChange}
                         onKeyPress={this.handleKeyPress}
@@ -303,7 +303,7 @@ class Leaderboard extends Component {
                 </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
-                        <p style={{ textAlign: 'center' }}>To view friends, add them by entering their ID</p>
+                        <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
                     ) : (
                         <div className={styles.leaderboard_list_container}>
                             <table className={styles.leaderboard_list}>
