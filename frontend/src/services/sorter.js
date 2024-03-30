@@ -96,25 +96,17 @@ function getCategories() {
     ];
 }
 
-export async function returnDataForPieChart(accountID, dateList, data) {
-    let ret = []
-    for (const date of dateList) {
-        const obj = await API.getCarbonScoreByMonthInCategory(accountID, date.getFullYear(), date.getMonth());
-        let item = {}
-        for (const key of Object.keys(obj)) {
-            item[key] += obj.key
-        }
-        ret.push(item)
-    }
-    return ret
-}
-
-export function returnDataForLineGraph(accountID, dateList, data) {
-    
-    return []
-}
-
-export function returnDataForBarGraph(accountID, dateList, data) {
-    
-    return []
+function getColors() {
+    return {
+        'Entertainment': '#D00000',
+        'Education': '#A657AE',
+        'Shopping': '#399E5A',
+        'Personal Care': '#60B2E5',
+        'Health & Fitness': '#EE7B30',
+        'Food & Dining': '#034732',
+        'Gifts & Donations': '#F6F740',
+        'Bills & Utilities': '#131cd1',
+        'Auto & Transport': '#2D93AD',
+        'Travel': '#37FF8B'
+    };
 }
