@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Transactions from './pages/Transactions';
 import Goals from './pages/Goals';
 import History from './pages/History';
+import Help from './pages/Help';
 import './assets/styles/App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/transactions" component={Transactions} />
         <Route path="/goals" component={Goals} />
         <Route path="/history" component={History} />
+        <Route path="/help" component={Help} />
       </Switch>
     </Router>
   );

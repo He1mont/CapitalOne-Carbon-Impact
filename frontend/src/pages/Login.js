@@ -1,8 +1,10 @@
 // Login.js
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import "../assets/styles/Login.css";
+import styles from "../assets/styles/Login.module.css";
 import axios from "axios";
+import * as API from '../services/api';
+import Sorter from '../services/sorter';
 
 /**
  * Head component
@@ -21,11 +23,11 @@ function Head() {
   }
 
   return (
-    <div className="head-bar">
-      <div className="head-center">
+    <div className={styles.headBar}>
+      <div className={styles.headCenter}>
         <img
           src="/images/Logo.png"
-          className="head-img"
+          className={styles.headImg}
           alt="Logo"
           onClick={handleLoginClick}
         />
@@ -53,23 +55,23 @@ function Mid({
   const isSuccess = loginMessage.includes("success");
 
   return (
-    <div className="mid-bar-login">
-      <div className="mid-high-login"></div>
+    <div className={styles.midBarLogin}>
+      <div className={styles.midHighLogin}></div>
 
-      <div className="mid-center-login">
-        <div className={`mid-box-login ${isSuccess ? "success" : "error"}`}>
-          <h1 className="mid-box-txt-title-login">Login to your account</h1>
+      <div className={styles.midCenterLogin}>
+        <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
+          <h1 className={styles.midBoxTxtTitleLogin}>Login to your account</h1>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
             {/* Email Input */}
-            <div className="mb-3">
-              {loginMessage && <p className="login-message">{loginMessage}</p>}
+            <div className={styles.mb3}>
+              {loginMessage && <p className={styles.loginMessage}>{loginMessage}</p>}
               {/* <div className='login-message-box'> </div> */}
-              <div className="login-input-title">Username (email)</div>
+              <div className={styles.loginInputTitle}>Username (email)</div>
               <input
                 type="email"
-                className="form-control"
+                className={styles.formControl}
                 aria-label="Username (email)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -77,11 +79,11 @@ function Mid({
             </div>
 
             {/* Password Input */}
-            <div className="mb-3">
-              <div className="login-input-title">Password</div>
+            <div className={styles.mb3}>
+              <div className={styles.loginInputTitle}>Password</div>
               <input
                 type="password"
-                className="form-control"
+                className={styles.formControl}
                 aria-label="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -89,18 +91,18 @@ function Mid({
             </div>
 
             {/* Remember Me Checkbox */}
-            <div className="mb-3">
-              <div className="login-remember">
-                <div className="custom-control custom-checkbox">
+            <div className={styles.mb3}>
+              <div className={styles.loginRemember}>
+                <div className={styles.customControl}>
                   <input
                     type="checkbox"
-                    className="custom-control-input"
+                    className={styles.customControlInput}
                     id="customCheck1"
                     checked={rememberMe}
                     onChange={() => setRememberMe(!rememberMe)}
                   />
                   <label
-                    className="custom-control-label"
+                    className={styles.customControlLabel}
                     htmlFor="customCheck1"
                   >
                     Remember me
@@ -110,19 +112,19 @@ function Mid({
             </div>
 
             {/* Submit Button */}
-            <div className="d-grid">
-              <button type="submit" className="login-btn-submit">
+            <div className={styles.dGrid}>
+              <button type="submit" className={styles.loginBtnSubmit}>
                 Sign in
               </button>
             </div>
           </form>
 
           {/* Forgotten Credentials Links */}
-          <div className="login-forgotten-btn">
-            <p className="forgot-username text-right">
+          <div className={styles.loginForgottenBtn}>
+            <p className={styles.forgotUsername + " " + styles.textRight}>
               <a href="#">Forgot your username?</a>
             </p>
-            <p className="forgot-password text-right">
+            <p className={styles.forgotPassword + " " + styles.textRight}>
               <a href="#">Forgot your password?</a>
             </p>
           </div>
@@ -130,9 +132,9 @@ function Mid({
       </div>
 
       {/* Help Button */}
-      <div className="mid-low">
-        <div className="mid-low-help">
-          <button className="small-help-btn">? Help</button>
+      <div className={styles.midLow}>
+        <div className={styles.midLowHelp}>
+          <button className={styles.smallHelpBtn}>? Help</button>
         </div>
       </div>
     </div>
@@ -145,7 +147,7 @@ function Mid({
  */
 function Footer() {
   return (
-    <div className="footer">
+    <div className={styles.footer}>
       <p>© 2023-2024 Team7. All rights reserved.</p>
     </div>
   );
@@ -174,9 +176,6 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // For testing purposes,
-    const correctEmail = "Miguel.Christiansen@emailprovider.com";
-    const correctPassword = "Test@123"; // Example password
     if (email === "" && password === "") {
       setLoginMessage("Please enter your email and password.");
     } else if (password === "") {
@@ -185,37 +184,35 @@ function Login() {
       setLoginMessage("Please enter your email.");
     }
 
-    try {
-      const response = await axios.get(
-        `http://127.0.0.1:7001/account/get-by-email/${email}`
-      );
-      console.log(response.data);
-      // Login validation logic
-      // if (email === correctEmail && password === correctPassword) {
-      //   setLoginMessage("Logged in successfully!");
+    // call backend API
+    const data = await API.getAccountByEmail(email);
 
-      // if (email !== correctEmail && password !== correctPassword) {
-      //   setLoginMessage("Email or password is incorrect.");
-      // }
-      try {
-        const name = await axios.get(
-          `http://127.0.0.1:7001/account/get-by-id/${response.data}`
-        );
-        if (name.data.Accounts && name.data.Accounts.length > 0) {
-          const fullname = `${name.data.Accounts[0].firstname} ${name.data.Accounts[0].lastname}`;
-          console.log(fullname);
-          setLoginMessage("Logged in successfully!");
-          history.push({
-            pathname: "/",
-            state: { name: fullname, id: response.data },
-          });
-        }
-      } catch (error) {
-        setLoginMessage("Email has not been found");
+    // email does not exist
+    if (data.length === 0) {
+      setLoginMessage("Email Not Found!");
+
+    } else {
+      const account = data[0]
+
+      // email is suspended or closed
+      if (account.state === "closed") {
+        setLoginMessage("Your account has been closed!");
+  
+      } else if (account.state === "suspended") {
+        setLoginMessage("Your account has been suspended!");
+  
+      // email is open or flagged
+      } else {
+        const username = account.username;
+        setLoginMessage("Log in successfully!");
+        history.push({
+          pathname: "/",
+          state: { name: username, id: account.accountID },
+        });
       }
-    } catch (error) {
-      console.error("Error fetching account by email:", error);
     }
+
+
 
     // Clear login message after a delay
     setTimeout(() => {

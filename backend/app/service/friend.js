@@ -6,47 +6,19 @@ const prisma = new PrismaClient();
 
 class FriendService extends Service {
 
-  async addByUsername(id, username) {
+  async addByID(accountID, friendID) {
     try {
-      // Search username in the database
-      const friend = await prisma.account.findUnique({
-        where: { username },
-      });
-
-      if (friend === null) {
-        throw new Error(
-          JSON.stringify({
-            errorCode: 400,
-            message: "Can't find this account: " + username,
-          })
-        );
-      } else if (friend.accountID === id) {
-        throw new Error(
-          JSON.stringify({
-            errorCode: 400,
-            message: "Can't following yourself.",
-          })
-        );
-      } else if (friend.state === "closed" || friend.state === "suspended") {
-        throw new Error(
-          JSON.stringify({
-            errorCode: 400,
-            message: "The account is closed or suspended.",
-          })
-        );
-      }
-
       // Check the following relation
-      const ifFollowing = await prisma.following.findUnique({
+      const following = await prisma.following.findUnique({
         where: {
           Unique_accountID_followingID: {
-            accountID: id,
-            followingID: friend.accountID,
+            accountID: accountID,
+            followingID: friendID,
           },
         },
       });
 
-      if (ifFollowing) {
+      if (following) {
         throw new Error(
           JSON.stringify({
             errorCode: 400,
@@ -56,15 +28,15 @@ class FriendService extends Service {
       }
 
       // Store the following relation into database
-      await prisma.following.create({
+      const followingRelation = await prisma.following.create({
         data: {
-          accountID: id,
-          followingID: friend.accountID,
+          accountID: accountID,
+          followingID: friendID,
         },
       });
 
       // Return information of following user's
-      return friend;
+      return followingRelation;
 
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
@@ -80,27 +52,13 @@ class FriendService extends Service {
     return allfollowings.map(item => item.account);
   }
 
-  async deleteFriend(id, username) {
+  async deleteFriend(accountID, friendID) {
     try {
-      // Search username in the database
-      const friend = await prisma.account.findUnique({
-        where: { username },
-      });
-
-      if (friend == null) {
-        throw new Error(
-          JSON.stringify({
-            errorCode: 400,
-            message: "Can't find this account: " + username,
-          })
-        );
-      }
-
       await prisma.following.delete({
         where: {
           Unique_accountID_followingID: {
-            accountID: id,
-            followingID: friend.accountID,
+            accountID: accountID,
+            followingID: friendID,
           },
         },
       });

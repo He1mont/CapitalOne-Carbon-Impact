@@ -15,10 +15,13 @@ module.exports = app => {
   router.get('/transaction/get-by-id/:accountID/:transactionID', controller.transaction.getByID);
   router.get('/transaction/group-by-date/:id', controller.transaction.groupByDate);
   router.get('/transaction/get-carbon-impact/:accountID/:transactionID', controller.transaction.getCarbonImpact);
-  router.post('/friend/add-by-username/:id/:username', controller.friend.addByUsername);
+  router.get('/transaction/get-by-month/:accountID/:year/:month', controller.transaction.getTransactionsByMonth);
+  router.get('/transaction/get-carbonscore-by-month/:accountID/:year/:month', controller.transaction.getCarbonScoreByMonth);
+  router.get('/transaction/get-carbonscore-by-month-in-category/:accountID/:year/:month', controller.transaction.getCarbonScoreByMonthInCategory);
+  router.post('/friend/add-by-id/:accountID/:friendID', controller.friend.addByID);
   router.get('/friend/get-all/:id', controller.friend.getAll);
-  router.delete('/friend/delete/:id/:username', controller.friend.deleteFriend);
-  router.post('/userGoal/create-goal/:id/:goal/:month', controller.userGoal.createGoal);
+  router.delete('/friend/delete/:accountID/:friendID', controller.friend.deleteFriend);
+  router.post('/userGoal/set-goal/:id/:goal/:month', controller.userGoal.createGoal);
   router.delete('/userGoal/:id', controller.userGoal.userGoals);
   router.get('/userGoal/:id', controller.userGoal.userGoals);
 };

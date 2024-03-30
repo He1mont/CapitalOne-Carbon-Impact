@@ -1,36 +1,34 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Goals.module.css';
 import { useHistory,useLocation } from 'react-router-dom';
+import * as API from '../services/api';
 
 /**
  * Month selector component
  * Renders a month selector for the user to use to view data from a given month
  */
 class MonthSelect extends Component {
-    state = {
-        month: moment(),
-    };
+
     decreaseMonth = () => {
-        const nextMonth = this.state.month.clone().subtract(1, 'month');
+        const { month, onMonthChange } = this.props;
+        const nextMonth = month.clone().subtract(1, 'month');
         const minDate = moment('2021-01-01');
-        if (nextMonth.isSameOrAfter(minDate)){ //Only allow month reduction if it goes to a data after the start of 2021
-            this.setState(
-                (prevState) => ({ month: prevState.month.clone().subtract(1, 'month') })
-            );
+        // Only allow month reduction if it goes to a data after the start of 2021
+        if (nextMonth.isSameOrAfter(minDate)){
+            onMonthChange(nextMonth);
         } 
     };
     increaseMonth = () => {
-        const nextMonth = this.state.month.clone().add(1, 'month');
-        if (nextMonth > moment()) {
-            return; // Do nothing if attempting to go to a future month
+        const { month, onMonthChange } = this.props;
+        const nextMonth = month.clone().add(1, 'month');
+        if (nextMonth <= moment()) {
+            onMonthChange(nextMonth);
         }
-        this.setState(
-            (prevState) => ({ month: nextMonth })
-        );
     };
 
     render() {
+        const{month} = this.props;
         return (
             <table className={styles.month_select}>
                 <tbody>
@@ -41,13 +39,13 @@ class MonthSelect extends Component {
                             </button>
                         </th>
                         <th style={{ width: '34%', textAlign: 'center' }}>
-                            <span>{this.state.month.format('MMM YYYY')}</span>
+                            <span>{month.format('MMM YYYY')}</span>
                         </th>
                         <th style={{ width: '33%', textAlign: 'left' }}>
                             <button
                                 className={styles.month_select_btn}
                                 onClick={this.increaseMonth}
-                                disabled={this.state.month.clone().add(1, 'hour') > moment()}
+                                disabled={month.clone().add(1, 'hour') > moment()}
                             >
                                 <img src="/images/month-right.png" alt="Right Arrow" width="30px" />
                             </button>
@@ -60,12 +58,41 @@ class MonthSelect extends Component {
 }
 
 class CarbonUseCircle extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            previousMonth: this.props.month,
+            scoreLastMonth: 0,
+        };
+    }
+
+    componentDidMount() {
+        this.fetchLastMonthCarbonScore();
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+        // Check if the month has changed
+        if (prevProps.month !== this.state.previousMonth) {
+            this.fetchLastMonthCarbonScore();
+            this.setState({ previousMonth: prevProps.month });
+        }
+    }
+
     getPercentage = (carbonEmission, goalEmissions) => {
         let percentage = carbonEmission / goalEmissions;
         if (percentage > 1) {
             percentage = 1;
         }
         return percentage * 100;
+    };
+
+    fetchLastMonthCarbonScore = async () => {
+        const {id, month} = this.props;
+        const previousMonth = month.clone().subtract(1, 'month');
+        await API.getCarbonScoreByMonth(id, previousMonth.format('YYYY'), previousMonth.format('MM'))
+        .then(data => {
+            this.setState({ scoreLastMonth: data });
+        });
     };
 
     drawCircle = ({ color }) => {
@@ -112,6 +139,16 @@ class CarbonUseCircle extends Component {
     };
 
     render() {
+        let difference, returnSetence;
+        const {goalEmissions, carbonEmission} = this.props;
+        if(goalEmissions >= carbonEmission) {
+            difference = goalEmissions - carbonEmission;
+            returnSetence = "below goal";
+        } else {
+            difference = carbonEmission - goalEmissions;
+            returnSetence = "above goal";
+        }
+
         return (
             <div style={{ position: 'relative', height: '100%' }}>
                 
@@ -131,7 +168,7 @@ class CarbonUseCircle extends Component {
                                                 lineHeight: '6px',
                                                 fontSize: '18px'
                                             }}>
-                                            <h1>#holder#</h1>
+                                            <h1>{this.state.scoreLastMonth}</h1>
                                             <p>kgco2</p>
                                             <p>last month</p>
                                         </div>
@@ -171,9 +208,9 @@ class CarbonUseCircle extends Component {
                                                 lineHeight: '6px',
                                                 fontSize: '18px'
                                             }}>
-                                            <h1>{this.props.goalEmissions - this.props.carbonEmission}</h1>
+                                            <h1>{difference}</h1>
                                             <p>kgco2</p>
-                                            <p>below goal</p>
+                                            <p>{returnSetence}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +234,6 @@ class ManageFriends extends React.Component {
         this.handleOutsideClick = this.handleOutsideClick.bind(this);
     }
 
-  
     toggleDropdown() {
         this.setState(prevState => ({
             showDropdown: !prevState.showDropdown
@@ -216,8 +252,7 @@ class ManageFriends extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('click', this.handleOutsideClick, false);
     }
-    //Create method here to remove friend from list
-    handleFriendClick(item) {
+    handleDeleteFriendClick(item) {
         this.props.removeFriend(item);
     }
 
@@ -228,9 +263,10 @@ class ManageFriends extends React.Component {
                 <button onClick={this.toggleDropdown} className={styles.dropbtn}>Manage Friends</button>
                 <div id="myDropdown" className={`${styles.dropdownContent} ${this.state.showDropdown ? styles.show : ''}`}>
                     {list.map((item, index) => (
-                        <a key={index} onClick={() => this.handleFriendClick(item)}>
-                            {item}
-                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon} />
+                        <a key={index} >
+                            {item.username}
+                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon} 
+                            onClick={() => this.handleDeleteFriendClick(item)}/>
                         </a>
                     ))}
                 </div>
@@ -244,19 +280,89 @@ class Leaderboard extends Component {
         super(props);
         this.state = {
             friendList: [],
-            newFriend: ''
+            newFriend: '',
+            carbonScoreList: [],
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.removeFriend = this.removeFriend.bind(this);
     }
 
-    addFriend() {
+    // initialize and display the friendList
+    async componentDidMount() {
+        const id = this.props.userID;
+        await API.getAllFollowings(id) 
+            .then(data => {
+                this.setState({ friendList: data });
+            })
+            .catch(error => {
+                console.error('Error fetching following users:', error);
+                this.setState({ friendList: [] });
+            });
+
+        this.fetchCarbonScoreForFriends();
+    }
+
+    async componentDidUpdate(prevProps, prevState) {
+        // Check if the month has changed
+        if (prevProps.month.format('MM') !== this.props.month.format('MM')) {
+            await this.fetchCarbonScoreForFriends();
+        }
+    }
+
+    fetchCarbonScoreForFriends = async () => {
+        let friends = this.state.friendList;
+        const month = this.props.month;
+        let carbonScoreList = [];
+
+        await Promise.all(friends.map(async (friend) => {
+            const carbonScore = await API.getCarbonScoreByMonth(friend.accountID, 
+                month.format('YYYY'), month.format('MM'));
+            carbonScoreList.push({ [friend.username]: carbonScore });
+        }));
+
+        this.setState({ carbonScoreList });
+    };
+
+    async addFriend() {
+        const currentID = this.props.userID;
+
         if (this.state.newFriend.trim() !== '') {
-            this.setState(prevState => ({
-                friendList: [...prevState.friendList, prevState.newFriend],
-                newFriend: ''
-            }));
+            const username = this.state.newFriend;
+            let friend;
+
+            // Get the friend's info
+            await API.getAccountByUsername(username) 
+                .then(response => {
+                    friend = response;
+                })
+                .catch(error => {
+                    console.error('Error fetching user:', error);
+                    this.setState({ newFriend: '' });
+                });
+
+            // Check if the input is invalid
+            if (friend === null) {
+
+            } else if (friend.accountID === currentID) {
+
+            } else if (friend.state === "closed") {
+        
+            } else if (friend.state === "suspended") {
+
+            } else {
+                // Add the following relation
+                await API.addFollowing(currentID, friend.accountID) 
+                    .then(following => {
+                        this.setState(prevState => ({
+                            friendList: [...prevState.friendList, friend],
+                            newFriend: ''
+                        }));
+                    })
+                .catch(error => {
+                    console.error('Error adding following users:', error);
+                });
+            }    
         }
     }
 
@@ -270,13 +376,30 @@ class Leaderboard extends Component {
         }
     }
 
-    removeFriend(friendName) {
-        this.setState(prevState => ({
-            friendList: prevState.friendList.filter(friend => friend !== friendName)
-        }));
+    async removeFriend(friend) {
+        await API.deleteFollowing(this.props.userID, friend.accountID) 
+            .then(following => {
+                this.setState(prevState => ({
+                    friendList: prevState.friendList.filter(followingUser => followingUser !== friend)
+                }));
+            })
+        .catch(error => {
+            console.error('Error deleting following users:', error);
+        });
     }
 
     render () {
+        const followingUsers = this.state.friendList;
+        const carbonScoreList = this.state.carbonScoreList;
+        const getCarbonScore = (username) => {
+            for (const obj of carbonScoreList) {
+                if (obj.hasOwnProperty(username)) {
+                    return obj[username];
+                }
+            }
+            return null;
+        };
+
         return (
             <div style={{
                 width: '100%',
@@ -294,25 +417,32 @@ class Leaderboard extends Component {
                 <div className={styles.leaderboard_container}>
                     <input
                         className={styles.leaderboard_addfriend}
-                        placeholder="Enter your friend's ID"
+                        placeholder="Enter your friend's username"
                         value={this.state.newFriend}
                         onChange={this.handleChange}
                         onKeyPress={this.handleKeyPress}
                     />
-                    <ManageFriends list={this.state.friendList} removeFriend={this.removeFriend}/>
+                    <ManageFriends list={followingUsers} removeFriend={this.removeFriend}/>
                 </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
-                        <p style={{ textAlign: 'center' }}>To view friends, add them by entering their ID</p>
+                        <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
                     ) : (
                         <div className={styles.leaderboard_list_container}>
                             <table className={styles.leaderboard_list}>
+                                <thead>
+                                    <tr>
+                                        <th style={{width: '10%'}}> <div>ID</div> </th>
+                                        <th style={{width: '60%'}}> <div>Username</div> </th>
+                                        <th style={{width: '30%'}}> <div>Carbon Score</div> </th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    {this.state.friendList.map((item, index) => (
+                                    {followingUsers.map((followingUser, index) => (
                                     <tr key={index} className={styles.leaderboard_tablerow}>
-                                        <td style={{width: '10%'}}>{'#' + (index + 1)}</td>
-                                        <td style={{width: '70%'}}>{item}</td>
-                                        <td style={{width: '20%'}}>-xxxxxx-</td>
+                                        <td style={{width: '10%', textAlign: 'center'}}>{'#' + (index + 1)}</td>
+                                        <td style={{width: '60%', textAlign: 'center'}}>{followingUser.username}</td>
+                                        <td style={{width: '30%', textAlign: 'center'}}>{getCarbonScore(followingUser.username)}</td>
                                     </tr>
                                     ))}
                                 </tbody>
@@ -351,21 +481,53 @@ function Head({name,id}) {
  * Mid component
  * Renders the middle section of the Goals page, providing contextual information.
  */
-function Mid({ name, id }) {
-    let carbonEm = 1200;
-    const [goalEm, setGoalEm] = useState(2300);
+function Mid({ name, id, month, onMonthChange }) {
+    const [carbonEm, setCarbonEm] = useState(0);
+    const [goalEm, setGoalEm] = useState(0);
     const [inputValue, setInputValue] = useState('');
+
+    useEffect(() => {
+        const fetchCarbonScore = async () => {
+          const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
+          setCarbonEm(data);
+        };
+    
+        fetchCarbonScore();
+        updateGoal();
+      }, [month]);    // recall useEffect when `month` is changed
+
+    async function updateGoal() {
+        let ifSet = false; 
+        let goals = await API.getUserGoal(id);
+
+        goals.map(goalItem => {
+            if (month.format('MMMM') === goalItem.month) {
+                setGoalEm(goalItem.goal);
+                ifSet = true;
+            }
+        });
+        if(!ifSet) {
+            // Didn't set a goal for this month 
+            setGoalEm(0);
+        }
+    };
+
+    async function setGoal(inputGoal) {
+        await API.setUserGoal(id, inputGoal, month.format('MMMM'))
+            .then(() => {
+                setGoalEm(inputGoal);
+            })
+    };
 
     const handleGoalInputChange = (event) => {
         if (event.key === 'Enter') {
-            let value = event.target.value;
-            if (value <= 0) {
-                value = 0;
+            let inputGoal = event.target.value;
+            if (inputGoal <= 0) {
+                inputGoal = 0;
+            } else if (inputGoal >= 99999) {
+                inputGoal = 99999;
             }
-            else if (value >= 99999) {
-                value = 99999;
-            }
-            setGoalEm(parseFloat(value));
+            setGoal(inputGoal)
             setInputValue('');
         }
     };
@@ -379,12 +541,12 @@ function Mid({ name, id }) {
                     <h1>Carbon Goals</h1>
                 </div>
                 <div className={styles.mid_high_center}>
-                    <MonthSelect />
+                    <MonthSelect month={month} onMonthChange={onMonthChange} />
                 </div>
             </div>
 
             <div className={styles.mid_center}>
-                <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} />
+                <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} id={id} month={month}/>
             </div>
 
             <div className={styles.mid_low}>
@@ -406,10 +568,10 @@ function Mid({ name, id }) {
  * Low component
  * Renders the lower section of the Goals page.
  */
-function Low({name, id}) {
+function Low({id, month}) {
     return (
         <div className={styles.low_bar}>
-            <Leaderboard userID={id}/>
+            <Leaderboard userID={id} month={month}/>
         </div>
     )
 }
@@ -422,11 +584,17 @@ function Goals() {
     const location = useLocation();
     const name = location.state?.name || "You need to login"; 
     const id=location.state?.id ;
+    const [month, setMonth] = useState(moment());
+
+    const handleMonthChange = (newMonth) => {
+        setMonth(newMonth);
+      };
+
     return (
       <div>
         <Head name={name} id={id}/>
-        <Mid name={name} id={id}/>
-        <Low name={name} id={id}/>
+        <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange}/>
+        <Low name={name} id={id} month={month}/>
       </div>
     )  
 }
