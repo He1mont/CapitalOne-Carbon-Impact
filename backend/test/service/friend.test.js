@@ -9,6 +9,26 @@ const app = express();
 jest.mock("../../app/service/friend");
 const friendService = new FriendService();
 
+//unable to work out how to check the database
+
+// // Mock PrismaClient
+// const prismaClientMock = {
+//   friend: {
+//     findMany: jest.fn(),
+//     create: jest.fn(),
+//   },
+// };
+
+// // Mock FriendService
+// jest.mock("../../app/service/friend", () => ({
+//   __esModule: true,
+//   default: jest.fn(() => ({
+//     addByID: jest.fn(),
+//     getAll: jest.fn(),
+//     deleteFriend: jest.fn(),
+//   })),
+// }));
+
 // Define routes
 app.use(express.json()); // Middleware to parse JSON bodies
 app.post("/addFriend", async (req, res) => {
