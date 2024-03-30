@@ -13,7 +13,7 @@
     "egg": "^3.17.5",
     "egg-cors": "^2.2.3",
     "egg-scripts": "2",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "mysql2": "^3.6.5",
     "node-fetch": "^3.3.2",
     "save": "^2.9.0",
