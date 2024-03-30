@@ -259,7 +259,7 @@ function Mid({ name, id, month, onMonthChange }) {
 
   useEffect(() => {
     const fetchCarbonScore = async () => {
-      const data = await API.getCarbonScoreByMonth(id, month.valueOf());
+      const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
       setCarbonScore(data);
     };
 

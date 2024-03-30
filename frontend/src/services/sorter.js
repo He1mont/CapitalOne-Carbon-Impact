@@ -81,32 +81,3 @@ export function searchSort(transactions, searchInput) {
     return matchingTransactions
 }
 
-function getCategories() {
-    return [
-        'Entertainment',
-        'Education',
-        'Shopping',
-        'Personal Care',
-        'Health & Fitness',
-        'Food & Dining',
-        'Gifts & Donations',
-        'Bills & Utilities',
-        'Auto & Transport',
-        'Travel'
-    ];
-}
-
-function getColors() {
-    return {
-        'Entertainment': '#D00000',
-        'Education': '#A657AE',
-        'Shopping': '#399E5A',
-        'Personal Care': '#60B2E5',
-        'Health & Fitness': '#EE7B30',
-        'Food & Dining': '#034732',
-        'Gifts & Donations': '#F6F740',
-        'Bills & Utilities': '#131cd1',
-        'Auto & Transport': '#2D93AD',
-        'Travel': '#37FF8B'
-    };
-}
