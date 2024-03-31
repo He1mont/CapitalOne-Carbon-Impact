@@ -52,7 +52,7 @@ class AccountService extends Service {
           username: userName,
           accountID: account.accountId,
           email: account.email,
-          state: account.state
+          state: account.state,
         },
       });
 

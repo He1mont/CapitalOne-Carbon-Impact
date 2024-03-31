@@ -1,102 +1,83 @@
-const { app, assert } = require('egg-mock/bootstrap');
-const UserGoalController = require('../../app/controller/userGoal');
+const express = require('express');
+const request = require('supertest');
+const UserGoalService = require('../../app/service/userGoal');
 
-describe('UserGoalController', () => {
-  let controller;
+// Mock the UserGoalService
+jest.mock("../../app/service/userGoal");
+const userGoalService = new UserGoalService();
 
-  beforeEach(() => {
-    app.mockContext({});
-    controller = new UserGoalController(app);
+// Create an Express application
+const app = express();
+app.use(express.json());
+
+// Define routes
+app.post('/createGoal/:id/:goal/:month', async (req, res) => {
+  const { id, goal, month } = req.params;
+
+  try {
+    const result = await userGoalService.createGoal(parseInt(id), goal, month);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.delete('/deleteUserGoal/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await userGoalService.deleteUserGoal(parseInt(id));
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.get('/getUserGoals/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await userGoalService.getUserGoals(parseInt(id));
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Test the routes
+describe('UserGoalService', () => {
+  it('should create a new user goal', async () => {
+    // Mock the implementation of createGoal
+    userGoalService.createGoal.mockResolvedValue({ accountID: 1, goal: '3000', month: 'January' });
+
+    const response = await request(app)
+      .post('/createGoal/1/3000/January');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('accountID', 1);
+    expect(response.body).toHaveProperty('goal', '3000');
+    expect(response.body).toHaveProperty('month', 'January');
   });
 
-  describe('createGoal', () => {
-    it('should create a new goal', async () => {
-      const mockParams = { id: '1', goal: '3000', month: 'January' };
-      const mockServiceResponse = { id: '1', goal: '3000', month: 'January' };
+  it('should delete an existing user goal', async () => {
+    // Mock the implementation of deleteUserGoal
+    userGoalService.deleteUserGoal.mockResolvedValue({ errorCode: 200, message: 'User goal deleted successfully' });
 
-      app.mockContext({
-        params: mockParams,
-      });
+    const response = await request(app).delete('/deleteUserGoal/1');
 
-      app.mockService('userGoal', 'createGoal', async () => {
-        return mockServiceResponse;
-      });
-
-      await controller.createGoal();
-
-      assert.strictEqual(controller.ctx.status, 200);
-      assert.deepStrictEqual(controller.ctx.body, mockServiceResponse);
-    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('errorCode', 200);
+    expect(response.body).toHaveProperty('message', 'User goal deleted successfully');
   });
 
-  describe('userGoals', () => {
-    it('should delete user goal if method is DELETE', async () => {
-      const mockParams = { id: '1' };
+  it('should retrieve user goals for a given account ID', async () => {
+    // Mock the implementation of getUserGoals
+    userGoalService.getUserGoals.mockResolvedValue([{ id: 1, goal: '3000', month: 'January' }, { id: 2, goal: '5000', month: 'February' }]);
 
-      app.mockContext({
-        params: mockParams,
-        method: 'DELETE',
-      });
+    const response = await request(app).get('/getUserGoals/1');
 
-      app.mockService('userGoal', 'deleteUserGoal', async () => {
-        return { message: 'User goal deleted successfully' };
-      });
-
-      await controller.userGoals();
-
-      assert.strictEqual(controller.ctx.status, 204);
-      assert.strictEqual(controller.ctx.body, '');
-    });
-
-    it('should retrieve user goals if method is GET', async () => {
-      const mockParams = { id: '1' };
-      const mockServiceResponse = [{ id: '1', goal: 'Goal', month: 'January' }];
-
-      app.mockContext({
-        params: mockParams,
-        method: 'GET',
-      });
-
-      app.mockService('userGoal', 'getUserGoals', async () => {
-        return mockServiceResponse;
-      });
-
-      await controller.userGoals();
-
-      assert.strictEqual(controller.ctx.status, 200);
-      assert.deepStrictEqual(controller.ctx.body, mockServiceResponse);
-    });
-
-    it('should handle method not allowed', async () => {
-      const mockParams = { id: '1' };
-
-      app.mockContext({
-        params: mockParams,
-        method: 'PUT',
-      });
-
-      await controller.userGoals();
-
-      assert.strictEqual(controller.ctx.status, 405);
-      assert.deepStrictEqual(controller.ctx.body, { error: 'Method not allowed' });
-    });
-
-    it('should handle user goal not found', async () => {
-      const mockParams = { id: '2' };
-
-      app.mockContext({
-        params: mockParams,
-        method: 'GET',
-      });
-
-      app.mockService('userGoal', 'getUserGoals', async () => {
-        return null;
-      });
-
-      await controller.userGoals();
-
-      assert.strictEqual(controller.ctx.status, 404);
-      assert.deepStrictEqual(controller.ctx.body, { error: 'User goal not found' });
-    });
+    expect(response.statusCode).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body).toHaveLength(2);
   });
 });

@@ -31,17 +31,17 @@ class TransactionService extends Service {
       throw new Error(
         JSON.stringify({
           errorCode: 400,
-          message: "The account does not exist.",
+          message: 'The account does not exist.',
         })
       );
     }
 
     // if accountID is suspended or closed
-    if (["closed", "suspended"].includes(account[0].state)) {
+    if ([ 'closed', 'suspended' ].includes(account[0].state)) {
       throw new Error(
         JSON.stringify({
           errorCode: 400,
-          message: "The account is closed or suspended.",
+          message: 'The account is closed or suspended.',
         })
       );
     }
@@ -206,7 +206,7 @@ class TransactionService extends Service {
   async getTransactionsByMonth(accountID, year, month) {
     const transactions = await prisma.transaction.findMany({
       where: {
-        accountID: accountID,
+        accountID,
       },
     });
     // getMonth returns 0 for Jan, 1 for Feb, ...
@@ -223,17 +223,17 @@ class TransactionService extends Service {
 
   async getCarbonScoreByMonthInCategory(accountID, year, month) {
     const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
-    let ret = {
-      "Entertainment": 0,
-      "Education": 0,
-      "Shopping": 0,
-      "Personal Care": 0,
-      "Health & Fitness": 0,
-      "Food & Dining": 0,
-      "Gifts & Donations": 0,
-      "Bills & Utilities": 0,
-      "Auto & Transport": 0,
-      "Travel": 0
+    const ret = {
+      Entertainment: 0,
+      Education: 0,
+      Shopping: 0,
+      'Personal Care': 0,
+      'Health & Fitness': 0,
+      'Food & Dining': 0,
+      'Gifts & Donations': 0,
+      'Bills & Utilities': 0,
+      'Auto & Transport': 0,
+      Travel: 0,
     };
     for (const item of filteredTransactions) {
       ret[item.category] += item.carbonScore;

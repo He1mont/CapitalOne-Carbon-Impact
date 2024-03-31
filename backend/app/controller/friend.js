@@ -1,10 +1,10 @@
 const { Controller } = require('egg');
 
 class FriendController extends Controller {
-  
+
   async addByID() {
     const { ctx, service } = this;
-    const { accountID, friendID} = ctx.params;
+    const { accountID, friendID } = ctx.params;
     const res = await service.friend.addByID(accountID, friendID);
     ctx.status = 200;
     ctx.body = res;
@@ -20,7 +20,7 @@ class FriendController extends Controller {
 
   async deleteFriend() {
     const { ctx, service } = this;
-    const { accountID, friendID} = ctx.params;
+    const { accountID, friendID } = ctx.params;
     const res = await service.friend.deleteFriend(accountID, friendID);
     ctx.status = 200;
     ctx.body = res;
