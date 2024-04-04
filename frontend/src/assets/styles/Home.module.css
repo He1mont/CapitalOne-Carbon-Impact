@@ -3,11 +3,12 @@ html, body {
     padding-left: 0px;
     margin: 0px;
     background-color: #f3f3f3ff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: Arial, sans-serif;
   }
   
   /*------------------------------ HEADER ------------------------------*/
   .head_bar{
+    user-select: none;
     width: 100%;
     height: 65px;
     top: 0px;
@@ -29,14 +30,16 @@ html, body {
     top: -15px;
     left: -65px;
   }
-  
-  .head_high_txt_right {
+  .settings_btn {
     position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    
+    top: 5px;
+    right: 10px;
+    border: none;
   }
+  .settings_img {
+    height: 55px;
+  }
+
   
   /*------------------------------ MID ------------------------------*/
   .mid_bar{
@@ -47,6 +50,7 @@ html, body {
   }
   /*---------- BODY ----------*/
   .mid_high{
+    z-index: -1;
     user-select: none;
     width: 100%;
     height: 232px;
@@ -60,8 +64,6 @@ html, body {
     width: 100%;
     background-color: #f3f3f3ff;
   }
-
-
   .mid_high_txt_left{
     position: absolute;
     text-align: left;
@@ -70,26 +72,6 @@ html, body {
     line-height: 10px;
     color: white;
   }
-  .mid_high_txt_right{
-    position: absolute;
-    text-align: right;
-    background-color: rgb(187, 32, 140);
-    top: 1%;
-    right: 30px;
-    color:white;
-    border-radius: 5px;
-  }
-  .login_btn{
-    font-size: 14px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    color: white;
-    outline: none;
-  }
-  
-  
-  
   .mid_high_profile{
     position: absolute;
     background-color: rgb(187, 32, 140);
@@ -97,7 +79,6 @@ html, body {
     top: 40px;
     width: 150px;
     height: 60px;
-    
   }
   /*---------- CENTER ----------*/
   .mid_center{
@@ -115,7 +96,7 @@ html, body {
   }
   .mid_box_txt{
     position: absolute;
-    top: 38%;
+    top: 40%;
     left: 3%;
     color: white;
     text-align: left;
@@ -127,7 +108,7 @@ html, body {
   }
   /*---------- LOW ----------*/
   .small_help_btn {
-    user-select: all;
+    user-select: none;
     font-size: 14px;
     border: solid;
     border-width: 2px;
@@ -225,8 +206,60 @@ html, body {
   }
   
   
-  
-  
-  
-  
-  
+/*---------- DROPDOWN ----------*/
+.dropdownBox{
+  user-select: none;
+  z-index: 10;
+  position: absolute;
+  right: 20px;
+  top: 12px;
+  width: 190px;
+  height: 210px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  filter: drop-shadow(0 2px 2px rgb(189, 189, 189));
+  text-align: center;
+}
+.triangle {
+  position: absolute;
+  right: 13px;
+  top: -20px;
+  width: 0;
+  height: 0;
+  border: solid 10px;
+  border-color: transparent transparent white transparent;
+}
+.dropdownAccName {
+  margin-top: 5px;
+  color: black;
+}
+.dropdownBtn {
+  z-index: 5;
+  position: absolute;
+  right: 5%;
+  width: 90%;
+  height: 48px;
+  border-top: gray;
+  border-bottom: gray;
+  border-left: transparent;
+  border-right: transparent;
+  border-width: 2px;
+  border-style: solid;
+  background-color: white;
+  transition: all .2s ease-in;
+
+}
+.dropdownBtn:hover {
+  background-color: rgb(234, 234, 234); /* Your desired hover color */
+}
+.dropdownImg {
+  position: absolute;
+  top: 7px;
+  left: 5px;
+  height: 33px;
+}
+.dropdownTxt {
+  position: absolute;
+  margin-top: 14px;
+  left: 50px;
+}

@@ -1,7 +1,8 @@
 // HomePage.js
-import React from 'react';
+import React, { useState, useEffect, useRef, Component }  from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Home.module.css'; // Import CSS file
+
 
 /**
  * Head component
@@ -10,14 +11,24 @@ import styles from '../assets/styles/Home.module.css'; // Import CSS file
  */
 function Head() {
   const history = useHistory();
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  let settingsToggle = params.st;
 
+  function handleSettingsClick() {
+    if (settingsToggle == "t") {
+      history.push('/home?st=f');
+    } else {
+      history.push('/home?st=t');
+    }
+    
+  }
   /**
    * handleLoginClick function
    * Redirects user to the login page when the login button is clicked.
    */
-  function handleLoginClick() {
-    history.push('/');
-  }
+
   return (
     <div className={styles.head_bar}>
       {/* Logo */}
@@ -25,10 +36,10 @@ function Head() {
         <img src="/images/Logo.png" className={styles.head_img} alt="Logo" />
       </div>
 
-      {/* Login */}
-      <div className={styles.head_high_txt_right}>
-        <button onClick={handleLoginClick} className={styles.login_btn}>
-          <img src="/images/user.png" alt="Login" />
+      {/* Settings */}
+      <div className={styles.head_settings_container}>
+        <button onClick={handleSettingsClick} className={styles.settings_btn}>
+          <img src="/images/settings.png" alt="Settings" className={styles.settings_img}/>
         </button>
       </div>
     </div>
@@ -41,14 +52,52 @@ function Head() {
  */
 function Mid({ name }) {
   const history = useHistory();
+  const params = new URLSearchParams(useLocation().search);
+  const settingsToggle = params.get("st");
+  const dropdownRef = useRef(null);
+
   function handleHelpClick() {
     history.push('/Help?prevPage=home');
   }
 
+  
+
+  function showSettings() {
+    if (settingsToggle == "t") {
+      return (
+        <div className={styles.dropdownBox} ref={dropdownRef}>
+          <div className={styles.triangle}></div>
+          <div className={styles.dropdownAccName}><b>{name}</b></div>
+          <div className={`${styles.dropdownContainer}`}>
+            <div className={styles.dropdownBtn} style={{ top: '32px' }}>
+              <img src="/images/user.png" alt="Settings" className={styles.dropdownImg}/>
+              <div className={styles.dropdownTxt}><b>My Account</b></div>
+            </div>
+            <div className={styles.dropdownBtn} style={{ top: '82px' }}>
+              <img src="/images/help.png" alt="Settings" className={styles.dropdownImg}/>
+              <div className={styles.dropdownTxt}><b>Help</b></div>
+            </div>
+            <div className={styles.dropdownBtn} style={{ top: '130px' }}>
+              <img src="/images/signout.png" alt="Settings" className={styles.dropdownImg}/>
+              <div className={styles.dropdownTxt}><b>Sign Out</b></div>
+            </div>
+          </div>
+          
+        </div>
+      )
+    } else {
+
+    }
+  }
+
+
+
   return (
     <div className={styles.mid_bar}>
+      {showSettings()}
       {/* User Information and Carbon Impact Section */}
       <div className={styles.mid_high}>
+        
         <div className={styles.mid_high_txt_left}>
           <p>{name}</p>
           <h1>Your Carbon Impact</h1>
