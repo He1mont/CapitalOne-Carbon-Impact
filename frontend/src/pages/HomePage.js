@@ -123,7 +123,6 @@ function Mid({ name }) {
 
       {/* Help Button */}
       <div className={styles.mid_low}>
-        <button className={styles.small_help_btn} onClick={handleHelpClick}>? Help</button>
       </div>
     </div>
   );
