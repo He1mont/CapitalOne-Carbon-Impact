@@ -6,6 +6,7 @@ import axios from "axios";
 import * as API from '../services/api';
 import Sorter from '../services/sorter';
 
+
 /**
  * Head component
  * Displays the top part of the login page including the logo.
@@ -49,6 +50,10 @@ function Mid({
 }) {
   // Determines if the login message indicates a successful login
   const isSuccess = loginMessage.includes("success");
+  const history = useHistory();
+  function handleHelpClick() {
+    history.push('/Help?prevPage=login');
+  }
 
   return (
     <div className={styles.midBarLogin}>
@@ -64,11 +69,11 @@ function Mid({
             <div className={styles.mb3}>
               {loginMessage && <p className={styles.loginMessage}>{loginMessage}</p>}
               {/* <div className='login-message-box'> </div> */}
-              <div className={styles.loginInputTitle}>Username (email)</div>
+              <div className={styles.loginInputTitle}>Email</div>
               <input
                 type="email"
                 className={styles.formControl}
-                aria-label="Username (email)"
+                aria-label="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -124,13 +129,17 @@ function Mid({
               <a href="#">Forgot your password?</a>
             </p>
           </div>
+
+          {/* Help Button */}
+          <button className={styles.smallHelpBtn} onClick={handleHelpClick}>? Help</button>
+          
         </div>
       </div>
 
-      {/* Help Button */}
+      
       <div className={styles.midLow}>
         <div className={styles.midLowHelp}>
-          <button className={styles.smallHelpBtn}>? Help</button>
+          
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
 
 
+
 /**
  * Collapsible component
  */
@@ -33,12 +34,24 @@ return (
  * Utilizes useHistory from react-router-dom for navigation.
  */
 function Head() {
-    const history = useHistory();
-    function handleHomeClick() {
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  let helpPrev = params.prevPage;
+
+  const history = useHistory();
+  function handleHomeClick() {
+    if (helpPrev == "home") {
       history.push({
         pathname: '/home',
       });
-    }
+    } else {
+      history.push({
+        pathname: '/',
+      });
+      }
+      
+  }
 
   /**
    * handleLoginClick function

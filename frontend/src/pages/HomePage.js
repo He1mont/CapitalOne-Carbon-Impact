@@ -42,9 +42,9 @@ function Head() {
 function Mid({ name }) {
   const history = useHistory();
   function handleHelpClick() {
-    history.push('/Help');
-    console.log("AHHH")
+    history.push('/Help?prevPage=home');
   }
+
   return (
     <div className={styles.mid_bar}>
       {/* User Information and Carbon Impact Section */}
@@ -57,9 +57,9 @@ function Mid({ name }) {
 
       {/* Carbon Impact Information Box */}
       <div className={styles.mid_center}>
-        <img src="/images/mid-box.png" className={styles.mid_box} alt="Mid Box" />
+        <img src="/images/mid-box-slim.png" className={styles.mid_box} alt="Mid Box" />
         <div className={styles.mid_box_txt}>
-          <h1 className={styles.mid_box_txt_title}>View your Carbon Impact</h1>
+          <h2 className={styles.mid_box_txt_title}>View your Carbon Impact</h2>
           <p className={styles.mid_box_txt_line}>
             Find out how your spending habits affect the planet
           </p>
