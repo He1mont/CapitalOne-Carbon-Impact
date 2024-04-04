@@ -59,6 +59,9 @@ function Mid({ name }) {
   function handleHelpClick() {
     history.push('/Help?prevPage=home');
   }
+  function handleSignoutClick() {
+    history.push('/');
+  }
 
   
 
@@ -73,11 +76,11 @@ function Mid({ name }) {
               <img src="/images/user.png" alt="Settings" className={styles.dropdownImg}/>
               <div className={styles.dropdownTxt}><b>My Account</b></div>
             </div>
-            <div className={styles.dropdownBtn} style={{ top: '82px' }}>
+            <div className={styles.dropdownBtn} style={{ top: '82px' }} onClick={handleHelpClick}>
               <img src="/images/help.png" alt="Settings" className={styles.dropdownImg}/>
               <div className={styles.dropdownTxt}><b>Help</b></div>
             </div>
-            <div className={styles.dropdownBtn} style={{ top: '130px' }}>
+            <div className={styles.dropdownBtn} style={{ top: '130px' }} onClick={handleSignoutClick}>
               <img src="/images/signout.png" alt="Settings" className={styles.dropdownImg}/>
               <div className={styles.dropdownTxt}><b>Sign Out</b></div>
             </div>
