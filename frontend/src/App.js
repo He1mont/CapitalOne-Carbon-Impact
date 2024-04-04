@@ -12,8 +12,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/login" component={Login} />
+        <Route exact path="/" component={Login} />
+        <Route path="/home" component={HomePage} />
         <Route path="/transactions" component={Transactions} />
         <Route path="/goals" component={Goals} />
         <Route path="/history" component={History} />

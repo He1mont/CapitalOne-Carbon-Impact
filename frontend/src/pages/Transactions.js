@@ -235,16 +235,15 @@ class MonthSelect extends Component {
  */
 function Head({ name, id }) {
   const history = useHistory();
-  function handleLogoClick() {
+  function handleHomeClick() {
     history.push({
-      pathname: '/',
-      state: { name: name, id: id }
+      pathname: '/home',
     });
   }
   return (
     <div className={styles.head_bar}>
       <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleLogoClick} />
+        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleHomeClick} />
       </div>
     </div>
   )

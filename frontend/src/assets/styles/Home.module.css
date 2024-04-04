@@ -1,0 +1,229 @@
+html, body {
+    max-width: 100%;
+    padding-left: 0px;
+    margin: 0px;
+    background-color: #f3f3f3ff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  /*------------------------------ HEADER ------------------------------*/
+  .head_bar{
+    width: 100%;
+    height: 65px;
+    top: 0px;
+    background-color: #f3f3f3ff;
+    position: fixed;
+    text-align: center;
+    overflow: hidden;
+    z-index: 4;
+  }
+  .head_center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .head_img{
+    position: absolute;
+    width: 130px;
+    top: -15px;
+    left: -65px;
+  }
+  
+  .head_high_txt_right {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    
+  }
+  
+  /*------------------------------ MID ------------------------------*/
+  .mid_bar{
+    top: 65px;
+    width: 100%;
+    height: 500px;
+    position: absolute;
+  }
+  /*---------- MID-HIGH ----------*/
+  .mid_high{
+    user-select: none;
+    width: 100%;
+    height: 400px;
+    position: absolute;
+    background-color: #073763ff;
+  }
+  .mid_high_txt_left{
+    position: absolute;
+    text-align: left;
+    left: 30px;
+    top: 30px;
+    line-height: 10px;
+    color: white;
+  }
+  .mid_high_txt_right{
+    position: absolute;
+    text-align: right;
+    background-color: rgb(187, 32, 140);
+    top: 1%;
+    right: 30px;
+    color:white;
+    border-radius: 5px;
+  }
+  .login_btn{
+    font-size: 14px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: white;
+    outline: none;
+  }
+  
+  
+  
+  .mid_high_profile{
+    position: absolute;
+    background-color: rgb(187, 32, 140);
+    right: 40px;
+    top: 40px;
+    width: 150px;
+    height: 60px;
+    
+  }
+  /*---------- CENTER ----------*/
+  .mid_center{
+    user-select: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  .mid_box{
+    width: 1200px;
+    position: relative;
+    margin-top: 100px;
+  }
+  .mid_box_txt{
+    position: absolute;
+    top: 35%;
+    left: 3%;
+    color: white;
+    text-align: left;
+    font-size: large;
+    line-height: 8px;
+  }
+  .mid_box_txt_title{
+    line-height: 40px;
+  }
+  /*---------- LOW ----------*/
+  .mid_low{
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    bottom: 0px;
+    z-index: 0;
+  }
+  .small_help_btn {
+    user-select: all;
+    font-size: 14px;
+    border: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    color: #3d85c6;
+    z-index: 4;
+    bottom: 10px;
+    left: 20px;
+    position: absolute;
+  }
+  .mid_box_login {
+    /* default styles for the box */
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  
+  /*------------------------------ LOW ------------------------------*/
+  .low_bar{
+    position: absolute;
+    top: 565px;
+    height: 330px;
+    width: 100%;
+    background-color: #f3f3f3ff;
+    display: flex;
+    justify-content: center;
+  }
+  .low_bar_tbl{
+    table-layout: fixed;
+    position: absolute;
+    width: 85%;
+    height: 65%;
+    top: 50px;
+  }
+  .low_bar_btn{
+    width: 90%;
+    min-width: 300px;
+    height: 90%;
+    background-color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+    text-align: left;
+    padding-left: 15px;
+    font-size: 77%;
+    user-select: none;
+  
+  }
+  .low_bar_btn:hover{
+    width: 92%;
+    height: 92%;
+  }
+  .low_bar_btn_img{
+    width: 10%;
+    height: auto;
+  }
+  .low_bar_btn_title{
+    line-height: 6px; 
+    color: #0b5394;
+  }
+  .low_bar_btn_sub{
+    color: #666666;
+  }
+  
+  .footer {
+    width: 100%;
+    height: 50px;
+    background-color: #073763ff;
+    text-align: center;
+    color: white;
+    position: fixed;
+    bottom: 0;
+  
+  }
+  /*---------- KEY FRAMES -------- */
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .mid_box_txt_title,
+  .mid_box_txt_line{
+    animation: slideInFromRight 1s ease-out;
+  }
+  
+  
+  
+  
+  
+  
+  

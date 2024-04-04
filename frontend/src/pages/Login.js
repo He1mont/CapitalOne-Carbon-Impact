@@ -18,9 +18,6 @@ function Head() {
    * handleLoginClick function
    * Redirects the user to the home page when the logo is clicked.
    */
-  function handleLoginClick() {
-    history.push("/");
-  }
 
   return (
     <div className={styles.headBar}>
@@ -29,7 +26,6 @@ function Head() {
           src="/images/Logo.png"
           className={styles.headImg}
           alt="Logo"
-          onClick={handleLoginClick}
         />
       </div>
     </div>

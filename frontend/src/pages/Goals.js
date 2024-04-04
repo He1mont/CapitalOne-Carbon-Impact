@@ -461,9 +461,9 @@ class Leaderboard extends Component {
  */
 function Head({name,id}) {
     const history = useHistory();
-    function handleLoginClick() {
+    function handleHomeClick() {
       history.push({
-        pathname: '/',
+        pathname: '/home',
         state: { name:name, id:id }
       });
       
@@ -471,7 +471,7 @@ function Head({name,id}) {
     return (
         <div className={styles.head_bar}>
             <div className={styles.head_center}>
-                <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleLoginClick} />
+                <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleHomeClick} />
             </div>
         </div>
     )

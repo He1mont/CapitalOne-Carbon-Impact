@@ -34,10 +34,10 @@ return (
  */
 function Head() {
     const history = useHistory();
-    function handleLoginClick() {
-        history.push({
-            pathname: '/',
-        });
+    function handleHomeClick() {
+      history.push({
+        pathname: '/home',
+      });
     }
 
   /**
@@ -49,7 +49,7 @@ function Head() {
     <div className={styles.headBar}>
       {/* Logo */}
       <div className={styles.headCenter}>
-        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleLoginClick}/>
+        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleHomeClick}/>
       </div>
     </div>
 
@@ -143,7 +143,7 @@ function Footer() {
  * HomePage component
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
-function HomePage() {
+function Help() {
   const history = useHistory();
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
@@ -158,4 +158,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Help;
