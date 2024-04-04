@@ -135,13 +135,6 @@ function Mid({
           
         </div>
       </div>
-
-      
-      <div className={styles.midLow}>
-        <div className={styles.midLowHelp}>
-          
-        </div>
-      </div>
     </div>
   );
 }
