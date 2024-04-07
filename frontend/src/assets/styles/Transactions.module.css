@@ -132,7 +132,6 @@ html, body {
   height: 50px;
   position: absolute;
   margin-left: 20%;
-  
 }
 .transaction_btns_search{
   position: absolute;
@@ -143,7 +142,6 @@ html, body {
   padding-left: 10px;
   border-color: rgb(157, 157, 157);
   border-style: solid;
-
 }
 .transaction_btns_download{
   position: absolute;
@@ -165,7 +163,7 @@ html, body {
   width: 74%;
   padding: 1%;
   margin-left: 13%;
-  margin-top: 65px;
+  margin-top: 80px;
 
   border-style: solid;
   border-color: rgb(157, 157, 157);
