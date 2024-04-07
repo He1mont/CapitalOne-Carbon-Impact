@@ -61,7 +61,7 @@ function Mid({
 
       <div className={styles.midCenterLogin}>
         <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
-          <h1 className={styles.midBoxTxtTitleLogin}>Login to your account</h1>
+          <h1 className={styles.midBoxTxtTitleLogin}>Log in to your account</h1>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
@@ -115,7 +115,7 @@ function Mid({
             {/* Submit Button */}
             <div className={styles.dGrid}>
               <button type="submit" className={styles.loginBtnSubmit}>
-                Sign in
+                Log in
               </button>
             </div>
           </form>

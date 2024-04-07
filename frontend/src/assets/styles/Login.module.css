@@ -119,6 +119,9 @@ body {
   cursor: pointer;
   color: #3d85c6;
 }
+.smallHelpBtn:hover {
+  background-color: rgb(202, 202, 254);
+}
 /*---------- Login Form ----------*/
 .loginForm {
   margin-top: 40px;
@@ -132,10 +135,10 @@ body {
   padding: 5px;
 }
 .loginInputTitle {
-  margin-top: 35px;
+  margin-top: 18px;
   text-align: left;
   margin-left: 125px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .loginRemember {
   margin-top: 10px;

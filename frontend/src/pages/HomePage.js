@@ -89,10 +89,8 @@ function Mid({ name }) {
         </div>
       )
     } else {
-
     }
   }
-
 
 
   return (

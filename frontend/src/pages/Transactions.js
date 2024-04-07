@@ -155,12 +155,13 @@ class TransactionTbl extends Component {
                   <div className={styles.sort_arrow}>{this.state.currentCol === 4 && this.showArrow()}</div>
                 </th>
                 <th className={styles.h} style={{ width: '35%' }} onClick={() => this.changeSort("5")}>
-                  <div className={styles.header_text}>Carbon Score</div>
+                  <div className={styles.header_text_r}>Carbon Score</div>
                   <div className={styles.sort_arrow}>{this.state.currentCol === 5 && this.showArrow()}</div>
                 </th>
               </tr>
             </thead>
             <tbody>
+              {/*}
               {filteredTransactions.map((transaction) => (
                 <tr key={transaction.transactionUUID}>
                   <td>{this.formatDate(transaction.date)}</td>
@@ -170,6 +171,84 @@ class TransactionTbl extends Component {
                   <td>{transaction.carbonScore}</td>
                 </tr>
               ))}
+              */}
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
+              <tr>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+                <td>dausid</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -282,8 +361,8 @@ function Mid({ name, id, month, onMonthChange }) {
       <div className={styles.mid_center}>
         <img src="/images/transaction-mid.png" alt="forest container" className={styles.mid_box} />
         <div className={styles.mid_box_txt}>
-          <p>estimated carbon score</p>
-          <p>{carbonScore} kgco2</p>
+          <p><b>{carbonScore} kgco2</b></p>
+          <p><b>Estimate</b></p>
         </div>
       </div>
 

@@ -34,17 +34,25 @@ html, body {
 .mid_bar{
   top: 65px;
   width: 100vw;
-  height: 450px;
+  height: 314px;
   position: absolute;
 }
-/*---------- HIGH ----------*/
 .mid_high{
   user-select: none;
   width: 100%;
-  height: 250px;
+  height: 232px;
   position: absolute;
   background-color: #073763ff;
 }
+.mid_low{
+  width: 100%;
+  height: 82px;
+  position: absolute;
+  background-color: #f3f3f3ff;
+  bottom: 0px;
+  z-index: -1;
+}
+/*---------- HIGH ----------*/
 .mid_high_txt_left{
   position: absolute;
   text-align: left;
@@ -87,54 +95,47 @@ html, body {
 .mid_center{
   user-select: none;
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 .mid_box{
-  width: 400px;
+  width: 291px;
   position: relative;
 }
 .mid_box_txt{
   position: absolute;
-  top: 55px;
+  top: 40px;
   color: white;
+  
   text-align: center;
   width: 100%;
-  font-size: xx-large;
-  line-height: 15px;
+  font-size: 30px;
+  line-height: 5px;
 
-}
-/*---------- LOW ----------*/
-.mid_low{
-  width: 100%;
-  height: 0px;
-  position: absolute;
-  background-color: rgb(255, 255, 255);
-  bottom: 0px;
-  z-index: -1;
 }
 /*------------------------------ LOW ------------------------------*/
 .low_bar{
   position: absolute;
-  top: 450px;
+  top: 379px;
   height: auto;
   width: 100%;
   background-color: white;
-  padding-top: 20px;
+  padding-top: 30px;
   bottom: 0px;
 }
 /*---------- Transaction Table ----------*/
 .transaction_btns{
-  width: 80%;
+  width: 60%;
   height: 50px;
   position: absolute;
-  margin-left: 10%;
+  margin-left: 20%;
+  
 }
 .transaction_btns_search{
   position: absolute;
   height: 40px;
-  width: 75%;
+  width: 70%;
   border-width: 2px;
   border-radius: 5px;
   padding-left: 10px;
@@ -153,11 +154,13 @@ html, body {
   background-color: rgb(247, 246, 246);
 }
 .transaction_tbl_container{
-  width: 85%;
+  width: 75%;
   height: auto;
   position: absolute;
-  margin-left: 7.5%;
+  margin-left: 12.5%;
   margin-top: 70px;
+  max-height: 200px;
+  overflow: auto;
 }
 .transaction_tbl{
   width: 100%;
@@ -189,6 +192,10 @@ html, body {
 
 .header_text{
   float: left;
+  user-select: none;
+}
+.header_text_r{
+  float: right;
   user-select: none;
 }
 .sort_arrow{
