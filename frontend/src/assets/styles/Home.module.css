@@ -10,7 +10,7 @@ html, body {
   /*------------------------------ HEADER ------------------------------*/
   .head_bar{
     user-select: none;
-    width: 100%;
+    width: 100vw;
     height: 65px;
     top: 0px;
     background-color: #f3f3f3ff;
