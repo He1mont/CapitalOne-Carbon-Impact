@@ -32,19 +32,30 @@ html, body {
   
   /*------------------------------ MID ------------------------------*/
   .mid_bar{
+    position: absolute;
     top: 65px;
-    width: 100%;
-    height: 550px;
-    position: absolute;
-  }
-  /*---------- HIGH ----------*/
-  .mid_high{
+    width: 100vw;
+    height: 314px;
     user-select: none;
-    width: 100%;
-    height: 450px;
+  }
+    .mid_high{
     position: absolute;
+    width: 100%;
+    height: 232px;
     background-color: #073763ff;
   }
+  .mid_low{
+    width: 100%;
+    height: 82px;
+    position: absolute;
+    background-color: #f3f3f3ff;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /*---------- HIGH ----------*/
+
   .mid_high_txt_left{
     position: absolute;
     text-align: left;
@@ -55,7 +66,7 @@ html, body {
   }
   .mid_high_center{
     position: absolute;
-    top: 30px;
+    top: 10px;
     left: 50%;
   }
 
@@ -72,9 +83,9 @@ html, body {
   .mid_center{
     user-select: none;
     position: absolute;
-    top: 55%;
+    top: 60%;
     left: 50%;
-    height: 410px;
+    height: 210px;
     transform: translate(-50%, -50%);
     table-layout: initial;
     align-items: center;
@@ -82,49 +93,8 @@ html, body {
     z-index: 1;
     
   }
-  .mid_circles{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: transparent;
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 50px;
-    border-color: rgb(17, 81, 141);
-    border-width: 5px;
-    text-align: center;
-    border-style: solid;
-  }
-  .mid_circle_wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%; /* Ensures the wrapper takes full height of the table cell */
-  }
- 
-  .mid_box_txt{
-    position: absolute;
-    top: 55px;
-    color: white;
-    text-align: center;
-    width: 100%;
-    font-size: xx-large;
-    line-height: 15px;
-  
-  }
   /*---------- LOW ----------*/
-  .mid_low{
-    width: 100%;
-    height: 100px;
-    position: absolute;
-    background-color: white;
-    bottom: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  
   .goal_input {
     user-select: auto;
     pointer-events: auto;
@@ -141,11 +111,11 @@ html, body {
   /*------------------------------ LOW ------------------------------*/
   .low_bar{
     position: absolute;
-    top: 615px;
+    top: 379px;
     min-height: 300px;
     height: auto;
     width: 100%;
-    background-color: rgb(245, 245, 245);
+    background-color: rgb(255, 255, 255);
     padding-top: 20px;
   }
 
@@ -168,9 +138,69 @@ html, body {
   }
 
   /*------------------------------ CARBON USE CIRCLE ------------------------------*/
-  .img_box{
-    width: 400px;
+
+  .goals_circle_tbl{ 
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 40%; 
+    min-width: 800px;
   }
+  .img_box{
+    width: 220px;
+  }
+  .mid_circles{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #073763ff;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 50px;
+    border-color: rgb(17, 81, 141);
+    border-width: 5px;
+    text-align: center;
+    border-style: solid;
+  }
+  .mid_circle_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ensures the wrapper takes full height of the table cell */
+  }
+  .mid_box_txt{
+    position: absolute;
+    top: 55px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    font-size: xx-large;
+    line-height: 15px;
+  }
+  .mid_circle_txt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    line-height: 5px;
+    font-size: 13px;
+  }
+  .mid_circle_txt_high {
+    font-size: 40px;
+  }
+  .mid_circle_txt_mid {
+    font-size: 20px;
+    line-height: 2px;
+  }
+  .mid_circle_txt_low {
+    line-height: 3px;
+  }
+
 
   /*------------------------------ LEADERBOARD ------------------------------*/
 

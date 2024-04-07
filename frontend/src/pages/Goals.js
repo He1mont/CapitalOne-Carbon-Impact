@@ -96,17 +96,18 @@ class CarbonUseCircle extends Component {
     };
 
     drawCircle = ({ color }) => {
-        let percentage = 0;
+        let percentage = 40;
     
         if (color === 'white') {
             percentage = 100;
-        } else {
-            percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
-        }
+        } 
+        //else {
+        //    percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
+        //}
     
-        const diameter = 350;
+        const diameter = 210;
         const radius = diameter / 2;
-        const strokeWidth = 20;
+        const strokeWidth = 15;
         const viewBoxSize = diameter + strokeWidth;
         const circumference = 2 * Math.PI * radius;
         const strokeDashoffset = ((100 - percentage) * circumference) / 100;
@@ -153,24 +154,16 @@ class CarbonUseCircle extends Component {
             <div style={{ position: 'relative', height: '100%' }}>
                 
                 {/* Render the table containing carbon use circle and mid_circles */}
-                <table style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '70%', minWidth: '1000px'}}>
+                <table className={styles.goals_circle_tbl}>
                     <tbody>
                         <tr>
                             <th style={{ width: '33%', textAlign: 'center' }}>
                                 <div className={styles.mid_circle_wrapper}>
                                     <div className={styles.mid_circles}>
-                                        <div style={{
-                                                position: 'absolute',
-                                                top: '50%', left: '50%',
-                                                transform: 'translate(-50%, -50%)',
-                                                textAlign: 'center',
-                                                color: 'white',
-                                                lineHeight: '6px',
-                                                fontSize: '18px'
-                                            }}>
-                                            <h1>{this.state.scoreLastMonth}</h1>
-                                            <p>kgco2</p>
-                                            <p>last month</p>
+                                        <div className={styles.mid_circle_txt}>
+                                            <h1 className={styles.mid_circle_txt_high}>{this.state.scoreLastMonth}</h1>
+                                            <p className={styles.mid_circle_txt_mid}>kgco2</p>
+                                            <p className={styles.mid_circle_txt_low}>last month</p>
                                         </div>
                                     </div>
                                 </div>
@@ -187,11 +180,11 @@ class CarbonUseCircle extends Component {
                                                 transform: 'translate(-50%, -50%)',
                                                 textAlign: 'center',
                                                 color: 'white',
-                                                lineHeight: '10px'
+                                                lineHeight: '25px'
                                             }}>
                                             <h1>{this.props.carbonEmission}</h1>
-                                            <h2>kgco2</h2>
-                                            <h5>estimate</h5>
+                                            <h2 style={{lineHeight: '0px'}}>kgco2</h2>
+                                            <h5 style={{lineHeight: '5px'}}>estimate</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -199,18 +192,10 @@ class CarbonUseCircle extends Component {
                             <th style={{ width: '33%', textAlign: 'center' }}>
                                 <div className={styles.mid_circle_wrapper}>
                                     <div className={styles.mid_circles}>
-                                        <div style={{
-                                                position: 'absolute',
-                                                top: '50%', left: '50%',
-                                                transform: 'translate(-50%, -50%)',
-                                                textAlign: 'center',
-                                                color: 'white',
-                                                lineHeight: '6px',
-                                                fontSize: '18px'
-                                            }}>
-                                            <h1>{difference}</h1>
-                                            <p>kgco2</p>
-                                            <p>{returnSetence}</p>
+                                        <div className={styles.mid_circle_txt}>
+                                            <h1 className={styles.mid_circle_txt_high}>{difference}</h1>
+                                            <p className={styles.mid_circle_txt_mid}>kgco2</p>
+                                            <p className={styles.mid_circle_txt_low}>{returnSetence}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -550,7 +535,7 @@ function Mid({ name, id, month, onMonthChange }) {
             </div>
 
             <div className={styles.mid_low}>
-                <div className={styles.goal_input}>
+                {/*<div className={styles.goal_input}>
                     <input 
                     id="goalInput" 
                     placeholder= {'Current Goal: ' + goalEm}
@@ -558,7 +543,7 @@ function Mid({ name, id, month, onMonthChange }) {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     className={styles.goal_input_box}/>
-                </div>
+                </div>*/}
             </div>
         </div>
     );
