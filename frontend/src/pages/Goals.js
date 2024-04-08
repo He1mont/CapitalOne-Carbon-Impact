@@ -96,14 +96,14 @@ class CarbonUseCircle extends Component {
     };
 
     drawCircle = ({ color }) => {
-        let percentage = 40;
+        let percentage = 0;
     
         if (color === 'white') {
             percentage = 100;
         } 
-        //else {
-        //    percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
-        //}
+        else {
+            percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
+        }
     
         const diameter = 210;
         const radius = diameter / 2;
@@ -182,7 +182,7 @@ class CarbonUseCircle extends Component {
                                                 color: 'white',
                                                 lineHeight: '25px'
                                             }}>
-                                            <h1>{this.props.carbonEmission}</h1>
+                                            <h1 style={{fontSize: '50px'}}>{this.props.carbonEmission}</h1>
                                             <h2 style={{lineHeight: '0px'}}>kgco2</h2>
                                             <h5 style={{lineHeight: '5px'}}>estimate</h5>
                                         </div>
@@ -417,16 +417,16 @@ class Leaderboard extends Component {
                             <table className={styles.leaderboard_list}>
                                 <thead>
                                     <tr>
-                                        <th style={{width: '10%'}}> <div>ID</div> </th>
-                                        <th style={{width: '60%'}}> <div>Username</div> </th>
+                                        <th style={{width: '10%', textAlign: 'left'}}> <div>ID</div> </th>
+                                        <th style={{width: '60%', textAlign: 'left'}}> <div>Username</div> </th>
                                         <th style={{width: '30%'}}> <div>Carbon Score</div> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {followingUsers.map((followingUser, index) => (
                                     <tr key={index} className={styles.leaderboard_tablerow}>
-                                        <td style={{width: '10%', textAlign: 'center'}}>{'#' + (index + 1)}</td>
-                                        <td style={{width: '60%', textAlign: 'center'}}>{followingUser.username}</td>
+                                        <td style={{width: '10%', textAlign: 'left'}}>{'#' + (index + 1)}</td>
+                                        <td style={{width: '60%', textAlign: 'left'}}>{followingUser.username}</td>
                                         <td style={{width: '30%', textAlign: 'center'}}>{getCarbonScore(followingUser.username)}</td>
                                     </tr>
                                     ))}
