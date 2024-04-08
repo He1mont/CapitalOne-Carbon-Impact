@@ -5,6 +5,7 @@ import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
 
 
+
 /**
  * Collapsible component
  */
@@ -33,12 +34,24 @@ return (
  * Utilizes useHistory from react-router-dom for navigation.
  */
 function Head() {
-    const history = useHistory();
-    function handleLoginClick() {
-        history.push({
-            pathname: '/',
-        });
-    }
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  let helpPrev = params.prevPage;
+
+  const history = useHistory();
+  function handleHomeClick() {
+    if (helpPrev == "home") {
+      history.push({
+        pathname: '/home',
+      });
+    } else {
+      history.push({
+        pathname: '/',
+      });
+      }
+      
+  }
 
   /**
    * handleLoginClick function
@@ -49,7 +62,7 @@ function Head() {
     <div className={styles.headBar}>
       {/* Logo */}
       <div className={styles.headCenter}>
-        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleLoginClick}/>
+        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleHomeClick}/>
       </div>
     </div>
 
@@ -143,7 +156,7 @@ function Footer() {
  * HomePage component
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
-function HomePage() {
+function Help() {
   const history = useHistory();
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
@@ -158,4 +171,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Help;

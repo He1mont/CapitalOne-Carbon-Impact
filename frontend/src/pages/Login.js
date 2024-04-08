@@ -6,6 +6,7 @@ import axios from "axios";
 import * as API from '../services/api';
 import Sorter from '../services/sorter';
 
+
 /**
  * Head component
  * Displays the top part of the login page including the logo.
@@ -18,9 +19,6 @@ function Head() {
    * handleLoginClick function
    * Redirects the user to the home page when the logo is clicked.
    */
-  function handleLoginClick() {
-    history.push("/");
-  }
 
   return (
     <div className={styles.headBar}>
@@ -29,7 +27,6 @@ function Head() {
           src="/images/Logo.png"
           className={styles.headImg}
           alt="Logo"
-          onClick={handleLoginClick}
         />
       </div>
     </div>
@@ -53,6 +50,10 @@ function Mid({
 }) {
   // Determines if the login message indicates a successful login
   const isSuccess = loginMessage.includes("success");
+  const history = useHistory();
+  function handleHelpClick() {
+    history.push('/Help?prevPage=login');
+  }
 
   return (
     <div className={styles.midBarLogin}>
@@ -60,7 +61,7 @@ function Mid({
 
       <div className={styles.midCenterLogin}>
         <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
-          <h1 className={styles.midBoxTxtTitleLogin}>Login to your account</h1>
+          <h1 className={styles.midBoxTxtTitleLogin}>Log in to your account</h1>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
@@ -68,11 +69,11 @@ function Mid({
             <div className={styles.mb3}>
               {loginMessage && <p className={styles.loginMessage}>{loginMessage}</p>}
               {/* <div className='login-message-box'> </div> */}
-              <div className={styles.loginInputTitle}>Username (email)</div>
+              <div className={styles.loginInputTitle}>Email</div>
               <input
                 type="email"
                 className={styles.formControl}
-                aria-label="Username (email)"
+                aria-label="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -114,7 +115,7 @@ function Mid({
             {/* Submit Button */}
             <div className={styles.dGrid}>
               <button type="submit" className={styles.loginBtnSubmit}>
-                Sign in
+                Log in
               </button>
             </div>
           </form>
@@ -128,13 +129,10 @@ function Mid({
               <a href="#">Forgot your password?</a>
             </p>
           </div>
-        </div>
-      </div>
 
-      {/* Help Button */}
-      <div className={styles.midLow}>
-        <div className={styles.midLowHelp}>
-          <button className={styles.smallHelpBtn}>? Help</button>
+          {/* Help Button */}
+          <button className={styles.smallHelpBtn} onClick={handleHelpClick}>? Help</button>
+          
         </div>
       </div>
     </div>
@@ -206,7 +204,7 @@ function Login() {
         const username = account.username;
         setLoginMessage("Log in successfully!");
         history.push({
-          pathname: "/",
+          pathname: "/home",
           state: { name: username, id: account.accountID },
         });
       }

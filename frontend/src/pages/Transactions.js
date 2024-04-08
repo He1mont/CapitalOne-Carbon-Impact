@@ -105,7 +105,7 @@ class TransactionTbl extends Component {
   }
 
   render() {
-    // filter transactions of the corresponding month
+    // Filter transactions of the corresponding month
     const { month } = this.props;
     const startOfMonth = month.clone().startOf('month');
     const endOfMonth = month.clone().endOf('month');
@@ -113,7 +113,27 @@ class TransactionTbl extends Component {
       const transactionDate = moment(transaction.date);
       return transactionDate.isSameOrAfter(startOfMonth) && transactionDate.isSameOrBefore(endOfMonth);
     });
-
+  
+    // Render "No Data" if filteredTransactions length is 0
+    let tableBody;
+    if (filteredTransactions.length === 0) {
+      tableBody = (
+        <tr>
+          <td colSpan="5" className={styles.noDataCell}>No Data</td>
+        </tr>
+      );
+    } else {
+      tableBody = filteredTransactions.map((transaction) => (
+        <tr key={transaction.transactionUUID}>
+          <td>{this.formatDate(transaction.date)}</td>
+          <td>{transaction.merchantName}</td>
+          <td>{transaction.category}</td>
+          <td>{transaction.amount}</td>
+          <td>{transaction.carbonScore}</td>
+        </tr>
+      ));
+    }
+  
     return (
       <div>
         {/* Search and Filter Functionality */}
@@ -132,46 +152,40 @@ class TransactionTbl extends Component {
             Search
           </button>
         </div>
-
+  
         {/* Transaction Table Container */}
-        <div className={styles.transaction_tbl_container}>
-          <table className={styles.transaction_tbl}>
-            <thead>
-              <tr>
-                <th className={styles.h} style={{ width: '10%' }} onClick={() => this.changeSort("1")}>
-                  <div className={styles.header_text}>Date</div>
-                  <div className={styles.sort_arrow}>{this.state.currentCol === 1 && this.showArrow()}</div>
-                </th>
-                <th className={styles.h} style={{ width: '20%' }} onClick={() => this.changeSort("2")}>
-                  <div className={styles.header_text}>Merchant Name</div>
-                  <div className={styles.sort_arrow}>{this.state.currentCol === 2 && this.showArrow()}</div>
-                </th>
-                <th className={styles.h} style={{ width: '15%' }} onClick={() => this.changeSort("3")}>
-                  <div className={styles.header_text}>Category</div>
-                  <div className={styles.sort_arrow}>{this.state.currentCol === 3 && this.showArrow()}</div>
-                </th>
-                <th className={styles.h} style={{ width: '20%' }} onClick={() => this.changeSort("4")}>
-                  <div className={styles.header_text}>Amount</div>
-                  <div className={styles.sort_arrow}>{this.state.currentCol === 4 && this.showArrow()}</div>
-                </th>
-                <th className={styles.h} style={{ width: '35%' }} onClick={() => this.changeSort("5")}>
-                  <div className={styles.header_text}>Carbon Score</div>
-                  <div className={styles.sort_arrow}>{this.state.currentCol === 5 && this.showArrow()}</div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTransactions.map((transaction) => (
-                <tr key={transaction.transactionUUID}>
-                  <td>{this.formatDate(transaction.date)}</td>
-                  <td>{transaction.merchantName}</td>
-                  <td>{transaction.category}</td>
-                  <td>{transaction.amount}</td>
-                  <td>{transaction.carbonScore}</td>
+        <div className={styles.transaction_tbl_border}>
+          <div className={styles.transaction_tbl_container}>
+            <table className={styles.transaction_tbl}>
+              <thead>
+                <tr>
+                  <th className={styles.h} style={{ width: '10%' }} onClick={() => this.changeSort("1")}>
+                    <div className={styles.header_text}>Date</div>
+                    <div className={styles.sort_arrow}>{this.state.currentCol === 1 && this.showArrow()}</div>
+                  </th>
+                  <th className={styles.h} style={{ width: '20%' }} onClick={() => this.changeSort("2")}>
+                    <div className={styles.header_text}>Merchant Name</div>
+                    <div className={styles.sort_arrow}>{this.state.currentCol === 2 && this.showArrow()}</div>
+                  </th>
+                  <th className={styles.h} style={{ width: '15%' }} onClick={() => this.changeSort("3")}>
+                    <div className={styles.header_text}>Category</div>
+                    <div className={styles.sort_arrow}>{this.state.currentCol === 3 && this.showArrow()}</div>
+                  </th>
+                  <th className={styles.h} style={{ width: '20%' }} onClick={() => this.changeSort("4")}>
+                    <div className={styles.header_text}>Amount</div>
+                    <div className={styles.sort_arrow}>{this.state.currentCol === 4 && this.showArrow()}</div>
+                  </th>
+                  <th className={styles.h} style={{ width: '35%' }} onClick={() => this.changeSort("5")}>
+                    <div className={styles.header_text}>Carbon Score</div>
+                    <div className={styles.sort_arrow}>{this.state.currentCol === 5 && this.showArrow()}</div>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {tableBody}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );
@@ -235,16 +249,15 @@ class MonthSelect extends Component {
  */
 function Head({ name, id }) {
   const history = useHistory();
-  function handleLogoClick() {
+  function handleHomeClick() {
     history.push({
-      pathname: '/',
-      state: { name: name, id: id }
+      pathname: '/home',
     });
   }
   return (
     <div className={styles.head_bar}>
       <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleLogoClick} />
+        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleHomeClick} />
       </div>
     </div>
   )
@@ -283,8 +296,8 @@ function Mid({ name, id, month, onMonthChange }) {
       <div className={styles.mid_center}>
         <img src="/images/transaction-mid.png" alt="forest container" className={styles.mid_box} />
         <div className={styles.mid_box_txt}>
-          <p>estimated carbon score</p>
-          <p>{carbonScore} kgco2</p>
+          <p><b>{carbonScore} kgco2</b></p>
+          <p><b>Estimate</b></p>
         </div>
       </div>
 
