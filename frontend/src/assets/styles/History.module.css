@@ -16,6 +16,7 @@ html, body {
     text-align: center;
     overflow: hidden;
     z-index: 4;
+    user-select: none;
   }
   .head_center{
     position: absolute;

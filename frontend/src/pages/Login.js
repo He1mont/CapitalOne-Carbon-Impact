@@ -204,7 +204,7 @@ function Login() {
         const username = account.username;
         setLoginMessage("Log in successfully!");
         history.push({
-          pathname: "/",
+          pathname: "/home",
           state: { name: username, id: account.accountID },
         });
       }

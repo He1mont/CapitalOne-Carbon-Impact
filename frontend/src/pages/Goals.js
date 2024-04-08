@@ -573,10 +573,10 @@ function Low({ id, month }) {
             <div className={styles.low_sel_container}>
                 <div className={styles.low_sel_center}>
                     <div className={`${styles.low_sel_btn} ${selection === 1 ? styles.selected : ''}`} onClick={() => handleSelectionClick(1)}>
-                        dbusadiasbd
+                        Friends Leaderboard
                     </div>
                     <div className={`${styles.low_sel_btn} ${selection === 2 ? styles.selected : ''}`} onClick={() => handleSelectionClick(2)}>
-                        dsad8iasdasidohas
+                        Areas of Improvement
                     </div>
                 </div>
             </div>
