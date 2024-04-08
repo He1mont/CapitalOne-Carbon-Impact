@@ -318,33 +318,35 @@ class Graphs extends Component {
 
         return (
             <div className={styles.graphs_container}>
-                <table className={styles.graphs_picker}>
-                    <thead>
-                        <tr>
-                            <th
-                                className={`${styles.graph_selection_heads} ${this.state.graphSelection === 1 ? styles.selected : ''}`}
-                                style={{ width: '33%' }}
-                                onClick={() => this.changeSelection(1)}
-                            >
-                                Pie Chart
-                            </th>
-                            <th
-                                className={`${styles.graph_selection_heads} ${this.state.graphSelection === 2 ? styles.selected : ''}`}
-                                style={{ width: '34%' }}
-                                onClick={() => this.changeSelection(2)}
-                            >
-                                Line Graph
-                            </th>
-                            <th
-                                className={`${styles.graph_selection_heads} ${this.state.graphSelection === 3 ? styles.selected : ''}`}
-                                style={{ width: '33%' }}
-                                onClick={() => this.changeSelection(3)}
-                            >
-                                Bar Graph
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
+                <div className={styles.picker_container}>
+                    <table className={styles.graphs_picker}>
+                        <thead>
+                            <tr>
+                                <th
+                                    className={`${styles.graph_selection_heads} ${this.state.graphSelection === 1 ? styles.selected : ''}`}
+                                    style={{ width: '33%' }}
+                                    onClick={() => this.changeSelection(1)}
+                                >
+                                    Pie Chart
+                                </th>
+                                <th
+                                    className={`${styles.graph_selection_heads} ${this.state.graphSelection === 2 ? styles.selected : ''}`}
+                                    style={{ width: '34%' }}
+                                    onClick={() => this.changeSelection(2)}
+                                >
+                                    Line Graph
+                                </th>
+                                <th
+                                    className={`${styles.graph_selection_heads} ${this.state.graphSelection === 3 ? styles.selected : ''}`}
+                                    style={{ width: '33%' }}
+                                    onClick={() => this.changeSelection(3)}
+                                >
+                                    Bar Graph
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
                 <div className={styles.graphs_inner_container}>
                     {selectedGraph}
 

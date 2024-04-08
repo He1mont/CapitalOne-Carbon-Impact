@@ -2,7 +2,7 @@ html, body {
     max-width: 100%;
     padding-left: 0px;
     margin: 0px;
-    background-color: rgb(245, 245, 245);
+    background-color: rgb(255, 255, 255);
     font-family: Arial, sans-serif;
   }
   
@@ -129,6 +129,14 @@ html, body {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+.picker_container {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  background-color: #f3f3f3ff;
 }
 .graphs_picker {
     position: absolute;
