@@ -4,8 +4,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
 
-
-
 /**
  * Collapsible component
  */
@@ -33,7 +31,7 @@ function Collap(props) {
  * Displays the top part of the help including the logo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head() {
+function Head(name, id) {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
@@ -41,7 +39,7 @@ function Head() {
 
   const history = useHistory();
   function handleHomeClick() {
-    if (helpPrev == "login") {
+    if (helpPrev === "login") {
       history.push({
         pathname: '/login',
       });
@@ -64,16 +62,13 @@ function Head() {
         <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleHomeClick} />
       </div>
     </div>
-
-
   );
 }
 /**
  * Mid component
  * Displays the middle section of the help page, including user information and button redirecting to other pages.
  */
-function Mid({ name }) {
-
+function Mid() {
   return (
     <div className={styles.midBar}>
       <div className={styles.midHigh}>
@@ -162,8 +157,8 @@ function Help() {
   const id = location.state?.id;
   return (
     <div>
-      <Head />
-      <Mid name={name} />
+      <Head name={name} id={id} />
+      <Mid />
       <Low name={name} id={id} />
       <Footer />
     </div>

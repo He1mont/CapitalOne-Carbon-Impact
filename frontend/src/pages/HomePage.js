@@ -1,5 +1,5 @@
 // HomePage.js
-import React, { useState, useEffect, useRef, Component }  from 'react';
+import React, { useState, useEffect, useRef, Component } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Home.module.css'; // Import CSS file
 
@@ -8,26 +8,44 @@ import styles from '../assets/styles/Home.module.css'; // Import CSS file
  * Displays the top part of the homepage including the logo and login button.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head() {
+function Head(name, id) {
   const history = useHistory();
-  const params = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-  });
-  let settingsToggle = params.st;
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  function handleSettingsClick() {
-    if (settingsToggle == "t") {
-      history.push('/home?st=f');
-    } else {
-      history.push('/home?st=t');
-    }
-    
+  function handleHelpClick() {
+    history.push('/help?prevPage=home');
   }
-  /**
-   * handleLoginClick function
-   * Redirects user to the login page when the login button is clicked.
-   */
+  function handleSignoutClick() {
+    history.push('/login');
+  }
+  function handleSettingsClick() {
+    setShowDropdown(!showDropdown);
+  }
 
+  function showSettings() {
+    if (showDropdown) {
+      return (
+        <div className={styles.dropdownBox}>
+          <div className={styles.triangle}></div>
+          {/* <div className={styles.dropdownAccName}><b>{name}</b></div> */}
+          <div className={`${styles.dropdownContainer}`}>
+            <div className={styles.dropdownBtn} style={{ top: '32px' }}>
+              <img src="/images/user.png" alt="Settings" className={styles.dropdownImg} />
+              <div className={styles.dropdownTxt}><b>My Account</b></div>
+            </div>
+            <div className={styles.dropdownBtn} style={{ top: '82px' }} onClick={handleHelpClick}>
+              <img src="/images/help.png" alt="Settings" className={styles.dropdownImg} />
+              <div className={styles.dropdownTxt}><b>Help</b></div>
+            </div>
+            <div className={styles.dropdownBtn} style={{ top: '130px' }} onClick={handleSignoutClick}>
+              <img src="/images/signout.png" alt="Settings" className={styles.dropdownImg} />
+              <div className={styles.dropdownTxt}><b>Sign Out</b></div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  }
   return (
     <div className={styles.head_bar}>
       {/* Logo */}
@@ -38,8 +56,9 @@ function Head() {
       {/* Settings */}
       <div className={styles.head_settings_container}>
         <button onClick={handleSettingsClick} className={styles.settings_btn}>
-          <img src="/images/settings.png" alt="Settings" className={styles.settings_img}/>
+          <img src="/images/settings.png" alt="Settings" className={styles.settings_img} />
         </button>
+        {showSettings()}
       </div>
     </div>
   );
@@ -50,50 +69,11 @@ function Head() {
  * Displays the middle section of the homepage, including user information and button redirecting to other pages.
  */
 function Mid({ name }) {
-  const history = useHistory();
-  const params = new URLSearchParams(useLocation().search);
-  const settingsToggle = params.get("st");
-  const dropdownRef = useRef(null);
-
-  function handleHelpClick() {
-    history.push('/help');
-  }
-  function handleSignoutClick() {
-    history.push('/login');
-  }
-
-  function showSettings() {
-    if (settingsToggle == "t") {
-      return (
-        <div className={styles.dropdownBox} ref={dropdownRef}>
-          <div className={styles.triangle}></div>
-          <div className={styles.dropdownAccName}><b>{name}</b></div>
-          <div className={`${styles.dropdownContainer}`}>
-            <div className={styles.dropdownBtn} style={{ top: '32px' }}>
-              <img src="/images/user.png" alt="Settings" className={styles.dropdownImg}/>
-              <div className={styles.dropdownTxt}><b>My Account</b></div>
-            </div>
-            <div className={styles.dropdownBtn} style={{ top: '82px' }} onClick={handleHelpClick}>
-              <img src="/images/help.png" alt="Settings" className={styles.dropdownImg}/>
-              <div className={styles.dropdownTxt}><b>Help</b></div>
-            </div>
-            <div className={styles.dropdownBtn} style={{ top: '130px' }} onClick={handleSignoutClick}>
-              <img src="/images/signout.png" alt="Settings" className={styles.dropdownImg}/>
-              <div className={styles.dropdownTxt}><b>Sign Out</b></div>
-            </div>
-          </div> 
-        </div>
-      )
-    } else {
-    }
-  }
-
   return (
     <div className={styles.mid_bar}>
-      {showSettings()}
       {/* User Information and Carbon Impact Section */}
       <div className={styles.mid_high}>
-        
+
         <div className={styles.mid_high_txt_left}>
           <p>{name}</p>
           <h1>Your Carbon Impact</h1>
@@ -225,13 +205,12 @@ function Footer() {
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function HomePage() {
-  const history = useHistory();
   const location = useLocation();
   const name = location.state?.name || "You need to login";
   const id = location.state?.id;
   return (
     <div>
-      <Head />
+      <Head name={name} id={id}/>
       <Mid name={name} />
       <Low name={name} id={id} />
       <Footer />
