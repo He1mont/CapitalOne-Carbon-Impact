@@ -252,6 +252,7 @@ function Head({ name, id }) {
   function handleHomeClick() {
     history.push({
       pathname: '/home',
+      state: { name: name, id: id }
     });
   }
   return (

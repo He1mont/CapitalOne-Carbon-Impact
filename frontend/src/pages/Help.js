@@ -1,6 +1,6 @@
 // HomePage.js
 import React from 'react';
-import { useHistory ,useLocation} from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
 
@@ -10,23 +10,23 @@ import { useCollapse } from 'react-collapsed'
  * Collapsible component
  */
 function Collap(props) {
-    const config = {
-        defaultExpanded: props.defaultExpanded || false,
-        collapsedHeight: props.collapsedHeight || 0
-    };
-    const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
-return (
+  const config = {
+    defaultExpanded: props.defaultExpanded || false,
+    collapsedHeight: props.collapsedHeight || 0
+  };
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
+  return (
     <div className={styles.collapsible}>
-        <div className={styles.header} {...getToggleProps()}>
-            <div className={styles.title}>{props.title}</div>
+      <div className={styles.header} {...getToggleProps()}>
+        <div className={styles.title}>{props.title}</div>
+      </div>
+      <div {...getCollapseProps()}>
+        <div className={styles.content}>
+          {props.children}
         </div>
-        <div {...getCollapseProps()}>
-            <div className={styles.content}>
-                {props.children}
-            </div>
-        </div>
+      </div>
     </div>
-    );
+  );
 }
 /**
  * Head component
@@ -41,16 +41,15 @@ function Head() {
 
   const history = useHistory();
   function handleHomeClick() {
-    if (helpPrev == "home") {
+    if (helpPrev == "login") {
       history.push({
-        pathname: '/home',
+        pathname: '/login',
       });
     } else {
       history.push({
-        pathname: '/',
+        pathname: '/home',
       });
-      }
-      
+    }
   }
 
   /**
@@ -62,7 +61,7 @@ function Head() {
     <div className={styles.headBar}>
       {/* Logo */}
       <div className={styles.headCenter}>
-        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleHomeClick}/>
+        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleHomeClick} />
       </div>
     </div>
 
@@ -73,7 +72,7 @@ function Head() {
  * Mid component
  * Displays the middle section of the help page, including user information and button redirecting to other pages.
  */
-function Mid({name}) {
+function Mid({ name }) {
 
   return (
     <div className={styles.midBar}>
@@ -96,47 +95,47 @@ function Mid({name}) {
  * Low component
  * Displays the lower section of the help page, including buttons for transactions, goals, and history.
  */
-function Low({name,id}) {
+function Low({ name, id }) {
   const history = useHistory();
 
   return (
     <div className={styles.lowBar}>
-        <div className={styles.helpTable}>
-            <div className={styles.helpTableTitle}>
-                Profile Help
-            </div>
-            <Collap title="Changing Username">
-                <label>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                </label>
-            </Collap>
-            <Collap title="Password Recovery">
-                <label>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                </label>
-            </Collap>
-            <Collap title="How do I ">
-                <label>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                </label>
-            </Collap>
-
-            <div className={styles.helpTableTitle}>
-                Site Help
-            </div>
-            <Collap title="How do I ">
-                <label>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                </label>
-            </Collap>
-            <Collap title="How do I ">
-                <label>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                </label>
-            </Collap>
-
-            <div className={styles.break} />
+      <div className={styles.helpTable}>
+        <div className={styles.helpTableTitle}>
+          Profile Help
         </div>
+        <Collap title="Changing Username">
+          <label>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+          </label>
+        </Collap>
+        <Collap title="Password Recovery">
+          <label>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+          </label>
+        </Collap>
+        <Collap title="How do I ">
+          <label>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+          </label>
+        </Collap>
+
+        <div className={styles.helpTableTitle}>
+          Site Help
+        </div>
+        <Collap title="How do I ">
+          <label>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+          </label>
+        </Collap>
+        <Collap title="How do I ">
+          <label>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+          </label>
+        </Collap>
+
+        <div className={styles.break} />
+      </div>
     </div>
   );
 }
@@ -159,13 +158,13 @@ function Footer() {
 function Help() {
   const history = useHistory();
   const location = useLocation();
-  const name = location.state?.name || "You need to login"; 
-  const id=location.state?.id ;
+  const name = location.state?.name || "You need to login";
+  const id = location.state?.id;
   return (
     <div>
       <Head />
-      <Mid name={name}/>
-      <Low name={name} id={id}/>
+      <Mid name={name} />
+      <Low name={name} id={id} />
       <Footer />
     </div>
   );

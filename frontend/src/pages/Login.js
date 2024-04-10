@@ -2,10 +2,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "../assets/styles/Login.module.css";
-import axios from "axios";
 import * as API from '../services/api';
-import Sorter from '../services/sorter';
-
 
 /**
  * Head component
@@ -13,13 +10,10 @@ import Sorter from '../services/sorter';
  * The logo serves as a button to redirect the user to the home page.
  */
 function Head() {
-  const history = useHistory();
-
   /**
    * handleLoginClick function
    * Redirects the user to the home page when the logo is clicked.
    */
-
   return (
     <div className={styles.headBar}>
       <div className={styles.headCenter}>
@@ -52,7 +46,7 @@ function Mid({
   const isSuccess = loginMessage.includes("success");
   const history = useHistory();
   function handleHelpClick() {
-    history.push('/Help?prevPage=login');
+    history.push('/help?prevPage=login');
   }
 
   return (
@@ -132,7 +126,7 @@ function Mid({
 
           {/* Help Button */}
           <button className={styles.smallHelpBtn} onClick={handleHelpClick}>? Help</button>
-          
+
         </div>
       </div>
     </div>
@@ -195,11 +189,11 @@ function Login() {
       // email is suspended or closed
       if (account.state === "closed") {
         setLoginMessage("Your account has been closed!");
-  
+
       } else if (account.state === "suspended") {
         setLoginMessage("Your account has been suspended!");
-  
-      // email is open or flagged
+
+        // email is open or flagged
       } else {
         const username = account.username;
         setLoginMessage("Log in successfully!");
@@ -209,9 +203,6 @@ function Login() {
         });
       }
     }
-
-
-
     // Clear login message after a delay
     setTimeout(() => {
       setLoginMessage("");

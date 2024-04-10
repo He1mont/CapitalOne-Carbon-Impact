@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import Login from './pages/Login';
 import Transactions from './pages/Transactions';
@@ -12,12 +12,13 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Login} />
+        <Route path="/login" component={Login} />
+        <Route path="/home/transactions" component={Transactions} />
+        <Route path="/home/goals" component={Goals} />
+        <Route path="/home/history" component={History} />
         <Route path="/home" component={HomePage} />
-        <Route path="/transactions" component={Transactions} />
-        <Route path="/goals" component={Goals} />
-        <Route path="/history" component={History} />
         <Route path="/help" component={Help} />
+        <Redirect from="/" to="/login" />
       </Switch>
     </Router>
   );

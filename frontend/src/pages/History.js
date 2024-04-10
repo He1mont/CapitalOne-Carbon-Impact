@@ -538,9 +538,10 @@ function Head({ name, id }) {
     const history = useHistory();
     function handleHomeClick() {
         history.push({
-          pathname: '/home',
+            pathname: '/home',
+            state: { name: name, id: id }
         });
-      }
+    }
     return (
         <div className={styles.head_bar}>
             <div className={styles.head_center}>

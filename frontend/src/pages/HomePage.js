@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef, Component }  from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Home.module.css'; // Import CSS file
 
-
 /**
  * Head component
  * Displays the top part of the homepage including the logo and login button.
@@ -57,13 +56,11 @@ function Mid({ name }) {
   const dropdownRef = useRef(null);
 
   function handleHelpClick() {
-    history.push('/Help?prevPage=home');
+    history.push('/help');
   }
   function handleSignoutClick() {
-    history.push('/');
+    history.push('/login');
   }
-
-  
 
   function showSettings() {
     if (settingsToggle == "t") {
@@ -84,14 +81,12 @@ function Mid({ name }) {
               <img src="/images/signout.png" alt="Settings" className={styles.dropdownImg}/>
               <div className={styles.dropdownTxt}><b>Sign Out</b></div>
             </div>
-          </div>
-          
+          </div> 
         </div>
       )
     } else {
     }
   }
-
 
   return (
     <div className={styles.mid_bar}>
@@ -139,21 +134,21 @@ function Low({ name, id }) {
    */
   function handleTransactionsClick() {
     history.push({
-      pathname: '/Transactions',
+      pathname: '/home/transactions',
       state: { name: name, id: id }
     });
   }
 
   function handleGoalsClick() {
     history.push({
-      pathname: '/Goals',
+      pathname: '/home/goals',
       state: { name: name, id: id }
     });
   }
 
   function handleHistoryClick() {
     history.push({
-      pathname: '/History',
+      pathname: '/home/history',
       state: { name: name, id: id }
     });
   }
