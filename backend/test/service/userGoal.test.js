@@ -3,7 +3,7 @@ const request = require('supertest');
 const UserGoalService = require('../../app/service/userGoal');
 
 // Mock the UserGoalService
-jest.mock("../../app/service/userGoal");
+jest.mock('../../app/service/userGoal');
 const userGoalService = new UserGoalService();
 
 // Create an Express application

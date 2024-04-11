@@ -1,9 +1,9 @@
 // HomePage.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory ,useLocation} from 'react-router-dom';
 import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
-
+import kommunicateChat  from '../chat';
 
 
 /**
@@ -30,28 +30,16 @@ return (
 }
 /**
  * Head component
- * Displays the top part of the help including the logo.
+ * Displays the top part of the help including the rgo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
 function Head() {
-  const params = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-  });
-  let helpPrev = params.prevPage;
-
-  const history = useHistory();
-  function handleHomeClick() {
-    if (helpPrev == "home") {
-      history.push({
-        pathname: '/home',
-      });
-    } else {
-      history.push({
-        pathname: '/',
-      });
-      }
-      
-  }
+    const history = useHistory();
+    function handleLoginClick() {
+        history.push({
+            pathname: '/',
+        });
+    }
 
   /**
    * handleLoginClick function
@@ -62,7 +50,7 @@ function Head() {
     <div className={styles.headBar}>
       {/* Logo */}
       <div className={styles.headCenter}>
-        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleHomeClick}/>
+        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleLoginClick}/>
       </div>
     </div>
 
@@ -98,6 +86,11 @@ function Mid({name}) {
  */
 function Low({name,id}) {
   const history = useHistory();
+  const handleUsernameClick=()=>{
+    const text ="To change your username you should go to lorem ipsum dolor sit amet,  ...";
+    const value= new SpeechSynthesisUtterance(text); 
+    window.speechSynthesis.speak(value);
+  }
 
   return (
     <div className={styles.lowBar}>
@@ -109,6 +102,7 @@ function Low({name,id}) {
                 <label>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                 </label>
+                <button onClick={handleUsernameClick}>Play</button>
             </Collap>
             <Collap title="Password Recovery">
                 <label>
@@ -136,6 +130,7 @@ function Low({name,id}) {
             </Collap>
 
             <div className={styles.break} />
+            <kommunicateChat/>
         </div>
     </div>
   );
@@ -156,11 +151,22 @@ function Footer() {
  * HomePage component
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
-function Help() {
+function HomePage() {
   const history = useHistory();
   const location = useLocation();
   const name = location.state?.name || "You need to login"; 
   const id=location.state?.id ;
+
+  useEffect(() => {
+    (function(d, m){
+      var kommunicateSettings = {"appId":"4ff9d4f79551f6d18d4b7ae38565b9b4","popupWidget":true,"automaticChatOpenOnNavigation":true};
+      var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+      s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+      var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+      window.kommunicate = m; m._globals = kommunicateSettings;
+    })(document, window.kommunicate || {});
+  }, []); // [] effect runs only once upon mounting
+
   return (
     <div>
       <Head />
@@ -171,4 +177,4 @@ function Help() {
   );
 }
 
-export default Help;
+export default HomePage;
