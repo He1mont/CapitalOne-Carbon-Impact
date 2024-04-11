@@ -87,6 +87,12 @@ function Mid({name}) {
 function Low({name,id}) {
   const history = useHistory();
   const handleUsernameClick=()=>{
+    const text ="To change your username you should go into your account settings. Please remember that usernames are seen by your friends in their leaderboards. Note that inappropriate usernames are not permitted";
+    const value= new SpeechSynthesisUtterance(text); 
+    value.voice= speechSynthesis.getVoices()[2];
+    window.speechSynthesis.speak(value);
+  }
+  const handlePasswordClick=()=>{
     const text ="To change your username you should go to lorem ipsum dolor sit amet,  ...";
     const value= new SpeechSynthesisUtterance(text); 
     window.speechSynthesis.speak(value);
@@ -102,17 +108,19 @@ function Low({name,id}) {
                 <label>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                 </label>
-                <button onClick={handleUsernameClick}>Play</button>
+                <button className={styles.play_button} onClick={handleUsernameClick}></button>
             </Collap>
             <Collap title="Password Recovery">
                 <label>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                 </label>
+                <button className={styles.play_button} onClick={handlePasswordClick}></button>
             </Collap>
             <Collap title="How do I ">
                 <label>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                 </label>
+                <button className={styles.play_button}></button>
             </Collap>
 
             <div className={styles.helpTableTitle}>
@@ -122,11 +130,13 @@ function Low({name,id}) {
                 <label>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                 </label>
+                <button className={styles.play_button}></button>
             </Collap>
             <Collap title="How do I ">
                 <label>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
                 </label>
+                <button className={styles.play_button}></button>
             </Collap>
 
             <div className={styles.break} />

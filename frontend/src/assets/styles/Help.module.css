@@ -105,6 +105,31 @@ html, body {
     bottom: 0;
   
   }
+  .play_button{
+    font-size: 60px;
+    color: white;
+    display: grid;
+    place-items: center;
+    height: 1cm;
+    width: 1cm;
+    border-radius: 50%;
+    border: none;
+    background-color: #0b5394;
+    cursor: pointer;
+    transition: 0.3;
+    animation: pulse 1.3s ease infinite;
+  }
+  .play_button::before{
+    content:"";
+    display: inline-block;
+    border-left:0.3cm solid ;
+    border-top: 0.18cm solid transparent;
+    border-bottom: 0.18cm solid transparent;
+    margin-left: 0.08cm;
+  }
+  .play_button:hover{
+    background: #1169b6;;
+  }
   /*---------- KEY FRAMES -------- */
   @keyframes slideInFromRight {
     0% {
@@ -115,6 +140,15 @@ html, body {
       transform: translateX(0);
       opacity: 1;
     }
+  }
+  @keyframes pulse {
+    0%{
+      box-shadow: 0cm 0cm 0cm 0cm #0b5394;
+    }
+    100%{
+      box-shadow: 0cm 0cm 0cm 0.15cm #1167b2;
+    }
+    
   }
   
   .mid-box-txt-title,
@@ -130,12 +164,12 @@ html, body {
     background-color: transparent;
     font-size: 14px;
     margin-bottom: 7px;
-    width: 50vw;
+    width: 70vw;
 }
 .collapsible .header {
     margin-top: 5px;
     background-color: rgb(255, 255, 255);
-    width: 50vw;
+    width: 70vw;
     padding: 6px;
     cursor: pointer;
     display: flex;
@@ -147,8 +181,9 @@ html, body {
 }
 .helpTable {
     position: absolute;
-    left: 25%;
+    left: 15%;
     top: 6%;
+    
 }
 .helpTable label {
     display: block;
