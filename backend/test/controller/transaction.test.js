@@ -1,35 +1,35 @@
 const { app, assert } = require('egg-mock/bootstrap');
 
 describe('TransactionController', () => {
-  it('should POST /transaction/create-random/:id', async () => {
+  it('should POST account/:id/transaction/create-random', async () => {
     const mockAccountID = 1;
     app.mockService('transaction', 'createRandom', async () => {
       return { id: mockAccountID, name: 'Transaction 1' };
     });
 
     const result = await app.httpRequest()
-      .post(`/transaction/create-random/${mockAccountID}`)
+      .post(`/account/${mockAccountID}/transaction/create-random`)
       .expect(200);
 
     assert.deepStrictEqual(result.body, { id: mockAccountID, name: 'Transaction 1' });
     assert.strictEqual(result.headers['access-control-allow-origin'], '*');
   });
 
-  it('should GET /transaction/get-all/:id', async () => {
+  it('should GET account/:id/transaction/get-all', async () => {
     const mockId = 1;
     app.mockService('transaction', 'getAll', async () => {
       return [{ id: mockId, name: 'Transaction 1' }];
     });
 
     const result = await app.httpRequest()
-      .get(`/transaction/get-all/${mockId}`)
+      .get(`/account/${mockId}/transaction/get-all`)
       .expect(200);
 
     assert.deepStrictEqual(result.body, [{ id: mockId, name: 'Transaction 1' }]);
     assert.strictEqual(result.headers['access-control-allow-origin'], '*');
   });
 
-  it('should GET /transaction/get-by-id/:accountID/:transactionID', async () => {
+  it('should GET /account/:accountID/transaction/:transactionID/get-by-id', async () => {
     const mockAccountID = '123';
     const mockTransactionID = '456';
     const expectedTransaction = { id: mockTransactionID, name: 'Transaction Specific' };
@@ -38,14 +38,14 @@ describe('TransactionController', () => {
     });
 
     const result = await app.httpRequest()
-      .get(`/transaction/get-by-id/${mockAccountID}/${mockTransactionID}`)
+      .get(`/account/${mockAccountID}/transaction/${mockTransactionID}/get-by-id`)
       .expect(200);
 
     assert.deepStrictEqual(result.body, expectedTransaction);
     assert.strictEqual(result.headers['access-control-allow-origin'], '*');
   });
 
-  it('should GET /transaction/group-by-date/:id', async () => {
+  it('should GET account/:id/transaction/group-by-date', async () => {
     const mockId = 1;
     const expectedGroupedData = {
       '2020-01-01': [{ id: mockId, name: 'Transaction Grouped' }],
@@ -55,7 +55,7 @@ describe('TransactionController', () => {
     });
 
     const result = await app.httpRequest()
-      .get(`/transaction/group-by-date/${mockId}`)
+      .get(`account/${mockId}/transaction/group-by-date`)
       .expect(200);
 
     assert.deepStrictEqual(result.body, expectedGroupedData);

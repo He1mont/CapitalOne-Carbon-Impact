@@ -37,7 +37,7 @@ describe('AccountController', () => {
 
     // GET /account/getByID
     const result = await app.httpRequest()
-      .get('/account/get-by-id/:1')
+      .get('/account/:1/get-by-id ')
       .expect(200);
 
     assert.deepStrictEqual(result.body, { id: 1, name: 'John Doe' });
@@ -50,7 +50,8 @@ describe('AccountController', () => {
 
     // GET /account/getByEmail
     const result = await app.httpRequest()
-      .get('/account/get-by-email/:john@email.com')
+      .get('/account/get-by-email')
+      .send({"email":"john@email.com"})
       .expect(200);
 
     assert.deepStrictEqual(result.body,

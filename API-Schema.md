@@ -150,7 +150,7 @@
 ## Transaction
 ### 5. Create 3 random transactions by accountID
 
-- POST `/transaction/create-random/:accountID`
+- POST `account/:accountID/transaction/create-random`
 
 - sample output
     - by account `21950161`
@@ -228,7 +228,7 @@
 
 ### 6. Get all transactions by accountID
 
-- GET `/transaction/get-all/:accountID`
+- GET `account/:accountID/transaction/get-all`
 
 - sample output
     - by account `72965642`

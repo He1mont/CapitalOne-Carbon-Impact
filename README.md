@@ -101,7 +101,7 @@ curl -X POST http://localhost:7001/account/create-random
 
 Create five random transactions for a sepcified account:
 ```shell
-curl -X POST http://localhost:7001/transaction/create-random/:accountID
+curl -X POST http://localhost:7001/account/:accountID/transaction/create-random
 ```
 
 ### Creating/Viewing Accounts & Transactions with Python

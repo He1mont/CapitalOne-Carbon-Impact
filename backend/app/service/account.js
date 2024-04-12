@@ -192,6 +192,7 @@ class AccountService extends Service {
     // loops through each transaction of the new account to add it to the carbon API
 
     try {
+        // Get all accounts
         const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
           headers: {
             'Content-Type': 'application/json',
@@ -214,6 +215,7 @@ class AccountService extends Service {
           const transactions = response.data.Transactions;
 
 
+          // Get all card profiles
           const accounts = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
               headers: {
                 'Content-Type': 'application/json',
@@ -227,7 +229,7 @@ class AccountService extends Service {
               throw new Error("Card Profile hasn't been created for this account. Create a Card Profile first.");
           }
 
-          for (const transaction of transactions) {
+          for (const transaction of transactions) { // For each transaction, check if it already exists in Carbon Ledger API
               const existingTransaction = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${account.data.id}/transactions`, {
                   headers: {
                     'Content-Type': 'application/json',
@@ -235,9 +237,9 @@ class AccountService extends Service {
                   }
               });
 
-              if (!existingTransaction.data.find(tr => tr.data.attributes.external_id === transaction.transactionID)) {
+              if (!existingTransaction.data.find(tr => tr.data.attributes.external_id === transaction.transactionID)) { // If not, add transaction
                   let mcc;
-                  switch (transaction.merchant.category) {
+                  switch (transaction.merchant.category) { // Picking the merchant code based on merchant category
                       case "Entertainment":
                           mcc = "7996";
                           break;
