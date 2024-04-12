@@ -199,7 +199,7 @@ function Login() {
       // }
       try {
         const name = await axios.get(
-          `http://127.0.0.1:7001/account/${response.data}/get-by-id`
+          `http://127.0.0.1:7001/account/${response.data}`
         );
         if (name.data.Accounts && name.data.Accounts.length > 0) {
           const fullname = `${name.data.Accounts[0].firstname} ${name.data.Accounts[0].lastname}`;

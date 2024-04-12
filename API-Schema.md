@@ -104,7 +104,7 @@
 
 ### 3. Get an account by accountID
 
-- GET `/accounts/get-by-id/:accountID`
+- GET `/accounts/:accountID`
 
 - sample output
     - by account `00428702`
@@ -150,7 +150,7 @@
 ## Transaction
 ### 5. Create 3 random transactions by accountID
 
-- POST `account/:accountID/transaction/create-random`
+- POST `account/:accountID/transaction`
 
 - sample output
     - by account `21950161`
@@ -228,7 +228,7 @@
 
 ### 6. Get all transactions by accountID
 
-- GET `account/:accountID/transaction/get-all`
+- GET `account/:accountID/transaction`
 
 - sample output
     - by account `72965642`
@@ -282,7 +282,7 @@
 
 ### 7. Get a transaction by accountID and transactionID
 
-- GET `/transaction/get-by-id/:accountID/:transactionID`
+- GET `account/:accountID/transaction/:transactionID`
 
 - sample output
     - by account `72965642`
@@ -317,7 +317,7 @@
 
 ### 8. Group daily transactions by accountID
 
-- GET `/transactions/group-by-date/:accountID`
+- GET `/account/:accountID/transactions/group-by-date`
 
 - sample output
     - by account `41495172`
@@ -416,7 +416,8 @@
 ## User Goals
 ### 11. Create a user goal
 
-- POST `/userGoal/create-goal/:accountID/:goal`
+- POST `/account/:accountID/userGoal`
+    - Submit `goal` and `month` in request body
     - if there already is a goal for that id update the goal else create a new one
 
 - sample output

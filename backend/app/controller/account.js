@@ -32,7 +32,7 @@ class AccountController extends Controller {
   // Method to get an account by email
   async getByEmail() {
     const { ctx, service } = this;
-    const emailToFind = ctx.request.body.email; // Extracting email from request body
+    const emailToFind = ctx.params.email; // Extracting email from request parameters
     const res = await service.account.getByEmail(emailToFind); // Calling service method to get account by email
     ctx.set('Access-Control-Allow-Origin', '*'); 
     ctx.status = 200;

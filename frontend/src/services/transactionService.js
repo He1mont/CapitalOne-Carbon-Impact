@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export async function getTransactions(account_id) {
   try {
-    const response = await axios.get(`http://localhost:7001/account/${account_id}/transaction/get-all`);
+    const response = await axios.get(`http://localhost:7001/account/${account_id}/transaction`);
     // include carbon score in response.data
     return response.data;
   } catch (error) {
