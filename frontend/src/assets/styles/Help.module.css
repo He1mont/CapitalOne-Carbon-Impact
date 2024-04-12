@@ -110,11 +110,12 @@ html, body {
     color: white;
     display: grid;
     place-items: center;
+    margin-top: 2%;
     height: 1cm;
     width: 1cm;
     border-radius: 50%;
     border: none;
-    background-color: #0b5394;
+    background-color: #007B90;
     cursor: pointer;
     transition: 0.3;
     animation: pulse 1.3s ease infinite;
@@ -128,7 +129,7 @@ html, body {
     margin-left: 0.08cm;
   }
   .play_button:hover{
-    background: #1169b6;;
+    background: #008fa9;;
   }
   /*---------- KEY FRAMES -------- */
   @keyframes slideInFromRight {
@@ -143,10 +144,10 @@ html, body {
   }
   @keyframes pulse {
     0%{
-      box-shadow: 0cm 0cm 0cm 0cm #0b5394;
+      box-shadow: 0cm 0cm 0cm 0cm #729fa7;
     }
     100%{
-      box-shadow: 0cm 0cm 0cm 0.15cm #1167b2;
+      box-shadow: 0cm 0cm 0cm 0.15cm #7daab1;
     }
     
   }
@@ -192,8 +193,8 @@ html, body {
 
 .helpTableTitle {
     font-size: xx-large;
-    margin-top: 30px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .break {
