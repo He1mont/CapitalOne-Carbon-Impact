@@ -1,0 +1,138 @@
+html, body {
+    max-width: 100vw;
+    padding-left: 0px;
+    margin: 0px;
+    background-color: rgb(255, 255, 255);
+    font-family: Arial, sans-serif;
+    overflow-y: hidden;
+  }
+  
+  /*------------------------------ HEADER ------------------------------*/
+  .head_bar{
+    user-select: none;
+    width: 100vw;
+    height: 65px;
+    top: 0px;
+    background-color: #f3f3f3ff;
+    position: fixed;
+    text-align: center;
+    overflow: hidden;
+    z-index: 4;
+  }
+  .head_center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .head_img{
+    position: absolute;
+    width: 130px;
+    top: -15px;
+    left: -65px;
+  }
+  .back_btn{
+    position: absolute;
+    top: 12px;
+    left: 33px;
+    border: 1px solid black;
+  }
+  .back_img{
+    height:30px;
+  }
+
+
+
+  /*------------------------------ MID ------------------------------*/
+  .mid_bar{
+    top: 65px;
+    width: 100vw;
+    height: 200px;
+    position: absolute;
+  }
+  .mid_high{
+    z-index: -1;
+    user-select: none;
+    width: 100%;
+    height: 163px;
+    position: absolute;
+    background-color: #073763ff;
+  }
+
+  /*---------- BODY ----------*/
+  .mid_high_txt_left{
+    position: absolute;
+    text-align: left;
+    left: 30px;
+    top: 30px;
+    line-height: 20px;
+    color: white;
+  }
+
+
+  /*------------------------------ LOW ------------------------------*/
+  .low_bar{
+    position: absolute;
+    top: 265px;
+    height: 50vh;
+    width: 100vw;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+  }
+  .low_center{
+    user-select: none;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .account-container{
+    display: flex; 
+    align-items: center;
+  }
+  .AccountID-input{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    color: black;
+    text-align: center;
+    font-size: large;
+    line-height: 40px;
+  }
+  .form-control{
+    width: 100px;
+    height: 40px;
+    margin-left: 10px;
+    font-size: 15px;
+    border-width: 2px;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .change_btn{
+    position: absolute;
+    margin-left: 10px;
+    border: none;
+  }
+  .change_img{
+    height: 40px;
+  }
+  .low-box-txt-line{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    color: black;
+    text-align: center;
+    font-size: small;
+    line-height: 8px;
+  }
+
+  .footer {
+    width: 100%;
+    height: 50px;
+    background-color: #073763ff;
+    text-align: center;
+    color: white;
+    position: fixed;
+    bottom: 0;
+  }
