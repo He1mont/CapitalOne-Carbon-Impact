@@ -1,4 +1,3 @@
-// History.js
 import React, { Component } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/History.module.css';
@@ -8,8 +7,13 @@ import { Hidden } from '@mui/material';
 import * as API from '../services/api';
 import * as Sorter from '../services/sorter';
 
+/**
+ * Month selection component:
+ * Constructs a set of months for the user to click through.
+ */
 class MonthRangeSelect extends Component {
     render() {
+        // Destructure props for easier access
         const { startMonth,
             endMonth,
             decreaseStartMonth,
@@ -67,13 +71,17 @@ class MonthRangeSelect extends Component {
     }
 }
 
+/**
+ * Graphs component:
+ * Manages the display of different types of graphs and category selection.
+ */
 class Graphs extends Component {
     constructor(props) {
         super(props);
         this.state = {
             graphSelection: 1,
             randomNumbers: [],
-            // data for each graph
+            // Data for each graph
             dataForPie: [],
             dataForLine: [],
             dataForBar: [],
@@ -81,7 +89,7 @@ class Graphs extends Component {
         };
     }
 
-    // return a list of strings representing each category
+    // Returns a list of strings representing each category
     getAllCategories() {
         return [
             'Entertainment',
@@ -97,7 +105,7 @@ class Graphs extends Component {
         ];
     }
 
-    // return an object, each attribute is a category with value representing color
+    // Returns an object, each attribute is a category with value representing color
     getColors() {
         return {
             'Entertainment': '#D00000',
@@ -113,6 +121,7 @@ class Graphs extends Component {
         };
     }
 
+    // Returns background color based on category state
     getBackgroundColor(category) {
         if (this.state.categoryState[category]) {
             return this.getColors()[category]
@@ -135,12 +144,13 @@ class Graphs extends Component {
         }
     }
 
+    // Change the selected graph
     changeSelection = (sel) => {
         console.log("Changing selection to:", sel);
         this.setState({ graphSelection: sel });
     }
 
-    // return an object, each of the attribute is an category with value bool
+    // Returns an object, each attribute is a category with value bool
     returnCategoryState(bool) {
         const categories = this.getAllCategories();
         return categories.reduce((acc, item) => {
@@ -149,15 +159,17 @@ class Graphs extends Component {
         }, {});
     }
 
+    // Handle click event for selecting all categories
     handleClickAllOn = () => {
         this.setState({ categoryState: this.returnCategoryState(true) });
     }
 
+    // Handle click event for deselecting all categories
     handleClickAllOf = () => {
         this.setState({ categoryState: this.returnCategoryState(false) });
     }
 
-    // change the state of a given category
+    // Changes the state of a given category
     handleClickCategoryButton = (category) => {
         this.setState(prevState => ({
             categoryState: {
@@ -167,7 +179,7 @@ class Graphs extends Component {
         }));
     };
 
-    // set the monthList as a list of date representing each month
+    // Sets the monthList as a list of date representing each month
     generateMonthList() {
         const { startMonth, endMonth } = this.props;
         const start = startMonth.toDate();
@@ -182,7 +194,7 @@ class Graphs extends Component {
         return monthList
     }
 
-    // generate data to dataForPie based on the current monthlist
+    // Generates data to dataForPie based on the current monthlist
     generatePieChartData = async () => {
         const monthList = this.generateMonthList(); // generate a month list
         const categories = this.getAllCategories()     // get a list of categories
@@ -194,7 +206,7 @@ class Graphs extends Component {
         }));
         // traverse all the dates of dateList
         for (const date of monthList) {
-            // call backend API to get carbon score of in category of a certain month
+            // Call backend API to get carbon score of in category of a certain month
             const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth() + 1);
 
             // for each category in ret, if the category is selected, add the corresponding value
@@ -206,6 +218,7 @@ class Graphs extends Component {
         this.setState({ dataForPie: ret })
     }
 
+    // Generate data for line chart based on the current month list
     generateLineChartData = async () => {
         const monthList = this.generateMonthList(); // generate a month list
         let ret = []                                // initialization of return data
@@ -225,7 +238,7 @@ class Graphs extends Component {
         this.setState({ dataForLine: ret })
     }
 
-    // generate data to dataForPie based on the current monthlist
+    // Generate data to dataForPie based on the current monthlist
     generateBarChartData = async () => {
         const monthList = this.generateMonthList(); // generate a month list
         const categories = this.getAllCategories()     // get a list of categories
@@ -247,7 +260,7 @@ class Graphs extends Component {
         this.setState({ dataForBar: ret })
     };
 
-    // generate a lsit of string representing each month for bar chart
+    // Generate a lsit of string representing each month for bar chart
     generateBarChartXLabel() {
         const monthList = this.generateMonthList();
         return monthList.map(item => `${item.getMonth() + 1}/${item.getFullYear()}`);
@@ -534,8 +547,17 @@ class Graphs extends Component {
     }
 }
 
+/**
+ * Head component:
+ * Displays the header bar with the logo and handles navigation to the home page.
+ * @param {string} name - The name of the user.
+ * @param {string} id - The ID of the user.
+ */
 function Head({ name, id }) {
     const history = useHistory();
+    /**
+     * Handles click event to navigate to the home page.
+     */
     function handleHomeClick() {
         history.push({
           pathname: '/home',
@@ -550,12 +572,19 @@ function Head({ name, id }) {
     )
 }
 
+/**
+ * Mid component:
+ * Displays the middle section containing the user's carbon history.
+ */
 class Mid extends Component {
     state = {
         startMonth: moment(),
         endMonth: moment(),
     };
 
+    /**
+     * Decreases the start month by one month.
+     */
     decreaseStartMonth = () => {
         const nextMonth = this.state.startMonth.clone().subtract(1, 'month');
         const minDate = moment('2021-01-01');
@@ -566,6 +595,9 @@ class Mid extends Component {
         }
     };
 
+    /**
+     * Increases the start month by one month.
+     */
     increaseStartMonth = () => {
         const nextMonth = this.state.startMonth.clone().add(1, 'month');
         if (nextMonth.isSameOrBefore(this.state.endMonth)) {
@@ -573,6 +605,9 @@ class Mid extends Component {
         }
     };
 
+    /**
+     * Decreases the end month by one month.
+     */
     decreaseEndMonth = () => {
         const nextMonth = this.state.endMonth.clone().subtract(1, 'month');
         const minDate = moment('2021-01-01');
@@ -583,6 +618,9 @@ class Mid extends Component {
         }
     };
 
+    /**
+     * Increases the end month by one month.
+     */
     increaseEndMonth = () => {
         const nextMonth = this.state.endMonth.clone().add(1, 'month');
         if (nextMonth.isSameOrAfter(this.state.startMonth)) {
@@ -624,6 +662,10 @@ class Mid extends Component {
     }
 }
 
+/**
+ * History component:
+ * Displays the history page with the header and middle sections.
+ */
 function History() {
     const location = useLocation();
     const name = location.state?.name || "You need to login";

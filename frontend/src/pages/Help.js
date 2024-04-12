@@ -1,4 +1,3 @@
-// HomePage.js
 import React from 'react';
 import { useHistory ,useLocation} from 'react-router-dom';
 import styles from '../assets/styles/Help.module.css'; // Import CSS module
@@ -7,7 +6,8 @@ import { useCollapse } from 'react-collapsed'
 
 
 /**
- * Collapsible component
+ * Collapsible component.
+ * @param {Object} props - The props containing defaultExpanded, collapsedHeight, and title.
  */
 function Collap(props) {
     const config = {
@@ -29,7 +29,7 @@ return (
     );
 }
 /**
- * Head component
+ * Head component:
  * Displays the top part of the help including the logo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
@@ -40,6 +40,9 @@ function Head() {
   let helpPrev = params.prevPage;
 
   const history = useHistory();
+  /**
+   * Handles click event to navigate to the home page or the previous page.
+   */
   function handleHomeClick() {
     if (helpPrev == "home") {
       history.push({
@@ -54,7 +57,7 @@ function Head() {
   }
 
   /**
-   * handleLoginClick function
+   * handleLoginClick function:
    * Redirects user to the login page when the login button is clicked.
    */
   return (
@@ -66,12 +69,13 @@ function Head() {
       </div>
     </div>
 
-
   );
 }
+
 /**
- * Mid component
+ * Mid component:
  * Displays the middle section of the help page, including user information and button redirecting to other pages.
+ * @param {Object} props - The props containing the user's name.
  */
 function Mid({name}) {
 
@@ -93,8 +97,9 @@ function Mid({name}) {
 }
 
 /**
- * Low component
+ * Low component:
  * Displays the lower section of the help page, including buttons for transactions, goals, and history.
+ * @param {Object} props - The props containing the user's name and ID.
  */
 function Low({name,id}) {
   const history = useHistory();
@@ -142,7 +147,7 @@ function Low({name,id}) {
 }
 
 /**
- * Footer component
+ * Footer component:
  * Displays the footer of the homepage, including copyright information.
  */
 function Footer() {
@@ -153,7 +158,7 @@ function Footer() {
   );
 }
 /**
- * HomePage component
+ * HomePage component:
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function Help() {

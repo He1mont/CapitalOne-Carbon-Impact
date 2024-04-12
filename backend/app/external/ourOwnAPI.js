@@ -7,13 +7,14 @@ const app = express();
 const PORT = process.env.PORT || 7001;
 
 app.use(express.json());
-
-// Route to create a new user goal
-// check if account alrady exists if not create else update
-// create
-// update
-// delete
-// get
+/**
+ * POST /user-goals
+ * Route to create or update a user goal.
+ * If the user goal already exists, it updates the existing goal; otherwise, it creates a new goal.
+ * @param {Object} req - The request object containing the accountID and goal in the body.
+ * @param {Object} res - The response object.
+ * @returns {Object} The created or updated user goal.
+ */
 app.post('/user-goals', async (req, res) => {
   const { accountID, goal } = req.body;
   try {
@@ -48,7 +49,13 @@ app.post('/user-goals', async (req, res) => {
   }
 });
 
-// API endpoint to get the goal by accountID
+/**
+ * GET /user-goals/:accountID
+ * API endpoint to get the user goal by accountID.
+ * @param {Object} req - The request object containing the accountID as a URL parameter.
+ * @param {Object} res - The response object.
+ * @returns {Object} The user goal associated with the provided accountID.
+ */
 app.get('/user-goals/:accountID', async (req, res) => {
   const { accountID } = req.params;
   try {
@@ -71,7 +78,14 @@ app.get('/user-goals/:accountID', async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve user goal' });
   }
 });
-// API endpoint to delete the goal by accountID
+
+/**
+ * DELETE /delete-user-goals/:accountID
+ * API endpoint to delete the user goal by accountID.
+ * @param {Object} req - The request object containing the accountID as a URL parameter.
+ * @param {Object} res - The response object.
+ * @returns {Object} A message indicating the success or failure of the deletion operation.
+ */
 app.delete('/delete-user-goals/:accountID', async (req, res) => {
   const { accountID } = req.params;
   try {
@@ -100,13 +114,13 @@ app.delete('/delete-user-goals/:accountID', async (req, res) => {
   }
 });
 
-// Route to create a new transaction in the database
-// are first storying the info including genere etc with blank score then calling carbon api then amending the score
-// or after the carbon score is created are we storing it in the database
-
-
-// in the api only work out total carbon score using the account id
-
+/**
+ * POST /transactions
+ * Route to create a new transaction in the database.
+ * @param {Object} req - The request object containing the transactionUUID, accountID, and carbonScore in the body.
+ * @param {Object} res - The response object.
+ * @returns {Object} The created transaction.
+ */
 app.post('/transactions', async (req, res) => {
   const { transactionUUID, accountID, carbonScore } = req.body;
   try {

@@ -5,11 +5,14 @@ import { useHistory,useLocation } from 'react-router-dom';
 import * as API from '../services/api';
 
 /**
- * Month selector component
- * Renders a month selector for the user to use to view data from a given month
+ * Month selector component:
+ * Renders a month selector for the user to use to view data from a given month.
  */
 class MonthSelect extends Component {
-
+    /**
+     * Decreases the selected month by one.
+     * Only allows the month to be decreased if it goes to a date after the start of 2021.
+     */
     decreaseMonth = () => {
         const { month, onMonthChange } = this.props;
         const nextMonth = month.clone().subtract(1, 'month');
@@ -19,6 +22,10 @@ class MonthSelect extends Component {
             onMonthChange(nextMonth);
         } 
     };
+    /**
+     * Increases the selected month by one.
+     * Only allows the month to be increased if it's not beyond the current month.
+     */
     increaseMonth = () => {
         const { month, onMonthChange } = this.props;
         const nextMonth = month.clone().add(1, 'month');
@@ -27,6 +34,10 @@ class MonthSelect extends Component {
         }
     };
 
+    /**
+     * Renders the month selector table.
+     * @returns {JSX.Element} The rendered month selector.
+     */
     render() {
         const{month} = this.props;
         return (
@@ -57,6 +68,10 @@ class MonthSelect extends Component {
     }
 }
 
+/**
+ * Carbon use component:
+ * constructs a comparison chart of the month in carbon against the goal.
+ */
 class CarbonUseCircle extends Component {
     constructor(props) {
         super(props);
@@ -78,6 +93,12 @@ class CarbonUseCircle extends Component {
         }
     }
 
+    /**
+     * Calculates the percentage of carbon emission compared to the goal emissions.
+     * @param {number} carbonEmission - The carbon emission value.
+     * @param {number} goalEmissions - The goal emissions value.
+     * @returns {number} The percentage of carbon emission compared to the goal emissions.
+     */
     getPercentage = (carbonEmission, goalEmissions) => {
         let percentage = carbonEmission / goalEmissions;
         if (percentage > 1) {
@@ -86,6 +107,9 @@ class CarbonUseCircle extends Component {
         return percentage * 100;
     };
 
+    /**
+     * Fetches the carbon score for the previous month.
+     */
     fetchLastMonthCarbonScore = async () => {
         const {id, month} = this.props;
         const previousMonth = month.clone().subtract(1, 'month');
@@ -95,6 +119,11 @@ class CarbonUseCircle extends Component {
         });
     };
 
+    /**
+     * Renders the circular chart representing carbon use.
+     * @param {string} color - The color of the circle.
+     * @returns {JSX.Element} The rendered circle.
+     */
     drawCircle = ({ color }) => {
         let percentage = 0;
     
@@ -208,6 +237,10 @@ class CarbonUseCircle extends Component {
     }
 }
 
+/**
+ * Component for managing friends:
+ * Allows the user to manage their list of friends by displaying a dropdown menu with friend options.
+ */
 class ManageFriends extends React.Component {
     constructor(props) {
         super(props);
@@ -219,11 +252,18 @@ class ManageFriends extends React.Component {
         this.handleOutsideClick = this.handleOutsideClick.bind(this);
     }
 
+    /**
+     * Toggles the visibility of the dropdown menu.
+     */
     toggleDropdown() {
         this.setState(prevState => ({
             showDropdown: !prevState.showDropdown
         }));
     }
+    /**
+     * Handles clicks outside of the dropdown menu to close it.
+     * @param {Event} event - The click event.
+     */
     handleOutsideClick(event) {
         if (this.dropdownRef.current && !this.dropdownRef.current.contains(event.target)) {
             this.setState({
@@ -237,6 +277,11 @@ class ManageFriends extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('click', this.handleOutsideClick, false);
     }
+
+    /**
+     * Handles the click event when deleting a friend.
+     * @param {Object} item - The friend item to be deleted.
+     */
     handleDeleteFriendClick(item) {
         this.props.removeFriend(item);
     }
@@ -260,6 +305,9 @@ class ManageFriends extends React.Component {
     }
 }
 
+/**
+ * Component for displaying a leaderboard of friends and their carbon scores.
+ */
 class Leaderboard extends Component {
     constructor(props) {
         super(props);
@@ -273,7 +321,9 @@ class Leaderboard extends Component {
         this.removeFriend = this.removeFriend.bind(this);
     }
 
-    // initialize and display the friendList
+    /**
+     * Initializes and displays the friend list and fetches carbon scores for friends.
+     */
     async componentDidMount() {
         const id = this.props.userID;
         await API.getAllFollowings(id) 
@@ -288,6 +338,9 @@ class Leaderboard extends Component {
         this.fetchCarbonScoreForFriends();
     }
 
+    /**
+     * Fetches carbon scores for friends when the month changes.
+     */
     async componentDidUpdate(prevProps, prevState) {
         // Check if the month has changed
         if (prevProps.month.format('MM') !== this.props.month.format('MM')) {
@@ -295,6 +348,9 @@ class Leaderboard extends Component {
         }
     }
 
+    /**
+     * Fetches carbon scores for all friends.
+     */
     fetchCarbonScoreForFriends = async () => {
         let friends = this.state.friendList;
         const month = this.props.month;
@@ -309,6 +365,9 @@ class Leaderboard extends Component {
         this.setState({ carbonScoreList });
     };
 
+    /**
+     * Adds a friend to the friend list.
+     */
     async addFriend() {
         const currentID = this.props.userID;
 
@@ -326,14 +385,14 @@ class Leaderboard extends Component {
                     this.setState({ newFriend: '' });
                 });
 
-            // Check if the input is invalid
             if (friend === null) {
-
+                // Handle invalid input
             } else if (friend.accountID === currentID) {
-
+                // Handle adding self as a friend
             } else if (friend.state === "closed") {
-        
+                // Handle closed account state
             } else if (friend.state === "suspended") {
+                // Handle suspended account state
 
             } else {
                 // Add the following relation
@@ -351,16 +410,28 @@ class Leaderboard extends Component {
         }
     }
 
+    /**
+     * Handles changes in the new friend input field.
+     * @param {Event} event - The input change event.
+     */
     handleChange(event) {
         this.setState({ newFriend: event.target.value });
     }
 
+    /**
+     * Handles key presses in the new friend input field.
+     * @param {Event} event - The key press event.
+     */
     handleKeyPress(event) {
         if (event.key === 'Enter') {
             this.addFriend();
         }
     }
 
+    /**
+     * Removes a friend from the friend list.
+     * @param {Object} friend - The friend to be removed.
+     */
     async removeFriend(friend) {
         await API.deleteFollowing(this.props.userID, friend.accountID) 
             .then(following => {
@@ -373,6 +444,10 @@ class Leaderboard extends Component {
         });
     }
 
+    /**
+     * Renders the leaderboard component.
+     * @returns {JSX.Element} The rendered leaderboard.
+     */
     render () {
         const followingUsers = this.state.friendList;
         const carbonScoreList = this.state.carbonScoreList;
@@ -441,11 +516,15 @@ class Leaderboard extends Component {
 }
 
 /**
- * Head component
+ * Head component:
  * Renders the header of the Goals page, including a logo.
+ * @param {Object} props - The props containing name and id.
  */
 function Head({name,id}) {
     const history = useHistory();
+    /**
+     * Handles click event to navigate to the home page.
+     */
     function handleHomeClick() {
       history.push({
         pathname: '/home',
@@ -463,8 +542,9 @@ function Head({name,id}) {
 }
 
 /**
- * Mid component
+ * Mid component:
  * Renders the middle section of the Goals page, providing contextual information.
+ * @param {Object} props - The props containing name, id, month, and onMonthChange function.
  */
 function Mid({ name, id, month, onMonthChange }) {
     const [carbonEm, setCarbonEm] = useState(0);
@@ -481,6 +561,9 @@ function Mid({ name, id, month, onMonthChange }) {
         updateGoal();
       }, [month]);    // recall useEffect when `month` is changed
 
+    /**
+     * Updates the goal emission for the current month.
+     */
     async function updateGoal() {
         let ifSet = false; 
         let goals = await API.getUserGoal(id);
@@ -497,6 +580,10 @@ function Mid({ name, id, month, onMonthChange }) {
         }
     };
 
+    /**
+     * Sets the goal emission for the current month.
+     * @param {number} inputGoal - The input goal emission value.
+     */
     async function setGoal(inputGoal) {
         await API.setUserGoal(id, inputGoal, month.format('MMMM'))
             .then(() => {
@@ -504,6 +591,10 @@ function Mid({ name, id, month, onMonthChange }) {
             })
     };
 
+    /**
+     * Handles input change for goal emission.
+     * @param {Event} event - The input change event.
+     */
     const handleGoalInputChange = (event) => {
         if (event.key === 'Enter') {
             let inputGoal = event.target.value;
@@ -550,16 +641,24 @@ function Mid({ name, id, month, onMonthChange }) {
 }
 
 /**
- * Low component
+ * Low component:
  * Renders the lower section of the Goals page.
+ * @param {Object} props - The props containing id and month.
  */
 function Low({ id, month }) {
     const [selection, setSelection] = useState(1);
 
+    /**
+     * Handles click event for selecting a section.
+     * @param {number} val - The value of the selection.
+     */
     function handleSelectionClick(val) {
         setSelection(val);
     }
 
+    /**
+     * Handles actions based on the selected section.
+     */
     function lowSelection() {
         if (selection === 1) {
             // Do something when selection is 1
@@ -588,7 +687,7 @@ function Low({ id, month }) {
 }
 
 /**
- * Goals component
+ * Goals component:
  * Main component aggregating Head, Mid, and Low components to form the complete Goals page.
  */
 function Goals() {
@@ -597,6 +696,10 @@ function Goals() {
     const id=location.state?.id ;
     const [month, setMonth] = useState(moment());
 
+    /**
+     * Handles month change.
+     * @param {Object} newMonth - The new month object.
+     */
     const handleMonthChange = (newMonth) => {
         setMonth(newMonth);
       };
