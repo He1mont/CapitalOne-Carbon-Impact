@@ -43,6 +43,16 @@ describe('HomePage', () => {
       </Router>
     );
 
+    // By default, settings toggle is not visible
+    expect(screen.queryByText('My Account')).not.toBeInTheDocument();
+
+    // Click on settings button to toggle settings
+    const settingsButton = screen.getByAltText('Settings');
+    settingsButton.click();
+
+    // After clicking, settings dropdown should be visible
+    expect(screen.getByText('My Account')).toBeInTheDocument();
+
     // Identify and simulate a click event on the login button
     const loginButton = screen.getByAltText('Login');
     fireEvent.click(loginButton);
@@ -68,3 +78,4 @@ describe('HomePage', () => {
     expect(history.location.pathname).toBe('/Transactions');
   });
 });
+
