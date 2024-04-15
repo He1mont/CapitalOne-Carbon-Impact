@@ -31,6 +31,7 @@ body {
   width: 130px;
   top: -15px;
   left: -65px;
+  
 }
 
 /*------------------------------ MID ------------------------------*/
@@ -49,12 +50,16 @@ body {
 }
 /*---------- CENTER ----------*/
 .midCenterLogin {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  height: 300px;
-  transform: translate(-50%, -50%);
+  display: flex;
+  max-width: 1200px; 
+  margin: auto;
+  padding-top: 30px;
 }
+
+
+/*---------- CENTER-IMAGES----------*/
+
+
 .midBoxLogin {
   width: 800px;
   position: relative;
@@ -70,6 +75,11 @@ body {
   z-index: 1;
 }
 
+.homepageImage,.homepageImageRight{
+  height: 250px; 
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+
 .midBoxTxtLogin {
   position: absolute;
   top: 35%;
@@ -82,7 +92,7 @@ body {
   
 }
 .midBoxTxtTitleLogin {
-  line-height: 70px;
+  line-height: 20px;
   text-align: center;
   color: #1c2640ff;
   font-size: xx-large;
@@ -184,3 +194,17 @@ a {
   margin-left: auto;
   margin-right: auto;
 }
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+

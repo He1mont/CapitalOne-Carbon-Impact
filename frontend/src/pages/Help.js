@@ -150,27 +150,56 @@ function HomePage() {
   const name = location.state?.name || "You need to login"; 
   const id=location.state?.id ;
 
-  useEffect(() => {
-    (function(d, w, c) {
-        w.ChatraID = 'e3qJrWY3yZqK9zBrt';
-        var s = d.createElement('script');
-        w[c] = w[c] || function() {
-            (w[c].q = w[c].q || []).push(arguments);
-        };
-        s.async = true;
-        s.src = 'https://call.chatra.io/chatra.js';
-        if (d.head) d.head.appendChild(s);
-    })(document, window, 'Chatra');
-  }, []); // [] effect runs only once upon mounting
 
   return (
     <div>
+      <ChatraSetup />
       <Head />
       <Mid name={name}/>
       <Low name={name} id={id}/>
       <Footer />
     </div>
+    
   );
+  
+  
 }
+
+function ChatraSetup() {
+  useEffect(() => {
+    if (window.ChatraID) return;
+
+    // Set up Chatra configuration with onNewMessage
+    window.ChatraSetup = {
+      onNewMessage: function(message) {
+        console.log('New message:', message);
+        // Example: Auto-response to a specific keyword
+        if (message.text.includes("hello")) {
+          // Assuming a hypothetical function provided by Chatra for sending messages
+          // Note: This is conceptual; refer to Chatra's API for actual implementation
+          window.Chatra.sendMessage({
+            text: "Hello! How can I help you today?",
+            type: "agent"
+          });
+        }
+      }
+    };
+
+    window.ChatraID = 'e3qJrWY3yZqK9zBrt';
+    (function(d, w, c) {
+      var n = d.getElementsByTagName('script')[0],
+          s = d.createElement('script');
+      w[c] = w[c] || function() {
+          (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      n.parentNode.insertBefore(s, n);
+    })(document, window, 'Chatra');
+  }, []);
+
+  return null;
+}
+
 
 export default HomePage;

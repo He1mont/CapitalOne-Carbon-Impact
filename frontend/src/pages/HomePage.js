@@ -203,6 +203,7 @@ function Footer() {
  */
 function HomePage() {
   const [showDropdown, setShowDropdown] = useState(false);
+  
   const toggleDropdown = () => setShowDropdown(!showDropdown);
   
   const history = useHistory();

@@ -57,9 +57,12 @@ function Mid({
       <div className={styles.midHighLogin}></div>
 
       <div className={styles.midCenterLogin}>
+        <div className={styles.midImageContainer}>
+          <img src="/images/login2.png" alt="Homepage" className={styles.homepageImage} />
+        </div>
         <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
           <h1 className={styles.midBoxTxtTitleLogin}>Login to your account</h1>
-
+  
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
            {/* Email Input */}
@@ -130,8 +133,10 @@ function Mid({
               <a href="#">Forgot your password?</a>
             </p>
           </div>
+          
         </div>
       </div>
+      
 
       {/* Help Button */}
       <div className={styles.midLow}>
