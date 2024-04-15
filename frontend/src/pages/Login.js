@@ -117,7 +117,7 @@ function Mid({
           {/* Forgotten Credentials Links */}
           <div className={styles.loginForgottenBtn}>
             <p className={styles.forgotUsername + " " + styles.textRight}>
-              <a href="#">Forgot your username?</a>
+              <a href="#">Forgot your email?</a>
             </p>
             <p className={styles.forgotPassword + " " + styles.textRight}>
               <a href="#">Forgot your password?</a>
@@ -159,6 +159,10 @@ function Login() {
   const [loginMessage, setLoginMessage] = useState("");
   const history = useHistory();
 
+  const isValidInput = () => {
+    return email !== "" && password !== ""
+  }
+
   /**
    * handleSubmit function
    * Handles the form submission for logging in.
@@ -168,39 +172,32 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (email === "" && password === "") {
-      setLoginMessage("Please enter your email and password.");
-    } else if (password === "") {
-      setLoginMessage("Please enter your password.");
-    } else if (email === "") {
-      setLoginMessage("Please enter your email.");
-    }
+    if (!isValidInput()) {                  // invalid input
+      setLoginMessage("Please enter valid Email and Password!");
 
-    // call backend API
-    const data = await API.getAccountByEmail(email);
+    } else {                                // call backend API
+      const data = await API.getAccountByEmail(email);
 
-    // email does not exist
-    if (data.length === 0) {
-      setLoginMessage("Email Not Found!");
+      if (data.length === 0) {              // email does not exist
+        setLoginMessage("Email Not Found!");
 
-    } else {
-      const account = data[0]
-
-      // email is suspended or closed
-      if (account.state === "closed") {
-        setLoginMessage("Your account has been closed!");
-
-      } else if (account.state === "suspended") {
-        setLoginMessage("Your account has been suspended!");
-
-        // email is open or flagged
       } else {
-        const username = account.username;
-        setLoginMessage("Log in successfully!");
-        history.push({
-          pathname: "/home",
-          state: { name: username, id: account.accountID },
-        });
+        const account = data[0]
+
+        if (account.state === "closed") {   // email is suspended or closed
+          setLoginMessage("Your account has been closed!");
+
+        } else if (account.state === "suspended") {
+          setLoginMessage("Your account has been suspended!");
+
+        } else {                            // email is open or flagged
+          const username = account.username;
+          setLoginMessage("Log in successfully!");
+          history.push({
+            pathname: "/home",
+            state: { name: username, id: account.accountID },
+          });
+        }
       }
     }
     // Clear login message after a delay
