@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Goals.module.css';
-import { useHistory,useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import * as API from '../services/api';
 
 /**
@@ -15,9 +15,9 @@ class MonthSelect extends Component {
         const nextMonth = month.clone().subtract(1, 'month');
         const minDate = moment('2021-01-01');
         // Only allow month reduction if it goes to a data after the start of 2021
-        if (nextMonth.isSameOrAfter(minDate)){
+        if (nextMonth.isSameOrAfter(minDate)) {
             onMonthChange(nextMonth);
-        } 
+        }
     };
     increaseMonth = () => {
         const { month, onMonthChange } = this.props;
@@ -28,7 +28,7 @@ class MonthSelect extends Component {
     };
 
     render() {
-        const{month} = this.props;
+        const { month } = this.props;
         return (
             <table className={styles.month_select}>
                 <tbody>
@@ -72,26 +72,26 @@ class CarbonUseCircle extends Component {
 
     drawCircle = ({ color }) => {
         let percentage = 0;
-    
+
         if (color === 'white') {
             percentage = 100;
-        } 
+        }
         else {
             percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
         }
-    
+
         const diameter = 210;
         const radius = diameter / 2;
         const strokeWidth = 15;
         const viewBoxSize = diameter + strokeWidth;
         const circumference = 2 * Math.PI * radius;
         const strokeDashoffset = ((100 - percentage) * circumference) / 100;
-    
+
         if (color !== 'white') {
             const hue = ((100 - percentage) / 100) * 120;
             color = `hsl(${hue}, 100%, 50%)`;
         }
-    
+
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                 <svg height={diameter} width={diameter} viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}>
@@ -116,8 +116,8 @@ class CarbonUseCircle extends Component {
 
     render() {
         let difference, returnSetence;
-        const {goalEmissions, carbonEmission} = this.props;
-        if(goalEmissions >= carbonEmission) {
+        const { goalEmissions, carbonEmission } = this.props;
+        if (goalEmissions >= carbonEmission) {
             difference = goalEmissions - carbonEmission;
             returnSetence = "below goal";
         } else {
@@ -127,7 +127,7 @@ class CarbonUseCircle extends Component {
 
         return (
             <div style={{ position: 'relative', height: '100%' }}>
-                
+
                 {/* Render the table containing carbon use circle and mid_circles */}
                 <table className={styles.goals_circle_tbl}>
                     <tbody>
@@ -145,21 +145,21 @@ class CarbonUseCircle extends Component {
                             </th>
                             <th style={{ width: '34%', textAlign: 'center' }}>
                                 <img src="/images/goals-mid.png" alt="arctic container" className={styles.img_box} />
+                                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
+                                    {this.drawCircle({ color: 'white' })}
                                     <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-                                        {this.drawCircle({ color: 'white' })}
-                                        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
-                                            {this.drawCircle({ color: 'red' })}
-                                            <div style={{
-                                                position: 'absolute',
-                                                top: '50%', left: '50%',
-                                                transform: 'translate(-50%, -50%)',
-                                                textAlign: 'center',
-                                                color: 'white',
-                                                lineHeight: '25px'
-                                            }}>
-                                            <h1 style={{fontSize: '50px'}}>{this.props.goalEmissions}</h1>
-                                            <h2 style={{lineHeight: '0px'}}>kgco2</h2>
-                                            <h5 style={{lineHeight: '5px'}}>carbon goal</h5>
+                                        {this.drawCircle({ color: 'red' })}
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '50%', left: '50%',
+                                            transform: 'translate(-50%, -50%)',
+                                            textAlign: 'center',
+                                            color: 'white',
+                                            lineHeight: '25px'
+                                        }}>
+                                            <h1 style={{ fontSize: '50px' }}>{this.props.goalEmissions}</h1>
+                                            <h2 style={{ lineHeight: '0px' }}>kgco2</h2>
+                                            <h5 style={{ lineHeight: '5px' }}>carbon goal</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -196,7 +196,7 @@ class Leaderboard extends Component {
     // initialize and display the friendList
     async componentDidMount() {
         const id = this.props.userID;
-        await API.getAllFollowings(id) 
+        await API.getAllFollowings(id)
             .then(data => {
                 this.setState({ friendList: data });
             })
@@ -221,7 +221,7 @@ class Leaderboard extends Component {
         let carbonScoreList = [];
 
         await Promise.all(friends.map(async (friend) => {
-            const carbonScore = await API.getCarbonScoreByMonth(friend.accountID, 
+            const carbonScore = await API.getCarbonScoreByMonth(friend.accountID,
                 month.format('YYYY'), month.format('MM'));
             carbonScoreList.push({ [friend.username]: carbonScore });
         }));
@@ -229,7 +229,7 @@ class Leaderboard extends Component {
         this.setState({ carbonScoreList });
     };
 
-    render () {
+    render() {
         const followingUsers = this.state.friendList;
         const carbonScoreList = this.state.carbonScoreList;
         const getCarbonScore = (username) => {
@@ -263,18 +263,18 @@ class Leaderboard extends Component {
                             <table className={styles.leaderboard_list}>
                                 <thead>
                                     <tr>
-                                        <th style={{width: '10%', textAlign: 'left'}}> <div>ID</div> </th>
-                                        <th style={{width: '50%', textAlign: 'left'}}> <div>Username</div> </th>
-                                        <th style={{width: '40%'}}> <div>Carbon Score</div> </th>
+                                        <th style={{ width: '10%', textAlign: 'left' }}> <div>ID</div> </th>
+                                        <th style={{ width: '50%', textAlign: 'left' }}> <div>Username</div> </th>
+                                        <th style={{ width: '40%' }}> <div>Carbon Score</div> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {followingUsers.map((followingUser, index) => (
-                                    <tr key={index} className={styles.leaderboard_tablerow}>
-                                        <td style={{width: '10%', textAlign: 'left'}}>{'#' + (index + 1)}</td>
-                                        <td style={{width: '50%', textAlign: 'left'}}>{followingUser.username}</td>
-                                        <td style={{width: '40%', textAlign: 'center'}}>{getCarbonScore(followingUser.username)}</td>
-                                    </tr>
+                                        <tr key={index} className={styles.leaderboard_tablerow}>
+                                            <td style={{ width: '10%', textAlign: 'left' }}>{'#' + (index + 1)}</td>
+                                            <td style={{ width: '50%', textAlign: 'left' }}>{followingUser.username}</td>
+                                            <td style={{ width: '40%', textAlign: 'center' }}>{getCarbonScore(followingUser.username)}</td>
+                                        </tr>
                                     ))}
                                 </tbody>
                             </table>
@@ -290,14 +290,14 @@ class Leaderboard extends Component {
  * Head component
  * Renders the header of the Goals page, including a logo.
  */
-function Head({name,id}) {
+function Head({ name, id }) {
     const history = useHistory();
     function handleHomeClick() {
-      history.push({
-        pathname: '/home',
-        state: { name:name, id:id }
-      });
-      
+        history.push({
+            pathname: '/home',
+            state: { name: name, id: id }
+        });
+
     }
     return (
         <div className={styles.head_bar}>
@@ -317,18 +317,19 @@ function Mid({ name, id, month, onMonthChange }) {
     const [goalEm, setGoalEm] = useState(0);
     const [inputValue, setInputValue] = useState('');
 
+    // recall useEffect when `month` is changed
     useEffect(() => {
         const fetchCarbonScore = async () => {
-          const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
-          setCarbonEm(data);
+            const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
+            setCarbonEm(data);
         };
-    
+
         fetchCarbonScore();
         updateGoal();
-      }, [month]);    // recall useEffect when `month` is changed
+    }, [month]);
 
     async function updateGoal() {
-        let ifSet = false; 
+        let ifSet = false;
         let goals = await API.getUserGoal(id);
 
         goals.map(goalItem => {
@@ -337,7 +338,7 @@ function Mid({ name, id, month, onMonthChange }) {
                 ifSet = true;
             }
         });
-        if(!ifSet) {
+        if (!ifSet) {
             // Didn't set a goal for this month 
             setGoalEm(0);
         }
@@ -352,11 +353,15 @@ function Mid({ name, id, month, onMonthChange }) {
 
     const handleGoalInputChange = (event) => {
         if (event.key === 'Enter') {
-            let inputGoal = event.target.value;
-            if (inputGoal <= 0) {
+            let inputGoal = parseInt(event.target.value, 10);
+            if (isNaN(inputGoal)) {
                 inputGoal = 0;
-            } else if (inputGoal >= 99999) {
-                inputGoal = 99999;
+            } else {
+                if (inputGoal <= 0) {
+                    inputGoal = 0;
+                } else if (inputGoal >= 99999) {
+                    inputGoal = 99999;
+                }
             }
             setGoal(inputGoal)
             setInputValue('');
@@ -375,17 +380,17 @@ function Mid({ name, id, month, onMonthChange }) {
                 </div>
             </div>
             <div className={styles.mid_center}>
-                <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} id={id} month={month}/>
+                <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} id={id} month={month} />
             </div>
             <div className={styles.mid_low}>
                 <div className={styles.goal_input}>
-                    <input 
-                    id="goalInput" 
-                    placeholder= {'Current Goal: ' + goalEm}
-                    onKeyPress={handleGoalInputChange} 
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    className={styles.goal_input_box}/>
+                    <input
+                        id="goalInput"
+                        placeholder={'Please set your new goal'}
+                        onKeyPress={handleGoalInputChange}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        className={styles.goal_input_box} />
                 </div>
             </div>
         </div>
@@ -412,21 +417,21 @@ function Low({ id, month }) {
  */
 function Goals() {
     const location = useLocation();
-    const name = location.state?.name || "You need to login"; 
-    const id=location.state?.id ;
+    const name = location.state?.name || "You need to login";
+    const id = location.state?.id;
     const [month, setMonth] = useState(moment());
 
     const handleMonthChange = (newMonth) => {
         setMonth(newMonth);
-      };
+    };
 
     return (
-      <div>
-        <Head name={name} id={id}/>
-        <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange}/>
-        <Low name={name} id={id} month={month}/>
-      </div>
-    )  
+        <div>
+            <Head name={name} id={id} />
+            <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange} />
+            <Low name={name} id={id} month={month} />
+        </div>
+    )
 }
 
 export default Goals;
