@@ -78,6 +78,9 @@ class CarbonUseCircle extends Component {
         }
         else {
             percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
+            if (this.props.carbonEmission === 0) {
+                color = 'white';
+            }
         }
 
         const diameter = 210;
@@ -87,7 +90,7 @@ class CarbonUseCircle extends Component {
         const circumference = 2 * Math.PI * radius;
         const strokeDashoffset = ((100 - percentage) * circumference) / 100;
 
-        if (color !== 'white') {
+        if (color !== 'white' && this.props.carbonEmission !== 0) {
             const hue = ((100 - percentage) / 100) * 120;
             color = `hsl(${hue}, 100%, 50%)`;
         }
