@@ -474,34 +474,10 @@ function Mid({ name, id, month, onMonthChange }) {
  * Renders the lower section of the Goals page.
  */
 function Low({ id, month }) {
-    const [selection, setSelection] = useState(1);
-
-    function handleSelectionClick(val) {
-        setSelection(val);
-    }
-
-    function lowSelection() {
-        if (selection === 1) {
-            // Do something when selection is 1
-        } else {
-            // Do something when selection is not 1
-        }
-    }
-
     return (
         <div className={styles.low_bar}>
-            <div className={styles.low_sel_container}>
-                <div className={styles.low_sel_center}>
-                    <div className={`${styles.low_sel_btn} ${selection === 1 ? styles.selected : ''}`} onClick={() => handleSelectionClick(1)}>
-                        Friends Leaderboard
-                    </div>
-                    <div className={`${styles.low_sel_btn} ${selection === 2 ? styles.selected : ''}`} onClick={() => handleSelectionClick(2)}>
-                        Areas of Improvement
-                    </div>
-                </div>
-            </div>
             <div className={styles.low_body}>
-            {selection === 1 && <Leaderboard userID={id} month={month} />}
+                <Leaderboard userID={id} month={month} />
             </div>
         </div>
     );
