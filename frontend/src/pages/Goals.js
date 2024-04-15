@@ -60,22 +60,6 @@ class MonthSelect extends Component {
 class CarbonUseCircle extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            previousMonth: this.props.month,
-            scoreLastMonth: 0,
-        };
-    }
-
-    componentDidMount() {
-        this.fetchLastMonthCarbonScore();
-    }
-    
-    componentDidUpdate(prevProps, prevState) {
-        // Check if the month has changed
-        if (prevProps.month !== this.state.previousMonth) {
-            this.fetchLastMonthCarbonScore();
-            this.setState({ previousMonth: prevProps.month });
-        }
     }
 
     getPercentage = (carbonEmission, goalEmissions) => {
@@ -84,15 +68,6 @@ class CarbonUseCircle extends Component {
             percentage = 1;
         }
         return percentage * 100;
-    };
-
-    fetchLastMonthCarbonScore = async () => {
-        const {id, month} = this.props;
-        const previousMonth = month.clone().subtract(1, 'month');
-        await API.getCarbonScoreByMonth(id, previousMonth.format('YYYY'), previousMonth.format('MM'))
-        .then(data => {
-            this.setState({ scoreLastMonth: data });
-        });
     };
 
     drawCircle = ({ color }) => {
@@ -161,9 +136,9 @@ class CarbonUseCircle extends Component {
                                 <div className={styles.mid_circle_wrapper}>
                                     <div className={styles.mid_circles}>
                                         <div className={styles.mid_circle_txt}>
-                                            <h1 className={styles.mid_circle_txt_high}>{this.state.scoreLastMonth}</h1>
+                                            <h1 className={styles.mid_circle_txt_high}>{this.props.carbonEmission}</h1>
                                             <p className={styles.mid_circle_txt_mid}>kgco2</p>
-                                            <p className={styles.mid_circle_txt_low}>last month</p>
+                                            <p className={styles.mid_circle_txt_low}>score</p>
                                         </div>
                                     </div>
                                 </div>
@@ -182,9 +157,9 @@ class CarbonUseCircle extends Component {
                                                 color: 'white',
                                                 lineHeight: '25px'
                                             }}>
-                                            <h1 style={{fontSize: '50px'}}>{this.props.carbonEmission}</h1>
+                                            <h1 style={{fontSize: '50px'}}>{this.props.goalEmissions}</h1>
                                             <h2 style={{lineHeight: '0px'}}>kgco2</h2>
-                                            <h5 style={{lineHeight: '5px'}}>estimate</h5>
+                                            <h5 style={{lineHeight: '5px'}}>carbon goal</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -203,55 +178,6 @@ class CarbonUseCircle extends Component {
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        );
-    }
-}
-
-class ManageFriends extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showDropdown: false
-        };
-        this.dropdownRef = React.createRef();
-        this.toggleDropdown = this.toggleDropdown.bind(this);
-        this.handleOutsideClick = this.handleOutsideClick.bind(this);
-    }
-
-    toggleDropdown() {
-        this.setState(prevState => ({
-            showDropdown: !prevState.showDropdown
-        }));
-    }
-    handleOutsideClick(event) {
-        if (this.dropdownRef.current && !this.dropdownRef.current.contains(event.target)) {
-            this.setState({
-                showDropdown: false
-            });
-        }
-    }
-    componentDidMount() {
-        document.addEventListener('click', this.handleOutsideClick, false);
-    }
-    componentWillUnmount() {
-        document.removeEventListener('click', this.handleOutsideClick, false);
-    }
-
-    render() {
-        const { list } = this.props;
-        return (
-            <div className={styles.dropdown} ref={this.dropdownRef}>
-                <button onClick={this.toggleDropdown} className={styles.dropbtn}>Manage Friends</button>
-                <div id="myDropdown" className={`${styles.dropdownContent} ${this.state.showDropdown ? styles.show : ''}`}>
-                    {list.map((item, index) => (
-                        <a key={index} >
-                            {item.username}
-                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon} 
-                            onClick={() => this.handleDeleteFriendClick(item)}/>
-                        </a>
-                    ))}
-                </div>
             </div>
         );
     }
