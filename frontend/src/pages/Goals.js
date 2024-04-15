@@ -439,7 +439,6 @@ function Mid({ name, id, month, onMonthChange }) {
 
     return (
         <div className={styles.mid_bar}>
-
             <div className={styles.mid_high}>
                 <div className={styles.mid_high_txt_left}>
                     <p>{name}</p>
@@ -449,13 +448,11 @@ function Mid({ name, id, month, onMonthChange }) {
                     <MonthSelect month={month} onMonthChange={onMonthChange} />
                 </div>
             </div>
-
             <div className={styles.mid_center}>
                 <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} id={id} month={month}/>
             </div>
-
             <div className={styles.mid_low}>
-                {/*<div className={styles.goal_input}>
+                <div className={styles.goal_input}>
                     <input 
                     id="goalInput" 
                     placeholder= {'Current Goal: ' + goalEm}
@@ -463,7 +460,7 @@ function Mid({ name, id, month, onMonthChange }) {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     className={styles.goal_input_box}/>
-                </div>*/}
+                </div>
             </div>
         </div>
     );
