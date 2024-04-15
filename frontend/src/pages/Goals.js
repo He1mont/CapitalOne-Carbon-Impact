@@ -237,9 +237,6 @@ class ManageFriends extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('click', this.handleOutsideClick, false);
     }
-    handleDeleteFriendClick(item) {
-        this.props.removeFriend(item);
-    }
 
     render() {
         const { list } = this.props;
@@ -268,9 +265,6 @@ class Leaderboard extends Component {
             newFriend: '',
             carbonScoreList: [],
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.removeFriend = this.removeFriend.bind(this);
     }
 
     // initialize and display the friendList
@@ -309,70 +303,6 @@ class Leaderboard extends Component {
         this.setState({ carbonScoreList });
     };
 
-    async addFriend() {
-        const currentID = this.props.userID;
-
-        if (this.state.newFriend.trim() !== '') {
-            const username = this.state.newFriend;
-            let friend;
-
-            // Get the friend's info
-            await API.getAccountByUsername(username) 
-                .then(response => {
-                    friend = response;
-                })
-                .catch(error => {
-                    console.error('Error fetching user:', error);
-                    this.setState({ newFriend: '' });
-                });
-
-            // Check if the input is invalid
-            if (friend === null) {
-
-            } else if (friend.accountID === currentID) {
-
-            } else if (friend.state === "closed") {
-        
-            } else if (friend.state === "suspended") {
-
-            } else {
-                // Add the following relation
-                await API.addFollowing(currentID, friend.accountID) 
-                    .then(following => {
-                        this.setState(prevState => ({
-                            friendList: [...prevState.friendList, friend],
-                            newFriend: ''
-                        }));
-                    })
-                .catch(error => {
-                    console.error('Error adding following users:', error);
-                });
-            }    
-        }
-    }
-
-    handleChange(event) {
-        this.setState({ newFriend: event.target.value });
-    }
-
-    handleKeyPress(event) {
-        if (event.key === 'Enter') {
-            this.addFriend();
-        }
-    }
-
-    async removeFriend(friend) {
-        await API.deleteFollowing(this.props.userID, friend.accountID) 
-            .then(following => {
-                this.setState(prevState => ({
-                    friendList: prevState.friendList.filter(followingUser => followingUser !== friend)
-                }));
-            })
-        .catch(error => {
-            console.error('Error deleting following users:', error);
-        });
-    }
-
     render () {
         const followingUsers = this.state.friendList;
         const carbonScoreList = this.state.carbonScoreList;
@@ -400,16 +330,6 @@ class Leaderboard extends Component {
                     Your ID: {this.props.userID}
                 </div>
                 <div className={styles.leaderboard_container}>
-                    <input
-                        className={styles.leaderboard_addfriend}
-                        placeholder="Enter your friend's username"
-                        value={this.state.newFriend}
-                        onChange={this.handleChange}
-                        onKeyPress={this.handleKeyPress}
-                    />
-                    <ManageFriends list={followingUsers} removeFriend={this.removeFriend}/>
-                </div>
-                <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
                         <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
                     ) : (
@@ -418,16 +338,16 @@ class Leaderboard extends Component {
                                 <thead>
                                     <tr>
                                         <th style={{width: '10%', textAlign: 'left'}}> <div>ID</div> </th>
-                                        <th style={{width: '60%', textAlign: 'left'}}> <div>Username</div> </th>
-                                        <th style={{width: '30%'}}> <div>Carbon Score</div> </th>
+                                        <th style={{width: '50%', textAlign: 'left'}}> <div>Username</div> </th>
+                                        <th style={{width: '40%'}}> <div>Carbon Score</div> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {followingUsers.map((followingUser, index) => (
                                     <tr key={index} className={styles.leaderboard_tablerow}>
                                         <td style={{width: '10%', textAlign: 'left'}}>{'#' + (index + 1)}</td>
-                                        <td style={{width: '60%', textAlign: 'left'}}>{followingUser.username}</td>
-                                        <td style={{width: '30%', textAlign: 'center'}}>{getCarbonScore(followingUser.username)}</td>
+                                        <td style={{width: '50%', textAlign: 'left'}}>{followingUser.username}</td>
+                                        <td style={{width: '40%', textAlign: 'center'}}>{getCarbonScore(followingUser.username)}</td>
                                     </tr>
                                     ))}
                                 </tbody>
