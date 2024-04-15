@@ -12,6 +12,12 @@ function Head(name, id) {
   const history = useHistory();
   const [showDropdown, setShowDropdown] = useState(false);
 
+  function handleMyAccountClick() {
+    history.push({
+      pathname: '/home/setting',
+      state: { name: name, id: id }
+    });
+  }
   function handleHelpClick() {
     history.push('/help?prevPage=home');
   }
@@ -29,7 +35,7 @@ function Head(name, id) {
           <div className={styles.triangle}></div>
           {/* <div className={styles.dropdownAccName}><b>{name}</b></div> */}
           <div className={`${styles.dropdownContainer}`}>
-            <div className={styles.dropdownBtn} style={{ top: '32px' }}>
+            <div className={styles.dropdownBtn} style={{ top: '32px' }} onClick={handleMyAccountClick}>
               <img src="/images/user.png" alt="Settings" className={styles.dropdownImg} />
               <div className={styles.dropdownTxt}><b>My Account</b></div>
             </div>
