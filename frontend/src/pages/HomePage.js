@@ -47,7 +47,7 @@ function Head({name, id}) {
               <div className={styles.dropdownTxt}><b>My Account</b></div>
             </div>
             <div className={styles.dropdownBtn} style={{ top: '80px' }} onClick={handleFriendsClick}>
-              <img src="/images/user.png" alt="Settings" className={styles.dropdownImg} />
+              <img src="/images/friends.png" alt="Settings" className={styles.dropdownImg} />
               <div className={styles.dropdownTxt}><b>Friends</b></div>
             </div>
             <div className={styles.dropdownBtn} style={{ top: '130px' }} onClick={handleHelpClick}>
