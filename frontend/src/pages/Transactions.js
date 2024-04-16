@@ -20,9 +20,6 @@ class TransactionTbl extends Component {
       transactions: [],   // create an attribute to store all transactions
       searchInput: '',    // input in search bar
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClickSearch = this.handleClickSearch.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   // intialize transactions using backend API
@@ -32,7 +29,7 @@ class TransactionTbl extends Component {
   }
 
   // helper function to convert timestamp into format DD/MM
-  formatDate(timestamp) {
+  formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
@@ -68,7 +65,7 @@ class TransactionTbl extends Component {
   }
 
   // show the direction of arrow in the title of each column
-  showArrow() {
+  showArrow = () => {
     const { currentDir } = this.state;
     if (currentDir === 0) {     // disordered
       return
@@ -82,7 +79,7 @@ class TransactionTbl extends Component {
   }
 
   // live update searchInput state when typing words in search frame
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     this.setState({ searchInput: event.target.value });
   }
 
@@ -98,7 +95,7 @@ class TransactionTbl extends Component {
   }
 
   // automatically click button search when pressing enter
-  handleKeyPress(event) {
+  handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       this.handleClickSearch();
     }
