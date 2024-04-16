@@ -72,7 +72,7 @@ class Leaderboard extends Component {
             newFriend: '',
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleAddFriend = this.handleAddFriend.bind(this);
         this.removeFriend = this.removeFriend.bind(this);
     }
 
@@ -135,10 +135,8 @@ class Leaderboard extends Component {
         this.setState({ newFriend: event.target.value });
     }
 
-    handleKeyPress(event) {
-        if (event.key === 'Enter') {
-            this.addFriend();
-        }
+    handleAddFriend() {
+        this.addFriend();
     }
 
     async removeFriend(friend) {
@@ -175,9 +173,10 @@ class Leaderboard extends Component {
                         placeholder="Enter your friend's username"
                         value={this.state.newFriend}
                         onChange={this.handleChange}
-                        onKeyPress={this.handleKeyPress}
                     />
-                    <ManageFriends list={followingUsers} removeFriend={this.removeFriend} />
+                    <button className={styles._dropbtn} onClick={this.handleAddFriend}>
+                        Confirm
+                    </button>
                 </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
