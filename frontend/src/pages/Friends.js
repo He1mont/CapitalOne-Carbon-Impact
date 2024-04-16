@@ -15,16 +15,13 @@ class ManageFriends extends React.Component {
             showDropdown: false
         };
         this.dropdownRef = React.createRef();
-        this.toggleDropdown = this.toggleDropdown.bind(this);
-        this.handleOutsideClick = this.handleOutsideClick.bind(this);
     }
-
-    toggleDropdown() {
+    toggleDropdown = () => {
         this.setState(prevState => ({
             showDropdown: !prevState.showDropdown
         }));
-    }
-    handleOutsideClick(event) {
+    };
+    handleOutsideClick = (event) => {
         if (this.dropdownRef.current && !this.dropdownRef.current.contains(event.target)) {
             this.setState({
                 showDropdown: false
@@ -75,82 +72,59 @@ class Leaderboard extends Component {
         this.handleAddFriend = this.handleAddFriend.bind(this);
         this.removeFriend = this.removeFriend.bind(this);
     }
-
     // initialize and display the friendList
-    async componentDidMount() {
-        const id = this.props.userID;
-        await API.getAllFollowings(id)
-            .then(data => {
-                this.setState({ friendList: data });
-            })
-            .catch(error => {
-                console.error('Error fetching following users:', error);
-                this.setState({ friendList: [] });
-            })
+    componentDidMount = async() => {
+        const data = await API.getAllFollowings(this.props.userID)
+        this.setState({ friendList: data });
     }
-
-    async addFriend() {
-        const currentID = this.props.userID;
+    // add new friend by calling backend API
+    addFriend = async() => {
+        const currentID = this.props.userID
 
         if (this.state.newFriend.trim() !== '') {
             const username = this.state.newFriend;
-            let friend;
-
-            // Get the friend's info
-            await API.getAccountByUsername(username)
-                .then(response => {
-                    friend = response;
-                })
-                .catch(error => {
-                    console.error('Error fetching user:', error);
-                    this.setState({ newFriend: '' });
-                });
+            let friend = await API.getAccountByUsername(username)
 
             // Check if the input is invalid
             if (friend === null) {
 
+                // Search for themselves
             } else if (friend.accountID === currentID) {
 
+                // Search for closed accounts
             } else if (friend.state === "closed") {
 
+                // Search for suspended accounts
             } else if (friend.state === "suspended") {
 
-            } else {
                 // Add the following relation
+            } else {
                 await API.addFollowing(currentID, friend.accountID)
-                    .then(following => {
-                        this.setState(prevState => ({
-                            friendList: [...prevState.friendList, friend],
-                            newFriend: ''
-                        }));
-                    })
-                    .catch(error => {
-                        console.error('Error adding following users:', error);
-                    });
+                this.setState(prevState => ({
+                    friendList: [...prevState.friendList, friend],
+                    newFriend: ''
+                }));
             }
         }
     }
-
-    handleChange(event) {
+    // remove a friend by calling backend API
+    removeFriend = async(friend) => {
+        await API.deleteFollowing(this.props.userID, friend.accountID);
+        this.setState(prevState => ({
+            friendList: prevState.friendList.filter(followingUser => followingUser !== friend)
+        }));
+    }
+    // update search frame
+    handleChange = (event) => {
         this.setState({ newFriend: event.target.value });
     }
 
-    handleAddFriend() {
-        this.addFriend();
+    // link button confirm to key press 'Enter'
+    handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            this.addFriend();
+        }
     }
-
-    async removeFriend(friend) {
-        await API.deleteFollowing(this.props.userID, friend.accountID)
-            .then(following => {
-                this.setState(prevState => ({
-                    friendList: prevState.friendList.filter(followingUser => followingUser !== friend)
-                }));
-            })
-            .catch(error => {
-                console.error('Error deleting following users:', error);
-            });
-    }
-
     render() {
         const followingUsers = this.state.friendList;
         const columns = [
@@ -173,8 +147,9 @@ class Leaderboard extends Component {
                         placeholder="Enter your friend's username"
                         value={this.state.newFriend}
                         onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
                     />
-                    <button className={styles._dropbtn} onClick={this.handleAddFriend}>
+                    <button className={styles._dropbtn} onClick={this.addFriend}>
                         Confirm
                     </button>
                 </div>
