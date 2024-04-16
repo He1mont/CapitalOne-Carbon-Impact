@@ -7,7 +7,6 @@ import * as API from '../services/api';
 // table
 import { DataGrid } from '@mui/x-data-grid';
 
-
 class ManageFriends extends React.Component {
     constructor(props) {
         super(props);
@@ -67,48 +66,56 @@ class Leaderboard extends Component {
         this.state = {
             friendList: [],
             newFriend: '',
+            message: '',
+            isValidInput: true
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleAddFriend = this.handleAddFriend.bind(this);
-        this.removeFriend = this.removeFriend.bind(this);
     }
     // initialize and display the friendList
-    componentDidMount = async() => {
+    componentDidMount = async () => {
         const data = await API.getAllFollowings(this.props.userID)
         this.setState({ friendList: data });
     }
+    // check if a user is already in the friend list
+    isInFriendList = (username) => {
+        return this.state.friendList.some(item => item.username === username);
+    }
+
     // add new friend by calling backend API
-    addFriend = async() => {
+    addFriend = async () => {
         const currentID = this.props.userID
 
         if (this.state.newFriend.trim() !== '') {
             const username = this.state.newFriend;
-            let friend = await API.getAccountByUsername(username)
+            const data = await API.getAccountByUsername(username)
 
-            // Check if the input is invalid
-            if (friend === null) {
+            // No user found
+            if (data.length === 0) {
+                this.setState({ isValidInput: false, message: "No user found!" })
 
-                // Search for themselves
-            } else if (friend.accountID === currentID) {
-
-                // Search for closed accounts
-            } else if (friend.state === "closed") {
-
-                // Search for suspended accounts
-            } else if (friend.state === "suspended") {
-
-                // Add the following relation
             } else {
-                await API.addFollowing(currentID, friend.accountID)
-                this.setState(prevState => ({
-                    friendList: [...prevState.friendList, friend],
-                    newFriend: ''
-                }));
+                const friend = data[0]
+
+                if (friend.accountID === currentID) {       // Search themselves
+                    this.setState({ isValidInput: false, message: "You cannot search yourself!" })
+                } else if (friend.state === "closed") {     // Search for closed accounts
+                    this.setState({ isValidInput: false, message: "This account has been closed!" })
+                } else if (friend.state === "suspended") {  // Search for suspended accounts
+                    this.setState({ isValidInput: false, message: "This account has been suspended!" })
+                } else if (this.isInFriendList(username)) {
+                    this.setState({ isValidInput: false, message: "You cannot add your friend twice!" })
+                } else {
+                    await API.addFollowing(currentID, friend.accountID)
+                    this.setState(prevState => ({
+                        friendList: [...prevState.friendList, friend],
+                        newFriend: ''
+                    }));
+                    this.setState({ isValidInput: true, message: "You've added a new friend!" })
+                }
             }
         }
     }
     // remove a friend by calling backend API
-    removeFriend = async(friend) => {
+    removeFriend = async (friend) => {
         await API.deleteFollowing(this.props.userID, friend.accountID);
         this.setState(prevState => ({
             friendList: prevState.friendList.filter(followingUser => followingUser !== friend)
@@ -129,7 +136,7 @@ class Leaderboard extends Component {
         const followingUsers = this.state.friendList;
         const columns = [
             { field: 'username', headerName: 'All Following Users', width: 350 },
-          ];
+        ];
 
         return (
             <div style={{
@@ -142,6 +149,9 @@ class Leaderboard extends Component {
                 alignItems: 'center',
             }}>
                 <div className={styles.leaderboard_container}>
+                    <div className={this.state.isValidInput ? styles.normalMessage : styles.errorMessage}>
+                        {this.state.message}
+                    </div>
                     <input
                         className={styles.leaderboard_addfriend}
                         placeholder="Enter your friend's username"
@@ -162,9 +172,9 @@ class Leaderboard extends Component {
                                 rows={followingUsers}
                                 columns={columns}
                                 initialState={{
-                                pagination: {
-                                    paginationModel: { page: 0, pageSize: 5 },
-                                },
+                                    pagination: {
+                                        paginationModel: { page: 0, pageSize: 5 },
+                                    },
                                 }}
                                 pageSizeOptions={[5, 10]}
                                 checkboxSelection
