@@ -7,6 +7,7 @@ import Goals from './pages/Goals';
 import History from './pages/History';
 import Help from './pages/Help';
 import Setting from './pages/Setting';
+import Friends from './pages/Friends';
 import './assets/styles/App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home/goals" component={Goals} />
         <Route path="/home/history" component={History} />
         <Route path="/home/setting" component={Setting} />
+        <Route path="/home/friends" component={Friends} />
         <Route path="/home" component={HomePage} />
         <Route path="/help" component={Help} />
         <Redirect from="/" to="/login" />

@@ -266,16 +266,16 @@ class Leaderboard extends Component {
                             <table className={styles.leaderboard_list}>
                                 <thead>
                                     <tr>
-                                        <th style={{ width: '10%', textAlign: 'left' }}> <div>ID</div> </th>
-                                        <th style={{ width: '50%', textAlign: 'left' }}> <div>Username</div> </th>
+                                        <th style={{ width: '20%', textAlign: 'left' }}> <div>ID</div> </th>
+                                        <th style={{ width: '40%', textAlign: 'left' }}> <div>Username</div> </th>
                                         <th style={{ width: '40%' }}> <div>Carbon Score</div> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {followingUsers.map((followingUser, index) => (
                                         <tr key={index} className={styles.leaderboard_tablerow}>
-                                            <td style={{ width: '10%', textAlign: 'left' }}>{'#' + (index + 1)}</td>
-                                            <td style={{ width: '50%', textAlign: 'left' }}>{followingUser.username}</td>
+                                            <td style={{ width: '20%', textAlign: 'left' }}>{'#' + (index + 1)}</td>
+                                            <td style={{ width: '40%', textAlign: 'left' }}>{followingUser.username}</td>
                                             <td style={{ width: '40%', textAlign: 'center' }}>{getCarbonScore(followingUser.username)}</td>
                                         </tr>
                                     ))}
