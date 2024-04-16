@@ -1,5 +1,5 @@
 // Friends.js
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import styles from '../assets/styles/Friends.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
 // helper functions
@@ -67,7 +67,8 @@ class Leaderboard extends Component {
             friendList: [],
             newFriend: '',
             message: '',
-            isValidInput: true
+            isValidInput: true,
+            selectionModel: [],
         };
     }
     // initialize and display the friendList
@@ -115,12 +116,18 @@ class Leaderboard extends Component {
         }
     }
     // remove a friend by calling backend API
-    removeFriend = async (friend) => {
-        await API.deleteFollowing(this.props.userID, friend.accountID);
-        this.setState(prevState => ({
-            friendList: prevState.friendList.filter(followingUser => followingUser !== friend)
+    removeFriend = async () => {
+        const { selectionModel } = this.state;
+        selectionModel.forEach(async (friend) => {
+            await API.deleteFollowing(this.props.userID, friend.accountID);
+        });
+        // update friendList and selectionModel
+        this.setState((prevState) => ({
+            friendList: prevState.friendList.filter((followingUser) => !prevState.selectionModel.includes(followingUser)),
         }));
-    }
+        this.setState({ selectionModel: [] });
+    };
+    
     // update search frame
     handleChange = (event) => {
         this.setState({ newFriend: event.target.value });
@@ -132,6 +139,33 @@ class Leaderboard extends Component {
             this.addFriend();
         }
     }
+
+    // call this function when ticking a new box
+    handleSingleCellClick = (newSelection) => {
+        this.setState((prevState) => {
+            // check if exist
+            const index = prevState.selectionModel.findIndex((item) => item.accountID === newSelection.row.accountID);
+            if (index === -1) {
+                return {
+                    selectionModel: [...prevState.selectionModel, newSelection.row],
+                };
+            } else {
+                const updatedSelection = prevState.selectionModel.filter
+                    ((item) => item.accountID !== newSelection.row.accountID);
+                return {
+                    selectionModel: updatedSelection,
+                };
+            }
+        }, () => {
+            console.log(this.state.selectionModel);
+        });
+    };
+
+    // comments
+    handleColumnClick = () => {
+        console.log(111)
+    }
+
     render() {
         const followingUsers = this.state.friendList;
         const columns = [
@@ -162,6 +196,9 @@ class Leaderboard extends Component {
                     <button className={styles._dropbtn} onClick={this.addFriend}>
                         Confirm
                     </button>
+                    <button className={styles._dropbtn} onClick={this.removeFriend}>
+                        Delete
+                    </button>
                 </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
@@ -178,6 +215,8 @@ class Leaderboard extends Component {
                                 }}
                                 pageSizeOptions={[5, 10]}
                                 checkboxSelection
+                                onCellClick={this.handleSingleCellClick}
+                                onColumnHeaderClick={this.handleColumnClick}
                             />
                         </div>
                     )}
