@@ -137,8 +137,7 @@ html, body {
   }
   
   .leaderboard_tablerow {
-    border-bottom: 1px solid black;
-    height: 30px;
+    font-weight: bold;
   }
   
   .leaderboard_tablerow:last-child {

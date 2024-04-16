@@ -4,6 +4,8 @@ import styles from '../assets/styles/Friends.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
 // helper functions
 import * as API from '../services/api';
+// table
+import { DataGrid } from '@mui/x-data-grid';
 
 
 class ManageFriends extends React.Component {
@@ -153,6 +155,9 @@ class Leaderboard extends Component {
 
     render() {
         const followingUsers = this.state.friendList;
+        const columns = [
+            { field: 'username', headerName: 'All Following Users', width: 350 },
+          ];
 
         return (
             <div style={{
@@ -164,9 +169,6 @@ class Leaderboard extends Component {
                 flexDirection: 'column',
                 alignItems: 'center',
             }}>
-                <div className={styles.leaderboard_container}>
-                    Your ID: {this.props.userID}
-                </div>
                 <div className={styles.leaderboard_container}>
                     <input
                         className={styles.leaderboard_addfriend}
@@ -182,22 +184,17 @@ class Leaderboard extends Component {
                         <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
                     ) : (
                         <div className={styles.leaderboard_list_container}>
-                            <table className={styles.leaderboard_list}>
-                                <thead>
-                                    <tr>
-                                        <th style={{ width: '30%', textAlign: 'left' }}> <div>ID</div> </th>
-                                        <th style={{ width: '70%', textAlign: 'left' }}> <div>Username</div> </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {followingUsers.map((followingUser, index) => (
-                                        <tr key={index} className={styles.leaderboard_tablerow}>
-                                            <td style={{ width: '30%', textAlign: 'left' }}>{'#' + (index + 1)}</td>
-                                            <td style={{ width: '70%', textAlign: 'left' }}>{followingUser.username}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                            <DataGrid
+                                rows={followingUsers}
+                                columns={columns}
+                                initialState={{
+                                pagination: {
+                                    paginationModel: { page: 0, pageSize: 5 },
+                                },
+                                }}
+                                pageSizeOptions={[5, 10]}
+                                checkboxSelection
+                            />
                         </div>
                     )}
                 </div>
