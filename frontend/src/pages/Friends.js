@@ -48,8 +48,8 @@ class ManageFriends extends React.Component {
                     {list.map((item, index) => (
                         <a key={index} >
                             {item.username}
-                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon} 
-                            onClick={() => this.handleDeleteFriendClick(item)}/>
+                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon}
+                                onClick={() => this.handleDeleteFriendClick(item)} />
                         </a>
                     ))}
                 </div>
@@ -77,7 +77,7 @@ class Leaderboard extends Component {
     // initialize and display the friendList
     async componentDidMount() {
         const id = this.props.userID;
-        await API.getAllFollowings(id) 
+        await API.getAllFollowings(id)
             .then(data => {
                 this.setState({ friendList: data });
             })
@@ -95,7 +95,7 @@ class Leaderboard extends Component {
             let friend;
 
             // Get the friend's info
-            await API.getAccountByUsername(username) 
+            await API.getAccountByUsername(username)
                 .then(response => {
                     friend = response;
                 })
@@ -110,22 +110,22 @@ class Leaderboard extends Component {
             } else if (friend.accountID === currentID) {
 
             } else if (friend.state === "closed") {
-        
+
             } else if (friend.state === "suspended") {
 
             } else {
                 // Add the following relation
-                await API.addFollowing(currentID, friend.accountID) 
+                await API.addFollowing(currentID, friend.accountID)
                     .then(following => {
                         this.setState(prevState => ({
                             friendList: [...prevState.friendList, friend],
                             newFriend: ''
                         }));
                     })
-                .catch(error => {
-                    console.error('Error adding following users:', error);
-                });
-            }    
+                    .catch(error => {
+                        console.error('Error adding following users:', error);
+                    });
+            }
         }
     }
 
@@ -140,18 +140,18 @@ class Leaderboard extends Component {
     }
 
     async removeFriend(friend) {
-        await API.deleteFollowing(this.props.userID, friend.accountID) 
+        await API.deleteFollowing(this.props.userID, friend.accountID)
             .then(following => {
                 this.setState(prevState => ({
                     friendList: prevState.friendList.filter(followingUser => followingUser !== friend)
                 }));
             })
-        .catch(error => {
-            console.error('Error deleting following users:', error);
-        });
+            .catch(error => {
+                console.error('Error deleting following users:', error);
+            });
     }
 
-    render () {
+    render() {
         const followingUsers = this.state.friendList;
 
         return (
@@ -175,7 +175,7 @@ class Leaderboard extends Component {
                         onChange={this.handleChange}
                         onKeyPress={this.handleKeyPress}
                     />
-                    <ManageFriends list={followingUsers} removeFriend={this.removeFriend}/>
+                    <ManageFriends list={followingUsers} removeFriend={this.removeFriend} />
                 </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
@@ -185,16 +185,16 @@ class Leaderboard extends Component {
                             <table className={styles.leaderboard_list}>
                                 <thead>
                                     <tr>
-                                        <th style={{width: '30%', textAlign: 'left'}}> <div>ID</div> </th>
-                                        <th style={{width: '70%', textAlign: 'left'}}> <div>Username</div> </th>
+                                        <th style={{ width: '30%', textAlign: 'left' }}> <div>ID</div> </th>
+                                        <th style={{ width: '70%', textAlign: 'left' }}> <div>Username</div> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {followingUsers.map((followingUser, index) => (
-                                    <tr key={index} className={styles.leaderboard_tablerow}>
-                                        <td style={{width: '30%', textAlign: 'left'}}>{'#' + (index + 1)}</td>
-                                        <td style={{width: '70%', textAlign: 'left'}}>{followingUser.username}</td>
-                                    </tr>
+                                        <tr key={index} className={styles.leaderboard_tablerow}>
+                                            <td style={{ width: '30%', textAlign: 'left' }}>{'#' + (index + 1)}</td>
+                                            <td style={{ width: '70%', textAlign: 'left' }}>{followingUser.username}</td>
+                                        </tr>
                                     ))}
                                 </tbody>
                             </table>
@@ -210,14 +210,14 @@ class Leaderboard extends Component {
  * Head component
  * Renders the header of the Friend page, including a logo.
  */
-function Head({name, id}) {
+function Head({ name, id }) {
     const history = useHistory();
     function handleHomeClick() {
-      history.push({
-        pathname: '/home',
-        state: { name:name, id:id }
-      });
-      
+        history.push({
+            pathname: '/home',
+            state: { name: name, id: id }
+        });
+
     }
     return (
         <div className={styles.head_bar}>
@@ -233,18 +233,18 @@ function Head({name, id}) {
  * Renders the middle section of the Friend page.
  */
 function Mid({ name }) {
-  
-  return (
-    <div className={styles.mid_bar}>
-      {/* User Information and Friend Overview */}
-      <div className={styles.mid_high}>
-        <div className={styles.mid_high_txt_left}>
-          <p>{name}</p>
-          <h1>View Friends</h1>
+
+    return (
+        <div className={styles.mid_bar}>
+            {/* User Information and Friend Overview */}
+            <div className={styles.mid_high}>
+                <div className={styles.mid_high_txt_left}>
+                    <p>{name}</p>
+                    <h1>View Friends</h1>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 }
 
 /**
@@ -267,19 +267,17 @@ function Low({ id }) {
  * Main component aggregating Head, Mid, and Low components to form the complete Friends page.
  */
 function Friends() {
-//   const location = useLocation();
-//   const name = location.state?.name || "You need to login";
-//   const id = location.state?.id;
-    const name = "BorisL53845";
-    const id = 22348351;
+    const location = useLocation();
+    const name = location.state?.name || "You need to login";
+    const id = location.state?.id;
 
-  return (
-    <div>
-      <Head name={name} id={id} />
-      <Mid name={name} />
-      <Low id={id} />
-    </div>
-  )
+    return (
+        <div>
+            <Head name={name} id={id} />
+            <Mid name={name} />
+            <Low id={id} />
+        </div>
+    )
 }
 
 export default Friends;
