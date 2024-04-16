@@ -55,6 +55,8 @@
     "@babel/preset-react": "^7.23.3",
     "@cypress/react": "^8.0.0",
     "@cypress/webpack-dev-server": "^3.7.4",
+    "@mui/x-data-grid": "^7.2.0",
+    "@types/react-router-dom": "^5.3.3",
     "babel-loader": "^9.1.3",
     "cypress": "^13.6.6",
     "cypress-axe-core": "^2.0.0"
