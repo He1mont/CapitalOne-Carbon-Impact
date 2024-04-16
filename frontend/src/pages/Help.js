@@ -31,7 +31,7 @@ function Collap(props) {
  * Displays the top part of the help including the logo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head(name, id) {
+function Head({name, id}) {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
@@ -46,6 +46,7 @@ function Head(name, id) {
     } else {
       history.push({
         pathname: '/home',
+        state: { name: name, id: id }
       });
     }
   }
@@ -151,10 +152,10 @@ function Footer() {
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function Help() {
-  const history = useHistory();
   const location = useLocation();
   const name = location.state?.name || "You need to login";
   const id = location.state?.id;
+
   return (
     <div>
       <Head name={name} id={id} />

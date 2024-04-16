@@ -26,7 +26,12 @@ function Head({name, id}) {
     });
   }
   function handleHelpClick() {
-    history.push('/help?prevPage=home');
+    history.push({
+      pathname: '/help',
+      search: '?prevPage=home',
+      state: { name: name, id: id }
+    });
+    // history.push('/help?prevPage=home');
   }
   function handleSignoutClick() {
     history.push('/login');
