@@ -140,7 +140,7 @@ class Leaderboard extends Component {
         }
     }
 
-    // call this function when ticking a new box
+    // call this function when ticking a box
     handleSingleCellClick = (newSelection) => {
         this.setState((prevState) => {
             // check if exist
@@ -156,14 +156,25 @@ class Leaderboard extends Component {
                     selectionModel: updatedSelection,
                 };
             }
-        }, () => {
-            console.log(this.state.selectionModel);
         });
     };
 
-    // comments
+    // call this function when ticking the top column
     handleColumnClick = () => {
-        console.log(111)
+        this.setState((prevState) => {
+            // check if selectionModel is empty
+            if (prevState.selectionModel.length === 0) {
+                return {
+                    // add all friends into selectionModel
+                    selectionModel: this.state.friendList,
+                };
+            } else {
+                return {
+                    // set empty
+                    selectionModel: [],
+                };
+            }
+        });
     }
 
     render() {
