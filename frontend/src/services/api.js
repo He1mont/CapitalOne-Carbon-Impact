@@ -15,7 +15,7 @@ export async function getAccountByEmail(email) {
 export async function getAccountByUsername(username) {
   try {
     const response = await axios.get(`http://127.0.0.1:7001/account/get-by-username/${username}`);
-    return response.data[0]
+    return response.data
 
   } catch (error) {
     console.error("Error fetching account by username:", error);

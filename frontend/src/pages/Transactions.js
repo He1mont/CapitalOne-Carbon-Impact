@@ -3,6 +3,7 @@ import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Head, Footer} from './CommonComponents';
 // helper functions
 import * as API from '../services/api';
 import * as Sorter from '../services/sorter';
@@ -20,9 +21,6 @@ class TransactionTbl extends Component {
       transactions: [],   // create an attribute to store all transactions
       searchInput: '',    // input in search bar
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClickSearch = this.handleClickSearch.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   // intialize transactions using backend API
@@ -32,7 +30,7 @@ class TransactionTbl extends Component {
   }
 
   // helper function to convert timestamp into format DD/MM
-  formatDate(timestamp) {
+  formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
@@ -68,7 +66,7 @@ class TransactionTbl extends Component {
   }
 
   // show the direction of arrow in the title of each column
-  showArrow() {
+  showArrow = () => {
     const { currentDir } = this.state;
     if (currentDir === 0) {     // disordered
       return
@@ -82,7 +80,7 @@ class TransactionTbl extends Component {
   }
 
   // live update searchInput state when typing words in search frame
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     this.setState({ searchInput: event.target.value });
   }
 
@@ -98,7 +96,7 @@ class TransactionTbl extends Component {
   }
 
   // automatically click button search when pressing enter
-  handleKeyPress(event) {
+  handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       this.handleClickSearch();
     }
@@ -113,7 +111,7 @@ class TransactionTbl extends Component {
       const transactionDate = moment(transaction.date);
       return transactionDate.isSameOrAfter(startOfMonth) && transactionDate.isSameOrBefore(endOfMonth);
     });
-  
+
     // Render "No Data" if filteredTransactions length is 0
     let tableBody;
     if (filteredTransactions.length === 0) {
@@ -133,7 +131,7 @@ class TransactionTbl extends Component {
         </tr>
       ));
     }
-  
+
     return (
       <div>
         {/* Search and Filter Functionality */}
@@ -152,7 +150,7 @@ class TransactionTbl extends Component {
             Search
           </button>
         </div>
-  
+
         {/* Transaction Table Container */}
         <div className={styles.transaction_tbl_border}>
           <div className={styles.transaction_tbl_container}>
@@ -244,27 +242,6 @@ class MonthSelect extends Component {
 }
 
 /**
- * Head component
- * Renders the header of the Transactions page, including a logo.
- */
-function Head({ name, id }) {
-  const history = useHistory();
-  function handleHomeClick() {
-    history.push({
-      pathname: '/home',
-      state: { name: name, id: id }
-    });
-  }
-  return (
-    <div className={styles.head_bar}>
-      <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleHomeClick} />
-      </div>
-    </div>
-  )
-}
-
-/**
  * Mid component
  * Renders the middle section of the Transactions page, providing contextual information and additional controls.
  */
@@ -339,6 +316,7 @@ function Transactions() {
       <Head name={name} id={id} />
       <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange} />
       <Low name={name} id={id} month={month} />
+      <Footer />
     </div>
   )
 }

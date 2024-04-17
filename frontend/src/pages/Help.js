@@ -3,6 +3,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
+import { Footer } from './CommonComponents';
 
 /**
  * Collapsible component
@@ -31,14 +32,14 @@ function Collap(props) {
  * Displays the top part of the help including the logo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head(name, id) {
+function Head({ name, id }) {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
   let helpPrev = params.prevPage;
 
   const history = useHistory();
-  function handleHomeClick() {
+  function handleGoBackClick() {
     if (helpPrev === "login") {
       history.push({
         pathname: '/login',
@@ -46,20 +47,22 @@ function Head(name, id) {
     } else {
       history.push({
         pathname: '/home',
+        state: { name: name, id: id }
       });
     }
   }
-
-  /**
-   * handleLoginClick function
-   * Redirects user to the login page when the login button is clicked.
-   */
+  
   return (
-
     <div className={styles.headBar}>
+      {/* Go Back Button */}
+      <div>
+        <button onClick={handleGoBackClick} className={styles.go_back_btn}>
+          <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
+        </button>
+      </div>
       {/* Logo */}
       <div className={styles.headCenter}>
-        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleHomeClick} />
+        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" />
       </div>
     </div>
   );
@@ -136,25 +139,14 @@ function Low({ name, id }) {
 }
 
 /**
- * Footer component
- * Displays the footer of the homepage, including copyright information.
- */
-function Footer() {
-  return (
-    <div className={styles.footer}>
-      <p>© 2023-2024 Team7. All rights reserved.</p>
-    </div>
-  );
-}
-/**
  * HomePage component
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function Help() {
-  const history = useHistory();
   const location = useLocation();
   const name = location.state?.name || "You need to login";
   const id = location.state?.id;
+
   return (
     <div>
       <Head name={name} id={id} />

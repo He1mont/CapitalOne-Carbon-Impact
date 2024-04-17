@@ -2,24 +2,36 @@
 import React, { useState, useEffect, useRef, Component } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Home.module.css'; // Import CSS file
+import { Footer } from './CommonComponents';
 
 /**
  * Head component
  * Displays the top part of the homepage including the logo and login button.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head(name, id) {
+function Head({ name, id }) {
   const history = useHistory();
   const [showDropdown, setShowDropdown] = useState(false);
 
   function handleMyAccountClick() {
+    // history.push({
+    //   pathname: '/home/friends',
+    //   state: { name: name, id: id }
+    // });
+    //history.push('/friends');
+  }
+  function handleFriendsClick() {
     history.push({
-      pathname: '/home/setting',
+      pathname: '/home/friends',
       state: { name: name, id: id }
     });
   }
   function handleHelpClick() {
-    history.push('/help?prevPage=home');
+    history.push({
+      pathname: '/help',
+      search: '?prevPage=home',
+      state: { name: name, id: id }
+    });
   }
   function handleSignoutClick() {
     history.push('/login');
@@ -35,15 +47,19 @@ function Head(name, id) {
           <div className={styles.triangle}></div>
           {/* <div className={styles.dropdownAccName}><b>{name}</b></div> */}
           <div className={`${styles.dropdownContainer}`}>
-            <div className={styles.dropdownBtn} style={{ top: '32px' }} onClick={handleMyAccountClick}>
+            <div className={styles.dropdownBtn} style={{ top: '30px' }} onClick={handleMyAccountClick}>
               <img src="/images/user.png" alt="Settings" className={styles.dropdownImg} />
               <div className={styles.dropdownTxt}><b>My Account</b></div>
             </div>
-            <div className={styles.dropdownBtn} style={{ top: '82px' }} onClick={handleHelpClick}>
+            <div className={styles.dropdownBtn} style={{ top: '80px' }} onClick={handleFriendsClick}>
+              <img src="/images/friends.png" alt="Settings" className={styles.dropdownImg} />
+              <div className={styles.dropdownTxt}><b>Friends</b></div>
+            </div>
+            <div className={styles.dropdownBtn} style={{ top: '130px' }} onClick={handleHelpClick}>
               <img src="/images/help.png" alt="Settings" className={styles.dropdownImg} />
               <div className={styles.dropdownTxt}><b>Help</b></div>
             </div>
-            <div className={styles.dropdownBtn} style={{ top: '130px' }} onClick={handleSignoutClick}>
+            <div className={styles.dropdownBtn} style={{ top: '180px' }} onClick={handleSignoutClick}>
               <img src="/images/signout.png" alt="Settings" className={styles.dropdownImg} />
               <div className={styles.dropdownTxt}><b>Sign Out</b></div>
             </div>
@@ -195,18 +211,6 @@ function Low({ name, id }) {
 }
 
 /**
- * Footer component
- * Displays the footer of the homepage, including copyright information.
- */
-function Footer() {
-  return (
-    <div className={styles.footer}>
-      <p>© 2023-2024 Team7. All rights reserved.</p>
-    </div>
-  );
-}
-
-/**
  * HomePage component
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
@@ -216,7 +220,7 @@ function HomePage() {
   const id = location.state?.id;
   return (
     <div>
-      <Head name={name} id={id}/>
+      <Head name={name} id={id} />
       <Mid name={name} />
       <Low name={name} id={id} />
       <Footer />

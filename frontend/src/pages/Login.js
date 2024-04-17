@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "../assets/styles/Login.module.css";
 import * as API from '../services/api';
+import { Footer } from './CommonComponents';
 
 /**
  * Head component
@@ -129,18 +130,6 @@ function Mid({
 
         </div>
       </div>
-    </div>
-  );
-}
-
-/**
- * Footer component
- * Displays the footer of the login page, including copyright information.
- */
-function Footer() {
-  return (
-    <div className={styles.footer}>
-      <p>© 2023-2024 Team7. All rights reserved.</p>
     </div>
   );
 }
