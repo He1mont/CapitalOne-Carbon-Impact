@@ -245,46 +245,46 @@ class Leaderboard extends Component {
             return null;
         };
 
-        return (
-            <div style={{
-                width: '100%',
-                height: 'auto',
-                justifyContent: 'center',
-                marginTop: '10px',
-                minWidth: '700px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}>
-                <div className={styles.leaderboard_container}>
-                    {this.state.friendList.length === 0 ? (
-                        <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
-                    ) : (
-                        <div className={styles.leaderboard_list_container}>
-                            <table className={styles.leaderboard_list}>
-                                <thead>
-                                    <tr>
-                                        <th style={{ width: '20%', textAlign: 'left' }}> <div>ID</div> </th>
-                                        <th style={{ width: '40%', textAlign: 'left' }}> <div>Username</div> </th>
-                                        <th style={{ width: '40%' }}> <div>Carbon Score</div> </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {followingUsers.map((followingUser, index) => (
-                                        <tr key={index} className={styles.leaderboard_tablerow}>
-                                            <td style={{ width: '20%', textAlign: 'left' }}>{'#' + (index + 1)}</td>
-                                            <td style={{ width: '40%', textAlign: 'left' }}>{followingUser.username}</td>
-                                            <td style={{ width: '40%', textAlign: 'center' }}>{getCarbonScore(followingUser.username)}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
+    return (
+      <div style={{
+        width: '100%',
+        height: 'auto',
+        justifyContent: 'center',
+        marginTop: '10px',
+        minWidth: '700px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <div className={styles.leaderboard_container}>
+          {this.state.friendList.length === 0 ? (
+            <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
+          ) : (
+            <div className={styles.leaderboard_list_container}>
+              <table className={styles.leaderboard_list}>
+                <thead>
+                  <tr>
+                    <th style={{ width: '20%', textAlign: 'left' }}> <div>Rank</div> </th>
+                    <th style={{ width: '40%', textAlign: 'left' }}> <div>Username</div> </th>
+                    <th style={{ width: '40%' }}> <div>Carbon Score</div> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {followingUsers.map((followingUser, index) => (
+                    <tr key={index} className={styles.leaderboard_tablerow}>
+                      <td style={{ width: '20%', textAlign: 'left' }}>{'#' + (index + 1)}</td>
+                      <td style={{ width: '40%', textAlign: 'left' }}>{followingUser.username}</td>
+                      <td style={{ width: '40%', textAlign: 'center' }}>{getCarbonScore(followingUser.username)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-        );
-    }
+          )}
+        </div>
+      </div>
+    );
+  }
 }
 
 /**

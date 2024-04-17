@@ -35,6 +35,17 @@ body {
   left: -65px;
 }
 
+.go_back_btn {
+  position: absolute;
+  top: 8px;
+  left: 25px;
+  border: none;
+}
+
+.go_back_img {
+  height: 50px;
+}
+
 /*------------------------------ MID ------------------------------*/
 .mid_bar {
   top: 65px;
@@ -163,7 +174,7 @@ body {
   margin-left: 20px;
   font-size: 14px;
   border: none;
-  background-color: #7889b8;
+  background-color: #007B90;
   color: white;
   cursor: pointer;
   border-radius: 4px;
@@ -171,7 +182,7 @@ body {
 }
 
 .button_confirm:hover {
-  background-color: #5f7098;
+  background-color: #048fa8;
 }
 
 .button_delete {
