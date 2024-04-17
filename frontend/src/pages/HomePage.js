@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, Component } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Home.module.css'; // Import CSS file
+import { Footer } from './CommonComponents';
 
 /**
  * Head component
@@ -205,18 +206,6 @@ function Low({ name, id }) {
           </tr>
         </tbody>
       </table>
-    </div>
-  );
-}
-
-/**
- * Footer component
- * Displays the footer of the homepage, including copyright information.
- */
-function Footer() {
-  return (
-    <div className={styles.footer}>
-      <p>© 2023-2024 Team7. All rights reserved.</p>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
+import { Footer } from './CommonComponents';
 
 /**
  * Collapsible component
@@ -31,7 +32,7 @@ function Collap(props) {
  * Displays the top part of the help including the logo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head({name, id}) {
+function Head({ name, id }) {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
@@ -136,17 +137,6 @@ function Low({ name, id }) {
   );
 }
 
-/**
- * Footer component
- * Displays the footer of the homepage, including copyright information.
- */
-function Footer() {
-  return (
-    <div className={styles.footer}>
-      <p>© 2023-2024 Team7. All rights reserved.</p>
-    </div>
-  );
-}
 /**
  * HomePage component
  * Composes the Head, Mid, Low, and Footer components to form the homepage.

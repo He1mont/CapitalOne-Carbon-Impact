@@ -201,17 +201,6 @@ body {
   color: #666666;
 }
 
-.footer {
-  width: 100%;
-  height: 50px;
-  background-color: #073763ff;
-  text-align: center;
-  color: white;
-  position: fixed;
-  bottom: 0;
-
-}
-
 /*---------- KEY FRAMES -------- */
 @keyframes slideInFromRight {
   0% {
@@ -229,7 +218,6 @@ body {
 .mid_box_txt_line {
   animation: slideInFromRight 1s ease-out;
 }
-
 
 /*---------- DROPDOWN ----------*/
 .dropdownBox {

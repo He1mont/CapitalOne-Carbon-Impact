@@ -3,7 +3,7 @@ import moment from 'moment';
 import styles from '../assets/styles/Goals.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as API from '../services/api';
-import { Head } from './CommonComponents';
+import { Head, Footer } from './CommonComponents';
 
 /**
  * Month selector component
@@ -416,6 +416,7 @@ function Goals() {
       <Head name={name} id={id} />
       <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange} />
       <Low name={name} id={id} month={month} />
+      <Footer />
     </div>
   )
 }

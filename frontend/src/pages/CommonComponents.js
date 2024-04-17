@@ -91,3 +91,10 @@ export function Head({ name, id }) {
   )
 }
 
+export function Footer() {
+  return (
+    <div className={styles.footer}>
+      <p>© 2023-2024 Team7. All rights reserved.</p>
+    </div>
+  );
+}
