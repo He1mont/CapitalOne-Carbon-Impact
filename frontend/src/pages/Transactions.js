@@ -110,7 +110,7 @@ class TransactionTbl extends Component {
       const transactionDate = moment(transaction.date);
       return transactionDate.isSameOrAfter(startOfMonth) && transactionDate.isSameOrBefore(endOfMonth);
     });
-  
+
     // Render "No Data" if filteredTransactions length is 0
     let tableBody;
     if (filteredTransactions.length === 0) {
@@ -130,7 +130,7 @@ class TransactionTbl extends Component {
         </tr>
       ));
     }
-  
+
     return (
       <div>
         {/* Search and Filter Functionality */}
@@ -149,7 +149,7 @@ class TransactionTbl extends Component {
             Search
           </button>
         </div>
-  
+
         {/* Transaction Table Container */}
         <div className={styles.transaction_tbl_border}>
           <div className={styles.transaction_tbl_container}>
@@ -246,7 +246,7 @@ class MonthSelect extends Component {
  */
 function Head({ name, id }) {
   const history = useHistory();
-  function handleHomeClick() {
+  function handleGoBackClick() {
     history.push({
       pathname: '/home',
       state: { name: name, id: id }
@@ -254,8 +254,13 @@ function Head({ name, id }) {
   }
   return (
     <div className={styles.head_bar}>
+      <div>
+        <button onClick={handleGoBackClick} className={styles.go_back_btn}>
+          <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
+        </button>
+      </div>
       <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleHomeClick} />
+        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} />
       </div>
     </div>
   )

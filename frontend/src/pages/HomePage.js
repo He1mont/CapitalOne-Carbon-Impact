@@ -8,7 +8,7 @@ import styles from '../assets/styles/Home.module.css'; // Import CSS file
  * Displays the top part of the homepage including the logo and login button.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head({name, id}) {
+function Head({ name, id }) {
   const history = useHistory();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -31,7 +31,6 @@ function Head({name, id}) {
       search: '?prevPage=home',
       state: { name: name, id: id }
     });
-    // history.push('/help?prevPage=home');
   }
   function handleSignoutClick() {
     history.push('/login');
@@ -232,7 +231,7 @@ function HomePage() {
   const id = location.state?.id;
   return (
     <div>
-      <Head name={name} id={id}/>
+      <Head name={name} id={id} />
       <Mid name={name} />
       <Low name={name} id={id} />
       <Footer />
