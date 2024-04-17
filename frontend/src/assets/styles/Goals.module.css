@@ -112,11 +112,27 @@ body {
 
 .goal_input_box {
   width: 200px;
-  height: 20px;
+  height: 25px;
   border-color: black;
   border-radius: 5px;
   border-width: 2px;
   padding-left: 10px;
+}
+
+.button_confirm {
+  padding: 7px 11px;
+  margin-left: 15px;
+  font-size: 13px;
+  border: none;
+  background-color: #7889b8;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.button_confirm:hover {
+  background-color: #5f7098;
 }
 
 /*------------------------------ LOW ------------------------------*/
