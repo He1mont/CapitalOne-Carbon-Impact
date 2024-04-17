@@ -184,17 +184,19 @@ body {
 .transaction_btns_download {
   position: absolute;
   height: 46px;
-  border-width: 2px;
-  background-color: transparent;
-  width: 20%;
-  right: 0px;
-  border-radius: 5px;
-  border-color: rgb(157, 157, 157);
-  border-style: solid;
+  width: 15%;
+  right: 70px;
+  font-size: 16px;
+  border: none;
+  background-color: #7889b8;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
-.transaction_btns_download:hover {
-  background-color: rgb(247, 246, 246);
+.transaction_btns_download:hover{
+  background-color: #5f7098;
 }
 
 .transaction_tbl_border {

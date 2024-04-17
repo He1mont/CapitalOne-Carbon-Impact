@@ -249,15 +249,12 @@ class Leaderboard extends Component {
                 width: '100%',
                 height: 'auto',
                 justifyContent: 'center',
-                marginTop: '20px',
+                marginTop: '10px',
                 minWidth: '700px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
             }}>
-                <div className={styles.leaderboard_container}>
-                    Your ID: {this.props.userID}
-                </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (
                         <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
@@ -354,21 +351,25 @@ function Mid({ name, id, month, onMonthChange }) {
             })
     };
 
-    const handleGoalInputChange = (event) => {
+    const handleEnterPress = (event) => {
         if (event.key === 'Enter') {
-            let inputGoal = parseInt(event.target.value, 10);
-            if (isNaN(inputGoal)) {
-                inputGoal = 0;
-            } else {
-                if (inputGoal <= 0) {
-                    inputGoal = 0;
-                } else if (inputGoal >= 99999) {
-                    inputGoal = 99999;
-                }
-            }
-            setGoal(inputGoal)
-            setInputValue('');
+            handleSetGoal();
         }
+    };
+
+    const handleSetGoal = () => {
+        let inputGoal = parseInt(inputValue, 10);
+        if (isNaN(inputGoal)) {
+            inputGoal = 0;
+        } else {
+            if (inputGoal <= 0) {
+                inputGoal = 0;
+            } else if (inputGoal >= 99999) {
+                inputGoal = 99999;
+            }
+        }
+        setGoal(inputGoal)
+        setInputValue('');
     };
 
     return (
@@ -390,10 +391,13 @@ function Mid({ name, id, month, onMonthChange }) {
                     <input
                         id="goalInput"
                         placeholder={'Please set your new goal'}
-                        onKeyPress={handleGoalInputChange}
+                        onKeyPress={handleEnterPress}
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         className={styles.goal_input_box} />
+                        <button className={styles.button_confirm} onClick={handleSetGoal}>
+                            Confirm
+                        </button>
                 </div>
             </div>
         </div>

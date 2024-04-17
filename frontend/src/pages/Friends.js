@@ -204,12 +204,11 @@ class Leaderboard extends Component {
                         onChange={this.handleChange}
                         onKeyPress={this.handleKeyPress}
                     />
-                    <button className={styles._dropbtn} onClick={this.addFriend}>
+                    <button className={styles.button_confirm} onClick={this.addFriend}>
                         Confirm
                     </button>
-                    <button className={styles._dropbtn} onClick={this.removeFriend}>
-                        Delete
-                    </button>
+                    <img src={`/images/bin.png`} className={styles.button_delete}
+                                onClick={this.removeFriend} />
                 </div>
                 <div className={styles.leaderboard_container}>
                     {this.state.friendList.length === 0 ? (

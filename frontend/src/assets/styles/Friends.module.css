@@ -156,6 +156,32 @@ body {
   color: black;
 }
 
+/*------------------BUTTON--------------------------*/
+
+.button_confirm {
+  padding: 9px 16px;
+  margin-left: 20px;
+  font-size: 14px;
+  border: none;
+  background-color: #7889b8;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.button_confirm:hover {
+  background-color: #5f7098;
+}
+
+.button_delete {
+  float: right;
+  background-size: cover;
+  margin-top: 5px;
+  width: 30px;
+  height: 30px;
+}
+
 /*------------------------------ DROPDOWN ------------------------------*/
 .dropdown {
   float: right;
