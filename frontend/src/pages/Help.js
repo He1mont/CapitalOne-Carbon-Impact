@@ -39,7 +39,7 @@ function Head({ name, id }) {
   let helpPrev = params.prevPage;
 
   const history = useHistory();
-  function handleHomeClick() {
+  function handleGoBackClick() {
     if (helpPrev === "login") {
       history.push({
         pathname: '/login',
@@ -51,17 +51,18 @@ function Head({ name, id }) {
       });
     }
   }
-
-  /**
-   * handleLoginClick function
-   * Redirects user to the login page when the login button is clicked.
-   */
+  
   return (
-
     <div className={styles.headBar}>
+      {/* Go Back Button */}
+      <div>
+        <button onClick={handleGoBackClick} className={styles.go_back_btn}>
+          <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
+        </button>
+      </div>
       {/* Logo */}
       <div className={styles.headCenter}>
-        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" onClick={handleHomeClick} />
+        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" />
       </div>
     </div>
   );

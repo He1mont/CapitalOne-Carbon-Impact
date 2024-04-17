@@ -35,6 +35,17 @@ body {
   left: -65px;
 }
 
+.go_back_btn {
+  position: absolute;
+  top: 8px;
+  left: 25px;
+  border: none;
+}
+
+.go_back_img {
+  height: 50px;
+}
+
 /*------------------------------ MID ------------------------------*/
 .mid_bar {
   top: 65px;

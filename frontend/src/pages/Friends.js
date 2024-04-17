@@ -243,7 +243,7 @@ class Leaderboard extends Component {
  */
 function Head({ name, id }) {
   const history = useHistory();
-  function handleHomeClick() {
+  function handleGoBackClick() {
     history.push({
       pathname: '/home',
       state: { name: name, id: id }
@@ -252,8 +252,15 @@ function Head({ name, id }) {
   }
   return (
     <div className={styles.head_bar}>
+      {/* Go Back Button */}
+      <div>
+        <button onClick={handleGoBackClick} className={styles.go_back_btn}>
+          <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
+        </button>
+      </div>
+      {/* Logo */}
       <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleHomeClick} />
+        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} />
       </div>
     </div>
   )
