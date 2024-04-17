@@ -97,7 +97,7 @@ body {
   margin-left: 15px;
   font-size: 13px;
   border: none;
-  background-color: #7889b8;
+  background-color: #007B90;
   color: white;
   cursor: pointer;
   border-radius: 4px;
@@ -105,7 +105,7 @@ body {
 }
 
 .button_confirm:hover {
-  background-color: #5f7098;
+  background-color: #048fa8;
 }
 
 /*------------------------------ LOW ------------------------------*/
@@ -198,7 +198,7 @@ body {
   align-items: center;
   color: white;
   font-size: 50px;
-  border-color: rgb(17, 81, 141);
+  border-color: #007B90;
   border-width: 5px;
   text-align: center;
   border-style: solid;
