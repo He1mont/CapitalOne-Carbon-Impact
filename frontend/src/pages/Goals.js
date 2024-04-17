@@ -264,7 +264,7 @@ class Leaderboard extends Component {
               <table className={styles.leaderboard_list}>
                 <thead>
                   <tr>
-                    <th style={{ width: '20%', textAlign: 'left' }}> <div>ID</div> </th>
+                    <th style={{ width: '20%', textAlign: 'left' }}> <div>Rank</div> </th>
                     <th style={{ width: '40%', textAlign: 'left' }}> <div>Username</div> </th>
                     <th style={{ width: '40%' }}> <div>Carbon Score</div> </th>
                   </tr>
@@ -276,7 +276,7 @@ class Leaderboard extends Component {
                       <td style={{ width: '40%', textAlign: 'left' }}>{followingUser.username}</td>
                       <td style={{ width: '40%', textAlign: 'center' }}>{getCarbonScore(followingUser.username)}</td>
                     </tr>
-                  ))}
+                  ))} 
                 </tbody>
               </table>
             </div>
