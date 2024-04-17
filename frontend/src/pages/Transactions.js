@@ -3,6 +3,7 @@ import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
+import { Head } from './CommonComponents'
 // helper functions
 import * as API from '../services/api';
 import * as Sorter from '../services/sorter';
@@ -238,32 +239,6 @@ class MonthSelect extends Component {
       </table>
     );
   }
-}
-
-/**
- * Head component
- * Renders the header of the Transactions page, including a logo.
- */
-function Head({ name, id }) {
-  const history = useHistory();
-  function handleGoBackClick() {
-    history.push({
-      pathname: '/home',
-      state: { name: name, id: id }
-    });
-  }
-  return (
-    <div className={styles.head_bar}>
-      <div>
-        <button onClick={handleGoBackClick} className={styles.go_back_btn}>
-          <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
-        </button>
-      </div>
-      <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} />
-      </div>
-    </div>
-  )
 }
 
 /**
