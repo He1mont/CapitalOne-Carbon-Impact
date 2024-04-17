@@ -5,8 +5,8 @@ import styles from '../assets/styles/History.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
 import { PieChart, LineChart, BarChart } from '@mui/x-charts';
 import { Hidden } from '@mui/material';
+import { Head } from './CommonComponents';
 import * as API from '../services/api';
-import * as Sorter from '../services/sorter';
 
 class MonthRangeSelect extends Component {
     render() {
@@ -532,23 +532,6 @@ class Graphs extends Component {
             </div>
         );
     }
-}
-
-function Head({ name, id }) {
-    const history = useHistory();
-    function handleHomeClick() {
-        history.push({
-            pathname: '/home',
-            state: { name: name, id: id }
-        });
-    }
-    return (
-        <div className={styles.head_bar}>
-            <div className={styles.head_center}>
-                <img src='/images/Logo.png' alt='Logo' className={styles.head_img} onClick={handleHomeClick} />
-            </div>
-        </div>
-    )
 }
 
 class Mid extends Component {

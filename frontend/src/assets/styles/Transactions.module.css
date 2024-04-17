@@ -9,54 +9,6 @@ body {
   overflow-x: hidden;
 }
 
-/*------------------------------ HEADER ------------------------------*/
-.head_bar {
-  width: 100vw;
-  height: 65px;
-  top: 0px;
-  background-color: #f3f3f3ff;
-  position: fixed;
-  text-align: center;
-  overflow: hidden;
-  z-index: 4;
-}
-
-.head_center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.head_img {
-  position: absolute;
-  width: 130px;
-  top: -15px;
-  left: -65px;
-}
-
-.go_back_btn {
-  position: absolute;
-  top: 8px;
-  left: 25px;
-  border: none;
-}
-
-.go_back_img {
-  height: 50px;
-}
-
-.settings_btn {
-  position: absolute;
-  top: 12px;
-  right: 33px;
-  border: none;
-}
-
-.settings_img {
-  height: 40px;
-}
-
 /*------------------------------ MID ------------------------------*/
 .mid_bar {
   top: 65px;
