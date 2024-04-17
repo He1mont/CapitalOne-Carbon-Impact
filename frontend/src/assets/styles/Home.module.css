@@ -282,3 +282,55 @@ body {
   margin-top: 14px;
   left: 50px;
 }
+
+@keyframes flashBorder {
+  0% {
+    border-color: darkblue;
+  }
+
+  3% {
+    border-color: darkblue;
+    /* Change to the desired color */
+    box-shadow: 0 0 10px darkblue;
+  }
+
+  5% {
+    border-color: darkblue;
+  }
+}
+
+/*---------- KEY FRAMES -------- */
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(50%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideBoxTextInFromRight {
+  0% {
+    transform: translateX(5%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.low_bar_btn h2,
+.low_bar_btn p {
+  animation: slideBoxTextInFromRight 1s ease-out;
+}
+
+.low_bar_btn:nth-child(1) .low-bar-btn-img,
+.mid_box_txt_title,
+.mid_box_txt_line {
+  animation: slideInFromRight 1s ease-out;
+}

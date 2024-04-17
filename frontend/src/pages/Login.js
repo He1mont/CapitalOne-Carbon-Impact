@@ -55,15 +55,21 @@ function Mid({
       <div className={styles.midHighLogin}></div>
 
       <div className={styles.midCenterLogin}>
+        <div className={styles.midImageContainer}>
+          <img src="/images/login2.png" alt="Homepage" className={styles.homepageImage} />
+        </div>
         <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
-          <h1 className={styles.midBoxTxtTitleLogin}>Log in to your account</h1>
-
+          <h1 className={styles.midBoxTxtTitleLogin}>Login to your account</h1>
+  
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
-            {/* Email Input */}
+           {/* Email Input */}
             <div className={styles.mb3}>
-              {loginMessage && <p className={styles.loginMessage}>{loginMessage}</p>}
-              {/* <div className='login-message-box'> </div> */}
+              {loginMessage && (
+                <div className={styles.inputErrorMessage}>
+                  {loginMessage}
+                </div>
+              )}
               <div className={styles.loginInputTitle}>Email</div>
               <input
                 type="email"

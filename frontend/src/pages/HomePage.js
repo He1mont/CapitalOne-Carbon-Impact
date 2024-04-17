@@ -88,7 +88,7 @@ function Head({ name, id }) {
 
 /**
  * Mid component
- * Displays the middle section of the homepage, including user information and button redirecting to other pages.
+ * Displays the middle section of the homepage, includes a dropdown for help and user settings.
  */
 function Mid({ name }) {
   return (
@@ -119,7 +119,7 @@ function Mid({ name }) {
       {/* Help Button */}
       <div className={styles.mid_low}>
       </div>
-    </div>
+    </div>  
   );
 }
 

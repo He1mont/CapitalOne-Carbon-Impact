@@ -78,6 +78,7 @@ class Graphs extends Component {
       dataForLine: [],
       dataForBar: [],
       categoryState: this.returnCategoryState(true),
+      loading: true,
     };
   }
 
@@ -124,6 +125,9 @@ class Graphs extends Component {
     this.generatePieChartData();
     this.generateLineChartData();
     this.generateBarChartData();
+    setTimeout(() => {
+      this.setState({ loading: false }); // After 3 seconds, set loading to false
+    }, 800);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -262,59 +266,71 @@ class Graphs extends Component {
       stackOffset: 'none', // To stack 0 on top of others
     };
 
-    // Determine which graph is shown based on graphSelection
-    if (this.state.graphSelection === 1) {
-      selectedGraph =
-        <div className={styles.graph_container_pie}>
-          <PieChart
-            series={[
-              {
-                data: this.state.dataForPie,
-                cornerRadius: 4,
-                paddingAngle: 1,
-                innerRadius: 20,
-              }
-            ]}
-            width={400}
-            height={300}
-            slotProps={{ legend: { hidden: Hidden } }}
-          />
-        </div>;
-    } else if (this.state.graphSelection === 2) {
-      selectedGraph =
-        <div className={styles.graph_container_line}>
-          <LineChart
-            xAxis={[{
-              scaleType: 'point',
-              dataKey: 'month'
-            }]}
-            series={this.getAllCategories().map((key) => ({
-              dataKey: key,
-              label: "emissions from " + key,
-              color: this.getColors()[key],
-              showMark: false,
-              ...stackStrategy,
-              connectNulls: true,
-            }))}
-            dataset={this.state.dataForLine}
-            width={700}
-            height={400}
-            slotProps={{ legend: { hidden: Hidden } }}
-          />
-        </div>;
+    if (this.state.loading) {
+      // Render the spinner if loading is true
+      selectedGraph = (
+        <div className={styles.spinnerContainer}>
+          <div className={styles.spinner}></div>
+        </div>
+      );
+    } else {
+      // Determine which graph is shown based on graphSelection
+      if (this.state.graphSelection === 1) {
+        selectedGraph =
+          <div className={styles.graph_container_pie}>
+            <PieChart
+              series={[
+                {
+                  data: this.state.dataForPie,
+                  cornerRadius: 4,
+                  paddingAngle: 1,
+                  innerRadius: 20,
+                }
+              ]}
+              width={400}
+              height={300}
+              slotProps={{ legend: { hidden: Hidden } }}
+            />
+          </div>;
+      } else if (this.state.graphSelection === 2) {
+        selectedGraph =
+          <div className={styles.graph_container_line}>
+            <LineChart
+              xAxis={[{
+                scaleType: 'point',
+                dataKey: 'month'
+              }]}
+              series={this.getAllCategories().map((key) => ({
+                dataKey: key,
+                label: "emissions from " + key,
+                color: this.getColors()[key],
+                showMark: false,
+                ...stackStrategy,
+                connectNulls: true,
+              }))}
+              dataset={this.state.dataForLine}
+              width={700}
+              height={400}
+              slotProps={{ legend: { hidden: Hidden } }}
+            />
+          </div>;
 
-    } else if (this.state.graphSelection === 3) {
-      selectedGraph =
-        <div className={styles.graph_container_bar}>
-          <BarChart
-            xAxis={[{ data: this.generateBarChartXLabel(), scaleType: 'band' }]}
-            series={this.state.dataForBar}
-            width={700}
-            height={400}
-            slotProps={{ legend: { hidden: Hidden } }}
-          />
-        </div>;
+      } else if (this.state.graphSelection === 3) {
+        selectedGraph =
+          <div className={styles.graph_container_bar}>
+            <BarChart
+              xAxis={[{ data: this.generateBarChartXLabel(), scaleType: 'band' }]}
+              series={this.state.dataForBar}
+              width={700}
+              height={400}
+              slotProps={{ legend: { hidden: Hidden } }}
+            />
+          </div>;
+      }
     }
+
+
+
 
     return (
       <div className={styles.graphs_container}>

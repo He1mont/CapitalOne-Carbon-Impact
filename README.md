@@ -80,11 +80,29 @@ npm test /src/tests
 
 ### Cypress
 
-Cypress could be launched using either following command:
+Cypres Installation: 
+First, ensure Cypress is installed in your project. If not, install it by running:
+```shell
+npm install cypress --save-dev
+```
 
+Cypress could be launched using either following command:
+This command opens the Cypress Test Runner, where you can select and run individual test.
 ```shell
 npm run cypress:open
 npx cypress open
+```
+Cypress Test List:
+Transactions Page, HomePage Component, History, Goals, Help Component
+Ensures the Transactions page and its components render correctly and interact as expected with the backend.
+
+Running Tests with Cypress
+To run tests, select the desired test from the Cypress Test Runner. 
+Each test automatically executes in a browser window, allowing real-time results.
+
+For automated testing, you can run Cypress in terminal :
+```shell
+npx cypress run
 ```
 
 More detailed documentation could be found [here](https://docs.cypress.io/guides/overview/why-cypress/)

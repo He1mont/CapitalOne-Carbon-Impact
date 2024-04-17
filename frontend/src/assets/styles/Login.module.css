@@ -1,5 +1,4 @@
 /* Login.module.css */
-
 html,
 body {
   max-width: 100%;
@@ -20,17 +19,20 @@ body {
   overflow: hidden;
   z-index: 4;
 }
+
 .headCenter {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .headImg {
   position: absolute;
   width: 130px;
   top: -15px;
   left: -65px;
+
 }
 
 /*------------------------------ MID ------------------------------*/
@@ -40,6 +42,7 @@ body {
   height: 100% - 65px;
   position: absolute;
 }
+
 /*---------- HIGH ----------*/
 .midHighLogin {
   width: 100%;
@@ -47,6 +50,7 @@ body {
   position: absolute;
   background-color: #073763ff;
 }
+
 /*---------- CENTER ----------*/
 .midCenterLogin {
   position: absolute;
@@ -55,6 +59,15 @@ body {
   height: 300px;
   transform: translate(-50%, -50%);
 }
+
+.midCenterLogin {
+  display: flex;
+  max-width: 1200px;
+  margin: auto;
+  padding-top: 30px;
+}
+
+/*---------- CENTER-IMAGES----------*/
 .midBoxLogin {
   width: 750px;
   position: relative;
@@ -70,6 +83,12 @@ body {
   z-index: 1;
 }
 
+/* .homepageImage,
+.homepageImageRight {
+  height: 250px;
+  animation: floatAnimation 3s ease-in-out infinite;
+} */
+
 .midBoxTxtLogin {
   position: absolute;
   top: 35%;
@@ -79,15 +98,17 @@ body {
   font-size: large;
   line-height: 8px;
   z-index: 1;
-  
+
 }
+
 .midBoxTxtTitleLogin {
-  line-height: 70px;
+  line-height: 20px;
   text-align: center;
   color: #1c2640ff;
   font-size: xx-large;
   z-index: 1;
 }
+
 .loginMessage {
   border-style: solid;
   background-color: #073763ff;
@@ -105,6 +126,7 @@ body {
   margin-left: 125px;
   border-color: whitesmoke;
 }
+
 .smallHelpBtn {
   position: absolute;
   bottom: 15px;
@@ -119,13 +141,16 @@ body {
   cursor: pointer;
   color: #3d85c6;
 }
+
 .smallHelpBtn:hover {
   background-color: rgb(202, 202, 254);
 }
+
 /*---------- Login Form ----------*/
 .loginForm {
   margin-top: 40px;
 }
+
 .formControl {
   width: 500px;
   height: 40px;
@@ -134,17 +159,20 @@ body {
   border-radius: 5px;
   padding: 5px;
 }
+
 .loginInputTitle {
   margin-top: 18px;
   text-align: left;
   margin-left: 125px;
   margin-bottom: 10px;
 }
+
 .loginRemember {
   margin-top: 10px;
   text-align: left;
   margin-left: 125px;
 }
+
 .loginBtnSubmit {
   height: 40px;
   width: 200px;
@@ -153,20 +181,74 @@ body {
   border-width: 2px;
   border-color: black;
   border-style: solid;
-  font-size: 14px; 
+  font-size: 14px;
   font-weight: bold;
 }
+
 .loginBtnSubmit:hover {
   background-color: rgb(236, 236, 236);
 }
+
 .loginForgottenBtn {
   text-align: left;
   margin-top: 20px;
   margin-left: 125px;
 }
+
 a {
   text-decoration: none;
   color: #1c2640ff;
 }
 
+/*---------- LOW ----------*/
+.midLow {
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  background-color: white;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.midLowHelp {
+  position: absolute;
+  text-align: left;
+  top: 5px;
+  left: 20px;
+}
+
+.smallHelpBtn {
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #3d85c6;
+}
+
+.inputErrorMessage {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: center;
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
 
