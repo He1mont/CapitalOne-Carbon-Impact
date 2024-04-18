@@ -3,7 +3,7 @@ import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Head, Footer} from './CommonComponents';
+import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
 // helper functions
 import * as API from '../services/api';
 import * as Sorter from '../services/sorter';
@@ -239,6 +239,16 @@ class MonthSelect extends Component {
       </table>
     );
   }
+}
+
+function Head({ name, id }) {
+  return (
+    <div className={styles.head_bar}>
+      <Logo />
+      <GoBackBtn name={name} id={id} />
+      <SettingBtn name={name} id={id} />
+    </div>
+  );
 }
 
 /**

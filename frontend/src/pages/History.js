@@ -5,7 +5,7 @@ import styles from '../assets/styles/History.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
 import { PieChart, LineChart, BarChart } from '@mui/x-charts';
 import { Hidden } from '@mui/material';
-import { Head, Footer } from './CommonComponents';
+import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
 import * as API from '../services/api';
 
 class MonthRangeSelect extends Component {
@@ -548,6 +548,17 @@ class Graphs extends Component {
       </div>
     );
   }
+}
+
+function Head({ name, id }) {
+  return (
+    <div className={styles.head_bar}>
+      <GoBackBtn name={name} id={id} />
+      <Logo />
+      
+      <SettingBtn name={name} id={id} />
+    </div>
+  );
 }
 
 class Mid extends Component {

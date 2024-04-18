@@ -20,21 +20,6 @@ body {
   z-index: 4;
 }
 
-.headCenter {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.headImg {
-  position: absolute;
-  width: 130px;
-  top: -15px;
-  left: -65px;
-
-}
-
 /*------------------------------ MID ------------------------------*/
 .midBarLogin {
   top: 65px;

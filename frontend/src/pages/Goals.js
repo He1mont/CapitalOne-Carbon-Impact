@@ -3,7 +3,7 @@ import moment from 'moment';
 import styles from '../assets/styles/Goals.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as API from '../services/api';
-import { Head, Footer } from './CommonComponents';
+import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
 
 /**
  * Month selector component
@@ -285,6 +285,16 @@ class Leaderboard extends Component {
       </div>
     );
   }
+}
+
+function Head({ name, id }) {
+  return (
+    <div className={styles.head_bar}>
+      <Logo />
+      <GoBackBtn name={name} id={id} />
+      <SettingBtn name={name} id={id} />
+    </div>
+  );
 }
 
 /**

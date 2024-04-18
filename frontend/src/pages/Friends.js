@@ -2,7 +2,7 @@
 import React, { Component, useState } from 'react';
 import styles from '../assets/styles/Friends.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Footer } from './CommonComponents';
+import { Logo, GoBackBtn, Footer } from './CommonComponents';
 // helper functions
 import * as API from '../services/api';
 // table
@@ -242,28 +242,12 @@ class Leaderboard extends Component {
  * Renders the header of the Friend page, including a logo.
  */
 function Head({ name, id }) {
-  const history = useHistory();
-  function handleGoBackClick() {
-    history.push({
-      pathname: '/home',
-      state: { name: name, id: id }
-    });
-
-  }
   return (
     <div className={styles.head_bar}>
-      {/* Go Back Button */}
-      <div>
-        <button onClick={handleGoBackClick} className={styles.go_back_btn}>
-          <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
-        </button>
-      </div>
-      {/* Logo */}
-      <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} />
-      </div>
+      <Logo />
+      <GoBackBtn name={name} id={id} />
     </div>
-  )
+  );
 }
 
 /**

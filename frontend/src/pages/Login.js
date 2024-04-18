@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "../assets/styles/Login.module.css";
 import * as API from '../services/api';
-import { Footer } from './CommonComponents';
+import { Logo, Footer } from './CommonComponents';
 
 /**
  * Head component
@@ -11,19 +11,9 @@ import { Footer } from './CommonComponents';
  * The logo serves as a button to redirect the user to the home page.
  */
 function Head() {
-  /**
-   * handleLoginClick function
-   * Redirects the user to the home page when the logo is clicked.
-   */
   return (
     <div className={styles.headBar}>
-      <div className={styles.headCenter}>
-        <img
-          src="/images/Logo.png"
-          className={styles.headImg}
-          alt="Logo"
-        />
-      </div>
+      <Logo />
     </div>
   );
 }

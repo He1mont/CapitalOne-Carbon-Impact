@@ -3,9 +3,8 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from '../assets/styles/CommonComponent.module.css';
 
-export function Head({ name, id }) {
+export function GoBackBtn({ name, id }) {
   const history = useHistory();
-  const [showDropdown, setShowDropdown] = useState(false);
 
   function handleGoBackClick() {
     history.push({
@@ -13,6 +12,29 @@ export function Head({ name, id }) {
       state: { name: name, id: id }
     });
   }
+
+  return (
+    <div>
+      <button onClick={handleGoBackClick} className={styles.go_back_btn}>
+        <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
+      </button>
+    </div>
+  )
+}
+
+export function Logo() {
+  return (
+    <div className={styles.head_center}>
+      <img src='/images/Logo.png' alt='Logo' className={styles.head_img} />
+    </div>
+  )
+}
+
+export function SettingBtn({ name, id }) {
+  const history = useHistory();
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  // Functions for clicking each button
   function handleMyAccountClick() {
     // history.push({
     //   pathname: '/home/friends',
@@ -39,6 +61,7 @@ export function Head({ name, id }) {
   function handleSettingsClick() {
     setShowDropdown(!showDropdown);
   }
+  // Show the setting dropdown
   function showSettings() {
     if (showDropdown) {
       return (
@@ -67,26 +90,12 @@ export function Head({ name, id }) {
       )
     }
   }
-
   return (
-    <div className={styles.head_bar}>
-      {/* Go Back Button */}
-      <div>
-        <button onClick={handleGoBackClick} className={styles.go_back_btn}>
-          <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
-        </button>
-      </div>
-      {/* Logo */}
-      <div className={styles.head_center}>
-        <img src='/images/Logo.png' alt='Logo' className={styles.head_img} />
-      </div>
-      {/* Settings */}
-      <div className={styles.head_settings_container}>
-        <button onClick={handleSettingsClick} className={styles.settings_btn}>
-          <img src="/images/settings.png" alt="Settings" className={styles.settings_img} />
-        </button>
-        {showSettings()}
-      </div>
+    <div className={styles.head_settings_container}>
+      <button onClick={handleSettingsClick} className={styles.settings_btn}>
+        <img src="/images/settings.png" alt="Settings" className={styles.settings_img} />
+      </button>
+      {showSettings()}
     </div>
   )
 }
