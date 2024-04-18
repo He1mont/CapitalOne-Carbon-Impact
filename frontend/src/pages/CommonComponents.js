@@ -7,10 +7,23 @@ export function GoBackBtn({ name, id }) {
   const history = useHistory();
 
   function handleGoBackClick() {
-    history.push({
-      pathname: '/home',
-      state: { name: name, id: id }
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
     });
+    let helpPrev = params.prevPage;
+
+    console.log(helpPrev)
+
+    if (helpPrev === "login") {
+      history.push({
+        pathname: '/login',
+      });
+    } else {
+      history.push({
+        pathname: '/home',
+        state: { name: name, id: id }
+      });
+    }
   }
 
   return (

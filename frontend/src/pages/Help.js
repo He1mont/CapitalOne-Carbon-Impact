@@ -1,9 +1,9 @@
 // Help.js
 import React, { useEffect } from 'react';
-import { useHistory ,useLocation} from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Help.module.css'; // Import CSS module
 import { useCollapse } from 'react-collapsed'
-import { Footer } from './CommonComponents';
+import { Logo, GoBackBtn, Footer } from './CommonComponents';
 
 /**
  * Collapsible component
@@ -27,43 +27,17 @@ function Collap(props) {
     </div>
   );
 }
+
 /**
  * Head component
  * Displays the top part of the help including the logo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
 function Head({ name, id }) {
-  const params = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-  });
-  let helpPrev = params.prevPage;
-
-  const history = useHistory();
-  function handleGoBackClick() {
-    if (helpPrev === "login") {
-      history.push({
-        pathname: '/login',
-      });
-    } else {
-      history.push({
-        pathname: '/home',
-        state: { name: name, id: id }
-      });
-    }
-  }
-  
   return (
-    <div className={styles.headBar}>
-      {/* Go Back Button */}
-      <div>
-        <button onClick={handleGoBackClick} className={styles.go_back_btn}>
-          <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
-        </button>
-      </div>
-      {/* Logo */}
-      <div className={styles.headCenter}>
-        <img src="/images/Logo.png" className={styles.headImg} alt="Logo" />
-      </div>
+    <div className={styles.head_bar}>
+      <Logo />
+      <GoBackBtn name={name} id={id} />
     </div>
   );
 }
@@ -145,7 +119,7 @@ function ChatraSetup() {
 
     // Set up Chatra configuration with onNewMessage
     window.ChatraSetup = {
-      onNewMessage: function(message) {
+      onNewMessage: function (message) {
         console.log('New message:', message);
         // Example: Auto-response to a specific keyword
         if (message.text.includes("hello")) {
@@ -160,11 +134,11 @@ function ChatraSetup() {
     };
 
     window.ChatraID = 'e3qJrWY3yZqK9zBrt';
-    (function(d, w, c) {
+    (function (d, w, c) {
       var n = d.getElementsByTagName('script')[0],
-          s = d.createElement('script');
-      w[c] = w[c] || function() {
-          (w[c].q = w[c].q || []).push(arguments);
+        s = d.createElement('script');
+      w[c] = w[c] || function () {
+        (w[c].q = w[c].q || []).push(arguments);
       };
       s.async = true;
       s.src = 'https://call.chatra.io/chatra.js';
