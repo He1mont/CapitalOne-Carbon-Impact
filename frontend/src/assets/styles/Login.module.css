@@ -88,7 +88,7 @@ body {
 }
 
 .midBoxTxtTitleLogin {
-  line-height: 20px;
+  line-height: 70px;
   text-align: center;
   color: #1c2640ff;
   font-size: xx-large;
@@ -186,43 +186,22 @@ a {
   color: #1c2640ff;
 }
 
-/*---------- LOW ----------*/
-/* .midLow {
-  width: 100%;
-  height: 100px;
-  position: absolute;
-  background-color: white;
-  bottom: 0px;
-  z-index: -1;
-}
-
-.midLowHelp {
-  position: absolute;
-  text-align: left;
-  top: 5px;
-  left: 20px;
-}
-
-.smallHelpBtn {
-  font-size: 14px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: #3d85c6;
-}
-
 .inputErrorMessage {
+  position: absolute;
+  top: 92px;
+  left: 50%;           /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust the positioning to truly center the element */
+  text-align: center;
   background-color: red;
   color: white;
   padding: 5px;
   border-radius: 5px;
   margin-bottom: 10px;
   font-size: 14px;
-  text-align: center;
+  font: bold;
   width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-} */
+}
+
 
 @keyframes floatAnimation {
   0% {

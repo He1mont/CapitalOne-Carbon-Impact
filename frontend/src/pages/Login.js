@@ -50,12 +50,12 @@ function Mid({
 
       <div className={styles.midCenterLogin}>
         <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
-          <h1 className={styles.midBoxTxtTitleLogin}>Login to your account</h1>
+          <h1 className={styles.midBoxTxtTitleLogin}>Log in to your account</h1>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
             {/* Email Input */}
-            <div className={styles.mb3}>
+            <div>
               {loginMessage && (
                 <div className={styles.inputErrorMessage}>
                   {loginMessage}
@@ -72,7 +72,7 @@ function Mid({
             </div>
 
             {/* Password Input */}
-            <div className={styles.mb3}>
+            <div>
               <div className={styles.loginInputTitle}>Password</div>
               <input
                 type="password"
@@ -84,7 +84,7 @@ function Mid({
             </div>
 
             {/* Remember Me Checkbox */}
-            <div className={styles.mb3}>
+            <div>
               <div className={styles.loginRemember}>
                 <div className={styles.customControl}>
                   <input
@@ -159,7 +159,7 @@ function Login() {
     e.preventDefault();
 
     if (!isValidInput()) {                  // invalid input
-      setLoginMessage("Please enter valid Email and Password!");
+      setLoginMessage("Invalid Email or Password!");
 
     } else {                                // call backend API
       const data = await API.getAccountByEmail(email);
@@ -186,10 +186,6 @@ function Login() {
         }
       }
     }
-    // Clear login message after a delay
-    setTimeout(() => {
-      setLoginMessage("");
-    }, 1000);
   };
 
   return (

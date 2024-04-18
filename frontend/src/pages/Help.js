@@ -35,7 +35,7 @@ function Collap(props) {
  */
 function Head({ name, id }) {
   return (
-    <div className={styles.head_bar}>
+    <div className={styles.headBar}>
       <Logo />
       <GoBackBtn name={name} id={id} />
     </div>
