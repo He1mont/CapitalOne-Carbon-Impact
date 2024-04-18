@@ -7,6 +7,7 @@ import { Footer } from './CommonComponents';
 import * as API from '../services/api';
 // table
 import { DataGrid } from '@mui/x-data-grid';
+import Box from '@mui/material/Box';
 
 class ManageFriends extends React.Component {
     constructor(props) {
@@ -181,7 +182,8 @@ class Leaderboard extends Component {
     render() {
         const followingUsers = this.state.friendList;
         const columns = [
-            { field: 'username', headerName: 'All Following Users', width: 350 },
+            { field: 'username', headerName: 'All Following Users', 
+                headerClassName: 'super-app-theme--header', width: 500 },
         ];
 
         return (
@@ -216,7 +218,16 @@ class Leaderboard extends Component {
                         <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
                     ) : (
                         <div className={styles.leaderboard_list_container}>
-                            <DataGrid
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                    '& .super-app-theme--header': {
+                                        backgroundColor: '#f0f0f0',
+                                        fontWeight: '800',
+                                    },
+                                }}
+                            >
+                                <DataGrid
                                 rows={followingUsers}
                                 columns={columns}
                                 initialState={{
@@ -229,6 +240,7 @@ class Leaderboard extends Component {
                                 onCellClick={this.handleSingleCellClick}
                                 onColumnHeaderClick={this.handleColumnClick}
                             />
+                            </Box>
                         </div>
                     )}
                 </div>

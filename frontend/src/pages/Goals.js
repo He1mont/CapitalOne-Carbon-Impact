@@ -6,6 +6,7 @@ import * as API from '../services/api';
 import { Head, Footer } from './CommonComponents';
 // table
 import { DataGrid } from '@mui/x-data-grid';
+import Box from '@mui/material/Box';
 
 /**
  * Month selector component
@@ -196,6 +197,7 @@ class Leaderboard extends Component {
             friendList: [],
             newFriend: '',
             carbonScoreList: [],
+            carbonGoalList: [],
         };
     }
 
@@ -211,13 +213,15 @@ class Leaderboard extends Component {
                 this.setState({ friendList: [] });
             });
 
-        this.fetchCarbonScoreForFriends();
+        await this.fetchCarbonScoreForFriends();
+        await this.fetchCarbonGoalForFriends();
     }
 
     async componentDidUpdate(prevProps, prevState) {
         // Check if the month has changed
         if (prevProps.month.format('MM') !== this.props.month.format('MM')) {
             await this.fetchCarbonScoreForFriends();
+            await this.fetchCarbonGoalForFriends();
         }
     }
 
@@ -235,9 +239,34 @@ class Leaderboard extends Component {
         this.setState({ carbonScoreList });
     };
 
-    mergeUsersWithCarbonScore = (users, carbonScoreList) => {
-        const getCarbonScore = (username) => {
-            for (const scoreObj of carbonScoreList) {
+    fetchCarbonGoalForFriends = async () => {
+        let friends = this.state.friendList;
+        const month = this.props.month;
+        let carbonGoalList = [];
+
+        await Promise.all(friends.map(async (friend) => {
+            const carbonGoal = await API.getUserGoal(friend.accountID);
+            // Find the specific month
+            for (const goalObj of carbonGoal) {
+                if (goalObj.month === month.format('MMMM')) {
+                    carbonGoalList.push({ [friend.username]: goalObj.goal });
+                    break;
+                }
+            }
+            // User has not set a goal for this month
+            carbonGoalList.push({ [friend.username]: 0 });
+        }));
+
+        this.setState({ carbonGoalList });
+    };
+
+    mergeUsersWithCarbonScore = () => {
+        const followingUsers = this.state.friendList;
+        const carbonScoreList = this.state.carbonScoreList;
+        const carbonGoalList = this.state.carbonGoalList;
+
+        const getForUser = (username, list) => {
+            for (const scoreObj of list) {
                 if (scoreObj.hasOwnProperty(username)) {
                     return scoreObj[username];
                 }
@@ -246,26 +275,38 @@ class Leaderboard extends Component {
         };
     
         const mergedArray = [];
-        for (const user of users) {
-            const carbonScore = getCarbonScore(user.username);
-            const mergedObject = { ...user, carbonScore: carbonScore };
+        for (const user of followingUsers) {
+            const carbonScore = getForUser(user.username, carbonScoreList);
+            const carbonGoal = getForUser(user.username, carbonGoalList);
+            let percentage;
+            if (carbonGoal === 0) {
+                percentage = "NaN";
+            } else {
+                percentage = (parseInt(carbonScore)/parseInt(carbonGoal)*100).toFixed(2) + '%';
+            }
+
+            const mergedObject = { ...user, carbonScore: carbonScore, 
+                carbonGoal: carbonGoal, percentage: percentage };
             mergedArray.push(mergedObject);
         }
-    
         return mergedArray;
     };
     
 
     render() {
-        const followingUsers = this.state.friendList;
-        const carbonScoreList = this.state.carbonScoreList;
-        // merge user's carbon score for a specific month with user information
-        const completeFollowingUsers = this.mergeUsersWithCarbonScore(followingUsers, carbonScoreList);
+        // merge user's goal and score for a specific month with existing info
+        const completeFollowingUsers = this.mergeUsersWithCarbonScore();
         // define the top columns for the table
         const columns = [
             //{ field: 'id', headerName: 'Rank', width: 50 },
-            { field: 'username', headerName: 'All Following Users', width: 400 },
-            { field: 'carbonScore', headerName: 'Carbon Score', width: 300 },
+            { field: 'username', headerName: 'All Following Users', 
+                headerClassName: 'super-app-theme--header', width: 250 },
+            { field: 'carbonScore', headerName: 'Carbon Score', 
+                headerClassName: 'super-app-theme--header', width: 150 },
+            { field: 'carbonGoal', headerName: 'Carbon Goal', 
+                headerClassName: 'super-app-theme--header', width: 150 },
+            { field: 'percentage', headerName: 'Percentage', 
+                headerClassName: 'super-app-theme--header', width: 150 },
         ];
 
     return (
@@ -284,7 +325,16 @@ class Leaderboard extends Component {
             <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
           ) : (
             <div className={styles.leaderboard_list_container}>
-              <DataGrid
+                <Box
+                    sx={{
+                        width: '100%',
+                        '& .super-app-theme--header': {
+                            backgroundColor: '#f0f0f0',
+                            fontWeight: '800',
+                        },
+                    }}
+                >
+                    <DataGrid
                     rows={completeFollowingUsers}
                     columns={columns}
                     initialState={{
@@ -294,6 +344,7 @@ class Leaderboard extends Component {
                     }}
                     pageSizeOptions={[5, 10]}
                 />
+                </Box>
             </div>
           )}
         </div>
@@ -431,7 +482,7 @@ function Goals() {
             <Head name={name} id={id} />
             <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange} />
             <Low name={name} id={id} month={month} />
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }
