@@ -29,6 +29,7 @@
   top: 8px;
   left: 25px;
   border: none;
+  cursor: pointer;
 }
 
 .go_back_img {
@@ -40,6 +41,7 @@
   top: 12px;
   right: 33px;
   border: none;
+  cursor: pointer;
 }
 
 .settings_img {
@@ -90,6 +92,7 @@
   border-style: solid;
   background-color: white;
   transition: all .2s ease-in;
+  cursor: pointer;
 }
 
 .dropdownBtn:hover {

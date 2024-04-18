@@ -45,6 +45,7 @@ body {
   top: 8px;
   left: 25px;
   border: none;
+  cursor: pointer;
 }
 
 .go_back_img {
@@ -131,8 +132,6 @@ body {
 }
 
 /*------------------------------ Collapsable ------------------------------*/
-
-
 .collapsible .content {
   padding: 6px;
   background-color: transparent;

@@ -83,11 +83,12 @@ body {
   z-index: 1;
 }
 
-/* .homepageImage,
-.homepageImageRight {
-  height: 250px;
+.homepageImage {
+  position: absolute;
+  left: 100px;
+  height: 500px;
   animation: floatAnimation 3s ease-in-out infinite;
-} */
+}
 
 .midBoxTxtLogin {
   position: absolute;
@@ -201,7 +202,7 @@ a {
 }
 
 /*---------- LOW ----------*/
-.midLow {
+/* .midLow {
   width: 100%;
   height: 100px;
   position: absolute;
@@ -236,7 +237,7 @@ a {
   width: 500px;
   margin-left: auto;
   margin-right: auto;
-}
+} */
 
 @keyframes floatAnimation {
   0% {
@@ -251,4 +252,3 @@ a {
     transform: translateY(0px);
   }
 }
-

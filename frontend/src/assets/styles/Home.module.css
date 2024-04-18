@@ -40,12 +40,77 @@ body {
   top: 12px;
   right: 33px;
   border: none;
+  cursor: pointer;
 }
 
 .settings_img {
   height: 40px;
 }
 
+/*---------- DROPDOWN ----------*/
+.dropdownBox {
+  user-select: none;
+  z-index: 10;
+  position: fixed;
+  right: 35px;
+  top: 80px;
+  width: 190px;
+  height: 210px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  filter: drop-shadow(0 2px 2px rgb(189, 189, 189));
+  text-align: center;
+}
+
+.triangle {
+  position: absolute;
+  right: 13px;
+  top: -20px;
+  width: 0;
+  height: 0;
+  border: solid 10px;
+  border-color: transparent transparent white transparent;
+}
+
+.dropdownAccName {
+  margin-top: 5px;
+  color: black;
+}
+
+.dropdownBtn {
+  z-index: 5;
+  position: absolute;
+  right: 5%;
+  width: 90%;
+  height: 48px;
+  border-top: gray;
+  border-bottom: gray;
+  border-left: transparent;
+  border-right: transparent;
+  border-width: 2px;
+  border-style: solid;
+  background-color: white;
+  transition: all .2s ease-in;
+  cursor: pointer;
+}
+
+.dropdownBtn:hover {
+  background-color: rgb(234, 234, 234);
+  /* Your desired hover color */
+}
+
+.dropdownImg {
+  position: absolute;
+  top: 7px;
+  left: 5px;
+  height: 33px;
+}
+
+.dropdownTxt {
+  position: absolute;
+  margin-top: 14px;
+  left: 50px;
+}
 
 /*------------------------------ MID ------------------------------*/
 .mid_bar {
@@ -120,6 +185,11 @@ body {
 
 .mid_box_txt_title {
   line-height: 30px;
+  animation: slideInFromRight 1s ease-out;
+}
+
+.mid_box_txt_line {
+  animation: slideInFromRight 1s ease-out;
 }
 
 /*---------- LOW ----------*/
@@ -201,88 +271,18 @@ body {
   color: #666666;
 }
 
-/*---------- KEY FRAMES -------- */
-@keyframes slideInFromRight {
-  0% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.low_bar_btn h2,
+.low_bar_btn p {
+  animation: slideBoxTextInFromRight 1s ease-out;
 }
 
+.low_bar_btn:nth-child(1) .low-bar-btn-img,
 .mid_box_txt_title,
 .mid_box_txt_line {
   animation: slideInFromRight 1s ease-out;
 }
 
-/*---------- DROPDOWN ----------*/
-.dropdownBox {
-  user-select: none;
-  z-index: 10;
-  position: fixed;
-  right: 35px;
-  top: 80px;
-  width: 190px;
-  height: 210px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 10px;
-  filter: drop-shadow(0 2px 2px rgb(189, 189, 189));
-  text-align: center;
-}
-
-.triangle {
-  position: absolute;
-  right: 13px;
-  top: -20px;
-  width: 0;
-  height: 0;
-  border: solid 10px;
-  border-color: transparent transparent white transparent;
-}
-
-.dropdownAccName {
-  margin-top: 5px;
-  color: black;
-}
-
-.dropdownBtn {
-  z-index: 5;
-  position: absolute;
-  right: 5%;
-  width: 90%;
-  height: 48px;
-  border-top: gray;
-  border-bottom: gray;
-  border-left: transparent;
-  border-right: transparent;
-  border-width: 2px;
-  border-style: solid;
-  background-color: white;
-  transition: all .2s ease-in;
-}
-
-.dropdownBtn:hover {
-  background-color: rgb(234, 234, 234);
-  /* Your desired hover color */
-}
-
-.dropdownImg {
-  position: absolute;
-  top: 7px;
-  left: 5px;
-  height: 33px;
-}
-
-.dropdownTxt {
-  position: absolute;
-  margin-top: 14px;
-  left: 50px;
-}
-
+/*---------- KEY FRAMES -------- */
 @keyframes flashBorder {
   0% {
     border-color: darkblue;
@@ -299,7 +299,6 @@ body {
   }
 }
 
-/*---------- KEY FRAMES -------- */
 @keyframes slideInFromRight {
   0% {
     transform: translateX(50%);
@@ -322,15 +321,4 @@ body {
     transform: translateX(0);
     opacity: 1;
   }
-}
-
-.low_bar_btn h2,
-.low_bar_btn p {
-  animation: slideBoxTextInFromRight 1s ease-out;
-}
-
-.low_bar_btn:nth-child(1) .low-bar-btn-img,
-.mid_box_txt_title,
-.mid_box_txt_line {
-  animation: slideInFromRight 1s ease-out;
 }
