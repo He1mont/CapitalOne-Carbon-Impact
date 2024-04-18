@@ -140,7 +140,7 @@ body {
   right: 70px;
   font-size: 16px;
   border: none;
-  background-color: #007B90;
+  background-color: #073763ff;
   color: white;
   cursor: pointer;
   border-radius: 4px;
@@ -148,7 +148,7 @@ body {
 }
 
 .transaction_btns_download:hover{
-  background-color: #048fa8;
+  background-color: #0c5e93ff;
 }
 
 .transaction_tbl_border {

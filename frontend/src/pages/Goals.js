@@ -4,6 +4,8 @@ import styles from '../assets/styles/Goals.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as API from '../services/api';
 import { Head, Footer } from './CommonComponents';
+// table
+import { DataGrid } from '@mui/x-data-grid';
 
 /**
  * Month selector component
@@ -233,17 +235,38 @@ class Leaderboard extends Component {
         this.setState({ carbonScoreList });
     };
 
-    render() {
-        const followingUsers = this.state.friendList;
-        const carbonScoreList = this.state.carbonScoreList;
+    mergeUsersWithCarbonScore = (users, carbonScoreList) => {
         const getCarbonScore = (username) => {
-            for (const obj of carbonScoreList) {
-                if (obj.hasOwnProperty(username)) {
-                    return obj[username];
+            for (const scoreObj of carbonScoreList) {
+                if (scoreObj.hasOwnProperty(username)) {
+                    return scoreObj[username];
                 }
             }
             return null;
         };
+    
+        const mergedArray = [];
+        for (const user of users) {
+            const carbonScore = getCarbonScore(user.username);
+            const mergedObject = { ...user, carbonScore: carbonScore };
+            mergedArray.push(mergedObject);
+        }
+    
+        return mergedArray;
+    };
+    
+
+    render() {
+        const followingUsers = this.state.friendList;
+        const carbonScoreList = this.state.carbonScoreList;
+        // merge user's carbon score for a specific month with user information
+        const completeFollowingUsers = this.mergeUsersWithCarbonScore(followingUsers, carbonScoreList);
+        // define the top columns for the table
+        const columns = [
+            //{ field: 'id', headerName: 'Rank', width: 50 },
+            { field: 'username', headerName: 'All Following Users', width: 400 },
+            { field: 'carbonScore', headerName: 'Carbon Score', width: 300 },
+        ];
 
     return (
       <div style={{
@@ -261,24 +284,16 @@ class Leaderboard extends Component {
             <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
           ) : (
             <div className={styles.leaderboard_list_container}>
-              <table className={styles.leaderboard_list}>
-                <thead>
-                  <tr>
-                    <th style={{ width: '20%', textAlign: 'left' }}> <div>Rank</div> </th>
-                    <th style={{ width: '40%', textAlign: 'left' }}> <div>Username</div> </th>
-                    <th style={{ width: '40%' }}> <div>Carbon Score</div> </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {followingUsers.map((followingUser, index) => (
-                    <tr key={index} className={styles.leaderboard_tablerow}>
-                      <td style={{ width: '20%', textAlign: 'left' }}>{'#' + (index + 1)}</td>
-                      <td style={{ width: '40%', textAlign: 'left' }}>{followingUser.username}</td>
-                      <td style={{ width: '40%', textAlign: 'center' }}>{getCarbonScore(followingUser.username)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <DataGrid
+                    rows={completeFollowingUsers}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 5 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                />
             </div>
           )}
         </div>
