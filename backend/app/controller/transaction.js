@@ -13,6 +13,36 @@ class TransactionController extends Controller {
   }
 
   // Method to get all transactions for a specific account
+  async getTransactions() {
+    const { ctx, service } = this;
+    const id = ctx.params.id; // Extracting account ID from request parameters
+    var res;
+    console.log(ctx.request.body);
+    try{
+      ctx.validate({
+        group_by_date : 'boolean'
+      }, ctx.request.body);
+      const group = ctx.request.body.group_by_date;
+      console.log(group);
+      if(group){
+        console.log("Group by date");
+        res = await service.transaction.groupByDate(id);
+      }
+      else{
+        console.log("Get ALL");
+        res = await service.transaction.getAll(id);
+      }
+    } catch (err) {
+      console.log(err);
+      res = await service.transaction.getAll(id); // Calling service method to get all transactions for the account
+    }
+    
+    ctx.set('Access-Control-Allow-Origin', '*'); 
+    ctx.status = 200; 
+    ctx.body = res; 
+  }
+  
+  // Method to get all transactions for a specific account
   async getAll() {
     const { ctx, service } = this;
     const id = ctx.params.id; // Extracting account ID from request parameters

@@ -6,6 +6,10 @@ class UserGoalController extends Controller {
   async createGoal() {
     const { ctx, service } = this;
     const id = ctx.params.id; // Extracting user id from request parameters
+    ctx.validate({
+      goal: 'string',
+      month: 'string'
+    },ctx.request.body);
     const goal = ctx.request.body.goal; // Extracting goal from request body
     const month = ctx.request.body.month; // Extracting month from request body
     const res = await service.userGoal.createGoal(id, goal, month); // Calling service method to create user goal

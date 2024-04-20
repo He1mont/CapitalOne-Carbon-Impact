@@ -85,7 +85,7 @@ describe('Transactions Page', () => {
         {"transactionUUID":"a385b9f7-7f19-4e4b-921c-8e2c014c57fd","accountUUID":"26361904","merchantUUID":"7","merchant":{"name":"Trees Trees Trees","category":"Education","description":"High quality readings, reports, documentaries on one topic: trees.","pointOfSale":["Online"]},"amount":-129.99,"creditDebitIndicator":"Debit","currency":"GBP","timestamp":"2024-01-12 23:26:49","emoji":"🥰","latitude":52.80027062901778,"longitude":-1.8162451070529768,"status":"Successful","message":"Weekly wage of 129.99 (GBP, positive) from Trees Trees Trees","pointOfSale":"Online"},
         {"transactionUUID":"51e06526-633d-40cf-96e7-18e1da3736bf","accountUUID":"26361904","merchantUUID":"2","merchant":{"name":"Vapour","category":"Entertainment","description":"The World's #1 Game Store","pointOfSale":["Online"]},"amount":-128.98,"creditDebitIndicator":"Debit","currency":"GBP","timestamp":"2023-11-11 10:42:16","emoji":"💸","latitude":55.183147901347894,"longitude":-3.1844992289657963,"status":"Successful","message":"Weekly wage of 128.98 (GBP, positive) from Vapour","pointOfSale":"Online"}
       ]}
-      cy.intercept('GET', `http://localhost:7001/account/*/transaction`, {
+      cy.intercept('GET', `http://localhost:7001/accounts/*/transactions`, {
         statusCode: 200,
         body: fakeData,
       }).as('apiCall');

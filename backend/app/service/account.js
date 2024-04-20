@@ -6,6 +6,10 @@ const authJWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsIm
 const PROGRAM_UUID = "ddd7027e-2032-4fff-a721-565ac87e7869";
 const CARBON_API_KEY = "sQyPyTxcWvlFiLWFjmUlA";
 
+require('dotenv').config();
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
 // const { getAll } = require('./transaction');
 
 class AccountService extends Service {
@@ -14,7 +18,10 @@ class AccountService extends Service {
     const quantity = 1;
     const numTransactions = 2;
     const liveBalance = false;
-    const account = null;
+    var account = null;
+    var randomNumber;
+    var userName;
+
 
     // Create an account through Hackathon API
     try {
@@ -33,30 +40,32 @@ class AccountService extends Service {
       // for each account made, find the ccount ID and call functions to add to carbon API
       for(let i=0; i<quantity; i++)
       {
-        const accountID = response.data.Accounts[i].accountId;
-
+        account = response.data.Accounts[i];
+        const accountID = account.accountId;
+        
         // create a (Carbon API) card profile from the created account
         await this.createCardProfile(accountID);
         // add each existing transaction as a Carbon API transaction
         await this.createTransactionsForAll(accountID);
+        
+        randomNumber = Math.random()*10;
+        userName = account.firstname + account.lastname[0] + randomNumber;
       }
-
-      const randomNumber = Math.random()*10;
-      const userName = account.firstname + account.lastname[0] + randomNumber;
 
       // Store the username into database
       await prisma.account.create({
           data: {
           username: userName,
-          accountID: account.accountID,
+          accountID: account.accountId,
           },
       });
 
       return response.data;
 
     } catch (error) {
-      // console.error(error.stack);
-      error.message = "Error when generating the account.";
+      console.error(error.stack);
+      console.log(error.message);
+      // error.message = "Error when generating the account.";
       throw new Error(error.response ? error.response.data : error.message);
     }
 
@@ -106,6 +115,7 @@ class AccountService extends Service {
       });
       return response.data;
     } catch (error) {
+      console.log(error.stack,error.message);
       throw new Error(error.response ? error.response.data : error.message);
     }
   }

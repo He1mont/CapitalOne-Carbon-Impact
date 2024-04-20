@@ -100,8 +100,8 @@ class TransactionService extends Service {
 
       // Group transactions by date
       const groupedData = {};
-      if (response.data.Transaction && response.data.Transaction.length > 0) {
-        response.data.Transaction.forEach(transaction => {
+      if (response.data.Transactions && response.data.Transactions.length > 0) {
+        response.data.Transactions.forEach(transaction => {
           const timestamp = transaction.timestamp.split(' ')[0];
           if (!groupedData[timestamp]) {
             groupedData[timestamp] = [];
