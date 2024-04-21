@@ -5,6 +5,7 @@ module.exports = app => {
   const { router, controller } = app;
 
   router.get('/', controller.home.index);
+<<<<<<< HEAD
   router.post('/account/create-random', controller.account.createRandom);
   router.get('/account/get-all', controller.account.getAll);
   router.get('/account/get-by-id/:id', controller.account.getByID);
@@ -24,4 +25,20 @@ module.exports = app => {
   router.post('/userGoal/set-goal/:id/:goal/:month', controller.userGoal.createGoal);
   router.delete('/userGoal/:id', controller.userGoal.userGoals);
   router.get('/userGoal/:id', controller.userGoal.userGoals);
+=======
+  router.post('/accounts', controller.account.createRandom);
+  router.get('/accounts', controller.account.getAll);
+  router.get('/accounts/email', controller.account.getByEmail);
+  router.get('/accounts/:id', controller.account.getByID);
+  router.post('/accounts/:id/transactions', controller.transaction.createRandom);
+  router.get('/accounts/:id/transactions', controller.transaction.getTransactions);
+  // router.get('/accounts/:id/transactions', controller.transaction.getAll);
+  router.get('/accounts/:accountID/transactions/:transactionID', controller.transaction.getByID);
+  // router.get('/accounts/:id/transactions/group-by-date', controller.transaction.groupByDate);
+  router.get('/accounts/:accountID/transactions/:transactionID/carbonImpact', controller.transaction.getCarbonImpact);
+  router.get('/friends', controller.accountTable.getID);
+  router.post('/accounts/:id/userGoal', controller.userGoal.createGoal);
+  router.delete('/accounts/:id/userGoal', controller.userGoal.userGoals);
+  router.get('/accounts/:id/userGoal', controller.userGoal.userGoals);
+>>>>>>> modify-routes-rest
 };

@@ -1,53 +1,47 @@
 const { Controller } = require('egg');
 
 class UserGoalController extends Controller {
+  // Method to create a user's goal
   async createGoal() {
     const { ctx, service } = this;
-    const id = ctx.params.id;
-    const goal = ctx.params.goal;
-    const month = ctx.params.month;
-    try {
-      const res = await service.userGoal.createGoal(id, goal, month);
-      ctx.status = 200;
-      ctx.body = res;
-    } catch (error) {
-      console.error('Error creating user goal:', error);
-      ctx.status = 500;
-      ctx.body = { error: 'Internal Server Error' };
-    }
+    const id = ctx.params.id; // Extracting user id from request parameters
+    ctx.validate({
+      goal: 'string',
+      month: 'string'
+    },ctx.request.body);
+    const goal = ctx.request.body.goal; // Extracting goal from request body
+    const month = ctx.request.body.month; // Extracting month from request body
+    const res = await service.userGoal.createGoal(id, goal, month); // Calling service method to create user goal
+    ctx.status = 200; // Setting HTTP status code to 200 (OK)
+    ctx.body = res; // Sending response
   }
 
+  // Method to handle different user goals requests
   async userGoals() {
     const { ctx, service } = this;
-    const id = ctx.params.id;
-    let userGoal;
-    try {
-      switch (ctx.method) {
-        case 'DELETE':
-          await service.userGoal.deleteUserGoal(id);
-          ctx.status = 204;
-          ctx.body = '';
-          break;
-        case 'GET':
-          userGoal = await service.userGoal.getUserGoals(id);
-          if (userGoal) {
-            ctx.status = 200;
-            ctx.body = userGoal;
-          } else {
-            ctx.status = 404;
-            ctx.body = { error: 'User goal not found' };
-          }
-          break;
-        default:
-          ctx.status = 405;
-          ctx.body = { error: 'Method not allowed' };
-      }
-    } catch (error) {
-      console.error('Error handling user goals:', error);
-      ctx.status = 500;
-      ctx.body = { error: 'Internal Server Error' };
+    const id = ctx.params.id; 
+
+    switch (ctx.method) { 
+      case "DELETE": // If the request method is DELETE
+        const deleteRes = await service.userGoal.deleteUserGoal(id); // Deleting user goal
+        ctx.status = 200; // Setting HTTP status code to 200 (OK)
+        ctx.body = deleteRes; // Sending response
+        break;
+      case "GET": // If the request method is GET
+        const userGoal = await service.userGoal.getUserGoals(id); // Getting user goals
+        if (userGoal) { // If user goals are found
+          ctx.status = 200; // Setting HTTP status code to 200 (OK)
+          ctx.body = userGoal; // Sending user goals in response
+        } else { // If user goals are not found
+          ctx.status = 404; // Setting HTTP status code to 404 (Not Found)
+          ctx.body = { error: "User goal not found" }; // Sending error message in response
+        }
+        break;
+      default: // If the request method is not DELETE or GET
+        ctx.status = 405; // Setting HTTP status code to 405 (Method Not Allowed)
+        ctx.body = { error: "Method not allowed" }; // Sending error message in response
     }
   }
 }
 
-module.exports = UserGoalController;
+module.exports = UserGoalController; // Exporting UserGoalController class

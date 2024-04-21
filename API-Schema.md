@@ -4,7 +4,7 @@
 
 ### 1. Create a random account
 
-- POST `/accounts/create-random`
+- POST `/accounts`
 
 - sample output
 
@@ -37,7 +37,7 @@
 
 ### 2. Get all accounts
 
-- GET `/accounts/get-all`
+- GET `/accounts`
 
 - sample output
 
@@ -105,7 +105,7 @@
 
 ### 3. Get an account by accountID
 
-- GET `/accounts/get-by-id/:accountID`
+- GET `/accounts/:accountID`
 
 - sample output
     - by account `00428702`
@@ -137,7 +137,7 @@
 
 ### 4. Get an account by email
 
-- GET `/accounts/get-by-email/:email`
+- GET `/accounts/:email`
 - Return the corresponding accountID if the email is found; otherwise print an error message.
 
 - sample output
@@ -151,7 +151,7 @@
 ## Transaction
 ### 5. Create 3 random transactions by accountID
 
-- POST `/transaction/create-random/:accountID`
+- POST `account/:accountID/transactions`
 
 - sample output
     - by account `21950161`
@@ -229,7 +229,7 @@
 
 ### 6. Get all transactions by accountID
 
-- GET `/transaction/get-all/:accountID`
+- GET `account/:accountID/transactions`
 
 - sample output
     - by account `72965642`
@@ -283,7 +283,7 @@
 
 ### 7. Get a transaction by accountID and transactionID
 
-- GET `/transaction/get-by-id/:accountID/:transactionID`
+- GET `account/:accountID/transactions/:transactionID`
 
 - sample output
     - by account `72965642`
@@ -318,7 +318,7 @@
 
 ### 8. Group daily transactions by accountID
 
-- GET `/transactions/group-by-date/:accountID`
+- GET `/accounts/:accountID/transactions/group-by-date`
 
 - sample output
     - by account `41495172`
@@ -402,8 +402,17 @@
         }
     ```
 
+<<<<<<< HEAD
 - sample output
 - return following user's info
+=======
+### 10. Get the accountID by username
+
+- GET `/friends`
+
+    - Send `username` in JSON request body
+    - If the username is not exist in the database, an error will be reported:
+>>>>>>> modify-routes-rest
     ```json
         {
             "firstname": "Dirk",
@@ -460,7 +469,8 @@
 ## User Goals
 ### 11. Create a user goal
 
-- POST `/userGoal/create-goal/:accountID/:goal`
+- POST `/accounts/:accountID/userGoal`
+    - Submit `goal` and `month` in JSON request body
     - if there already is a goal for that id update the goal else create a new one
 
 - sample output
@@ -474,7 +484,11 @@
 
 ### 12. Delete a user goal
 
+<<<<<<< HEAD
 - DELETE `/userGoal/:accountID`
+=======
+- DELETE `/accounts/:accountID/userGoal`
+>>>>>>> modify-routes-rest
 
 - sample output
     - id `48151457`
@@ -486,7 +500,11 @@
 
 ### 13. Get a users goal from the database
 
+<<<<<<< HEAD
 - GET `/userGoal/:accountID`
+=======
+- GET `accounts/:accountID/userGoal`
+>>>>>>> modify-routes-rest
 
 - sample output
     - id `48151457`
@@ -509,3 +527,12 @@
 
 ### Calculate the total carbon impact
 
+<<<<<<< HEAD
+=======
+- GET `/accounts/:accountID/transactions/:transactionID/carbonImpact`
+
+    - Using the carbon score stored in the database `Transaction`
+
+
+
+>>>>>>> modify-routes-rest

@@ -1,6 +1,7 @@
 // Constants
 const Service = require('egg').Service;
 const axios = require('axios');
+<<<<<<< HEAD
 // Constants for the Hackathon API
 const authJWT =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsImFwaV9zdWIiOiI5ZmViZWE1ZmQ1MjgxZjY2Y2QxMDY4NTg0MzJmZjRmYzU1YzMxNTBlYzEwZTMzY2NmZGJlZTljODFmZTAxOWRiMTcxNzIwMDAwMDAwMCIsInBsYyI6IjVkY2VjNzRhZTk3NzAxMGUwM2FkNjQ5NSIsImV4cCI6MTcxNzIwMDAwMCwiZGV2ZWxvcGVyX2lkIjoiOWZlYmVhNWZkNTI4MWY2NmNkMTA2ODU4NDMyZmY0ZmM1NWMzMTUwZWMxMGUzM2NjZmRiZWU5YzgxZmUwMTlkYiJ9.XkBwptx8AlmawzOqgGfGh0E6BvI_WDZv-oHWVHmUWtPhBcEKC051nJt0yhRCWq0Ce3Fu_T4cd7WzQQr8uiHG09_42xsq78jzHb0m0-o3CY9aK4ChbXfAHcg7yPDmuHZbaG4168F1BB3hU-w4XZgcfFZL85OM-NMVuVcQt12-H3gsebLGSfsjXnf3dn0XZAScXQFff9zuri18_krnmTyEI2RVhChOHcQpNZMZBKLo8yjQ-OYOjGSSIrqNoXsuXeQUc3he8bhROf0yD5c6bUVRQzNrB1Zda3AGH5MysxIQI7h4YvkoEtjh1If-QQ1lkLhlHxUPBBmvDAortiQHEtua9w';
@@ -16,6 +17,20 @@ const CARBON_API_KEY = 'sQyPyTxcWvlFiLWFjmUlA';
  * Service class responsible for managing user accounts and related operations.
  * @extends {Service}
  */
+=======
+const authJWT = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsImFwaV9zdWIiOiI5ZmViZWE1ZmQ1MjgxZjY2Y2QxMDY4NTg0MzJmZjRmYzU1YzMxNTBlYzEwZTMzY2NmZGJlZTljODFmZTAxOWRiMTcxNzIwMDAwMDAwMCIsInBsYyI6IjVkY2VjNzRhZTk3NzAxMGUwM2FkNjQ5NSIsImV4cCI6MTcxNzIwMDAwMCwiZGV2ZWxvcGVyX2lkIjoiOWZlYmVhNWZkNTI4MWY2NmNkMTA2ODU4NDMyZmY0ZmM1NWMzMTUwZWMxMGUzM2NjZmRiZWU5YzgxZmUwMTlkYiJ9.XkBwptx8AlmawzOqgGfGh0E6BvI_WDZv-oHWVHmUWtPhBcEKC051nJt0yhRCWq0Ce3Fu_T4cd7WzQQr8uiHG09_42xsq78jzHb0m0-o3CY9aK4ChbXfAHcg7yPDmuHZbaG4168F1BB3hU-w4XZgcfFZL85OM-NMVuVcQt12-H3gsebLGSfsjXnf3dn0XZAScXQFff9zuri18_krnmTyEI2RVhChOHcQpNZMZBKLo8yjQ-OYOjGSSIrqNoXsuXeQUc3he8bhROf0yD5c6bUVRQzNrB1Zda3AGH5MysxIQI7h4YvkoEtjh1If-QQ1lkLhlHxUPBBmvDAortiQHEtua9w';
+
+// for the Carbon API
+const PROGRAM_UUID = "ddd7027e-2032-4fff-a721-565ac87e7869";
+const CARBON_API_KEY = "sQyPyTxcWvlFiLWFjmUlA";
+
+require('dotenv').config();
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+// const { getAll } = require('./transaction');
+
+>>>>>>> modify-routes-rest
 class AccountService extends Service {
 
   /**
@@ -26,6 +41,13 @@ class AccountService extends Service {
     const quantity = 1;
     const numTransactions = 0;
     const liveBalance = false;
+<<<<<<< HEAD
+=======
+    var account = null;
+    var randomNumber;
+    var userName;
+
+>>>>>>> modify-routes-rest
 
     try {
       // Create an account through Hackathon API
@@ -60,15 +82,28 @@ class AccountService extends Service {
         },
       });
 
+<<<<<<< HEAD
       // for each account made, find the acount ID and call functions to add to carbon API
       for (let i = 0; i < quantity; i++) {
         const accountID = response.data.Accounts[i].accountId;
+=======
+      // for each account made, find the ccount ID and call functions to add to carbon API
+      for(let i=0; i<quantity; i++)
+      {
+        account = response.data.Accounts[i];
+        const accountID = account.accountId;
+        
+>>>>>>> modify-routes-rest
         // create a (Carbon API) card profile from the created account
         await this.createCardProfile(accountID);
         // add each existing transaction as a Carbon API transaction
         await this.createTransactionsForAll(accountID);
+        
+        randomNumber = Math.random()*10;
+        userName = account.firstname + account.lastname[0] + randomNumber;
       }
 
+<<<<<<< HEAD
       return account;
     } catch (error) {
       throw new Error(error.response ? error.response.data : error.message);
@@ -110,6 +145,43 @@ class AccountService extends Service {
       },
     });
     return account;
+=======
+      // Store the username into database
+      await prisma.account.create({
+          data: {
+          username: userName,
+          accountID: account.accountId,
+          },
+      });
+
+      return response.data;
+
+    } catch (error) {
+      console.error(error.stack);
+      console.log(error.message);
+      // error.message = "Error when generating the account.";
+      throw new Error(error.response ? error.response.data : error.message);
+    }
+
+    // Create username for the new account
+  //   try {
+  //     const randomNumber = Math.random()*10;
+  //     const userName = account.firstname + account.lastname[0] + randomNumber;
+
+  //     // Store the username into database
+  //     await prisma.account.create({
+  //         data: {
+  //         username: userName,
+  //         accountID: account.accountID,
+  //         },
+  //     });
+  //   } catch (error) {
+  //       error.message = "Error when creating the username.";
+  //       throw new Error(error.response ? error.response.data : error.message);
+  //   }
+
+  //   return account;
+>>>>>>> modify-routes-rest
   }
 
   /**
@@ -191,6 +263,7 @@ class AccountService extends Service {
         console.log("The account id you entered doesn't exist. Try Again\n");
       }
     } catch (error) {
+      console.log(error.stack,error.message);
       throw new Error(error.response ? error.response.data : error.message);
     }
   }
@@ -382,9 +455,14 @@ class AccountService extends Service {
   async getCarbonImpact(accountID, transactionID) {
     // Get the specified account from Hackathon API
     try {
+<<<<<<< HEAD
       const hackathonResponse = await axios.get(
         `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`,
         {
+=======
+        // Get all accounts
+        const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
+>>>>>>> modify-routes-rest
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${authJWT}`,
@@ -435,10 +513,15 @@ class AccountService extends Service {
           }
         );
 
+<<<<<<< HEAD
         if (hackathonTransactionResponse.status === 200) {
           const carbonTransactionResponse = await axios.get(
             `https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`,
             {
+=======
+          // Get all card profiles
+          const accounts = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
+>>>>>>> modify-routes-rest
               headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${CARBON_API_KEY}`,
@@ -466,9 +549,75 @@ class AccountService extends Service {
           }
           let carbonScore = Math.abs(carbonInGrams);
 
+<<<<<<< HEAD
           // Include point of sale as a multiplier
           if ((hackathonTransactionResponse.data.pointOfSale = 'Online')) {
             carbonScore = carbonScore / 2;
+=======
+          for (const transaction of transactions) { // For each transaction, check if it already exists in Carbon Ledger API
+              const existingTransaction = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${account.data.id}/transactions`, {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${CARBON_API_KEY}`,
+                  }
+              });
+
+              if (!existingTransaction.data.find(tr => tr.data.attributes.external_id === transaction.transactionID)) { // If not, add transaction
+                  let mcc;
+                  switch (transaction.merchant.category) { // Picking the merchant code based on merchant category
+                      case "Entertainment":
+                          mcc = "7996";
+                          break;
+                      case "Education":
+                          mcc = "5942";
+                          break;
+                      case "Shopping":
+                          mcc = "5691";
+                          break;
+                      case "Personal Care":
+                          mcc = "8050";
+                          break;
+                      case "Health & Fitness":
+                          mcc = "7298";
+                          break;
+                      case "Food & Dining":
+                          mcc = "5812";
+                          break;
+                      case "Gifts & Donations":
+                          mcc = "5947";
+                          break;
+                      case "Bills & Utilities":
+                          mcc = "4900";
+                          break;
+                      case "Auto & Transport":
+                          mcc = "4111";
+                          break;
+                      case "Travel":
+                          mcc = "4582";
+                          break;
+                      default:
+                          mcc = "5399";
+                  }
+
+                  const transactionData = {
+                      accountCarbonID: account.data.id,
+                      transaction: {
+                          amount_cents: transaction.amount * 100,
+                          currency: "USD",
+                          external_id: transaction.transactionUUID,
+                          merchant_category: transaction.merchant.category,
+                          merchant_category_code: mcc,
+                          merchant_name: transaction.merchant.name,
+                          merchant_country: "US",
+                          merchant_state: "CA",
+                          merchant_city: "San Francisco",
+                          merchant_postal_code: "90210"
+                      }
+                  };
+
+                  await this.addTransactionToCarbonInterface(transactionData);
+              }
+>>>>>>> modify-routes-rest
           }
           // Return as a score, not grams value
           return Math.ceil(carbonScore / 1000);

@@ -184,6 +184,7 @@ function Login() {
       setLoginMessage("Please enter your email.");
     }
 
+<<<<<<< HEAD
     // Call backend API to check user credentials
     const data = await API.getAccountByEmail(email);
 
@@ -209,6 +210,35 @@ function Login() {
           pathname: "/home",
           state: { name: username, id: account.accountID },
         });
+=======
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:7001/accounts/get-by-email/${email}`
+      );
+      console.log(response.data);
+      // Login validation logic
+      // if (email === correctEmail && password === correctPassword) {
+      //   setLoginMessage("Logged in successfully!");
+
+      // if (email !== correctEmail && password !== correctPassword) {
+      //   setLoginMessage("Email or password is incorrect.");
+      // }
+      try {
+        const name = await axios.get(
+          `http://127.0.0.1:7001/accounts/${response.data}`
+        );
+        if (name.data.Accounts && name.data.Accounts.length > 0) {
+          const fullname = `${name.data.Accounts[0].firstname} ${name.data.Accounts[0].lastname}`;
+          console.log(fullname);
+          setLoginMessage("Logged in successfully!");
+          history.push({
+            pathname: "/",
+            state: { name: fullname, id: response.data },
+          });
+        }
+      } catch (error) {
+        setLoginMessage("Email has not been found");
+>>>>>>> modify-routes-rest
       }
     }
 

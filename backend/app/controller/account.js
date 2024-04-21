@@ -2,37 +2,47 @@ const { Controller } = require('egg');
 
 class AccountController extends Controller {
 
+  // Method to create a random account
   async createRandom() {
     const { ctx, service } = this;
-    const res = await service.account.createRandom();
-    ctx.status = 200;
-    ctx.body = res;
+    const res = await service.account.createRandom(); // Calling service method to create a random account
+    ctx.status = 200; // Setting HTTP status code to 200 (OK)
+    ctx.body = res; // Sending response
   }
 
+  // Method to get all accounts
   async getAll() {
     const { ctx, service } = this;
-    const res = await service.account.getAll();
-    ctx.set('Access-Control-Allow-Origin', '*');
+    const res = await service.account.getAll(); // Calling service method to get all accounts
+    ctx.set('Access-Control-Allow-Origin', '*'); // Allowing cross-origin requests
     ctx.status = 200;
     ctx.body = res;
   }
 
+  // Method to get an account by ID
   async getByID() {
     const { ctx, service } = this;
-    const id = ctx.params.id;
-    const res = await service.account.getByID(id);
+    const id = ctx.params.id; // Extracting account ID from request parameters
+    const res = await service.account.getByID(id); // Calling service method to get account by ID
     ctx.set('Access-Control-Allow-Origin', '*');
-    ctx.status = 200;
-    ctx.body = res;
+    ctx.status = 200; 
+    ctx.body = res; 
   }
 
+<<<<<<< HEAD
+=======
+  // Method to get an account by email
+>>>>>>> modify-routes-rest
   async getByEmail() {
     const { ctx, service } = this;
-    const emailToFind = ctx.params.email;
-    const res = await service.account.getByEmail(emailToFind);
-    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.validate({
+      email: "email"
+    },ctx.request.body);
+    const emailToFind = ctx.request.body.email; // Extracting email from request body 
+    const res = await service.account.getByEmail(emailToFind); // Calling service method to get account by email
+    ctx.set('Access-Control-Allow-Origin', '*'); 
     ctx.status = 200;
-    ctx.body = res;
+    ctx.body = res; 
   }
 
   async getByUserName() {
@@ -45,4 +55,4 @@ class AccountController extends Controller {
   }
 }
 
-module.exports = AccountController;
+module.exports = AccountController; // Exporting AccountController class

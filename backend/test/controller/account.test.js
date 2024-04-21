@@ -7,9 +7,9 @@ describe('AccountController', () => {
       return { id: 1, name: 'John Doe' };
     });
 
-    // Make an HTTP POST request to the /account/createRandom route
+    // Make an HTTP POST request to the /accounts/createRandom route
     const result = await app.httpRequest()
-      .post('/account/create-random')
+      .post('/accounts/create-random')
       .expect(200);
 
     // Assert that the body of the response matches the expected result
@@ -21,9 +21,9 @@ describe('AccountController', () => {
       return [{ id: 1, name: 'John Doe' }, { id: 2, name: 'Jane Smith' }];
     });
 
-    // GET /account/getAll
+    // GET /accounts/getAll
     const result = await app.httpRequest()
-      .get('/account/get-all')
+      .get('/accounts/get-all')
       .expect(200);
 
     assert.deepStrictEqual(result.body,
@@ -35,9 +35,9 @@ describe('AccountController', () => {
       return { id: 1, name: 'John Doe' };
     });
 
-    // GET /account/getByID
+    // GET /accounts/getByID
     const result = await app.httpRequest()
-      .get('/account/get-by-id/:1')
+      .get('/accounts/:1/get-by-id ')
       .expect(200);
 
     assert.deepStrictEqual(result.body, { id: 1, name: 'John Doe' });
@@ -48,9 +48,10 @@ describe('AccountController', () => {
       return { id: 1, name: 'John Doe', email: 'john@email.com' };
     });
 
-    // GET /account/getByEmail
+    // GET /accounts/getByEmail
     const result = await app.httpRequest()
-      .get('/account/get-by-email/:john@email.com')
+      .get('/accounts/get-by-email')
+      .send({"email":"john@email.com"})
       .expect(200);
 
     assert.deepStrictEqual(result.body,
