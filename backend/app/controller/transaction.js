@@ -1,11 +1,8 @@
 const { Controller } = require('egg');
 
 class TransactionController extends Controller {
-<<<<<<< HEAD
-=======
 
   // Method to create a random transaction for a specific account
->>>>>>> modify-routes-rest
   async createRandom() {
     const { ctx, service } = this;
     const id = ctx.params.id; // Extracting account ID from request parameters

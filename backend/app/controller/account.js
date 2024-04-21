@@ -29,10 +29,7 @@ class AccountController extends Controller {
     ctx.body = res; 
   }
 
-<<<<<<< HEAD
-=======
   // Method to get an account by email
->>>>>>> modify-routes-rest
   async getByEmail() {
     const { ctx, service } = this;
     ctx.validate({

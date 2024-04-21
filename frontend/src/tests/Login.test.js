@@ -29,16 +29,10 @@ describe('Login Component', () => {
   });
 
 
-<<<<<<< HEAD
 
   it('handles form submission correctly', () =>{
     render(<Login />);
 
-=======
-  it('handles form submission correctly', () =>{
-    render(<Login />);
-
->>>>>>> dev
     // Simulate user input and form submission
     const emailInput = screen.getByLabelText('Username (email)');
     const passwordInput = screen.getByLabelText('Password');
@@ -105,7 +99,6 @@ describe('Login Component', () => {
 
 
   // Test case for showing error message when the entered email is not correct
-<<<<<<< HEAD
   it('shows error message when entered email is incorrect', async () => {
     render(<Login />);
 
@@ -168,22 +161,6 @@ it('shows error message when trying to submit form with empty username', async()
     expect(history.location.pathname).toBe('/');
   });
 
-=======
-it('shows error message when entered email is incorrect', async () => {
-  render(<Login />);
-
-  // Simulate incorrect user input for email and submit the form
-  const emailInput = screen.getByLabelText('Username (email)');
-  const passwordInput = screen.getByLabelText('Password');
-  const submitButton = screen.getByText('Sign in');
-
-  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-  fireEvent.change(passwordInput, { target: { value: 'Test@123' } });
-  fireEvent.click(submitButton);
-
-  // Assert that the error message is displayed
-  //expect(screen.getByText('Username or password is incorrect.')).toBeInTheDocument();
->>>>>>> dev
 });
 
 
@@ -231,5 +208,3 @@ it('shows error message when trying to submit form with empty username', async()
     // Assert that the user is redirected to the home page
     expect(history.location.pathname).toBe('/');
   });
-
-});

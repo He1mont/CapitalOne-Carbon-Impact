@@ -402,17 +402,12 @@
         }
     ```
 
-<<<<<<< HEAD
-- sample output
-- return following user's info
-=======
 ### 10. Get the accountID by username
 
 - GET `/friends`
 
     - Send `username` in JSON request body
     - If the username is not exist in the database, an error will be reported:
->>>>>>> modify-routes-rest
     ```json
         {
             "firstname": "Dirk",
@@ -484,11 +479,7 @@
 
 ### 12. Delete a user goal
 
-<<<<<<< HEAD
-- DELETE `/userGoal/:accountID`
-=======
 - DELETE `/accounts/:accountID/userGoal`
->>>>>>> modify-routes-rest
 
 - sample output
     - id `48151457`
@@ -500,11 +491,7 @@
 
 ### 13. Get a users goal from the database
 
-<<<<<<< HEAD
-- GET `/userGoal/:accountID`
-=======
 - GET `accounts/:accountID/userGoal`
->>>>>>> modify-routes-rest
 
 - sample output
     - id `48151457`
@@ -527,12 +514,9 @@
 
 ### Calculate the total carbon impact
 
-<<<<<<< HEAD
-=======
 - GET `/accounts/:accountID/transactions/:transactionID/carbonImpact`
 
     - Using the carbon score stored in the database `Transaction`
 
 
 
->>>>>>> modify-routes-rest

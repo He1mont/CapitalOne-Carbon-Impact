@@ -50,16 +50,3 @@ model userGoals {
   month     String
 }
 
-<<<<<<< HEAD
-=======
-model account {
-  id        Int    @id @default(autoincrement())
-  username  String @unique
-  accountID String @unique
-
-  userID      userGoals? 
-  transaction transaction?
-
-  friend friendship? @relation("Friends")
-}
->>>>>>> modify-routes-rest
