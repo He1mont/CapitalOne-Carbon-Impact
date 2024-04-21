@@ -7,6 +7,7 @@ import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
 // MUI Components
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
+import clsx from 'clsx';
 
 
 /**
@@ -234,9 +235,11 @@ class Leaderboard extends Component {
         await Promise.all(friends.map(async (friend) => {
             const carbonScore = await API.getCarbonScoreByMonth(friend.accountID,
                 month.format('YYYY'), month.format('MM'));
-            carbonScoreList.push({ [friend.username]: carbonScore });
+            carbonScoreList.push({ username: friend.username, carbonScore: carbonScore });
         }));
 
+        // Sort by carbon score in ascending order
+        carbonScoreList.sort((friend1, friend2) => friend1.carbonScore - friend2.carbonScore);
         this.setState({ carbonScoreList });
     };
 
@@ -250,45 +253,52 @@ class Leaderboard extends Component {
             // Find the specific month
             for (const goalObj of carbonGoal) {
                 if (goalObj.month === month.format('MMMM')) {
-                    carbonGoalList.push({ [friend.username]: goalObj.goal });
+                    carbonGoalList.push({ username: friend.username, carbonGoal: goalObj.goal });
                     break;
                 }
             }
             // User has not set a goal for this month
-            carbonGoalList.push({ [friend.username]: 0 });
+            carbonGoalList.push({ username: friend.username, carbonGoal: 0 });
         }));
 
         this.setState({ carbonGoalList });
     };
 
     mergeUsersWithCarbonScore = () => {
-        const followingUsers = this.state.friendList;
-        const carbonScoreList = this.state.carbonScoreList;
-        const carbonGoalList = this.state.carbonGoalList;
-
-        const getForUser = (username, list) => {
-            for (const scoreObj of list) {
-                if (scoreObj.hasOwnProperty(username)) {
-                    return scoreObj[username];
+        const getUser = (username) => {
+            for (const item of this.state.friendList) {
+                if (item.username === username) {
+                    return item;
+                }
+            }
+            return null;
+        };
+        const getForUser = (username) => {
+            for (const item of this.state.carbonGoalList) {
+                if (item.username === username) {
+                    return item.carbonGoal;
                 }
             }
             return null;
         };
     
+        let rank = 1;
         const mergedArray = [];
-        for (const user of followingUsers) {
-            const carbonScore = getForUser(user.username, carbonScoreList);
-            const carbonGoal = getForUser(user.username, carbonGoalList);
-            let percentage;
-            if (carbonGoal === 0) {
-                percentage = "NaN";
-            } else {
-                percentage = (parseInt(carbonScore)/parseInt(carbonGoal)*100).toFixed(2) + '%';
-            }
+        for (const userItem of this.state.carbonScoreList) {
+            const friend = getUser(userItem.username);
+            const carbonGoal = getForUser(userItem.username);
+            const status = parseInt(carbonGoal) - parseInt(userItem.carbonScore);
+            // let percentage;
+            // if (carbonGoal === 0) {
+            //     percentage = "NaN";
+            // } else {
+            //     percentage = (parseInt(userItem.carbonScore)/parseInt(carbonGoal)*100).toFixed(2) + '%';
+            // }
 
-            const mergedObject = { ...user, carbonScore: carbonScore, 
-                carbonGoal: carbonGoal, percentage: percentage };
+            const mergedObject = { ...friend, rank: rank, carbonScore: userItem.carbonScore, 
+                carbonGoal: carbonGoal, status: status };
             mergedArray.push(mergedObject);
+            rank += 1;
         }
         return mergedArray;
     };
@@ -299,15 +309,38 @@ class Leaderboard extends Component {
         const completeFollowingUsers = this.mergeUsersWithCarbonScore();
         // define the top columns for the table
         const columns = [
-            //{ field: 'id', headerName: 'Rank', width: 50 },
-            { field: 'username', headerName: 'All Following Users', 
-                headerClassName: 'super-app-theme--header', width: 250 },
-            { field: 'carbonScore', headerName: 'Carbon Score', 
-                headerClassName: 'super-app-theme--header', width: 150 },
-            { field: 'carbonGoal', headerName: 'Carbon Goal', 
-                headerClassName: 'super-app-theme--header', width: 150 },
-            { field: 'percentage', headerName: 'Percentage', 
-                headerClassName: 'super-app-theme--header', width: 150 },
+            { field: 'rank', width: 70, headerClassName: 'header-theme', 
+                renderHeader: () => (
+                    <strong>{'Rank'}</strong>
+                )},
+            { field: 'username', width: 180, headerClassName: 'header-theme', 
+                renderHeader: () => (
+                    <strong>{'Following Users'}</strong>
+                )},
+            { field: 'carbonScore', width: 170, headerClassName: 'header-theme', 
+                align: 'center', headerAlign: 'center',
+                renderHeader: () => (
+                    <strong>{'Carbon Score'}</strong>
+                )},
+            { field: 'carbonGoal', width: 170, headerClassName: 'header-theme', 
+                align: 'center', headerAlign: 'center',
+                renderHeader: () => (
+                    <strong>{'Carbon Goal'}</strong>
+                )},
+            { field: 'status', width: 170, headerClassName: 'header-theme', 
+                align: 'center', headerAlign: 'center',
+                cellClassName: (params) => {
+                    if (params.value == null) {
+                      return '';
+                    }
+                    return clsx('super-app', {
+                      negative: params.value < 0,
+                      positive: params.value >= 0,
+                    });
+                  },
+                renderHeader: () => (
+                    <strong>{'Status'}</strong>
+                )},
         ];
 
     return (
@@ -328,23 +361,32 @@ class Leaderboard extends Component {
             <div className={styles.leaderboard_list_container}>
                 <Box
                     sx={{
-                        width: '100%',
-                        '& .super-app-theme--header': {
-                            backgroundColor: '#f0f0f0',
-                            fontWeight: '800',
+                        width: 762,
+                        '& .header-theme': {
+                            backgroundColor: '#f0f0f0', 
+                        },
+                        '& .super-app.negative': {
+                            backgroundColor: '#eaaeb5',
+                            color: '#1a3e72',
+                            fontWeight: '600',
+                          },
+                        '& .super-app.positive': {
+                            backgroundColor: '#c4f1b6',
+                            color: '#1a3e72',
+                            fontWeight: '600',
                         },
                     }}
                 >
                     <DataGrid
-                    rows={completeFollowingUsers}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                />
+                        rows={completeFollowingUsers}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: { page: 0, pageSize: 5 },
+                            },
+                        }}
+                        pageSizeOptions={[5, 10]}
+                    />
                 </Box>
             </div>
           )}
