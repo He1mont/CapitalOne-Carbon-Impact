@@ -369,46 +369,22 @@ function Help() {
 
   useEffect(() => {
     console.log("Executing useEffect");
-  
+
     // Check if Kommunicate script is already loaded
     if (window.kommunicate) {
-      console.warn("Kommunicate script is already loaded.");
-      return;
+        console.warn("Kommunicate script is already loaded.");
+        return;
     }
-  
-    // Define Kommunicate settings
-    const kommunicateSettings = {
-      appId: "4ff9d4f79551f6d18d4b7ae38565b9b4",
-      popupWidget: true,
-      automaticChatOpenOnNavigation: true,
-    };
-  
-    // Create script element
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.async = true;
-    script.src = "https://widget.kommunicate.io/v2/kommunicate.app";
-  
-    // Function to handle script load
-    const handleScriptLoad = () => {
-      console.log("Kommunicate script loaded successfully.");
-      window.kommunicateChat.initialize(kommunicateSettings);
-    };
-  
-    // Function to handle script load error
-    const handleScriptError = (error) => {
-      console.error("Error loading Kommunicate script:", error);
-    };
-  
-    // Add event listeners for script load and error
-    script.onload = handleScriptLoad;
-    script.onerror = handleScriptError;
-  
-    // Append script to document head
-    document.head.appendChild(script);
-  
-  }, []); // [] effect runs only once upon mounting
-  
+    (function(d, m){
+      var kommunicateSettings = 
+          {"appId":"4ff9d4f79551f6d18d4b7ae38565b9b4","popupWidget":true,"automaticChatOpenOnNavigation":true};
+      var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+      s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+      var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+      window.kommunicate = m; m._globals = kommunicateSettings;
+  })(document, window.kommunicate || {});
+}, []); 
+
   return (
     <div>
       <Head />

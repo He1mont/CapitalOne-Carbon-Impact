@@ -72,7 +72,10 @@ html, body {
     transform: translate(-50%, -50%);
     z-index: 1;
   }
- 
+  /* iframe[title="React error overlay"] {
+    display: none;
+} */
+  
   .midBox{
     height: 175px;
     position: relative;
