@@ -4,8 +4,10 @@ import styles from "../assets/styles/Help.module.css";
 const ContactPopup = ({open, onClose}) => {
     if(!open) return null
     return(
-        <div className={styles.overlay}>
-            <div className={styles.contactContainer}>
+        <div className={styles.overlay} onClick={onClose}>
+             <div onClick={(e)=>{
+                e.stopPropagation()
+            }}  className={styles.contactContainer}>
                 <img src="/images/Logo.png" alt="" className={styles.img} />
                 <div className={styles.popupRight}>
                     <p onClick={onClose} className={styles.closeBtn}>

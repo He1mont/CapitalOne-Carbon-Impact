@@ -6,6 +6,7 @@ import Transactions from './pages/Transactions';
 import Goals from './pages/Goals';
 import History from './pages/History';
 import Help from './pages/Help';
+import FAQS from './pages/FAQS';
 import './assets/styles/App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/goals" component={Goals} />
         <Route path="/history" component={History} />
         <Route path="/help" component={Help} />
+        <Route path="/FAQS" component={FAQS} />
       </Switch>
     </Router>
   );

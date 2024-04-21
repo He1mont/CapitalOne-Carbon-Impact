@@ -1,0 +1,232 @@
+html, body {
+    max-width: 100%;
+    padding-left: 0px;
+    margin: 0px;
+    background-color: rgb(255, 255, 255);
+    font-family: Arial, sans-serif;
+  }
+  
+  /*------------------------------ HEADER ------------------------------*/
+  .headBar{
+    width: 100vw;
+    height: 65px;
+    top: 0px;
+    background-color: #f3f3f3ff;
+    position: fixed;
+    text-align: center;
+    overflow: hidden;
+    z-index: 4;
+  }
+  .headCenter{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .headImg{
+    position: absolute;
+    width: 130px;
+    top: -15px;
+    left: -65px;
+  }
+  
+  .headHighTxtRight {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    
+  }
+  
+  /*------------------------------ MID ------------------------------*/
+  .midBar{
+    top: 65px;
+    width: 100%;
+    height: 275px;
+    position: absolute;
+  }
+  /*---------- MID-HIGH ----------*/
+  
+  .midHigh{
+    z-index: -1;
+    user-select: none;
+    width: 100%;
+    height: 180px;
+    position: absolute;
+    text-align: center;
+    background-color: #073763ff;
+  }
+  .title{
+    color: white;
+    padding-top: 3%;
+    font-size: xx-large;
+    
+  }
+  
+  /*---------- CENTER ----------*/
+  .midCenter{
+    user-select: none;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  /* iframe[title="React error overlay"] {
+    display: none;
+} */
+  
+  .midBox{
+    height: 175px;
+    position: relative;
+    margin-top: 90px;
+    
+  }
+  /*---------- LOW ----------*/
+  .midLow{
+    position: absolute;
+    top: 180px;
+    height: 82px;
+    width: 100%;
+    background-color: #f3f3f3ff;
+  }
+  .midBoxLogin {
+    /* default styles for the box */
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  
+  /*------------------------------ LOW ------------------------------*/
+  .lowBar{
+    position: absolute;
+    top: 365px;
+    min-height: 330px;
+    height:600px;
+    width: 100vw;
+    /* height: auto; */
+    /* width: 100%; */
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+  }
+  .low_bar_tbl{
+    table-layout: fixed;
+    position: absolute;
+    width: 85%;
+    height: 50%;
+    top: 80px;
+  }
+  
+  .footer {
+    width: 100%;
+    height: 50px;
+    background-color: #073763ff;
+    text-align: center;
+    color: white;
+    position: fixed;
+    bottom: 0;
+  
+  }
+  .play_button{
+    font-size: 60px;
+    color: white;
+    display: grid;
+    place-items: center;
+    margin-top: 2%;
+    height: 1cm;
+    width: 1cm;
+    border-radius: 50%;
+    border: none;
+    background-color: #007B90;
+    cursor: pointer;
+    /* transition: 0.3; */
+    animation: pulse 4.0s ease infinite;
+    margin-left: 100px;
+
+  }
+  .play_button::before{
+    content:"";
+    display: inline-block;
+    border-left:0.3cm solid ;
+    border-top: 0.18cm solid transparent;
+    border-bottom: 0.18cm solid transparent;
+    margin-left: 0.08cm;
+  }
+  .play_button:hover{
+    background: #008fa9;;
+  }
+  /*---------- KEY FRAMES -------- */
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  @keyframes pulse {
+    0%{
+      box-shadow: 0cm 0cm 0cm 0cm #729fa7;
+    }
+    100%{
+      box-shadow: 0cm 0cm 0cm 0.15cm #7daab1;
+    }
+    
+  }
+  
+  .mid-box-txt-title,
+  .mid-box-txt-line{
+    animation: slideInFromRight 1s ease-out;
+  }
+  
+.helpTable {
+    position: absolute;
+    padding: auto;
+    width: 70vw;
+    
+    
+}
+.helpTable label {
+    display: block;
+    padding-bottom: 4px;
+}
+
+.helpTableTitle {
+    font-size: xx-large;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 300px;
+    
+}
+
+.break {
+    margin-bottom: 100px;
+}
+
+
+.questionWrapper{
+  
+  padding-left: 50px;
+  color: #000000; 
+  margin-bottom: 20px;
+  margin-top: 5px;
+  font-size: large;
+  width:900px;
+  border-bottom: 1px solid #ccc;
+  
+  /* margin-top: 1rem;
+  padding: 1rem 2rem; */
+  
+}
+.question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 200;
+  }
+  .question span {
+    flex: 1;
+  }
