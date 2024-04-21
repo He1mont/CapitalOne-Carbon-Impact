@@ -182,8 +182,11 @@ class Leaderboard extends Component {
     render() {
         const followingUsers = this.state.friendList;
         const columns = [
-            { field: 'username', headerName: 'All Following Users', 
-                headerClassName: 'super-app-theme--header', width: 500 },
+            { field: 'username', width: 450, headerClassName: 'header-theme',
+            description: 'The username of the user you are following.',
+            renderHeader: () => (
+                <strong>{'Following Users'}</strong>
+            )},
         ];
 
         return (
@@ -220,10 +223,10 @@ class Leaderboard extends Component {
                         <div className={styles.leaderboard_list_container}>
                             <Box
                                 sx={{
-                                    width: '100%',
-                                    '& .super-app-theme--header': {
+                                    width: '70%',
+                                    mr: 28,
+                                    '& .header-theme': {
                                         backgroundColor: '#f0f0f0',
-                                        fontWeight: '800',
                                     },
                                 }}
                             >

@@ -233,9 +233,11 @@ class Leaderboard extends Component {
         await Promise.all(friends.map(async (friend) => {
             const carbonScore = await API.getCarbonScoreByMonth(friend.accountID,
                 month.format('YYYY'), month.format('MM'));
-            carbonScoreList.push({ [friend.username]: carbonScore });
+            carbonScoreList.push({ username: friend.username, carbonScore: carbonScore });
         }));
 
+        // Sort by carbon score in ascending order
+        carbonScoreList.sort((friend1, friend2) => friend1.carbonScore - friend2.carbonScore);
         this.setState({ carbonScoreList });
     };
 
@@ -249,45 +251,51 @@ class Leaderboard extends Component {
             // Find the specific month
             for (const goalObj of carbonGoal) {
                 if (goalObj.month === month.format('MMMM')) {
-                    carbonGoalList.push({ [friend.username]: goalObj.goal });
+                    carbonGoalList.push({ username: friend.username, carbonGoal: goalObj.goal });
                     break;
                 }
             }
             // User has not set a goal for this month
-            carbonGoalList.push({ [friend.username]: 0 });
+            carbonGoalList.push({ username: friend.username, carbonGoal: 0 });
         }));
 
         this.setState({ carbonGoalList });
     };
 
     mergeUsersWithCarbonScore = () => {
-        const followingUsers = this.state.friendList;
-        const carbonScoreList = this.state.carbonScoreList;
-        const carbonGoalList = this.state.carbonGoalList;
-
-        const getForUser = (username, list) => {
-            for (const scoreObj of list) {
-                if (scoreObj.hasOwnProperty(username)) {
-                    return scoreObj[username];
+        const getUser = (username) => {
+            for (const item of this.state.friendList) {
+                if (item.username === username) {
+                    return item;
+                }
+            }
+            return null;
+        };
+        const getForUser = (username) => {
+            for (const item of this.state.carbonGoalList) {
+                if (item.username === username) {
+                    return item.carbonGoal;
                 }
             }
             return null;
         };
     
+        let rank = 1;
         const mergedArray = [];
-        for (const user of followingUsers) {
-            const carbonScore = getForUser(user.username, carbonScoreList);
-            const carbonGoal = getForUser(user.username, carbonGoalList);
+        for (const userItem of this.state.carbonScoreList) {
+            const friend = getUser(userItem.username);
+            const carbonGoal = getForUser(userItem.username);
             let percentage;
             if (carbonGoal === 0) {
                 percentage = "NaN";
             } else {
-                percentage = (parseInt(carbonScore)/parseInt(carbonGoal)*100).toFixed(2) + '%';
+                percentage = (parseInt(userItem.carbonScore)/parseInt(carbonGoal)*100).toFixed(2) + '%';
             }
 
-            const mergedObject = { ...user, carbonScore: carbonScore, 
+            const mergedObject = { ...friend, rank: rank, carbonScore: userItem.carbonScore, 
                 carbonGoal: carbonGoal, percentage: percentage };
             mergedArray.push(mergedObject);
+            rank += 1;
         }
         return mergedArray;
     };
@@ -298,15 +306,29 @@ class Leaderboard extends Component {
         const completeFollowingUsers = this.mergeUsersWithCarbonScore();
         // define the top columns for the table
         const columns = [
-            //{ field: 'id', headerName: 'Rank', width: 50 },
-            { field: 'username', headerName: 'All Following Users', 
-                headerClassName: 'super-app-theme--header', width: 250 },
-            { field: 'carbonScore', headerName: 'Carbon Score', 
-                headerClassName: 'super-app-theme--header', width: 150 },
-            { field: 'carbonGoal', headerName: 'Carbon Goal', 
-                headerClassName: 'super-app-theme--header', width: 150 },
-            { field: 'percentage', headerName: 'Percentage', 
-                headerClassName: 'super-app-theme--header', width: 150 },
+            { field: 'rank', width: 70, headerClassName: 'header-theme', 
+                renderHeader: () => (
+                    <strong>{'Rank'}</strong>
+                )},
+            { field: 'username', width: 180, headerClassName: 'header-theme', 
+                renderHeader: () => (
+                    <strong>{'Following Users'}</strong>
+                )},
+            { field: 'carbonScore', width: 170, headerClassName: 'header-theme', 
+                align: 'center', headerAlign: 'center',
+                renderHeader: () => (
+                    <strong>{'Carbon Score'}</strong>
+                )},
+            { field: 'carbonGoal', width: 170, headerClassName: 'header-theme', 
+                align: 'center', headerAlign: 'center',
+                renderHeader: () => (
+                    <strong>{'Carbon Goal'}</strong>
+                )},
+            { field: 'percentage', width: 170, headerClassName: 'header-theme', 
+                align: 'center', headerAlign: 'center',
+                renderHeader: () => (
+                    <strong>{'Percentage'}</strong>
+                )},
         ];
 
     return (
@@ -328,9 +350,8 @@ class Leaderboard extends Component {
                 <Box
                     sx={{
                         width: '100%',
-                        '& .super-app-theme--header': {
-                            backgroundColor: '#f0f0f0',
-                            fontWeight: '800',
+                        '& .header-theme': {
+                            backgroundColor: '#f0f0f0', 
                         },
                     }}
                 >
