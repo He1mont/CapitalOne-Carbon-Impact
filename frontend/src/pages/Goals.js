@@ -7,6 +7,7 @@ import { Head, Footer } from './CommonComponents';
 // table
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
+import clsx from 'clsx';
 
 /**
  * Month selector component
@@ -285,15 +286,16 @@ class Leaderboard extends Component {
         for (const userItem of this.state.carbonScoreList) {
             const friend = getUser(userItem.username);
             const carbonGoal = getForUser(userItem.username);
-            let percentage;
-            if (carbonGoal === 0) {
-                percentage = "NaN";
-            } else {
-                percentage = (parseInt(userItem.carbonScore)/parseInt(carbonGoal)*100).toFixed(2) + '%';
-            }
+            const status = parseInt(carbonGoal) - parseInt(userItem.carbonScore);
+            // let percentage;
+            // if (carbonGoal === 0) {
+            //     percentage = "NaN";
+            // } else {
+            //     percentage = (parseInt(userItem.carbonScore)/parseInt(carbonGoal)*100).toFixed(2) + '%';
+            // }
 
             const mergedObject = { ...friend, rank: rank, carbonScore: userItem.carbonScore, 
-                carbonGoal: carbonGoal, percentage: percentage };
+                carbonGoal: carbonGoal, status: status };
             mergedArray.push(mergedObject);
             rank += 1;
         }
@@ -324,10 +326,19 @@ class Leaderboard extends Component {
                 renderHeader: () => (
                     <strong>{'Carbon Goal'}</strong>
                 )},
-            { field: 'percentage', width: 170, headerClassName: 'header-theme', 
+            { field: 'status', width: 170, headerClassName: 'header-theme', 
                 align: 'center', headerAlign: 'center',
+                cellClassName: (params) => {
+                    if (params.value == null) {
+                      return '';
+                    }
+                    return clsx('super-app', {
+                      negative: params.value < 0,
+                      positive: params.value >= 0,
+                    });
+                  },
                 renderHeader: () => (
-                    <strong>{'Percentage'}</strong>
+                    <strong>{'Status'}</strong>
                 )},
         ];
 
@@ -349,22 +360,32 @@ class Leaderboard extends Component {
             <div className={styles.leaderboard_list_container}>
                 <Box
                     sx={{
-                        width: '100%',
+                        width: 762,
                         '& .header-theme': {
                             backgroundColor: '#f0f0f0', 
+                        },
+                        '& .super-app.negative': {
+                            backgroundColor: '#eaaeb5',
+                            color: '#1a3e72',
+                            fontWeight: '600',
+                          },
+                        '& .super-app.positive': {
+                            backgroundColor: '#c4f1b6',
+                            color: '#1a3e72',
+                            fontWeight: '600',
                         },
                     }}
                 >
                     <DataGrid
-                    rows={completeFollowingUsers}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                />
+                        rows={completeFollowingUsers}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: { page: 0, pageSize: 5 },
+                            },
+                        }}
+                        pageSizeOptions={[5, 10]}
+                    />
                 </Box>
             </div>
           )}
