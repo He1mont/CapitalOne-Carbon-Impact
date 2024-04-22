@@ -27,7 +27,7 @@ export function GoBackBtn({ name, id }) {
   return (
     <div>
       <button onClick={handleGoBackClick} className={styles.go_back_btn}>
-        <img src="/images/goBack.png" alt="Go Back" className={styles.go_back_img} />
+        <img src="/images/home.png" alt="Go Back" className={styles.go_back_img} />
       </button>
     </div>
   )

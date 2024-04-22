@@ -643,6 +643,7 @@ function History() {
     <div>
       <Head name={name} id={id} />
       <Mid name={name} id={id} />
+      <Footer />
     </div>
   )
 }
