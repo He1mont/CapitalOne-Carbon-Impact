@@ -12,8 +12,6 @@ export function GoBackBtn({ name, id }) {
     });
     let helpPrev = params.prevPage;
 
-    console.log(helpPrev)
-
     if (helpPrev === "login") {
       history.push({
         pathname: '/login',
