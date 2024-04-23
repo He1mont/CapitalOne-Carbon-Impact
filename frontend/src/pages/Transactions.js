@@ -22,12 +22,27 @@ class TransactionTbl extends Component {
       searchInput: '',    // input in search bar
     };
   }
+  
 
   // intialize transactions using backend API
   componentDidMount = async () => {
     const data = await API.getAllTransactions(this.props.id);
-    this.setState({ transactions: data });
+    const convertedTransactions = await Promise.all(data.map(async (transaction) => {
+      const convertedAmount = await this.converter(transaction.amount, 'GBP');
+      return { ...transaction, amount: convertedAmount };
+    }));
+    this.setState({ transactions: convertedTransactions });
   }
+
+  converter = async (value, currency) => {
+    const response = await fetch(
+        `https://v6.exchangerate-api.com/v6/515e94b4c93a7abdfb065900/latest/${"USD"}`
+    );
+    const data = await response.json();
+    const conversionRate = data.conversion_rates[currency];
+    const convertedValue = value * conversionRate;
+    return convertedValue.toFixed(2);
+  };
 
   // helper function to convert timestamp into format DD/MM
   formatDate = (timestamp) => {
@@ -130,6 +145,7 @@ class TransactionTbl extends Component {
           <td>{transaction.carbonScore}</td>
         </tr>
       ));
+      
     }
 
     return (
@@ -170,7 +186,7 @@ class TransactionTbl extends Component {
                     <div className={styles.sort_arrow}>{this.state.currentCol === 3 && this.showArrow()}</div>
                   </th>
                   <th className={styles.h} style={{ width: '20%' }} onClick={() => this.changeSort("4")}>
-                    <div className={styles.header_text}>Amount</div>
+                    <div className={styles.header_text}>Amount (GBP)</div>
                     <div className={styles.sort_arrow}>{this.state.currentCol === 4 && this.showArrow()}</div>
                   </th>
                   <th className={styles.h} style={{ width: '35%' }} onClick={() => this.changeSort("5")}>
