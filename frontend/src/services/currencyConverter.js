@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 export function Converter(value, currency) {
-    const [rates, setRates] = useState();
-    const [ratesFetched, setRatesFetched] = useState(false);
     const [output, setOutput] = useState();
 
     useEffect(() => {
