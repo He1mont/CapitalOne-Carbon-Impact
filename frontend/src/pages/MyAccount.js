@@ -3,7 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import styles from "../assets/styles/MyAccount.module.css";
 import * as API from '../services/api';
 import { Logo, Footer, GoBackBtn} from './CommonComponents';
-import {converter} from '../services/currencyConverter';
+import {Converter} from '../services/currencyConverter';
 
 
 function Head({ name, id }) {
@@ -49,7 +49,7 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Home Address: </td>                          
                         </tr>
                         <tr>
-                            <td> 66512652</td>
+                            <td> {Converter(1, 'GBP')}</td>
                             <td> 72 Richard Road, Oxford, United Kingdom</td>                          
                         </tr>
                     </table>
