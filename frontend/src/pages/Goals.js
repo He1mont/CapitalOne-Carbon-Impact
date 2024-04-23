@@ -356,7 +356,7 @@ class Leaderboard extends Component {
       }}>
         <div className={styles.leaderboard_container}>
           {this.state.friendList.length === 0 ? (
-            <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
+            <p style={{ textAlign: 'center' }}>To view friends, add then through settings</p>
           ) : (
             <div className={styles.leaderboard_list_container}>
                 <Box
