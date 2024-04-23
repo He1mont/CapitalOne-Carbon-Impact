@@ -25,8 +25,7 @@ class TransactionController extends Controller {
   // Method to get a transaction by its ID for a specific account
   async getByID() {
     const { ctx, service } = this;
-    const accountID = ctx.params.accountID; // Extracting account ID from request parameters
-    const transactionID = ctx.params.transactionID; // Extracting transaction ID from request parameters
+    const { accountID, transactionID } = this.ctx.params; // Extracting ID from request parameters
     const res = await service.transaction.getByID(accountID, transactionID); // Calling service method to get transaction by ID
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
@@ -36,13 +35,42 @@ class TransactionController extends Controller {
   // Method to get the carbon impact of a transaction for a specific account
   async getCarbonImpact() {
     const { ctx, service } = this;
-    const accountID = this.ctx.params.accountID;          // Extracting account ID from request parameters
-    const transactionID = this.ctx.params.transactionID;  // Extracting transaction ID from request parameters
+    const { accountID, transactionID } = this.ctx.params; // Extracting ID from request parameters
     const res = await service.transaction.getCarbonImpact(accountID, transactionID); // Calling service method to get carbon impact of transaction
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
   }
+
+  // Method to get the total carbon score within a month
+  async getCarbonScoreByMonth() {
+    const { ctx, service } = this;
+    const { accountID } = this.ctx.params;    // Extracting ID from request parameters
+    ctx.validate({
+      month: "string",
+      year: "string"
+    }, ctx.request.body);
+    const { month, year } = ctx.request.body; // Extracting variables from request body 
+    const res = await service.transaction.getCarbonScoreByMonth(accountID, month, year);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
+  // Method to get the total carbon score within a month
+  async getCarbonScoreByMonthInCategories() {
+    const { ctx, service } = this;
+    const { accountID } = this.ctx.params;    // Extracting ID from request parameters
+    ctx.validate({
+      month: "string",
+      year: "string"
+    }, ctx.request.body);
+    const { month, year } = ctx.request.body; // Extracting variables from request body 
+    const res = await service.transaction.getCarbonScoreByMonthInCategories(accountID, month, year);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
+
 }
 
 module.exports = TransactionController; // Exporting TransactionController class

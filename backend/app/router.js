@@ -13,8 +13,9 @@ module.exports = app => {
   router.post('/accounts/:id/transactions', controller.transaction.createRandom);
   router.get('/accounts/:id/transactions', controller.transaction.getAllTransactions);
   router.get('/accounts/:accountID/transactions/:transactionID', controller.transaction.getByID);
-  // router.get('/accounts/:id/transactions/group-by-date', controller.transaction.groupByDate);
-  router.get('/accounts/:accountID/transactions/:transactionID/carbonImpact', controller.transaction.getCarbonImpact);
+  router.get('/accounts/:accountID/transactions/:transactionID/carbonScore', controller.transaction.getCarbonImpact);
+  router.get('/accounts/:accountID/carbonScores/monthly', controller.transaction.getCarbonScoreByMonth)
+  router.get('/accounts/:accountID/carbonScores/monthly/allCategories', controller.transaction.getCarbonScoreByMonthInCaregories)
   router.post('accounts/:accountID/friends/:friendID', controller.friend.addByID);
   router.delete('/accounts/:accountID/friends/:friendID', controller.friend.deleteFriend);
   router.get('/friends/:username', controller.accountTable.getID);

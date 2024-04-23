@@ -265,7 +265,7 @@ class TransactionService extends Service {
  * @param {number} month - The month of the transactions (1 to 12).
  * @returns {Object} Carbon score by category for the specified month.
  */
-  async getCarbonScoreByMonthInCategory(accountID, year, month) {
+  async getCarbonScoreByMonthInCategories(accountID, year, month) {
     const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
     const ret = {
       'Entertainment': 0,
