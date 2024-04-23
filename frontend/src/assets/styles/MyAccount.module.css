@@ -1,3 +1,12 @@
+html,
+body {
+  max-width: 100vw;
+  padding-left: 0px;
+  margin: 0px;
+  background-color: rgb(255, 255, 255);
+  font-family: Arial, sans-serif;
+  overflow-y: hidden;
+}
 /*------------------------------ HEADER ------------------------------*/
 .headBar {
     width: 100vw;
@@ -30,9 +39,9 @@
 
 /*------------------------------ MID CENTER ------------------------------*/
 .midCenter {
-    width: 70%;
-    height: 70%;
-    left: 15%;
+    width: 60vw;
+    height: 70vh;
+    left: 20vw;
     top: calc(65px + 8vh);
     position: absolute;
 
@@ -41,4 +50,28 @@
     border-color: rgb(231, 231, 231);
     border-width: 5px;
     border-style: solid;
+}
+.centerContainer {
+    width: calc(100% - 120px);
+    height: calc(100% - 60px);
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.titleText {
+    font-size: 4vh;
+}
+.sectionHeader {
+    padding-top: 10px;
+    font-size: 2.5vh;
+}
+.AccInfoTable {
+    width: calc(100% - 20px);
+    table-layout: fixed;
+    margin-top: 1.5vh;
+    margin-left: 10px;
+}
+.AccTableHeads {
+    color: rgb(80, 80, 80);
 }
