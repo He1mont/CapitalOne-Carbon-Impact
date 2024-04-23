@@ -288,13 +288,6 @@ class Leaderboard extends Component {
             const friend = getUser(userItem.username);
             const carbonGoal = getForUser(userItem.username);
             const status = parseInt(carbonGoal) - parseInt(userItem.carbonScore);
-            // let percentage;
-            // if (carbonGoal === 0) {
-            //     percentage = "NaN";
-            // } else {
-            //     percentage = (parseInt(userItem.carbonScore)/parseInt(carbonGoal)*100).toFixed(2) + '%';
-            // }
-
             const mergedObject = { ...friend, rank: rank, carbonScore: userItem.carbonScore, 
                 carbonGoal: carbonGoal, status: status };
             mergedArray.push(mergedObject);
@@ -431,7 +424,8 @@ function Mid({ name, id, month, onMonthChange }) {
         let goals = await API.getUserGoal(id);
 
         goals.map(goalItem => {
-            if (month.format('MMMM') === goalItem.month) {
+            if ((month.format('YYYY') === goalItem.year) && 
+                (month.format('MMMM') === goalItem.month)) {
                 setGoalEm(goalItem.goal);
                 ifSet = true;
             }
@@ -443,7 +437,7 @@ function Mid({ name, id, month, onMonthChange }) {
     };
 
     async function setGoal(inputGoal) {
-        await API.setUserGoal(id, inputGoal, month.format('MMMM'))
+        await API.setUserGoal(id, inputGoal, month.format('YYYY'), month.format('MMMM'))
             .then(() => {
                 setGoalEm(inputGoal);
             })

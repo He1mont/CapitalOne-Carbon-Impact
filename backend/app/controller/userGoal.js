@@ -3,11 +3,9 @@ const { Controller } = require('egg');
 class UserGoalController extends Controller {
   async createGoal() {
     const { ctx, service } = this;
-    const id = ctx.params.id;
-    const goal = ctx.params.goal;
-    const month = ctx.params.month;
+    const { id, goal, year, month } = ctx.params;
     try {
-      const res = await service.userGoal.createGoal(id, goal, month);
+      const res = await service.userGoal.createGoal(id, goal, year, month);
       ctx.status = 200;
       ctx.body = res;
     } catch (error) {

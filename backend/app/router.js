@@ -21,7 +21,7 @@ module.exports = app => {
   router.post('/friend/add-by-id/:accountID/:friendID', controller.friend.addByID);
   router.get('/friend/get-all/:id', controller.friend.getAll);
   router.delete('/friend/delete/:accountID/:friendID', controller.friend.deleteFriend);
-  router.post('/userGoal/set-goal/:id/:goal/:month', controller.userGoal.createGoal);
+  router.post('/userGoal/set-goal/:id/:goal/:year/:month', controller.userGoal.createGoal);
   router.delete('/userGoal/:id', controller.userGoal.userGoals);
   router.get('/userGoal/:id', controller.userGoal.userGoals);
 };

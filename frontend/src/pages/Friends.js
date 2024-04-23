@@ -9,55 +9,6 @@ import * as API from '../services/api';
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 
-class ManageFriends extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showDropdown: false
-        };
-        this.dropdownRef = React.createRef();
-    }
-    toggleDropdown = () => {
-        this.setState(prevState => ({
-            showDropdown: !prevState.showDropdown
-        }));
-    };
-    handleOutsideClick = (event) => {
-        if (this.dropdownRef.current && !this.dropdownRef.current.contains(event.target)) {
-            this.setState({
-                showDropdown: false
-            });
-        }
-    }
-    componentDidMount() {
-        document.addEventListener('click', this.handleOutsideClick, false);
-    }
-    componentWillUnmount() {
-        document.removeEventListener('click', this.handleOutsideClick, false);
-    }
-    handleDeleteFriendClick(item) {
-        this.props.removeFriend(item);
-    }
-
-    render() {
-        const { list } = this.props;
-        return (
-            <div className={styles.dropdown} ref={this.dropdownRef}>
-                <button onClick={this.toggleDropdown} className={styles.dropbtn}>Manage Friends</button>
-                <div id="myDropdown" className={`${styles.dropdownContent} ${this.state.showDropdown ? styles.show : ''}`}>
-                    {list.map((item, index) => (
-                        <a key={index} >
-                            {item.username}
-                            <img src={`/images/bin.png`} className={styles.dropdown_delete_icon}
-                                onClick={() => this.handleDeleteFriendClick(item)} />
-                        </a>
-                    ))}
-                </div>
-            </div>
-        );
-    }
-}
-
 /**
  * FollowingTbl component
  * Renders a table displaying all following users.
@@ -182,10 +133,14 @@ class Leaderboard extends Component {
     render() {
         const followingUsers = this.state.friendList;
         const columns = [
-            { field: 'username', width: 450, headerClassName: 'header-theme',
+            { field: 'username', width: 200,
             description: 'The username of the user you are following.',
             renderHeader: () => (
                 <strong>{'Following Users'}</strong>
+            )},
+            { field: 'email', width: 300, 
+            renderHeader: () => (
+                <strong>{'Email'}</strong>
             )},
         ];
 
@@ -223,11 +178,7 @@ class Leaderboard extends Component {
                         <div className={styles.leaderboard_list_container}>
                             <Box
                                 sx={{
-                                    width: '70%',
-                                    mr: 28,
-                                    '& .header-theme': {
-                                        backgroundColor: '#f0f0f0',
-                                    },
+                                    width: '100%',
                                 }}
                             >
                                 <DataGrid
