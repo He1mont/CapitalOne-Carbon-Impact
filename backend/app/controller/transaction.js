@@ -51,13 +51,13 @@ class TransactionController extends Controller {
       year: "string"
     }, ctx.request.body);
     const { month, year } = ctx.request.body; // Extracting variables from request body 
-    const res = await service.transaction.getCarbonScoreByMonth(accountID, month, year);
+    const res = await service.transaction.getCarbonScoreByMonth(accountID, year, month);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
   }
   // Method to get the total carbon score within a month
-  async getCarbonScoreByMonthInCategories() {
+  async getCarbonScoreByMonthInCaregories() {
     const { ctx, service } = this;
     const { accountID } = this.ctx.params;    // Extracting ID from request parameters
     ctx.validate({
@@ -65,7 +65,7 @@ class TransactionController extends Controller {
       year: "string"
     }, ctx.request.body);
     const { month, year } = ctx.request.body; // Extracting variables from request body 
-    const res = await service.transaction.getCarbonScoreByMonthInCategories(accountID, month, year);
+    const res = await service.transaction.getCarbonScoreByMonthInCategories(accountID, year, month);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;

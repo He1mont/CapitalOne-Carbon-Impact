@@ -242,7 +242,7 @@ class TransactionService extends Service {
     const transactions = await this.getAllTransactions(accountID)
     // getMonth returns 0 for Jan, 1 for Feb, ...
     return transactions.filter(item => {
-      return item.date.getFullYear() === year && item.date.getMonth() === month - 1;
+      return item.date.getFullYear() === parseInt(year) && item.date.getMonth() === parseInt(month) - 1;
     });
   }
 
