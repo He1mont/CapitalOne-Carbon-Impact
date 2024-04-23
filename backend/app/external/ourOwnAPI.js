@@ -102,7 +102,7 @@ app.delete('/delete-user-goals/:accountID', async (req, res) => {
 
 // Route to create a new transaction in the database
 // are first storying the info including genere etc with blank score then calling carbon api then amending the score
-// or after the carbon score is created are we storing it in the database
+// or after the carbon score is created are we storing it in the database 
 
 
 // in the api only work out total carbon score using the account id

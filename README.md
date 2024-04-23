@@ -96,12 +96,12 @@ More detailed documentation could be found [here](https://docs.cypress.io/guides
 
 Create a random account with two transactions:
 ```shell
-curl -X POST http://localhost:7001/account/create-random
+curl -X POST http://localhost:7001/accounts
 ```
 
 Create five random transactions for a sepcified account:
 ```shell
-curl -X POST http://localhost:7001/transaction/create-random/:accountID
+curl -X POST http://localhost:7001/accounts/:accountID/transactions
 ```
 
 ### Creating/Viewing Accounts & Transactions with Python

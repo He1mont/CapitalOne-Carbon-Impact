@@ -8,4 +8,8 @@ module.exports = {
     enable: true,
     package: 'egg-cors',
   },
+  validate:{
+    enable: true,
+    package: 'egg-validate',
+  }
 };

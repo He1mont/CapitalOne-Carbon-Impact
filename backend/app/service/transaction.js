@@ -80,6 +80,7 @@ class TransactionService extends Service {
       }
       return response.data;
     } catch (error) {
+      // Throw error if request fails
       throw new Error(error.response ? error.response.data : error.message);
     }
   }
@@ -242,6 +243,7 @@ class TransactionService extends Service {
   }
 
 
+  // Method to group transactions by date for a specific account
   async groupByDate(id) {
     try {
       const response = await axios.get(
@@ -255,13 +257,11 @@ class TransactionService extends Service {
         }
       );
 
+      // Group transactions by date
       const groupedData = {};
-
-      if (response.data.Transaction && response.data.Transaction.length > 0) {
-        response.data.Transaction.forEach(transaction => {
-          // extract the date section
+      if (response.data.Transactions && response.data.Transactions.length > 0) {
+        response.data.Transactions.forEach(transaction => {
           const timestamp = transaction.timestamp.split(' ')[0];
-
           if (!groupedData[timestamp]) {
             groupedData[timestamp] = [];
           }
@@ -274,6 +274,7 @@ class TransactionService extends Service {
     }
   }
 
+  // Method to add a transaction to the Carbon API
   async addTransactionToCarbonAPI(accountID, transactionID) {
     try {
       const hackathonResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
