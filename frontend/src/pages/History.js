@@ -79,6 +79,7 @@ class Graphs extends Component {
       dataForBar: [],
       categoryState: this.returnCategoryState(true),
       loading: true,
+      colourCorrection: 0
     };
   }
 
@@ -100,18 +101,60 @@ class Graphs extends Component {
 
   // return an object, each attribute is a category with value representing color
   getColors() {
-    return {
-      'Entertainment': '#D00000',
-      'Education': '#A657AE',
-      'Shopping': '#399E5A',
-      'Personal Care': '#60B2E5',
-      'Health & Fitness': '#EE7B30',
-      'Food & Dining': '#034732',
-      'Gifts & Donations': '#F6F740',
-      'Bills & Utilities': '#131cd1',
-      'Auto & Transport': '#2D93AD',
-      'Travel': '#37FF8B'
-    };
+    if (this.state.colourCorrection == 0) {
+      return {
+        'Entertainment': '#D00000',
+        'Education': '#A657AE',
+        'Shopping': '#399E5A',
+        'Personal Care': '#60B2E5',
+        'Health & Fitness': '#EE7B30',
+        'Food & Dining': '#034732',
+        'Gifts & Donations': '#F6F740',
+        'Bills & Utilities': '#131cd1',
+        'Auto & Transport': '#2D93AD',
+        'Travel': '#37FF8B'
+      };
+    } else if (this.state.colourCorrection == 1) {
+      return {
+        'Entertainment': '#D00000',
+        'Education': '#A657AE',
+        'Shopping': '#399E5A',
+        'Personal Care': '#60B2E5',
+        'Health & Fitness': '#EE7B30',
+        'Food & Dining': '#034732',
+        'Gifts & Donations': '#F6F740',
+        'Bills & Utilities': '#131cd1',
+        'Auto & Transport': '#2D93AD',
+        'Travel': '#37FF8B'
+      };
+    } else if (this.state.colourCorrection == 2) {
+      return {
+        'Entertainment': '#D00000',
+        'Education': '#A657AE',
+        'Shopping': '#399E5A',
+        'Personal Care': '#60B2E5',
+        'Health & Fitness': '#EE7B30',
+        'Food & Dining': '#034732',
+        'Gifts & Donations': '#F6F740',
+        'Bills & Utilities': '#131cd1',
+        'Auto & Transport': '#2D93AD',
+        'Travel': '#37FF8B'
+      };
+    } else if (this.state.colourCorrection == 3) {
+      return {
+        'Entertainment': '#D00000',
+        'Education': '#A657AE',
+        'Shopping': '#399E5A',
+        'Personal Care': '#60B2E5',
+        'Health & Fitness': '#EE7B30',
+        'Food & Dining': '#034732',
+        'Gifts & Donations': '#F6F740',
+        'Bills & Utilities': '#131cd1',
+        'Auto & Transport': '#2D93AD',
+        'Travel': '#37FF8B'
+      };
+    }
+    
   }
 
   getBackgroundColor(category) {
@@ -288,7 +331,7 @@ class Graphs extends Component {
                 }
               ]}
               width={400}
-              height={300}
+              height={250}
               slotProps={{ legend: { hidden: Hidden } }}
             />
           </div>;
@@ -310,7 +353,7 @@ class Graphs extends Component {
               }))}
               dataset={this.state.dataForLine}
               width={700}
-              height={400}
+              height={350}
               slotProps={{ legend: { hidden: Hidden } }}
             />
           </div>;
@@ -322,7 +365,7 @@ class Graphs extends Component {
               xAxis={[{ data: this.generateBarChartXLabel(), scaleType: 'band' }]}
               series={this.state.dataForBar}
               width={700}
-              height={400}
+              height={350}
               slotProps={{ legend: { hidden: Hidden } }}
             />
           </div>;

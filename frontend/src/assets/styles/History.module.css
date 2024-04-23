@@ -1,6 +1,6 @@
 html,
 body {
-  max-width: 100%;
+  max-width: 100vw;
   padding-left: 0px;
   margin: 0px;
   background-color: rgb(255, 255, 255);
@@ -82,7 +82,7 @@ body {
   height: auto;
   min-height: 300px;
   position: absolute;
-  bottom: 0px;
+  top: 150px;
 }
 
 /*------------------------------ MONTH RANGE PICKER ------------------------------*/
@@ -137,6 +137,7 @@ body {
   display: flex;
   justify-content: center;
   background-color: #f3f3f3ff;
+  z-index: 1;
 }
 
 .graphs_picker {
@@ -169,13 +170,12 @@ body {
   position: absolute;
   display: flex;
   justify-content: center;
-  top: 70px;
-  width: 100%;
+
+  width: 100vw;
   min-height: 550px;
-  height: auto;
+  height: 75vh;
   background-color: white;
   padding-bottom: 20px;
-  padding-top: 30px;
 }
 
 .graph_category_container {
@@ -184,7 +184,8 @@ body {
   width: 70%;
   display: flex;
   justify-content: center;
-  bottom: 10px;
+  bottom: calc(3vh);
+  margin-bottom: 50px;
 }
 
 .graph_category_picker {
@@ -213,7 +214,6 @@ body {
 }
 
 .graph_container_pie {
-  margin-top: -80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,14 +221,12 @@ body {
 }
 
 .graph_container_line {
-  margin-top: -80px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .graph_container_bar {
-  margin-top: -80px;
   display: flex;
   align-items: center;
   justify-content: center;
