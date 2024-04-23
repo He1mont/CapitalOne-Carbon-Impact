@@ -92,7 +92,7 @@ function Mid({name, id}) {
                                     <select className={styles.AccTableDropdown} id="Currency">
                                         <option value="1">CNY</option>
                                         <option value="2">EUR</option>
-                                        <option value="3">GBP</option>
+                                        <option value="3" selected="selected">GBP</option>
                                         <option value="4">HKD</option>
                                         <option value="5">JPY</option>
                                         <option value="6">USD</option>
