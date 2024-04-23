@@ -26,7 +26,7 @@ class userGoalService extends Service {
         },
       });
       if (UserGoal.length > 0) {
-        // If the account already exists , update its goal
+        // If the account already exists, update its goal
         await prisma.userGoals.updateMany({
           where: {
             accountID: id,

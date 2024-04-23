@@ -11,8 +11,7 @@ module.exports = app => {
   router.get('/accounts/email', controller.account.getByEmail);
   router.get('/accounts/:id', controller.account.getByID);
   router.post('/accounts/:id/transactions', controller.transaction.createRandom);
-  router.get('/accounts/:id/transactions', controller.transaction.getTransactions);
-  // router.get('/accounts/:id/transactions', controller.transaction.getAll);
+  router.get('/accounts/:id/transactions', controller.transaction.getAllTransactions);
   router.get('/accounts/:accountID/transactions/:transactionID', controller.transaction.getByID);
   // router.get('/accounts/:id/transactions/group-by-date', controller.transaction.groupByDate);
   router.get('/accounts/:accountID/transactions/:transactionID/carbonImpact', controller.transaction.getCarbonImpact);

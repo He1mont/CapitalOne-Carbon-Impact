@@ -2,6 +2,7 @@ const { Controller } = require('egg');
 
 class FriendController extends Controller {
 
+  // Method to add a new friend by their ID
   async addByID() {
     const { ctx, service } = this;
     const { accountID, friendID } = ctx.params;
@@ -10,6 +11,7 @@ class FriendController extends Controller {
     ctx.body = res;
   }
 
+  // Method to get all friends of a certain account
   async getAll() {
     const { ctx, service } = this;
     const id = ctx.params.id;
@@ -18,6 +20,7 @@ class FriendController extends Controller {
     ctx.body = res;
   }
 
+  // Method to delete a friend from one's friends list
   async deleteFriend() {
     const { ctx, service } = this;
     const { accountID, friendID } = ctx.params;

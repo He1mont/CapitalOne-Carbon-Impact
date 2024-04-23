@@ -44,7 +44,7 @@ class TransactionService extends Service {
       );
     }
     // Throw an error if accountID is suspended or closed
-    if ([ 'closed', 'suspended' ].includes(account[0].state)) {
+    if (['closed', 'suspended'].includes(account[0].state)) {
       throw new Error(
         JSON.stringify({
           errorCode: 400,
@@ -52,7 +52,6 @@ class TransactionService extends Service {
         })
       );
     }
-
     // Call the Hackathon API to create transactions
     try {
       const response = await axios.post(
@@ -83,7 +82,6 @@ class TransactionService extends Service {
             category: item.merchant.category,
             amount: parseFloat(item.amount),
             date: new Date(item.timestamp),
-            // carbonScore: 100.0
             carbonScore: await this.getCarbonImpact(item.accountUUID, item.transactionUUID),
           },
         });
@@ -100,7 +98,7 @@ class TransactionService extends Service {
    * @param {string} id - The ID of the account.
    * @returns {Array} Array of transactions.
    */
-  async getAll(id) {
+  async getAllTransactions(id) {
     const transactions = await prisma.transaction.findMany({
       where: {
         accountID: id,
@@ -125,17 +123,59 @@ class TransactionService extends Service {
     return transaction;
   }
 
-    /**
-   * Retrieves the carbon impact of a transaction.
-   * @param {string} accountID - The ID of the account associated with the transaction.
-   * @param {string} transactionID - The ID of the transaction.
-   * @returns {number} The carbon impact of the transaction.
-   */
-    async getCarbonImpact(accountID, transactionID) {
-      // Get the specified account from Hackathon API
-      try {
-        const hackathonResponse = await axios.get(
-          `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`,
+  /**
+ * Retrieves the carbon impact of a transaction.
+ * @param {string} accountID - The ID of the account associated with the transaction.
+ * @param {string} transactionID - The ID of the transaction.
+ * @returns {number} The carbon impact of the transaction.
+ */
+  async getCarbonImpact(accountID, transactionID) {
+    // Get the specified account from Hackathon API
+    try {
+      const hackathonResponse = await axios.get(
+        `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authJWT}`,
+            version: '1.0',
+          },
+        }
+      );
+
+      if (hackathonResponse.status === 200) {
+        // const hackathonData = hackathonResponse.data;
+
+        // Get the associated card profile from Carbon API
+        const carbonResponse = await axios.get(
+          `https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${CARBON_API_KEY}`,
+            },
+          }
+        );
+
+        const carbonData = carbonResponse.data;
+        let cardProfileID = -1;
+
+        for (const account of carbonData) {
+          if (account.data.attributes.external_id === accountID) {
+            cardProfileID = account.data.id;
+            break;
+          }
+        }
+
+        if (cardProfileID === -1) {
+          throw new Error(
+            "Card Profile hasn't been created for this account. Create a Card Profile first."
+          );
+        }
+
+        // Get the specified transaction
+        const hackathonTransactionResponse = await axios.get(
+          `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -144,13 +184,10 @@ class TransactionService extends Service {
             },
           }
         );
-  
-        if (hackathonResponse.status === 200) {
-          // const hackathonData = hackathonResponse.data;
-  
-          // Get the associated card profile from Carbon API
-          const carbonResponse = await axios.get(
-            `https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`,
+
+        if (hackathonTransactionResponse.status === 200) {
+          const carbonTransactionResponse = await axios.get(
+            `https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`,
             {
               headers: {
                 'Content-Type': 'application/json',
@@ -158,95 +195,51 @@ class TransactionService extends Service {
               },
             }
           );
-  
-          const carbonData = carbonResponse.data;
-          let cardProfileID = -1;
-  
-          for (const account of carbonData) {
-            if (account.data.attributes.external_id === accountID) {
-              cardProfileID = account.data.id;
-              break;
-            }
-          }
-  
-          if (cardProfileID === -1) {
-            throw new Error(
-              "Card Profile hasn't been created for this account. Create a Card Profile first."
-            );
-          }
-  
-          // Get the specified transaction
-          const hackathonTransactionResponse = await axios.get(
-            `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`,
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${authJWT}`,
-                version: '1.0',
-              },
-            }
-          );
-  
-          if (hackathonTransactionResponse.status === 200) {
-            const carbonTransactionResponse = await axios.get(
-              `https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${cardProfileID}/transactions`,
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${CARBON_API_KEY}`,
-                },
-              }
-            );
-  
-            const carbonTransactionData = carbonTransactionResponse.data;
-            let carbonTransactionID = -1;
-  
-            let carbonInGrams = 0;
-  
-            for (const transaction of carbonTransactionData) {
-              // Find the transaction in Carbon API that matches the specified one from Hackathon API
-              if (transaction.data.attributes.external_id === transactionID) {
-                carbonTransactionID = transaction.data.id;
-                if (carbonTransactionID === -1) {
-                  throw new Error(
-                    "Transaction data hasn't been created for this transaction."
-                  );
-                }
-                // Get the carbon grams value
-                carbonInGrams = transaction.data.attributes.carbon_grams;
-              }
-            }
-            let carbonScore = Math.abs(carbonInGrams);
-  
-            // Include point of sale as a multiplier
-            if ((hackathonTransactionResponse.data.pointOfSale = 'Online')) {
-              carbonScore = carbonScore / 2;
-            }
-            // Return as a score, not grams value
-            return Math.ceil(carbonScore / 1000);
-          }
-          throw new Error("This transaction ID doesn't exist.");
-        } else {
-          throw new Error("This account doesn't exist.");
-        }
-      } catch (error) {
-        throw new Error(error.response ? error.response.data : error.message);
-      }
-    }
 
-    /**
- * Retrieves a list of transactions for a specific month.
- * @param {string} accountID - The ID of the account.
- * @param {number} year - The year of the transactions.
- * @param {number} month - The month of the transactions (1 to 12).
- * @returns {Array} List of transactions for the specified month.
- */
+          const carbonTransactionData = carbonTransactionResponse.data;
+          let carbonTransactionID = -1;
+          let carbonInGrams = 0;
+
+          for (const transaction of carbonTransactionData) {
+            // Find the transaction in Carbon API that matches the specified one from Hackathon API
+            if (transaction.data.attributes.external_id === transactionID) {
+              carbonTransactionID = transaction.data.id;
+              if (carbonTransactionID === -1) {
+                throw new Error(
+                  "Transaction data hasn't been created for this transaction."
+                );
+              }
+              // Get the carbon grams value
+              carbonInGrams = transaction.data.attributes.carbon_grams;
+            }
+          }
+          let carbonScore = Math.abs(carbonInGrams);
+
+          // Include point of sale as a multiplier
+          if ((hackathonTransactionResponse.data.pointOfSale = 'Online')) {
+            carbonScore = carbonScore / 2;
+          }
+          // Return as a score, not grams value
+          return Math.ceil(carbonScore / 1000);
+        }
+        throw new Error("This transaction ID doesn't exist.");
+      } else {
+        throw new Error("This account doesn't exist.");
+      }
+    } catch (error) {
+      throw new Error(error.response ? error.response.data : error.message);
+    }
+  }
+
+  /**
+* Retrieves a list of transactions for a specific month.
+* @param {string} accountID - The ID of the account.
+* @param {number} year - The year of the transactions.
+* @param {number} month - The month of the transactions (1 to 12).
+* @returns {Array} List of transactions for the specified month.
+*/
   async getTransactionsByMonth(accountID, year, month) {
-    const transactions = await prisma.transaction.findMany({
-      where: {
-        accountID,
-      },
-    });
+    const transactions = await this.getAllTransactions(accountID)
     // getMonth returns 0 for Jan, 1 for Feb, ...
     return transactions.filter(item => {
       return item.date.getFullYear() === year && item.date.getMonth() === month - 1;
@@ -275,57 +268,22 @@ class TransactionService extends Service {
   async getCarbonScoreByMonthInCategory(accountID, year, month) {
     const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
     const ret = {
-      Entertainment: 0,
-      Education: 0,
-      Shopping: 0,
+      'Entertainment': 0,
+      'Education': 0,
+      'Shopping': 0,
       'Personal Care': 0,
       'Health & Fitness': 0,
       'Food & Dining': 0,
       'Gifts & Donations': 0,
       'Bills & Utilities': 0,
       'Auto & Transport': 0,
-      Travel: 0,
+      'Travel': 0,
     };
     // Calculate carbon score by category
     for (const item of filteredTransactions) {
       ret[item.category] += item.carbonScore;
     }
     return ret;
-  }
-
-  /**
-   * Groups transactions by date for a specified account ID.
-   * @param {string} id - The ID of the account.
-   * @returns {Object} Grouped transactions by date.
-   */
-  async groupByDate(id) {
-    try {
-      const response = await axios.get(
-        `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${id}/transactions`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authJWT}`,
-            version: '1.0',
-          },
-        }
-      );
-
-      // Group transactions by date
-      const groupedData = {};
-      if (response.data.Transactions && response.data.Transactions.length > 0) {
-        response.data.Transactions.forEach(transaction => {
-          const timestamp = transaction.timestamp.split(' ')[0];
-          if (!groupedData[timestamp]) {
-            groupedData[timestamp] = [];
-          }
-          groupedData[timestamp].push(transaction);
-        });
-      }
-      return groupedData;
-    } catch (error) {
-      throw new Error(error.response ? error.response.data : error.message);
-    }
   }
 
   /**

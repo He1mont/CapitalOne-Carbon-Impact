@@ -26,10 +26,6 @@ class AccountService extends Service {
     const quantity = 1;
     const numTransactions = 0;
     const liveBalance = false;
-    var account = null;
-    var randomNumber;
-    var userName;
-
 
     try {
       // Create an account through Hackathon API
@@ -65,24 +61,23 @@ class AccountService extends Service {
       });
 
       // for each account made, find the ccount ID and call functions to add to carbon API
-      for(let i=0; i<quantity; i++)
-      {
+      for (let i = 0; i < quantity; i++) {
         account = response.data.Accounts[i];
         const accountID = account.accountId;
-        
+
         // create a (Carbon API) card profile from the created account
         await this.createCardProfile(accountID);
         // add each existing transaction as a Carbon API transaction
         await this.createTransactionsForAll(accountID);
-        
-        randomNumber = Math.random()*10;
+
+        randomNumber = Math.random() * 10;
         userName = account.firstname + account.lastname[0] + randomNumber;
 
-         // Store the username into database
-         await prisma.account.create({
+        // Store the username into database
+        await prisma.account.create({
           data: {
-          username: userName,
-          accountID: accountID,
+            username: userName,
+            accountID: accountID,
           },
         });
       }
@@ -120,7 +115,7 @@ class AccountService extends Service {
    * Retrieves a user account by its email; return empty list if not found.
    * @param {string} emailToFind - The email of the account to retrieve.
    * @returns {Array} Array containing the user account matching the email.
-   */ 
+   */
   async getByEmail(emailToFind) {
     const account = await prisma.account.findMany({
       where: {
@@ -243,14 +238,14 @@ class AccountService extends Service {
   async createTransactionsForAll(accountID) {
     // Get the specified account from the hackathon API
     try {
-        // Get all accounts
-        const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authJWT}`,
-            version: '1.0',
-          },
-        }
+      // Get all accounts
+      const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authJWT}`,
+          version: '1.0',
+        },
+      }
       );
 
       if (response.status === 200) {
@@ -269,15 +264,15 @@ class AccountService extends Service {
         const transactions = response.data.Transactions;
 
 
-          // Get all card profiles
-          const accounts = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${CARBON_API_KEY}`,
-              }
-          });
-          const accountData = accounts.data;
-          const account = accountData.find(account => account.data.attributes.external_id === accountID);
+        // Get all card profiles
+        const accounts = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${CARBON_API_KEY}`,
+          }
+        });
+        const accountData = accounts.data;
+        const account = accountData.find(account => account.data.attributes.external_id === accountID);
 
         if (!account) {
           throw new Error(
@@ -299,42 +294,42 @@ class AccountService extends Service {
             }
           );
 
-              if (!existingTransaction.data.find(tr => tr.data.attributes.external_id === transaction.transactionID)) { // If not, add transaction
-                  let mcc;
-                  switch (transaction.merchant.category) { // Picking the merchant code based on merchant category
-                      case "Entertainment":
-                          mcc = "7996";
-                          break;
-                      case "Education":
-                          mcc = "5942";
-                          break;
-                      case "Shopping":
-                          mcc = "5691";
-                          break;
-                      case "Personal Care":
-                          mcc = "8050";
-                          break;
-                      case "Health & Fitness":
-                          mcc = "7298";
-                          break;
-                      case "Food & Dining":
-                          mcc = "5812";
-                          break;
-                      case "Gifts & Donations":
-                          mcc = "5947";
-                          break;
-                      case "Bills & Utilities":
-                          mcc = "4900";
-                          break;
-                      case "Auto & Transport":
-                          mcc = "4111";
-                          break;
-                      case "Travel":
-                          mcc = "4582";
-                          break;
-                      default:
-                          mcc = "5399";
-                  }
+          if (!existingTransaction.data.find(tr => tr.data.attributes.external_id === transaction.transactionID)) { // If not, add transaction
+            let mcc;
+            switch (transaction.merchant.category) { // Picking the merchant code based on merchant category
+              case "Entertainment":
+                mcc = "7996";
+                break;
+              case "Education":
+                mcc = "5942";
+                break;
+              case "Shopping":
+                mcc = "5691";
+                break;
+              case "Personal Care":
+                mcc = "8050";
+                break;
+              case "Health & Fitness":
+                mcc = "7298";
+                break;
+              case "Food & Dining":
+                mcc = "5812";
+                break;
+              case "Gifts & Donations":
+                mcc = "5947";
+                break;
+              case "Bills & Utilities":
+                mcc = "4900";
+                break;
+              case "Auto & Transport":
+                mcc = "4111";
+                break;
+              case "Travel":
+                mcc = "4582";
+                break;
+              default:
+                mcc = "5399";
+            }
 
             const transactionData = {
               accountCarbonID: account.data.id,
