@@ -16,11 +16,12 @@ class userGoalService extends Service {
    * @param {number} month - The month for which the goal is set.
    * @returns {Object} The created user goal.
    */
-  async createGoal(id, goal, month) {
+  async createGoal(id, goal, month, year) {
     try {
       const UserGoal = await prisma.userGoals.findMany({
         where: {
           accountID: id,
+          year,
           month,
         },
       });
@@ -29,19 +30,21 @@ class userGoalService extends Service {
         await prisma.userGoals.updateMany({
           where: {
             accountID: id,
-            month,
+            year,
+            month
           },
           data: {
             goal,
           },
         });
-        return { errorCode: 200, message: 'Sucessfully updated the user goal' };
+        return { status: 200, message: 'Sucessfully updated the user goal' };
       }
       // If the account doesn't exist, create it with the goal
       const newUserGoal = await prisma.userGoals.create({
         data: {
           accountID: id,
           goal,
+          year,
           month,
         },
       });
@@ -105,7 +108,6 @@ class userGoalService extends Service {
           accountID: id,
         },
       });
-
       return userGoal;
 
     } catch (error) {

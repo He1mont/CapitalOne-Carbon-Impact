@@ -1,78 +1,38 @@
-import React from 'react';
-import { useHistory ,useLocation} from 'react-router-dom';
-import styles from '../assets/styles/Help.module.css'; // Import CSS module
-import { useCollapse } from 'react-collapsed'
+// Help.js
+import React, { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
+import styles from "../assets/styles/Help.module.css"; // Import CSS module
 import Popup from "../components/popup";
 import UsernamePopup from "../components/UsernamePopup";
 import PasswordPopup from "../components/PasswordPopup";
 import ContactPopup from "../components/ContactPopup";
 import Tickets from "../components/Ticket";
+import { Logo, GoBackBtn, Footer } from "./CommonComponents";
+// import { useCollapse } from "react-collapsed";
+// import kommunicateChat from "../chat";
 import axios from "axios";
-
+// import openai from "openai";
+// const openaiClient = new openai(
+//   "sk-proj-i6EmGycfY7PUHGzZASw5T3BlbkFJ0Zvmq1gszKiCg9rohEIz"
+// );
 
 /**
- * Collapsible component.
- * @param {Object} props - The props containing defaultExpanded, collapsedHeight, and title.
- */
-function Collap(props) {
-    const config = {
-        defaultExpanded: props.defaultExpanded || false,
-        collapsedHeight: props.collapsedHeight || 0
-    };
-    const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
-return (
-    <div className={styles.collapsible}>
-        <div className={styles.header} {...getToggleProps()}>
-            <div className={styles.title}>{props.title}</div>
-        </div>
-        <div {...getCollapseProps()}>
-            <div className={styles.content}>
-                {props.children}
-            </div>
-        </div>
-    </div>
-    );
-}
-/**
- * Head component:
- * Displays the top part of the help including the logo.
+ * Head component
+ * Displays the top part of the help including the rgo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head() {
-  const history = useHistory();
-  /**
-   * Handles click event to navigate to the home page or the previous page.
-   */
-  function handleLoginClick() {
-    history.push({
-      pathname: "/",
-    });
-  }
-
-  /**
-   * handleLoginClick function:
-   * Redirects user to the login page when the login button is clicked.
-   */
+function Head({ name, id }) {
   return (
     <div className={styles.headBar}>
-      {/* Logo */}
-      <div className={styles.headCenter}>
-        <img
-          src="/images/Logo.png"
-          className={styles.headImg}
-          alt="Logo"
-          onClick={handleLoginClick}
-        />
-      </div>
+      <Logo />
+      <GoBackBtn name={name} id={id} />
     </div>
-
   );
 }
 
 /**
- * Mid component:
+ * Mid component
  * Displays the middle section of the help page, including user information and button redirecting to other pages.
- * @param {Object} props - The props containing the user's name.
  */
 function Mid({ name }) {
   return (
@@ -96,9 +56,8 @@ function Mid({ name }) {
 }
 
 /**
- * Low component:
+ * Low component
  * Displays the lower section of the help page, including buttons for transactions, goals, and history.
- * @param {Object} props - The props containing the user's name and ID.
  */
 function ResponsePopup({ open, onClose, response }) {
   console.log("Response prop:", response);
@@ -131,6 +90,7 @@ function ResponsePopup({ open, onClose, response }) {
     </div>
   );
 }
+
 function Low({ name, id }) {
   const history = useHistory();
   const [openPop, setOpen] = useState(false);
@@ -140,23 +100,22 @@ function Low({ name, id }) {
   const [openTicketPopup, setTicketPopup] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const { data } = await axios.post("http://localhost:8080/chat", {
-      prompt,
-    });
-    console.log("API Response:", data);
-   
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("http://localhost:8080/chat", {
+        prompt,
+      });
+      console.log("API Response:", data);
 
-    // Use the response directly from the backend
-    setResponse(data.message); 
-    
-  } catch (error) {
-    console.error(error);
-  }
-};
-  
+      // Use the response directly from the backend
+      setResponse(data.message);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   function handleFAQ() {
     history.push({
       pathname: "/FAQS",
@@ -187,13 +146,10 @@ const handleSubmit = async (e) => {
             <button className={styles.submit} type="submit">
               Submit
             </button>
-            
           </div>
-          
         </form>
-       
-        
       </div>
+
       <table className={styles.low_bar_tbl}>
         <tbody>
           <tr>
@@ -322,24 +278,49 @@ const handleSubmit = async (e) => {
         </tbody>
       </table>
       <ResponsePopup open={response !== ""} onClose={() => setResponse("")} response={response} />
-
-    </div>
+    </div >
   );
 }
 
-/**
- * Footer component:
- * Displays the footer of the homepage, including copyright information.
- */
-function Footer() {
-  return (
-    <div className={styles.footer}>
-      <p>© 2023-2024 Team7. All rights reserved.</p>
-    </div>
-  );
+function ChatraSetup() {
+  useEffect(() => {
+    if (window.ChatraID) return;
+
+    // Set up Chatra configuration with onNewMessage
+    window.ChatraSetup = {
+      onNewMessage: function (message) {
+        console.log('New message:', message);
+        // Example: Auto-response to a specific keyword
+        if (message.text.includes("hello")) {
+          // Assuming a hypothetical function provided by Chatra for sending messages
+          // Note: This is conceptual; refer to Chatra's API for actual implementation
+          window.Chatra.sendMessage({
+            text: "Hello! How can I help you today?",
+            type: "agent"
+          });
+        }
+      }
+    };
+
+    window.ChatraID = 'e3qJrWY3yZqK9zBrt';
+    (function (d, w, c) {
+      var n = d.getElementsByTagName('script')[0],
+        s = d.createElement('script');
+      w[c] = w[c] || function () {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      n.parentNode.insertBefore(s, n);
+    })(document, window, 'Chatra');
+  }, []);
+
+  return null;
 }
+
+
 /**
- * HomePage component:
+ * HomePage component
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function Help() {
@@ -371,17 +352,12 @@ function Help() {
       m._globals = kommunicateSettings;
     })(document, window.kommunicate || {});
   }, []);
-  
-  
-
- 
 
   return (
     <div>
-      <Head />
+      <Head name={name} id={id} />
       <Mid name={name} />
       <Low name={name} id={id} />
-     
       <Footer />
     </div>
   );

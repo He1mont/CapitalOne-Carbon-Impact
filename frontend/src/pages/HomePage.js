@@ -1,109 +1,33 @@
-import React, { useState, useEffect, useRef, Component }  from 'react';
+// HomePage.js
+import React, { useState, useEffect, useRef, Component } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Home.module.css'; // Import CSS file
-
+import { SettingBtn, Logo, Footer } from './CommonComponents';
 
 /**
  * Head component:
  * Displays the top part of the homepage including the logo and login button.
  * Utilizes useHistory from react-router-dom for navigation.
  */
-function Head() {
-  const history = useHistory();
-  const params = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-  });
-  let settingsToggle = params.st;
-
-  /**
-   * Handles click event to toggle settings visibility.
-   */
-  function handleSettingsClick() {
-    if (settingsToggle == "t") {
-      history.push('/home?st=f');
-    } else {
-      history.push('/home?st=t');
-    }
-    
-  }
-
+function Head({ name, id }) {
   return (
     <div className={styles.head_bar}>
-      {/* Logo */}
-      <div className={styles.head_center}>
-        <img src="/images/Logo.png" className={styles.head_img} alt="Logo" />
-      </div>
-
-      {/* Settings */}
-      <div className={styles.head_settings_container}>
-        <button onClick={handleSettingsClick} className={styles.settings_btn}>
-          <img src="/images/settings.png" alt="Settings" className={styles.settings_img}/>
-        </button>
-      </div>
+      <Logo />
+      <SettingBtn name={name} id={id} />
     </div>
   );
 }
 
 /**
- * Mid component:
- * Displays the middle section of the homepage, including user information and button redirecting to other pages.
+ * Mid component
+ * Displays the middle section of the homepage, includes a dropdown for help and user settings.
  */
 function Mid({ name }) {
-  const history = useHistory();
-  const params = new URLSearchParams(useLocation().search);
-  const settingsToggle = params.get("st");
-  const dropdownRef = useRef(null);
-
-  /**
-   * Handles click event to navigate to the Help page.
-   */
-  function handleHelpClick() {
-    history.push('/Help?prevPage=home');
-  }
-  /**
-   * Handles click event to sign out.
-   */
-  function handleSignoutClick() {
-    history.push('/');
-  }
-
-  /**
-   * Renders the settings dropdown if toggle is set to true.
-   */
-  function showSettings() {
-    if (settingsToggle == "t") {
-      return (
-        <div className={styles.dropdownBox} ref={dropdownRef}>
-          <div className={styles.triangle}></div>
-          <div className={styles.dropdownAccName}><b>{name}</b></div>
-          <div className={`${styles.dropdownContainer}`}>
-            <div className={styles.dropdownBtn} style={{ top: '32px' }}>
-              <img src="/images/user.png" alt="Settings" className={styles.dropdownImg}/>
-              <div className={styles.dropdownTxt}><b>My Account</b></div>
-            </div>
-            <div className={styles.dropdownBtn} style={{ top: '82px' }} onClick={handleHelpClick}>
-              <img src="/images/help.png" alt="Settings" className={styles.dropdownImg}/>
-              <div className={styles.dropdownTxt}><b>Help</b></div>
-            </div>
-            <div className={styles.dropdownBtn} style={{ top: '130px' }} onClick={handleSignoutClick}>
-              <img src="/images/signout.png" alt="Settings" className={styles.dropdownImg}/>
-              <div className={styles.dropdownTxt}><b>Sign Out</b></div>
-            </div>
-          </div>
-          
-        </div>
-      )
-    } else {
-    }
-  }
-
-
   return (
     <div className={styles.mid_bar}>
-      {showSettings()}
       {/* User Information and Carbon Impact Section */}
       <div className={styles.mid_high}>
-        
+
         <div className={styles.mid_high_txt_left}>
           <p>{name}</p>
           <h1>Your Carbon Impact</h1>
@@ -143,7 +67,7 @@ function Low({ name, id }) {
    */
   function handleTransactionsClick() {
     history.push({
-      pathname: '/Transactions',
+      pathname: '/home/transactions',
       state: { name: name, id: id }
     });
   }
@@ -153,7 +77,7 @@ function Low({ name, id }) {
    */
   function handleGoalsClick() {
     history.push({
-      pathname: '/Goals',
+      pathname: '/home/goals',
       state: { name: name, id: id }
     });
   }
@@ -163,7 +87,7 @@ function Low({ name, id }) {
    */
   function handleHistoryClick() {
     history.push({
-      pathname: '/History',
+      pathname: '/home/history',
       state: { name: name, id: id }
     });
   }
@@ -224,29 +148,16 @@ function Low({ name, id }) {
 }
 
 /**
- * Footer component:
- * Displays the footer of the homepage, including copyright information.
- */
-function Footer() {
-  return (
-    <div className={styles.footer}>
-      <p>© 2023-2024 Team7. All rights reserved.</p>
-    </div>
-  );
-}
-
-/**
- * HomePage component:
+ * HomePage component
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function HomePage() {
-  const history = useHistory();
   const location = useLocation();
   const name = location.state?.name || "You need to login";
   const id = location.state?.id;
   return (
     <div>
-      <Head />
+      <Head name={name} id={id} />
       <Mid name={name} />
       <Low name={name} id={id} />
       <Footer />

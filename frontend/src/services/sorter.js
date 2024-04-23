@@ -1,13 +1,5 @@
-import * as API from './api';
-
-// Five helper functions for column sort:
-
-/**
- * Sorts transactions by date in ascending or descending order.
- * @param {Array} transactions - The array of transactions to be sorted.
- * @param {boolean} flag - The flag indicating the sorting order (true for ascending, false for descending).
- * @returns {Array} The sorted array of transactions.
- */
+// src/services/sorter.js
+// 5 helper functions for column sort
 function sortByDate(transactions, flag) {
     return transactions.sort((a, b) => {
         if (flag)   // ascending order

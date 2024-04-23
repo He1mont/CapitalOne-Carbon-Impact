@@ -25,7 +25,7 @@ export async function getAccountByEmail(email) {
 export async function getAccountByUsername(username) {
   try {
     const response = await axios.get(`http://127.0.0.1:7001/account/get-by-username/${username}`);
-    return response.data[0]
+    return response.data
 
   } catch (error) {
     console.error("Error fetching account by username:", error);
@@ -158,16 +158,9 @@ export async function getUserGoal(accountID) {
   }
 }
 
-/**
- * Sets the goal for the specified account and month on the backend.
- * @param {string} accountID - The ID of the account to set the goal for.
- * @param {number} goal - The goal value to set.
- * @param {string} month - The month to set the goal for (in YYYY-MM format).
- * @returns {Promise<Object>} A Promise that resolves to the result of the operation.
- */
-export async function setUserGoal(accountID, goal, month) {
+export async function setUserGoal(accountID, goal, year, month) {
   try {
-    const response = await axios.post(`http://localhost:7001/userGoal/set-goal/${accountID}/${goal}/${month}`);
+    const response = await axios.post(`http://localhost:7001/userGoal/set-goal/${accountID}/${goal}/${year}/${month}`);
     return response.data;
     
   } catch (error) {
