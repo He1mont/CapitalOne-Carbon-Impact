@@ -3,6 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import styles from "../assets/styles/MyAccount.module.css";
 import * as API from '../services/api';
 import { Logo, Footer, GoBackBtn} from './CommonComponents';
+import {converter} from '../services/currencyConverter';
 
 
 function Head({ name, id }) {
