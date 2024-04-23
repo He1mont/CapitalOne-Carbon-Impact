@@ -30,8 +30,8 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Phone Number: </td>                          
                         </tr>
                         <tr>
-                            <td> Benji </td>
-                            <td> +44 1234 567890</td>                          
+                            <td> Blondell </td>
+                            <td> +44873425431</td>                          
                         </tr>
                         <br/>
                         <tr>
@@ -39,8 +39,8 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Email Address: </td>                          
                         </tr>
                         <tr>
-                            <td> Goringe</td>
-                            <td> email@email.com</td>                          
+                            <td> Bartell</td>
+                            <td> Blondell.Bartell@emailservice.co.uk</td>                          
                         </tr>
                         <br/>
                         <tr>
@@ -48,8 +48,8 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Home Address: </td>                          
                         </tr>
                         <tr>
-                            <td> 12345678</td>
-                            <td> house, AB1 2CD</td>                          
+                            <td> 66512652</td>
+                            <td> 72 Richard Road, Oxford, United Kingdom</td>                          
                         </tr>
                     </table>
                     <div className={styles.sectionHeader}>Transactions</div>
@@ -79,8 +79,24 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Primary Currency: </td>                          
                         </tr>
                         <tr>
-                            <td> 03/08/2023</td>
-                            <td> 48</td>                          
+                            <td> 
+                                <select className={styles.AccTableDropdown} id="ColourCorrection">
+                                    <option value="0">Off</option>
+                                    <option value="1">Protanopia</option>
+                                    <option value="2">Deuteranopia</option>
+                                    <option value="3">Tritanopia</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select className={styles.AccTableDropdown} id="Currency">
+                                    <option value="1">CNY</option>
+                                    <option value="2">EUR</option>
+                                    <option value="3">GBP</option>
+                                    <option value="4">HKD</option>
+                                    <option value="5">JPY</option>
+                                    <option value="6">USD</option>
+                                </select>
+                            </td>                          
                         </tr>
                     </table>
                 </div>
@@ -100,7 +116,6 @@ function MyAccount() {
         <div>
             <Head />
             <Mid />
-            <Footer />
         </div>
     );
 }
