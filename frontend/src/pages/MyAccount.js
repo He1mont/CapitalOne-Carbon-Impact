@@ -49,7 +49,7 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Home Address: </td>                          
                         </tr>
                         <tr>
-                            <td> {Converter(1, 'GBP')}</td>
+                            <td> 66512652</td>
                             <td> 72 Richard Road, Oxford, United Kingdom</td>                          
                         </tr>
                     </table>
