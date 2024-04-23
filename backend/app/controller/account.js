@@ -34,8 +34,8 @@ class AccountController extends Controller {
     const { ctx, service } = this;
     ctx.validate({
       email: "email"
-    }, ctx.request.body);
-    const emailToFind = ctx.request.body.email; // Extracting email from request body 
+    }, ctx.request.query);
+    const emailToFind = ctx.request.query.email; // Extracting email from request body 
     const res = await service.account.getByEmail(emailToFind); // Calling service method to get account by email
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;

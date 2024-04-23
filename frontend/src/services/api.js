@@ -9,7 +9,8 @@ import axios from 'axios';
  */
 export async function getAccountByEmail(email) {
   try {
-    const response = await axios.get(`http://127.0.0.1:7001/accounts/email`, { email });
+    const data = { params: { email } };
+    const response = await axios.get(`http://127.0.0.1:7001/accounts/email`, data);
     return response.data
 
   } catch (error) {
@@ -24,7 +25,8 @@ export async function getAccountByEmail(email) {
  */
 export async function getAccountByUsername(username) {
   try {
-    const response = await axios.get(`http://127.0.0.1:7001//accounts/username`, { username });
+    const data = { params: { username } };
+    const response = await axios.get(`http://127.0.0.1:7001/accounts/username`, data);
     return response.data
 
   } catch (error) {
@@ -41,7 +43,7 @@ export async function getAccountByUsername(username) {
  */
 export async function getAllTransactions(accountID) {
   try {
-    const response = await axios.get(`http://localhost:7001//accounts/${accountID}/transactions`);
+    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/transactions`);
     return response.data;
 
   } catch (error) {
@@ -59,7 +61,8 @@ export async function getAllTransactions(accountID) {
  */
 export async function getCarbonScoreByMonth(accountID, year, month) {
   try {
-    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/carbonScores/monthly`, { year, month });
+    const data = { params: { year, month } };
+    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/carbonScores/monthly`, data);
     return response.data;
 
   } catch (error) {
@@ -78,7 +81,8 @@ export async function getCarbonScoreByMonth(accountID, year, month) {
  */
 export async function getCarbonScoreByMonthInCategory(accountID, year, month) {
   try {
-    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/carbonScores/monthly/allCategories`, { year, month });
+    const data = { params: { year, month } };
+    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/carbonScores/monthly/allCategories`, data);
     return response.data;
 
   } catch (error) {
@@ -160,7 +164,7 @@ export async function getUserGoal(accountID) {
 
 export async function setUserGoal(accountID, goal, year, month) {
   try {
-    const data = { goal, year, month };
+    const data = { params: { goal, year, month } };
     const response = await axios.post(`http://localhost:7001/accounts/${accountID}/userGoal`, data);
     return response.data;
 
