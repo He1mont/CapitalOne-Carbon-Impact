@@ -14,6 +14,20 @@ function Head({ name, id }) {
     );
 }
 
+function Mid({name, id}) {
+    
+    return (
+        <div className={styles.midBody}>
+            <div className={styles.midHigh} />
+            <div className={styles.midLow} />
+            <div className={styles.midCenter}>
+                
+            </div>
+        </div>
+        
+    )
+}
+
 
 function MyAccount() {
     const location = useLocation();
@@ -22,6 +36,7 @@ function MyAccount() {
     return (
         <div>
             <Head />
+            <Mid />
             <Footer />
         </div>
     );

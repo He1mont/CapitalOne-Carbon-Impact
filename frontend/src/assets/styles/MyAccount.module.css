@@ -9,3 +9,36 @@
     overflow: hidden;
     z-index: 4;
   }
+
+/*------------------------------ MID ------------------------------*/
+.midBody {
+    width: 100vw;
+}
+.midHigh {
+    width: 100vw;
+    height: 60vh;
+    background-color: #073763ff;
+    position: absolute;
+}
+.midLow {
+    width: 100vw;
+    height: 40vh;
+    top: 60vh;
+    background-color: white;
+    position: absolute;
+}
+
+/*------------------------------ MID CENTER ------------------------------*/
+.midCenter {
+    width: 70%;
+    height: 70%;
+    left: 15%;
+    top: calc(65px + 8vh);
+    position: absolute;
+
+    background-color: white;
+    border-radius: 10px;
+    border-color: rgb(231, 231, 231);
+    border-width: 5px;
+    border-style: solid;
+}
