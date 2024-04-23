@@ -1,6 +1,13 @@
 import * as API from './api';
 
-// 5 helper functions for column sort
+// Five helper functions for column sort:
+
+/**
+ * Sorts transactions by date in ascending or descending order.
+ * @param {Array} transactions - The array of transactions to be sorted.
+ * @param {boolean} flag - The flag indicating the sorting order (true for ascending, false for descending).
+ * @returns {Array} The sorted array of transactions.
+ */
 function sortByDate(transactions, flag) {
     return transactions.sort((a, b) => {
         if (flag)   // ascending order
@@ -10,6 +17,12 @@ function sortByDate(transactions, flag) {
     });
 }
 
+/**
+ * Sorts transactions by merchant name in ascending or descending order.
+ * @param {Array} transactions - The array of transactions to be sorted.
+ * @param {boolean} flag - The flag indicating the sorting order (true for ascending, false for descending).
+ * @returns {Array} The sorted array of transactions.
+ */
 function sortByMerchantName(transactions, flag) {
     return transactions.sort((a, b) => {
         const descriptionA = a.merchantName.toUpperCase();
@@ -25,6 +38,12 @@ function sortByMerchantName(transactions, flag) {
     });
 }
 
+/**
+ * Sorts transactions by category in ascending or descending order.
+ * @param {Array} transactions - The array of transactions to be sorted.
+ * @param {boolean} flag - The flag indicating the sorting order (true for ascending, false for descending).
+ * @returns {Array} The sorted array of transactions.
+ */
 function sortByCategory(transactions, flag) {
     return transactions.sort((a, b) => {
         const catA = a.category.toUpperCase();
@@ -40,19 +59,37 @@ function sortByCategory(transactions, flag) {
     });
 }
 
+/**
+ * Sorts transactions by amount in ascending or descending order.
+ * @param {Array} transactions - The array of transactions to be sorted.
+ * @param {boolean} flag - The flag indicating the sorting order (true for ascending, false for descending).
+ * @returns {Array} The sorted array of transactions.
+ */
 function sortByAmount(transactions, flag) {
     return transactions.sort((a, b) => {
         return flag ? a.amount - b.amount : b.amount - a.amount;
     });
 }
 
+/**
+ * Sorts transactions by carbon score in ascending or descending order.
+ * @param {Array} transactions - The array of transactions to be sorted.
+ * @param {boolean} flag - The flag indicating the sorting order (true for ascending, false for descending).
+ * @returns {Array} The sorted array of transactions.
+ */
 function sortByCarbonScore(transactions, flag) {
     return transactions.sort((a, b) => {
         return flag ? a.carbonScore - b.carbonScore : b.carbonScore - a.carbonScore;
     });
 }
 
-// column sort with flag true being ascending and false being descending
+/**
+ * Sorts transactions by the specified column in the specified order.
+ * @param {Array} transactions - The array of transactions to be sorted.
+ * @param {number} column - The column index by which to sort the transactions.
+ * @param {boolean} flag - The flag indicating the sorting order (true for ascending, false for descending).
+ * @returns {Array} The sorted array of transactions.
+ */
 export function colSort(transactions, column, flag) {
     if (column === 1) {
         return sortByDate(transactions, flag);
@@ -70,7 +107,12 @@ export function colSort(transactions, column, flag) {
     }
 }
 
-// search the input string in the merchantName and Category of each transaction
+/**
+ * Filters transactions based on the search input.
+ * @param {Array} transactions - The array of transactions to be filtered.
+ * @param {string} searchInput - The input string to search for in transaction merchant names and categories.
+ * @returns {Array} The array of transactions that match the search input.
+ */
 export function searchSort(transactions, searchInput) {
     const searchLower = searchInput?.toLowerCase() ?? '';
     const matchingTransactions = transactions.filter(transaction => {

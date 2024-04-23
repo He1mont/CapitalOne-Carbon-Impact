@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "../assets/styles/Login.module.css";
@@ -8,7 +7,7 @@ import Sorter from '../services/sorter';
 
 
 /**
- * Head component
+ * Head component:
  * Displays the top part of the login page including the logo.
  * The logo serves as a button to redirect the user to the home page.
  */
@@ -34,7 +33,7 @@ function Head() {
 }
 
 /**
- * Mid component
+ * Mid component:
  * Renders the login form including fields for email, password and a remember me checkbox.
  * @param {Object} props - Contains email, setEmail, password, setPassword, rememberMe, setRememberMe, loginMessage, and handleSubmit.
  */
@@ -51,6 +50,10 @@ function Mid({
   // Determines if the login message indicates a successful login
   const isSuccess = loginMessage.includes("success");
   const history = useHistory();
+
+  /**
+   * Handles click event to navigate to the Help page.
+   */
   function handleHelpClick() {
     history.push('/Help?prevPage=login');
   }
@@ -140,7 +143,7 @@ function Mid({
 }
 
 /**
- * Footer component
+ * Footer component:
  * Displays the footer of the login page, including copyright information.
  */
 function Footer() {
@@ -152,7 +155,7 @@ function Footer() {
 }
 
 /**
- * Login component
+ * Login component:
  * The main component for the login page, integrating Head, Mid, and Footer components.
  * Manages the state for email, password, rememberMe, and loginMessage.
  * Contains the logic for handling the submission of the login form.
@@ -166,7 +169,6 @@ function Login() {
   const history = useHistory();
 
   /**
-   * handleSubmit function
    * Handles the form submission for logging in.
    * Validates the user credentials and sets appropriate login messages.
    * @param {Event} e - Event triggered on form submission.
@@ -182,24 +184,24 @@ function Login() {
       setLoginMessage("Please enter your email.");
     }
 
-    // call backend API
+    // Call backend API to check user credentials
     const data = await API.getAccountByEmail(email);
 
-    // email does not exist
+    // Check if the email exists
     if (data.length === 0) {
       setLoginMessage("Email Not Found!");
 
     } else {
       const account = data[0]
 
-      // email is suspended or closed
+      // Check if the account is suspended or closed
       if (account.state === "closed") {
         setLoginMessage("Your account has been closed!");
   
       } else if (account.state === "suspended") {
         setLoginMessage("Your account has been suspended!");
   
-      // email is open or flagged
+      // Log in successful
       } else {
         const username = account.username;
         setLoginMessage("Log in successfully!");

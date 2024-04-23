@@ -1,7 +1,6 @@
 const { Controller } = require('egg');
 
 class UserGoalController extends Controller {
-
   // Method to create a user's goal
   async createGoal() {
     const { ctx, service } = this;

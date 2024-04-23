@@ -1,11 +1,10 @@
-// HomePage.js
 import React, { useState, useEffect, useRef, Component }  from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from '../assets/styles/Home.module.css'; // Import CSS file
 
 
 /**
- * Head component
+ * Head component:
  * Displays the top part of the homepage including the logo and login button.
  * Utilizes useHistory from react-router-dom for navigation.
  */
@@ -16,6 +15,9 @@ function Head() {
   });
   let settingsToggle = params.st;
 
+  /**
+   * Handles click event to toggle settings visibility.
+   */
   function handleSettingsClick() {
     if (settingsToggle == "t") {
       history.push('/home?st=f');
@@ -24,10 +26,6 @@ function Head() {
     }
     
   }
-  /**
-   * handleLoginClick function
-   * Redirects user to the login page when the login button is clicked.
-   */
 
   return (
     <div className={styles.head_bar}>
@@ -47,7 +45,7 @@ function Head() {
 }
 
 /**
- * Mid component
+ * Mid component:
  * Displays the middle section of the homepage, including user information and button redirecting to other pages.
  */
 function Mid({ name }) {
@@ -56,15 +54,22 @@ function Mid({ name }) {
   const settingsToggle = params.get("st");
   const dropdownRef = useRef(null);
 
+  /**
+   * Handles click event to navigate to the Help page.
+   */
   function handleHelpClick() {
     history.push('/Help?prevPage=home');
   }
+  /**
+   * Handles click event to sign out.
+   */
   function handleSignoutClick() {
     history.push('/');
   }
 
-  
-
+  /**
+   * Renders the settings dropdown if toggle is set to true.
+   */
   function showSettings() {
     if (settingsToggle == "t") {
       return (
@@ -127,15 +132,14 @@ function Mid({ name }) {
 }
 
 /**
- * Low component
+ * Low component:
  * Displays the lower section of the homepage, including buttons for transactions, goals, and history.
  */
 function Low({ name, id }) {
   const history = useHistory();
 
   /**
-   * handleTransactionsClick function
-   * Redirects user to the transactions page when the transactions button is clicked.
+   * Handles click event to navigate to the Transactions page.
    */
   function handleTransactionsClick() {
     history.push({
@@ -144,6 +148,9 @@ function Low({ name, id }) {
     });
   }
 
+  /**
+   * Handles click event to navigate to the Goals page.
+   */
   function handleGoalsClick() {
     history.push({
       pathname: '/Goals',
@@ -151,6 +158,9 @@ function Low({ name, id }) {
     });
   }
 
+  /**
+   * Handles click event to navigate to the History page.
+   */
   function handleHistoryClick() {
     history.push({
       pathname: '/History',
@@ -214,7 +224,7 @@ function Low({ name, id }) {
 }
 
 /**
- * Footer component
+ * Footer component:
  * Displays the footer of the homepage, including copyright information.
  */
 function Footer() {
@@ -226,7 +236,7 @@ function Footer() {
 }
 
 /**
- * HomePage component
+ * HomePage component:
  * Composes the Head, Mid, Low, and Footer components to form the homepage.
  */
 function HomePage() {

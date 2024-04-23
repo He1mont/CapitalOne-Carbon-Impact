@@ -1,29 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import styles from "../assets/styles/Help.module.css"; // Import CSS module
+import React from 'react';
+import { useHistory ,useLocation} from 'react-router-dom';
+import styles from '../assets/styles/Help.module.css'; // Import CSS module
+import { useCollapse } from 'react-collapsed'
 import Popup from "../components/popup";
 import UsernamePopup from "../components/UsernamePopup";
 import PasswordPopup from "../components/PasswordPopup";
 import ContactPopup from "../components/ContactPopup";
-
 import Tickets from "../components/Ticket";
-// import { useCollapse } from "react-collapsed";
-// import kommunicateChat from "../chat";
 import axios from "axios";
-// import openai from "openai";
-// const openaiClient = new openai(
-//   "sk-proj-i6EmGycfY7PUHGzZASw5T3BlbkFJ0Zvmq1gszKiCg9rohEIz"
-// );
-
 
 
 /**
- * Head component
- * Displays the top part of the help including the rgo.
+ * Collapsible component.
+ * @param {Object} props - The props containing defaultExpanded, collapsedHeight, and title.
+ */
+function Collap(props) {
+    const config = {
+        defaultExpanded: props.defaultExpanded || false,
+        collapsedHeight: props.collapsedHeight || 0
+    };
+    const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
+return (
+    <div className={styles.collapsible}>
+        <div className={styles.header} {...getToggleProps()}>
+            <div className={styles.title}>{props.title}</div>
+        </div>
+        <div {...getCollapseProps()}>
+            <div className={styles.content}>
+                {props.children}
+            </div>
+        </div>
+    </div>
+    );
+}
+/**
+ * Head component:
+ * Displays the top part of the help including the logo.
  * Utilizes useHistory from react-router-dom for navigation.
  */
 function Head() {
   const history = useHistory();
+  /**
+   * Handles click event to navigate to the home page or the previous page.
+   */
   function handleLoginClick() {
     history.push({
       pathname: "/",
@@ -31,7 +50,7 @@ function Head() {
   }
 
   /**
-   * handleLoginClick function
+   * handleLoginClick function:
    * Redirects user to the login page when the login button is clicked.
    */
   return (
@@ -46,11 +65,14 @@ function Head() {
         />
       </div>
     </div>
+
   );
 }
+
 /**
- * Mid component
+ * Mid component:
  * Displays the middle section of the help page, including user information and button redirecting to other pages.
+ * @param {Object} props - The props containing the user's name.
  */
 function Mid({ name }) {
   return (
@@ -74,8 +96,9 @@ function Mid({ name }) {
 }
 
 /**
- * Low component
+ * Low component:
  * Displays the lower section of the help page, including buttons for transactions, goals, and history.
+ * @param {Object} props - The props containing the user's name and ID.
  */
 function ResponsePopup({ open, onClose, response }) {
   console.log("Response prop:", response);
@@ -305,7 +328,7 @@ const handleSubmit = async (e) => {
 }
 
 /**
- * Footer component
+ * Footer component:
  * Displays the footer of the homepage, including copyright information.
  */
 function Footer() {
@@ -315,7 +338,10 @@ function Footer() {
     </div>
   );
 }
-
+/**
+ * HomePage component:
+ * Composes the Head, Mid, Low, and Footer components to form the homepage.
+ */
 function Help() {
   const location = useLocation();
   const name = location.state?.name || "You need to login";

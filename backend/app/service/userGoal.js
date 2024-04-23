@@ -3,7 +3,19 @@ require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+/**
+ * Service class responsible for managing user goals and related operations.
+ * @extends {Service}
+ */
 class userGoalService extends Service {
+
+  /**
+   * Creates a goal for a specified user and month.
+   * @param {string} id - The ID of the user.
+   * @param {number} goal - The goal value.
+   * @param {number} month - The month for which the goal is set.
+   * @returns {Object} The created user goal.
+   */
   async createGoal(id, goal, month) {
     try {
       const UserGoal = await prisma.userGoals.findMany({
@@ -39,6 +51,12 @@ class userGoalService extends Service {
       throw new Error(error.response ? error.response.data : error.message);
     }
   }
+
+  /**
+   * Deletes the user goal for the specified user.
+   * @param {string} id - The ID of the user.
+   * @returns {Object} The result of the deletion operation.
+   */
   async deleteUserGoal(id) {
     try {
       // Find the user goal by accountID
@@ -75,6 +93,11 @@ class userGoalService extends Service {
     }
   }
 
+  /**
+   * Retrieves the user goals for the specified user.
+   * @param {string} id - The ID of the user.
+   * @returns {Array} The user goals.
+   */
   async getUserGoals(id) {
     try {
       const userGoal = await prisma.userGoals.findMany({

@@ -423,8 +423,12 @@
         }
     ```
 
-- sample output
-- return following user's info
+### 10. Get the accountID by username
+
+- GET `/friends`
+
+    - Send `username` in JSON request body
+    - If the username is not exist in the database, an error will be reported:
     ```json
         {
             "firstname": "Dirk",

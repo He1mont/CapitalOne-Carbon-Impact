@@ -1,23 +1,27 @@
+// Constants
 const Service = require('egg').Service;
 const axios = require('axios');
-// const { TransactionService } = require('./transaction');
-
-// for the Hackathon API
+// Constants for the Hackathon API
 const authJWT =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJuYmYiOjE2OTYwMzIwMDAsImFwaV9zdWIiOiI5ZmViZWE1ZmQ1MjgxZjY2Y2QxMDY4NTg0MzJmZjRmYzU1YzMxNTBlYzEwZTMzY2NmZGJlZTljODFmZTAxOWRiMTcxNzIwMDAwMDAwMCIsInBsYyI6IjVkY2VjNzRhZTk3NzAxMGUwM2FkNjQ5NSIsImV4cCI6MTcxNzIwMDAwMCwiZGV2ZWxvcGVyX2lkIjoiOWZlYmVhNWZkNTI4MWY2NmNkMTA2ODU4NDMyZmY0ZmM1NWMzMTUwZWMxMGUzM2NjZmRiZWU5YzgxZmUwMTlkYiJ9.XkBwptx8AlmawzOqgGfGh0E6BvI_WDZv-oHWVHmUWtPhBcEKC051nJt0yhRCWq0Ce3Fu_T4cd7WzQQr8uiHG09_42xsq78jzHb0m0-o3CY9aK4ChbXfAHcg7yPDmuHZbaG4168F1BB3hU-w4XZgcfFZL85OM-NMVuVcQt12-H3gsebLGSfsjXnf3dn0XZAScXQFff9zuri18_krnmTyEI2RVhChOHcQpNZMZBKLo8yjQ-OYOjGSSIrqNoXsuXeQUc3he8bhROf0yD5c6bUVRQzNrB1Zda3AGH5MysxIQI7h4YvkoEtjh1If-QQ1lkLhlHxUPBBmvDAortiQHEtua9w';
-
-// for the Prisma database
+// Constants for the Prisma database
 require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+// Constants for the Carbon API
+const PROGRAM_UUID = 'ddd7027e-2032-4fff-a721-565ac87e7869';
+const CARBON_API_KEY = 'sQyPyTxcWvlFiLWFjmUlA';
 
-// for the Carbon API
-const PROGRAM_UUID = "ddd7027e-2032-4fff-a721-565ac87e7869";
-const CARBON_API_KEY = "sQyPyTxcWvlFiLWFjmUlA";
-
-// const { getAll } = require('./transaction');
-
+/**
+ * Service class responsible for managing user accounts and related operations.
+ * @extends {Service}
+ */
 class AccountService extends Service {
+
+  /**
+   * Creates a random user account.
+   * @returns {Object} The created account.
+   */
   async createRandom() {
     const quantity = 1;
     const numTransactions = 0;
@@ -74,50 +78,35 @@ class AccountService extends Service {
         randomNumber = Math.random()*10;
         userName = account.firstname + account.lastname[0] + randomNumber;
 
-        // Store the username into database
-        await prisma.account.create({
+         // Store the username into database
+         await prisma.account.create({
           data: {
           username: userName,
-          accountID: account.accountId,
+          accountID: accountID,
           },
         });
       }
 
-      return response.data;
-
+      return account;
     } catch (error) {
-      console.error(error.stack);
-      console.log(error.message);
-      // error.message = "Error when generating the account.";
       throw new Error(error.response ? error.response.data : error.message);
     }
-
-    // Create username for the new account
-  //   try {
-  //     const randomNumber = Math.random()*10;
-  //     const userName = account.firstname + account.lastname[0] + randomNumber;
-
-  //     // Store the username into database
-  //     await prisma.account.create({
-  //         data: {
-  //         username: userName,
-  //         accountID: account.accountID,
-  //         },
-  //     });
-  //   } catch (error) {
-  //       error.message = "Error when creating the username.";
-  //       throw new Error(error.response ? error.response.data : error.message);
-  //   }
-
-  //   return account;
   }
 
+  /**
+   * Retrieves all user accounts.
+   * @returns {Array} Array of user accounts.
+   */
   async getAll() {
     const allAccounts = await prisma.account.findMany();
     return allAccounts;
   }
 
-  // return empty list if not found
+  /**
+   * Retrieves a user account by its ID; return empty list if not found.
+   * @param {string} id - The ID of the account to retrieve.
+   * @returns {Array} Array containing the user account matching the ID.
+   */
   async getByID(id) {
     const account = await prisma.account.findMany({
       where: {
@@ -127,7 +116,11 @@ class AccountService extends Service {
     return account;
   }
 
-  // return empty list if not found
+  /**
+   * Retrieves a user account by its email; return empty list if not found.
+   * @param {string} emailToFind - The email of the account to retrieve.
+   * @returns {Array} Array containing the user account matching the email.
+   */ 
   async getByEmail(emailToFind) {
     const account = await prisma.account.findMany({
       where: {
@@ -137,7 +130,11 @@ class AccountService extends Service {
     return account;
   }
 
-  // return empty list if not found
+  /**
+   * Retrieves a user account by its username; return empty list if not found.
+   * @param {string} userName - The username of the account to retrieve.
+   * @returns {Array} Array containing the user account matching the username.
+   */
   async getByUserName(userName) {
     const account = await prisma.account.findMany({
       where: {
@@ -147,9 +144,12 @@ class AccountService extends Service {
     return account;
   }
 
+  /**
+   * Creates a card profile for the specified account.
+   * @param {string} accountID - The ID of the account for which to create the card profile.
+   */
   async createCardProfile(accountID) {
-    // create a card profile for the created account
-    // using the hackathon account ID as an external ID here
+    // Get the corresponding accountin the Hackathon API
     try {
       const response = await axios.get(
         `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`,
@@ -172,7 +172,7 @@ class AccountService extends Service {
             },
           }
         );
-        // const accountsData = await accounts.json();
+
         const existingProfile = accounts.data.find(
           account => account.data.attributes.external_id === accountID
         );
@@ -184,7 +184,7 @@ class AccountService extends Service {
           return;
         }
 
-        // Create Card Profile
+        // Create a card profile using the hackathon account ID as an external ID here
         const data = {
           external_id: accountID,
           diet_habit: 'omnivore',
@@ -195,17 +195,14 @@ class AccountService extends Service {
           `https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`,
           data,
           {
-            // method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${CARBON_API_KEY}`,
             },
-            // body: JSON.stringify(data)
           }
         );
 
         if (cardProfileResponse.status === 201) {
-          // const json_response = await cardProfileResponse.json();
           console.log(cardProfileResponse);
         }
       } else {
@@ -216,6 +213,11 @@ class AccountService extends Service {
     }
   }
 
+  /**
+   * Adds a transaction to the Carbon Interface API.
+   * @param {Object} transactionData - Data of the transaction to add.
+   * @returns {Object} Response from the Carbon Interface API.
+   */
   async addTransactionToCarbonInterface(transactionData) {
     try {
       const addTransactionResponse = await axios.post(
@@ -234,10 +236,12 @@ class AccountService extends Service {
     }
   }
 
+  /**
+   * Creates transactions for all accounts and adds them to the Carbon Interface API and the database.
+   * @param {string} accountID - The ID of the account for which to create transactions.
+   */
   async createTransactionsForAll(accountID) {
-    // loops through each transaction of the new account to add it to the carbon API
-    // and also adds it to the database transactions table
-
+    // Get the specified account from the hackathon API
     try {
         // Get all accounts
         const response = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {
@@ -281,13 +285,19 @@ class AccountService extends Service {
           );
         }
 
-          for (const transaction of transactions) { // For each transaction, check if it already exists in Carbon Ledger API
-              const existingTransaction = await axios.get(`https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${account.data.id}/transactions`, {
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${CARBON_API_KEY}`,
-                  }
-              });
+        // loops through each transaction of the new account to add it to the carbon API
+        // and also adds it to the database transactions table
+        for (const transaction of transactions) {
+          // Add to carbon API
+          const existingTransaction = await axios.get(
+            `https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles/${account.data.id}/transactions`,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${CARBON_API_KEY}`,
+              },
+            }
+          );
 
               if (!existingTransaction.data.find(tr => tr.data.attributes.external_id === transaction.transactionID)) { // If not, add transaction
                   let mcc;
@@ -365,16 +375,21 @@ class AccountService extends Service {
         }
         // console.log("All transactions added successfully.");
       } else {
-        // account does not exist
+        // Account does not exist
       }
     } catch (error) {
       console.error(error.message);
     }
   }
 
+  /**
+   * Retrieves the carbon impact of a transaction.
+   * @param {string} accountID - The ID of the account associated with the transaction.
+   * @param {string} transactionID - The ID of the transaction.
+   * @returns {number} The carbon impact of the transaction.
+   */
   async getCarbonImpact(accountID, transactionID) {
-    // get transaction from carbon API
-    // return transaction.carbon_grams
+    // Get the specified account from Hackathon API
     try {
       const hackathonResponse = await axios.get(
         `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`,
@@ -390,6 +405,7 @@ class AccountService extends Service {
       if (hackathonResponse.status === 200) {
         // const hackathonData = hackathonResponse.data;
 
+        // Get the associated card profile from Carbon API
         const carbonResponse = await axios.get(
           `https://www.carboninterface.com/api/v1/carbon_ledger/programs/${PROGRAM_UUID}/card_profiles`,
           {
@@ -416,6 +432,7 @@ class AccountService extends Service {
           );
         }
 
+        // Get the specified transaction
         const hackathonTransactionResponse = await axios.get(
           `https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/${accountID}/transactions/${transactionID}`,
           {
@@ -444,6 +461,7 @@ class AccountService extends Service {
           let carbonInGrams = 0;
 
           for (const transaction of carbonTransactionData) {
+            // Find the transaction in Carbon API that matches the specified one from Hackathon API
             if (transaction.data.attributes.external_id === transactionID) {
               carbonTransactionID = transaction.data.id;
               if (carbonTransactionID === -1) {
@@ -451,16 +469,17 @@ class AccountService extends Service {
                   "Transaction data hasn't been created for this transaction."
                 );
               }
+              // Get the carbon grams value
               carbonInGrams = transaction.data.attributes.carbon_grams;
             }
           }
           let carbonScore = Math.abs(carbonInGrams);
 
-          // include point of sale:
+          // Include point of sale as a multiplier
           if ((hackathonTransactionResponse.data.pointOfSale = 'Online')) {
             carbonScore = carbonScore / 2;
           }
-
+          // Return as a score, not grams value
           return Math.ceil(carbonScore / 1000);
         }
         throw new Error("This transaction ID doesn't exist.");

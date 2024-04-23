@@ -4,8 +4,18 @@ require('dotenv').config();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+/**
+ * Service class responsible for managing user friendships and related operations.
+ * @extends {Service}
+ */
 class FriendService extends Service {
 
+  /**
+   * Adds a friend by ID to the specified user's friend list.
+   * @param {string} accountID - The ID of the user.
+   * @param {string} friendID - The ID of the friend to add.
+   * @returns {Object} Information about the added friend.
+   */
   async addByID(accountID, friendID) {
     try {
       // Check the following relation
@@ -43,7 +53,11 @@ class FriendService extends Service {
     }
   }
 
-  // then call the calculate totalcarbon score api
+  /**
+   * Retrieves all friends of a user.
+   * @param {string} id - The ID of the user.
+   * @returns {Array} Array of user's friends.
+   */
   async getAll(id) {
     const allfollowings = await prisma.following.findMany({
       where: { accountID: id },
@@ -52,6 +66,11 @@ class FriendService extends Service {
     return allfollowings.map(item => item.account);
   }
 
+  /**
+   * Deletes a friend from the user's friend list.
+   * @param {string} accountID - The ID of the user.
+   * @param {string} friendID - The ID of the friend to delete.
+   */
   async deleteFriend(accountID, friendID) {
     try {
       await prisma.following.delete({

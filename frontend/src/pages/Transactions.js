@@ -1,14 +1,13 @@
-// Transactions.js
 import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
 import { useHistory, useLocation } from 'react-router-dom';
-// helper functions
+// Helper functions
 import * as API from '../services/api';
 import * as Sorter from '../services/sorter';
 
 /**
- * TransactionTbl component
+ * TransactionTbl component:
  * Renders a table displaying transaction details such as date, description, category, carbon impact, and cost.
  */
 class TransactionTbl extends Component {
@@ -20,30 +19,37 @@ class TransactionTbl extends Component {
       transactions: [],   // create an attribute to store all transactions
       searchInput: '',    // input in search bar
     };
+    // Bind event handlers
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClickSearch = this.handleClickSearch.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  // intialize transactions using backend API
+  // Intialize transactions using backend API
   componentDidMount = async () => {
     const data = await API.getAllTransactions(this.props.id);
     this.setState({ transactions: data });
   }
 
-  // helper function to convert timestamp into format DD/MM
-  formatDate(timestamp) {
+  /**
+   * Helper function to format the date from a timestamp into "DD/MM" format.
+   * @param {number} timestamp - The timestamp to be formatted.
+   * @returns {string} The formatted date.
+   */  formatDate(timestamp) {
     const date = new Date(timestamp);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}/${month}`;
   }
 
-  // change ascending/descending order by clicking the title of each column
+  /**
+   * Change the sorting order of transactions based on the selected column.
+   * @param {number} col - The column index to be sorted.
+   */
   changeSort = async (col) => {
     const { currentCol, currentDir } = this.state;
 
-    // initialize temporary variables
+    // Initialize temporary variables
     const column = parseInt(col, 10);   // currently selected column
     let newTransactions;
     let newDir;
@@ -59,7 +65,7 @@ class TransactionTbl extends Component {
       newTransactions = await API.getAllTransactions(this.props.id)
     }
 
-    // update all states
+    // Update all states
     this.setState({
       currentCol: column,
       currentDir: newDir,
@@ -67,7 +73,10 @@ class TransactionTbl extends Component {
     });
   }
 
-  // show the direction of arrow in the title of each column
+  /**
+   * Show the direction of arrow in the title of each column.
+   * @returns {JSX.Element|null} The JSX element representing the arrow direction.
+   */
   showArrow() {
     const { currentDir } = this.state;
     if (currentDir === 0) {     // disordered
@@ -81,14 +90,19 @@ class TransactionTbl extends Component {
     }
   }
 
-  // live update searchInput state when typing words in search frame
+  /**
+   * Update the searchInput state when typing words in the search frame.
+   * @param {Event} event - The event object.
+   */
   handleInputChange(event) {
     this.setState({ searchInput: event.target.value });
   }
 
-  // call searchSort in Sorter when clicking search button
+  /**
+   * Call searchSort in Sorter when clicking the search button.
+   */
   handleClickSearch = async () => {
-    // fetch all transactions
+    // Fetch all transactions
     const transactions = await API.getAllTransactions(this.props.id)
     const data = Sorter.searchSort(transactions, this.state.searchInput);
     this.setState({
@@ -97,7 +111,10 @@ class TransactionTbl extends Component {
     });
   }
 
-  // automatically click button search when pressing enter
+  /**
+   * Automatically click the search button when pressing enter.
+   * @param {Event} event - The event object.
+   */
   handleKeyPress(event) {
     if (event.key === 'Enter') {
       this.handleClickSearch();
@@ -193,20 +210,26 @@ class TransactionTbl extends Component {
 }
 
 /**
- * Month selector component
+ * Month selector component:
  * Renders a month selector for the user to use to view data from a given month
  */
 class MonthSelect extends Component {
+  /**
+   * Decrease the currently selected month by one month and invoke the onMonthChange callback.
+   */
   decreaseMonth = () => {
     const { month, onMonthChange } = this.props;
     const nextMonth = month.clone().subtract(1, 'month');
     const minDate = moment('2021-01-01');
-    //Only allow month reduction if it goes to a data after the start of 2021
+    // Only allow month reduction if it goes to a data after the start of 2021
     if (nextMonth.isSameOrAfter(minDate)) {
       onMonthChange(nextMonth);
     }
   };
 
+  /**
+   * Increase the currently selected month by one month and invoke the onMonthChange callback.
+   */
   increaseMonth = () => {
     const { month, onMonthChange } = this.props;
     const nextMonth = month.clone().add(1, 'month');
@@ -244,11 +267,15 @@ class MonthSelect extends Component {
 }
 
 /**
- * Head component
+ * Head component:
  * Renders the header of the Transactions page, including a logo.
  */
 function Head({ name, id }) {
   const history = useHistory();
+  /**
+   * handleHomeClick function
+   * Redirects the user to the home page when the logo is clicked.
+   */
   function handleHomeClick() {
     history.push({
       pathname: '/home',
@@ -264,13 +291,16 @@ function Head({ name, id }) {
 }
 
 /**
- * Mid component
+ * Mid component:
  * Renders the middle section of the Transactions page, providing contextual information and additional controls.
  */
 function Mid({ name, id, month, onMonthChange }) {
   const [carbonScore, setCarbonScore] = useState(null);
 
   useEffect(() => {
+    /**
+     * Fetches the carbon score for the specified month and updates the state.
+     */
     const fetchCarbonScore = async () => {
       const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
       setCarbonScore(data);
@@ -307,7 +337,7 @@ function Mid({ name, id, month, onMonthChange }) {
 }
 
 /**
- * Low component
+ * Low component:
  * Renders the lower section of the Transactions page, mainly comprising the TransactionTbl component.
  */
 function Low({ name, id, month }) {
@@ -320,7 +350,7 @@ function Low({ name, id, month }) {
 }
 
 /**
- * Transactions component
+ * Transactions component:
  * Main component aggregating Head, Mid, and Low components to form the complete Transactions page.
  */
 function Transactions() {
@@ -329,6 +359,10 @@ function Transactions() {
   const id = location.state?.id;
   const [month, setMonth] = useState(moment());
 
+  /**
+   * Handles the change in selected month.
+   * @param {Moment} newMonth - The new selected month.
+   */
   const handleMonthChange = (newMonth) => {
     setMonth(newMonth);
   };
