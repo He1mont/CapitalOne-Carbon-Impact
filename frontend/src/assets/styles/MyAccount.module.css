@@ -1,0 +1,11 @@
+/*------------------------------ HEADER ------------------------------*/
+.headBar {
+    width: 100vw;
+    height: 65px;
+    top: 0px;
+    background-color: #f3f3f3ff;
+    position: fixed;
+    text-align: center;
+    overflow: hidden;
+    z-index: 4;
+  }

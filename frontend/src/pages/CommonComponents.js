@@ -47,11 +47,11 @@ export function SettingBtn({ name, id }) {
 
   // Functions for clicking each button
   function handleMyAccountClick() {
-    // history.push({
-    //   pathname: '/home/friends',
-    //   state: { name: name, id: id }
-    // });
-    //history.push('/friends');
+    history.push({
+      pathname: '/home/account',
+      state: { name: name, id: id }
+    });
+    
   }
   function handleFriendsClick() {
     history.push({
