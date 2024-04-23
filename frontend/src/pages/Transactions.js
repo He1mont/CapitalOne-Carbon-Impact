@@ -186,7 +186,7 @@ class TransactionTbl extends Component {
                     <div className={styles.sort_arrow}>{this.state.currentCol === 3 && this.showArrow()}</div>
                   </th>
                   <th className={styles.h} style={{ width: '20%' }} onClick={() => this.changeSort("4")}>
-                    <div className={styles.header_text}>Amount</div>
+                    <div className={styles.header_text}>Amount (GBP)</div>
                     <div className={styles.sort_arrow}>{this.state.currentCol === 4 && this.showArrow()}</div>
                   </th>
                   <th className={styles.h} style={{ width: '35%' }} onClick={() => this.changeSort("5")}>
