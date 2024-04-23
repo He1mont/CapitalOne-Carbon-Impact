@@ -138,7 +138,7 @@ class Leaderboard extends Component {
             renderHeader: () => (
                 <strong>{'Following Users'}</strong>
             )},
-            { field: 'email', width: 300, //align: 'center', headerAlign: 'center', 
+            { field: 'email', width: 300, 
             renderHeader: () => (
                 <strong>{'Email'}</strong>
             )},
