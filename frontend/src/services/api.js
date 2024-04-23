@@ -96,7 +96,7 @@ export async function getCarbonScoreByMonthInCategory(accountID, year, month) {
  */
 export async function getAllFollowings(accountID) {
   try {
-    const response = await axios.get(`http://localhost:7001/friend/get-all/${accountID}`);
+    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/friends`);
     return response.data;
 
   } catch (error) {
@@ -113,7 +113,7 @@ export async function getAllFollowings(accountID) {
  */
 export async function addFollowing(accountID, friendID) {
   try {
-    const response = await axios.post(`http://localhost:7001/friend/add-by-id/${accountID}/${friendID}`);
+    const response = await axios.post(`http://localhost:7001/accounts/${accountID}/friends/${friendID}`);
     return response.data;
 
   } catch (error) {
@@ -131,7 +131,7 @@ export async function addFollowing(accountID, friendID) {
  */
 export async function deleteFollowing(accountID, friendID) {
   try {
-    const response = await axios.delete(`http://localhost:7001/friend/delete/${accountID}/${friendID}`);
+    const response = await axios.delete(`http://localhost:7001/accounts/${accountID}/friends/${friendID}`);
     return response.data;
 
   } catch (error) {
@@ -149,7 +149,7 @@ export async function deleteFollowing(accountID, friendID) {
  */
 export async function getUserGoal(accountID) {
   try {
-    const response = await axios.get(`http://localhost:7001/userGoal/${accountID}`);
+    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/userGoal`);
     return response.data;
 
   } catch (error) {
@@ -160,7 +160,8 @@ export async function getUserGoal(accountID) {
 
 export async function setUserGoal(accountID, goal, year, month) {
   try {
-    const response = await axios.post(`http://localhost:7001/userGoal/set-goal/${accountID}/${goal}/${year}/${month}`);
+    const data = { goal, year, month };
+    const response = await axios.post(`http://localhost:7001/accounts/${accountID}/userGoal`, data);
     return response.data;
 
   } catch (error) {

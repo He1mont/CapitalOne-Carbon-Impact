@@ -56,47 +56,6 @@ class userGoalService extends Service {
   }
 
   /**
-   * Deletes the user goal for the specified user.
-   * @param {string} id - The ID of the user.
-   * @returns {Object} The result of the deletion operation.
-   */
-  async deleteUserGoal(id) {
-    try {
-      // Find the user goal by accountID
-      const userGoal = await prisma.userGoals.findMany({
-        where: {
-          accountID: id,
-        },
-      });
-
-      if (userGoal) {
-        // If user goal is found, delete it
-        await prisma.userGoals.deleteMany({
-          where: {
-            accountID: id,
-          },
-        });
-        throw new Error(
-          JSON.stringify({
-            errorCode: 200,
-            message: 'User goal deleted successfully',
-          })
-        );
-      }
-      // If user goal is not found, return a 404 Not Found error
-      throw new Error(
-        JSON.stringify({
-          errorCode: 404,
-          message: 'User goal not found',
-        })
-      );
-    } catch (error) {
-      console.error('Error deleting user goal:', error);
-      throw new Error(error.response ? error.response.data : error.message);
-    }
-  }
-
-  /**
    * Retrieves the user goals for the specified user.
    * @param {string} id - The ID of the user.
    * @returns {Array} The user goals.
