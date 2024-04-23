@@ -73,32 +73,37 @@ function Mid({name, id}) {
                         </tr>
                     </table>
                     <div className={styles.sectionHeader}>Additional Options</div>
-                    <table className={styles.AccInfoTable}>
-                        <tr>
-                            <td className={styles.AccTableHeads}> Colour Correction: </td>
-                            <td className={styles.AccTableHeads}> Primary Currency: </td>                          
-                        </tr>
-                        <tr>
-                            <td> 
-                                <select className={styles.AccTableDropdown} id="ColourCorrection">
-                                    <option value="0">Off</option>
-                                    <option value="1">Protanopia</option>
-                                    <option value="2">Deuteranopia</option>
-                                    <option value="3">Tritanopia</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select className={styles.AccTableDropdown} id="Currency">
-                                    <option value="1">CNY</option>
-                                    <option value="2">EUR</option>
-                                    <option value="3">GBP</option>
-                                    <option value="4">HKD</option>
-                                    <option value="5">JPY</option>
-                                    <option value="6">USD</option>
-                                </select>
-                            </td>                          
-                        </tr>
-                    </table>
+                    <form>
+                        <table className={styles.AccInfoTable}>
+                            <tr>
+                                <td className={styles.AccTableHeads}> Colour Correction: </td>
+                                <td className={styles.AccTableHeads}> Primary Currency: </td>                          
+                            </tr>
+                            <tr>
+                                <td> 
+                                    <select className={styles.AccTableDropdown} id="ColourCorrection">
+                                        <option value="0">Off</option>
+                                        <option value="1">Protanopia</option>
+                                        <option value="2">Deuteranopia</option>
+                                        <option value="3">Tritanopia</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select className={styles.AccTableDropdown} id="Currency">
+                                        <option value="1">CNY</option>
+                                        <option value="2">EUR</option>
+                                        <option value="3">GBP</option>
+                                        <option value="4">HKD</option>
+                                        <option value="5">JPY</option>
+                                        <option value="6">USD</option>
+                                    </select>
+                                </td>                          
+                            </tr>
+                        </table>
+                        <br/>
+                        <input className={styles.AccTableSubmit} type="submit" value="Save Changes"></input>
+                    </form>
+                    
                 </div>
                 
             </div>
