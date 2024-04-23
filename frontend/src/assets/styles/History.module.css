@@ -184,7 +184,7 @@ body {
   width: 70%;
   display: flex;
   justify-content: center;
-  bottom: calc(3vh);
+  bottom: 0.5vh;
   margin-bottom: 50px;
 }
 
