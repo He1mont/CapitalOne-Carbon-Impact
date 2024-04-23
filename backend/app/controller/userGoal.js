@@ -16,34 +16,13 @@ class UserGoalController extends Controller {
     ctx.body = res;       // Sending response
   }
 
-  // Method to handle different user goals requests
-  async userGoals() {
+  // Method to get user's goals
+  async getUserGoals() {
     const { ctx, service } = this;
     const id = ctx.params.id;
-
-    switch (ctx.method) {
-      // If the request method is DELETE
-      case "DELETE":
-        const deleteRes = await service.userGoal.deleteUserGoal(id); // Deleting user goal
-        ctx.status = 200;       // Setting HTTP status code to 200 (OK)
-        ctx.body = deleteRes;   // Sending response
-        break;
-      // If the request method is GET
-      case "GET":
-        const userGoal = await service.userGoal.getUserGoals(id); // Getting user goals
-        if (userGoal) {         // If user goals are found
-          ctx.status = 200;     // Setting HTTP status code to 200 (OK)
-          ctx.body = userGoal;  // Sending user goals in response
-        } else {                // If user goals are not found
-          ctx.status = 404;     // Setting HTTP status code to 404 (Not Found)
-          ctx.body = { error: "User goal not found" }; // Sending error message in response
-        }
-        break;
-      // If the request method is not DELETE or GET
-      default:
-        ctx.status = 405;       // Setting HTTP status code to 405 (Method Not Allowed)
-        ctx.body = { error: "Method not allowed" }; // Sending error message in response
-    }
+    const res =  await service.userGoal.getUserGoals(id); // Getting user goals
+    ctx.status = 200;     // Setting HTTP status code to 200 (OK)
+    ctx.body = res;  // Sending user goals in response
   }
 }
 

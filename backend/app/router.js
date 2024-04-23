@@ -13,12 +13,10 @@ module.exports = app => {
   router.post('/accounts/:id/transactions', controller.transaction.createRandom);
   router.get('/accounts/:id/transactions', controller.transaction.getAllTransactions);
   router.get('/accounts/:accountID/transactions/:transactionID', controller.transaction.getByID);
-  // router.get('/accounts/:id/transactions/group-by-date', controller.transaction.groupByDate);
   router.get('/accounts/:accountID/transactions/:transactionID/carbonImpact', controller.transaction.getCarbonImpact);
-  router.post('accounts/:accountID/friends/:friendID', controller.friend.addByID);
+  router.post('/accounts/:accountID/friends/:friendID', controller.friend.addByID);
   router.delete('/accounts/:accountID/friends/:friendID', controller.friend.deleteFriend);
-  router.get('/friends/:username', controller.accountTable.getID);
+  router.get('/accounts/:id/friends', controller.friend.getAll);
   router.post('/accounts/:id/userGoal', controller.userGoal.createGoal);
-  router.delete('/accounts/:id/userGoal', controller.userGoal.userGoals);
-  router.get('/accounts/:id/userGoal', controller.userGoal.userGoals);
+  router.get('/accounts/:id/userGoal', controller.userGoal.getUserGoals);
 };
