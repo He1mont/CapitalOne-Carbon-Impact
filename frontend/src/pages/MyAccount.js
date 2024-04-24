@@ -17,10 +17,12 @@ function Head({ name, id }) {
 
 function Mid({ name, id }) {
   const [account, setAccount] = useState(null);
-  const [firstTran, setFirst] = useState(null);
-  const [recentTran, setRecent] = useState(null);
-  const [numberOfTran, setNumber] = useState(null);
-  const [ammount, setAmmount] = useState(null);
+  const [firstTran, setFirst] = useState('N/A');
+  const [recentTran, setRecent] = useState('N/A');
+  const [numberOfTran, setNumber] = useState(0);
+  const [ammount, setAmmount] = useState(0);
+  const [colorTheme, setColorTheme] = useState("0");
+  const [currency, setCurrency] = useState("GBP");
 
   // Helper function to convert a datetime into a formatted string
   const formatDate = (dateString) => {
@@ -44,22 +46,43 @@ function Mid({ name, id }) {
   useEffect(() => {
     const fetchTransactions = async () => {
       const data = await API.getAllTransactions(id);
-      const transactions = data.sort((a, b) => new Date(a.date) - new Date(b.date));
-      const total = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
 
-      setNumber(transactions.length)
-      setAmmount(total)
+      if (data.length > 0) {
+        const transactions = data.sort((a, b) => new Date(a.date) - new Date(b.date));
+        const total = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
 
-      if (transactions.length > 0) {
+        setNumber(transactions.length)
+        setAmmount(total)
         setFirst(formatDate(transactions[0].date))
         setRecent(formatDate(transactions[transactions.length - 1].date))
-      } else {
-        setFirst('N/A')
-        setRecent('N/A')
-      }
-    };
+      };
+    }
     fetchTransactions();
   }, [id]);
+
+  // Update selected color theme
+  const handleColorThemeChange = (event) => {
+    setColorTheme(event.target.value);
+  };
+
+  // Update selected currency
+  const handleCurrencyChange = (event) => {
+    setCurrency(event.target.value);
+  };
+
+  // Handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent the form from actually submitting
+    const data = await API.getAccountByID(id)
+    const account = data[0]
+
+    if (account.colorMode !== parseInt(colorTheme)) {
+      await API.updateColorTheme(id, parseInt(colorTheme))
+    }
+    if (account.currency !== currency) {
+      await API.updateCurrency(id, currency)
+    }
+  };
 
   return (
     <div className={styles.midBody}>
@@ -118,7 +141,7 @@ function Mid({ name, id }) {
             </tr>
           </table>
           <div className={styles.sectionHeader}>Additional Options</div>
-          <form>
+          <form onSubmit={handleSubmit}>
             <table className={styles.AccInfoTable}>
               <tr>
                 <td className={styles.AccTableHeads}> Colour Correction: </td>
@@ -126,7 +149,10 @@ function Mid({ name, id }) {
               </tr>
               <tr>
                 <td>
-                  <select className={styles.AccTableDropdown} id="ColourCorrection">
+                  <select
+                    className={styles.AccTableDropdown} id="ColourCorrection"
+                    value={colorTheme} onChange={handleColorThemeChange}
+                  >
                     <option value="0">Off</option>
                     <option value="1">Protanopia</option>
                     <option value="2">Deuteranopia</option>
@@ -134,13 +160,20 @@ function Mid({ name, id }) {
                   </select>
                 </td>
                 <td>
-                  <select className={styles.AccTableDropdown} id="Currency">
-                    <option value="1">CNY</option>
-                    <option value="2">EUR</option>
-                    <option value="3" selected="selected">GBP</option>
-                    <option value="4">HKD</option>
-                    <option value="5">JPY</option>
-                    <option value="6">USD</option>
+                  <select className={styles.AccTableDropdown} id="Currency"
+                    value={currency} onChange={handleCurrencyChange}
+                  >
+                    <option value="AUD">AUD</option>
+                    <option value="CAD">CAD</option>
+                    <option value="CHF">CHF</option>
+                    <option value="CNY">CNY</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP" selected>GBP</option>
+                    <option value="INR">INR</option>
+                    <option value="JPY">JPY</option>
+                    <option value="MYR">MYR</option>
+                    <option value="SGD">SGD</option>
+                    <option value="USD">USD</option>
                   </select>
                 </td>
               </tr>

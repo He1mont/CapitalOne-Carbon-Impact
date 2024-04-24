@@ -49,6 +49,40 @@ export async function getAccountByID(accountID) {
   }
 }
 
+/**
+ * Update the color theme of an account
+ * @param {string} accountID - The ID of the account to retrieve.
+ * @param {int} newTheme - The new color theme to update.
+ * @returns {Object} The updated account.
+ */
+export async function updateColorTheme(accountID, newTheme) {
+  try {
+    const data = { newTheme };
+    const response = await axios.patch(`http://127.0.0.1:7001/accounts/${accountID}/color-theme`, data);
+    return response.data
+
+  } catch (error) {
+    console.error("Error updating color theme:", error);
+  }
+}
+
+/**
+ * Update the currency of an account
+ * @param {string} id - The ID of the account to retrieve.
+ * @param {string} newCurr - The new currency to update.
+ * @returns {Object} The updated account.
+ */
+export async function updateCurrency(accountID, newCurr) {
+  try {
+    const data = { newCurr };
+    const response = await axios.patch(`http://127.0.0.1:7001/accounts/${accountID}/currency`, data);
+    return response.data
+
+  } catch (error) {
+    console.error("Error updating currency:", error);
+  }
+}
+
 // ####################### Transaction ############################
 
 /**
