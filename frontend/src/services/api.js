@@ -34,6 +34,21 @@ export async function getAccountByUsername(username) {
   }
 }
 
+/**
+ * Retrieves an account by accountID from the backend.
+ * @param {string} accountID - The accountID to fetch.
+ * @returns {Promise<Object>} A Promise that resolves to the account data.
+ */
+export async function getAccountByID(accountID) {
+  try {
+    const response = await axios.get(`http://127.0.0.1:7001/accounts/${accountID}`);
+    return response.data
+
+  } catch (error) {
+    console.error("Error fetching account by accountID:", error);
+  }
+}
+
 // ####################### Transaction ############################
 
 /**

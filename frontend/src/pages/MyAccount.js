@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { useHistory, useLocation } from "react-router-dom";
 import styles from "../assets/styles/MyAccount.module.css";
 import * as API from '../services/api';
 import { Logo, Footer, GoBackBtn} from './CommonComponents';
 import {Converter} from '../services/currencyConverter';
-
 
 function Head({ name, id }) {
     return (
@@ -15,8 +14,17 @@ function Head({ name, id }) {
     );
 }
 
-function Mid({name, id}) {
-    
+function Mid({ name, id }) {
+    const [account, setAccount] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await API.getAccountByID(id); 
+            setAccount(data[0]); 
+        };
+        fetchData();
+    }, [id]);
+
     return (
         <div className={styles.midBody}>
             <div className={styles.midHigh} />
@@ -31,8 +39,8 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Phone Number: </td>                          
                         </tr>
                         <tr>
-                            <td> Blondell </td>
-                            <td> +44873425431</td>                          
+                            <td>{account?.firstName}</td>
+                            <td>{account?.phone}</td>                          
                         </tr>
                         <br/>
                         <tr>
@@ -40,8 +48,8 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Email Address: </td>                          
                         </tr>
                         <tr>
-                            <td> Bartell</td>
-                            <td> Blondell.Bartell@emailservice.co.uk</td>                          
+                            <td>{account?.lastName}</td>
+                            <td>{account?.email}</td>                          
                         </tr>
                         <br/>
                         <tr>
@@ -49,8 +57,8 @@ function Mid({name, id}) {
                             <td className={styles.AccTableHeads}> Home Address: </td>                          
                         </tr>
                         <tr>
-                            <td> 66512652</td>
-                            <td> 72 Richard Road, Oxford, United Kingdom</td>                          
+                            <td>{account?.accountID}</td>
+                            <td>{account?.address}</td>                          
                         </tr>
                     </table>
                     <div className={styles.sectionHeader}>Transactions</div>
@@ -104,12 +112,9 @@ function Mid({name, id}) {
                         <br/>
                         <input className={styles.AccTableSubmit} type="submit" value="Save Changes"></input>
                     </form>
-                    
                 </div>
-                
             </div>
         </div>
-        
     )
 }
 
@@ -121,7 +126,7 @@ function MyAccount() {
     return (
         <div>
             <Head name={name} id={id} />
-            <Mid />
+            <Mid name={name} id={id} />
         </div>
     );
 }
