@@ -529,7 +529,7 @@ function Goals() {
             <Head name={name} id={id} />
             <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange} />
             <Low name={name} id={id} month={month} />
-            {/* <Footer /> */}
+            <Footer />
         </div>
     )
 }

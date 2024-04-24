@@ -220,39 +220,26 @@ function Head({ name, id }) {
  * Mid component
  * Renders the middle section of the Friend page.
  */
-function Mid({ name }) {
+function Mid({ name, id }) {
 
     return (
-        <div className={styles.mid_bar}>
+        <div className={styles.mid_body}>
             {/* User Information and Friend Overview */}
-            <div className={styles.mid_high}>
-                <div className={styles.mid_high_txt_left}>
-                    <p>{name}</p>
-                    <h1>View Friends</h1>
-                </div>
+            <div className={styles.mid_high} />
+            <div className={styles.mid_low} />
+            <div className={styles.mid_center}>
+                
+                <Leaderboard userID={id} />
             </div>
+            
+
         </div>
     )
 }
 
 /**
- * Low component
- * Renders the lower section of the Friends page, mainly comprising the LeaderBoard component.
- */
-function Low({ id }) {
-
-    return (
-        <div className={styles.low_bar}>
-            <div className={styles.low_body}>
-                <Leaderboard userID={id} />
-            </div>
-        </div>
-    );
-}
-
-/**
  * Friends component
- * Main component aggregating Head, Mid, and Low components to form the complete Friends page.
+ * Main component aggregating Head, Mid, and footer components to form the complete Friends page.
  */
 function Friends() {
     const location = useLocation();
@@ -262,8 +249,7 @@ function Friends() {
     return (
         <div>
             <Head name={name} id={id} />
-            <Mid name={name} />
-            <Low id={id} />
+            <Mid name={name} id={id}/>
             <Footer />
         </div>
     )
