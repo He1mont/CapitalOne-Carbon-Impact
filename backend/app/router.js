@@ -11,6 +11,9 @@ module.exports = app => {
   router.get('/accounts/username', controller.account.getByUserName);
   router.get('/accounts/email', controller.account.getByEmail);
   router.get('/accounts/:id', controller.account.getByID);
+  router.patch('/accounts/:id/color-theme', controller.account.updateColorTheme);
+  router.patch('/accounts/:id/currency', controller.account.updateCurrency);
+
   // Transactions
   router.post('/accounts/:id/transactions', controller.transaction.createRandom);
   router.get('/accounts/:id/transactions', controller.transaction.getAllTransactions);
