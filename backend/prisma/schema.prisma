@@ -9,10 +9,16 @@ datasource db {
 
 model account {
   id        Int    @id @default(autoincrement())
-  username  String @unique
   accountID String @unique
+  username  String @unique
+  firstName String 
+  lastName  String 
   email     String @unique
+  phone     String
+  address   String
+  currency  String 
   state     String 
+  colorMode Int
   
   transactions   transaction[]
   followings     following[]
@@ -26,7 +32,10 @@ model transaction {
   accountID       String  
   merchantName    String
   category        String
+  currency        String
   amount          Float
+  status          String
+  indicator       String
   date            DateTime
   carbonScore     Float
 
@@ -52,4 +61,3 @@ model userGoals {
   @@unique([year, month], name: "Unique_year_month")
   account       account @relation(fields: [accountID], references: [accountID])
 }
-

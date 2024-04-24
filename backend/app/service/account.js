@@ -53,13 +53,22 @@ class AccountService extends Service {
       const randomNumber = Math.floor(Math.random() * 90000) + 10000;
       const userName = account.firstname + account.lastname[0] + randomNumber;
 
+      // create a (Carbon API) card profile from the created account
+      await this.createCardProfile(account.accountId);
+
       // Store the username with the account into database
       await prisma.account.create({
         data: {
-          username: userName,
           accountID: account.accountId,
+          username: userName,
+          firstName: account.firstname,
+          lastName: account.lastname,
           email: account.email,
+          phone: account.phoneNumber,
+          address: account.homeAddress,
+          currency: account.currencyCode,
           state: account.state,
+          colorMode: 0
         },
       });
 
