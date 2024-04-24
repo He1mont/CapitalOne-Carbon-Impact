@@ -507,10 +507,7 @@ function Mid({ name, id, month, onMonthChange }) {
         inputGoal = 99999;
       }
     }
-
-    console.log("Im in function handleSetGoal")
-
-    setGoal(inputGoal)
+    setGoal(String(inputGoal))
     setInputValue('');
   };
 

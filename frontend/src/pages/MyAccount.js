@@ -120,7 +120,7 @@ function MyAccount() {
     const id = location.state?.id;
     return (
         <div>
-            <Head />
+            <Head name={name} id={id} />
             <Mid />
         </div>
     );
