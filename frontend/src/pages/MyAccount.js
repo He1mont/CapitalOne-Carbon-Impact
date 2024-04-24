@@ -23,7 +23,7 @@ function Mid({name, id}) {
             <div className={styles.midLow} />
             <div className={styles.midCenter}>
                 <div className={styles.centerContainer}>
-                    <div className={styles.titleText}>My Account</div>
+                    <div className={styles.titleText}><b>My Account</b></div>
                     <div className={styles.sectionHeader}>Personal</div>
                     <table className={styles.AccInfoTable}>
                         <tr>

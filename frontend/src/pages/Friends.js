@@ -228,8 +228,12 @@ function Mid({ name, id }) {
             <div className={styles.mid_high} />
             <div className={styles.mid_low} />
             <div className={styles.mid_center}>
+                <div className={styles.mid_body_padding}>
+                    <div className={styles.title_text}> <b>My Friends</b></div>
                 
-                <Leaderboard userID={id} />
+                    <Leaderboard userID={id} />
+                </div>
+                
             </div>
             
 
