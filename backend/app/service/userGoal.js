@@ -16,16 +16,17 @@ class userGoalService extends Service {
    * @param {number} month - The month for which the goal is set.
    * @returns {Object} The created user goal.
    */
-  async createGoal(id, goal, month, year) {
+  async createGoal(id, goal, year, month) {
     try {
-      const UserGoal = await prisma.userGoals.findMany({
+      const userGoal = await prisma.userGoals.findMany({
         where: {
           accountID: id,
           year,
           month,
         },
       });
-      if (UserGoal.length > 0) {
+
+      if (userGoal.length > 0) {
         // If the account already exists, update its goal
         await prisma.userGoals.updateMany({
           where: {

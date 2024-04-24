@@ -7,11 +7,11 @@ class UserGoalController extends Controller {
     const id = ctx.params.id; // Extracting user id from request parameters
     ctx.validate({
       goal: 'string',
-      month: 'string',
-      year: 'string'
+      year: 'string',
+      month: 'string'
     }, ctx.request.body);
-    const { goal, month, year } = ctx.request.body;   // Extracting variables from request body
-    const res = await service.userGoal.createGoal(id, goal, month, year); // Calling service method to create user goal
+    const { goal, year, month } = ctx.request.body;   // Extracting variables from request body
+    const res = await service.userGoal.createGoal(id, goal, year, month); // Calling service method to create user goal
     ctx.status = 200;     // Setting HTTP status code to 200 (OK)
     ctx.body = res;       // Sending response
   }

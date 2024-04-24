@@ -47,8 +47,8 @@ class AccountController extends Controller {
     const { ctx, service } = this;
     ctx.validate({
       username: "string"
-    }, ctx.request.body);
-    const username = ctx.request.body.username;
+    }, ctx.request.query);
+    const username = ctx.request.query.username;
     const res = await service.account.getByUserName(username);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;

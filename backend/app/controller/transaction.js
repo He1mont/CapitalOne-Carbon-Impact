@@ -49,8 +49,8 @@ class TransactionController extends Controller {
     ctx.validate({
       month: "string",
       year: "string"
-    }, ctx.request.body);
-    const { month, year } = ctx.request.body; // Extracting variables from request body 
+    }, ctx.request.query);
+    const { month, year } = ctx.request.query; // Extracting variables from request body 
     const res = await service.transaction.getCarbonScoreByMonth(accountID, year, month);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
@@ -63,8 +63,8 @@ class TransactionController extends Controller {
     ctx.validate({
       month: "string",
       year: "string"
-    }, ctx.request.body);
-    const { month, year } = ctx.request.body; // Extracting variables from request body 
+    }, ctx.request.query);
+    const { month, year } = ctx.request.query; // Extracting variables from request body 
     const res = await service.transaction.getCarbonScoreByMonthInCategories(accountID, year, month);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
