@@ -7,9 +7,9 @@ class TransactionController extends Controller {
     const { ctx, service } = this;
     const id = ctx.params.id; // Extracting account ID from request parameters
     const res = await service.transaction.createRandom(id); // Calling service method to create a random transaction
-    ctx.set('Access-Control-Allow-Origin', '*');            // Allowing cross-origin requests
-    ctx.status = 200;         // Setting HTTP status code to 200 (OK)
-    ctx.body = res;           // Sending response
+    ctx.set('Access-Control-Allow-Origin', '*'); // Allowing cross-origin requests
+    ctx.status = 200; // Setting HTTP status code to 200 (OK)
+    ctx.body = res; // Sending response
   }
 
   // Method to get all transactions for a specific account
@@ -45,12 +45,12 @@ class TransactionController extends Controller {
   // Method to get the total carbon score within a month
   async getCarbonScoreByMonth() {
     const { ctx, service } = this;
-    const { accountID } = this.ctx.params;    // Extracting ID from request parameters
+    const { accountID } = this.ctx.params; // Extracting ID from request parameters
     ctx.validate({
-      month: "string",
-      year: "string"
+      month: 'string',
+      year: 'string',
     }, ctx.request.query);
-    const { month, year } = ctx.request.query; // Extracting variables from request body 
+    const { month, year } = ctx.request.query; // Extracting variables from request body
     const res = await service.transaction.getCarbonScoreByMonth(accountID, year, month);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
@@ -59,12 +59,12 @@ class TransactionController extends Controller {
   // Method to get the total carbon score within a month
   async getCarbonScoreByMonthInCaregories() {
     const { ctx, service } = this;
-    const { accountID } = this.ctx.params;    // Extracting ID from request parameters
+    const { accountID } = this.ctx.params; // Extracting ID from request parameters
     ctx.validate({
-      month: "string",
-      year: "string"
+      month: 'string',
+      year: 'string',
     }, ctx.request.query);
-    const { month, year } = ctx.request.query; // Extracting variables from request body 
+    const { month, year } = ctx.request.query; // Extracting variables from request body
     const res = await service.transaction.getCarbonScoreByMonthInCategories(accountID, year, month);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;

@@ -1,61 +1,82 @@
 const { app, assert } = require('egg-mock/bootstrap');
 
 describe('AccountController', () => {
-  it('createRandom should create a random account', async () => {
-    // Mock the account service's createRandom method to return a predefined result
+  it('should create a random account', async () => {
+    // Mock the accountService.createRandom method
     app.mockService('account', 'createRandom', async () => {
-      return { id: 1, name: 'John Doe' };
+      return { id: 1, username: 'JohnD12345' };
     });
 
-    // Make an HTTP POST request to the /accounts/createRandom route
+    // Make an HTTP POST request to the /accounts route
     const result = await app.httpRequest()
-      .post('/accounts/create-random')
+      .post('/accounts')
       .expect(200);
 
     // Assert that the body of the response matches the expected result
-    assert.deepStrictEqual(result.body, { id: 1, name: 'John Doe' });
+    assert.deepStrictEqual(result.body, { id: 1, username: 'JohnD12345' });
   });
 
-  it('getAll should output all existing accounts', async () => {
+  it('should get all existing accounts', async () => {
+    // Mock the accountService.getAll method
     app.mockService('account', 'getAll', async () => {
-      return [{ id: 1, name: 'John Doe' }, { id: 2, name: 'Jane Smith' }];
+      return [{ id: 1, username: 'JohnD12345' }, { id: 2, username: 'JaneS12345' }];
     });
 
-    // GET /accounts/getAll
+    // Make an HTTP GET request to the /accounts route
     const result = await app.httpRequest()
-      .get('/accounts/get-all')
+      .get('/accounts')
       .expect(200);
 
-    assert.deepStrictEqual(result.body,
-      [{ id: 1, name: 'John Doe' }, { id: 2, name: 'Jane Smith' }]);
+    // Assert that the body of the response matches the expected result
+    assert.deepStrictEqual(result.body, [
+      { id: 1, username: 'JohnD12345' },
+      { id: 2, username: 'JaneS12345' },
+    ]);
   });
 
-  it('getByID should return the account specified', async () => {
+  it('should return the account specified by ID', async () => {
+    // Mock the accountService.getByID method
     app.mockService('account', 'getByID', async () => {
-      return { id: 1, name: 'John Doe' };
+      return { id: 1, username: 'JohnD12345' };
     });
-
-    // GET /accounts/getByID
+    // Make an HTTP GET request to the /accounts/:id route
     const result = await app.httpRequest()
-      .get('/accounts/:1/get-by-id ')
+      .get('/accounts/1')
       .expect(200);
 
-    assert.deepStrictEqual(result.body, { id: 1, name: 'John Doe' });
+    // Assert that the body of the response matches the expected result
+    assert.deepStrictEqual(result.body, { id: 1, username: 'JohnD12345' });
   });
 
-  it('getByEmail should return the account specified', async () => {
+  it('should return the account specified by email', async () => {
+    // Mock the accountService.getByEmail method
     app.mockService('account', 'getByEmail', async () => {
-      return { id: 1, name: 'John Doe', email: 'john@email.com' };
+      return { id: 1, username: 'JohnD12345', email: 'john@email.com' };
     });
 
-    // GET /accounts/getByEmail
+    // Make an HTTP GET request to the /accounts/email route
     const result = await app.httpRequest()
-      .get('/accounts/get-by-email')
-      .send({"email":"john@email.com"})
+      .get('/accounts/email')
+      .query({ email: 'john@email.com' }) // Use the query method to add query parameters
       .expect(200);
 
-    assert.deepStrictEqual(result.body,
-      { id: 1, name: 'John Doe', email: 'john@email.com' });
+    // Assert that the body of the response matches the expected result
+    assert.deepStrictEqual(result.body, { id: 1, username: 'JohnD12345', email: 'john@email.com' });
   });
 
+  it('should get account by username', async () => {
+    // Mock the accountService.getByUserName method
+    app.mockService('account', 'getByUserName', async () => {
+      return { id: 1, username: 'JohnD12345', email: 'john@email.com' };
+    });
+
+    // Make an HTTP GET request to the /accounts/username route with a query parameter
+    const result = await app.httpRequest()
+      .get('/accounts/username')
+      .query({ username: 'JohnD12345' })
+      .expect(200);
+
+    // Assert that the body of the response matches the expected result
+    assert.deepStrictEqual(result.body, { id: 1, username: 'JohnD12345', email: 'john@email.com' });
+  });
 });

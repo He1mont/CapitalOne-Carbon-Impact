@@ -1,55 +1,47 @@
 const { app, assert } = require('egg-mock/bootstrap');
 
 describe('UserGoalController', () => {
-  it('should POST /userGoal/set-goal/:id/:goal/:month', async () => {
+  it('should create a goal for a specified month', async () => {
     const mockID = 1;
-    const mockgoal = '3000';
-    const mockmonth = 'January';
-
+    const mockGoal = '3000';
+    const mockYear = '2024';
+    const mockMonth = 'January';
+    // Mock the userGoalService.createGoal method
     app.mockService('userGoal', 'createGoal', async () => {
-      return { id: mockID, goal: mockgoal, month: mockmonth };
+      return { id: mockID, goal: mockGoal, year: mockYear, month: mockMonth };
     });
 
+    // Make an HTTP POST request to the /accounts/:id/userGoal route
     const result = await app
       .httpRequest()
-      .post(`/userGoal/set-goal/${mockID}/${mockgoal}/${mockmonth}`)
+      .post(`/accounts/${mockID}/userGoal`)
+      .send({ goal: mockGoal, year: mockYear, month: mockMonth })
       .expect(200);
 
+    // Assert that the body of the response matches the expected result
     assert.deepStrictEqual(result.body, {
       id: mockID,
-      goal: mockgoal,
-      month: mockmonth,
+      goal: mockGoal,
+      year: mockYear,
+      month: mockMonth,
     });
   });
 
-  it('should GET /userGoal/:id', async () => {
+  it('should get all goals for an account', async () => {
     const mockID = 1;
-
+    const mockGoal = '3000';
+    // Mock the userGoalService.getUserGoals method
     app.mockService('userGoal', 'getUserGoals', async () => {
-      return { id: mockID };
+      return { accountID: mockID, goal: mockGoal };
     });
+
+    // Make an HTTP GET request to the /userGoal/:id route
     const result = await app
       .httpRequest()
-      .get(`/userGoal/${mockID}`)
+      .get(`/accounts/${mockID}/userGoal`)
       .expect(200);
-    assert.deepStrictEqual(result.body, {
-      id: mockID,
-    });
+
+    // Assert that the body of the response matches the expected result
+    assert.deepStrictEqual(result.body, { accountID: mockID, goal: mockGoal });
   });
-
-  it('should DELETE /userGoal/:id', async () => {
-    const mockID = 1;
-
-    app.mockService('userGoal', 'deleteUserGoal', async () => {
-      // throw new Error('{"errorCode":200,"message":"User goal deleted successfully"}');
-
-    });
-    const result = await app
-      .httpRequest()
-      .delete(`/userGoal/${mockID}`)
-      .expect(204);
-    assert.deepStrictEqual(result.body, {});
-  });
-
-
 });
