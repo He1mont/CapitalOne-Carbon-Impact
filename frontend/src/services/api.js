@@ -164,7 +164,7 @@ export async function getUserGoal(accountID) {
 
 export async function setUserGoal(accountID, goal, year, month) {
   try {
-    const data = { params: { goal, year, month } };
+    const data = { goal, year, month };
     const response = await axios.post(`http://localhost:7001/accounts/${accountID}/userGoal`, data);
     return response.data;
 
