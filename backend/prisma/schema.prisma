@@ -8,56 +8,56 @@ datasource db {
 }
 
 model account {
-  id        Int    @id @default(autoincrement())
-  accountID String @unique
-  username  String @unique
-  firstName String 
-  lastName  String 
-  email     String @unique
-  phone     String
-  address   String
-  currency  String 
-  state     String 
-  colorMode Int
-  
-  transactions   transaction[]
-  followings     following[]
-  goals userGoals[]
-
+  id           Int           @id @default(autoincrement())
+  username     String        @unique
+  accountID    String        @unique
+  email        String        @unique
+  state        String
+  address      String
+  colorMode    Int
+  currency     String
+  firstName    String
+  lastName     String
+  phone        String
+  followings   following[]
+  transactions transaction[]
+  goals        userGoals[]
 }
 
 model transaction {
-  id              Int     @id @default(autoincrement())
-  transactionUUID String  @unique
-  accountID       String  
+  id              Int      @id @default(autoincrement())
+  transactionUUID String   @unique
+  accountID       String
   merchantName    String
   category        String
-  currency        String
   amount          Float
-  status          String
-  indicator       String
   date            DateTime
   carbonScore     Float
+  currency        String
+  indicator       String
+  status          String
+  account         account  @relation(fields: [accountID], references: [accountID])
 
-  account         account @relation(fields: [accountID], references: [accountID])
+  @@index([accountID], map: "transaction_accountID_fkey")
 }
 
 model following {
-  id            Int     @id @default(autoincrement())
-  accountID     String
-  followingID   String
+  id          Int     @id @default(autoincrement())
+  accountID   String
+  followingID String
+  account     account @relation(fields: [followingID], references: [accountID])
 
   @@unique([accountID, followingID], name: "Unique_accountID_followingID")
-  account       account @relation(fields: [followingID], references: [accountID])
+  @@index([followingID], map: "following_followingID_fkey")
 }
 
 model userGoals {
   id        Int     @id @default(autoincrement())
-  accountID String  
-  goal      String
-  year      String
+  accountID String
+  goal      Int
   month     String
+  year      String
+  account   account @relation(fields: [accountID], references: [accountID])
 
-  @@unique([year, month], name: "Unique_year_month")
-  account       account @relation(fields: [accountID], references: [accountID])
+  @@unique([accountID, year, month], name: "Unique_year_month")
 }

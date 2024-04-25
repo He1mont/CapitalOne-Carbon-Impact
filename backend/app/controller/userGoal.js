@@ -6,7 +6,7 @@ class UserGoalController extends Controller {
     const { ctx, service } = this;
     const id = ctx.params.id; // Extracting user id from request parameters
     ctx.validate({
-      goal: 'string',
+      goal: 'int',
       year: 'string',
       month: 'string',
     }, ctx.request.body);

@@ -293,7 +293,7 @@ class Leaderboard extends Component {
     this.setState({ carbonGoalList });
   };
 
-  mergeUsersWithCarbonScore = () => {
+  mergeUsersforDisplay = () => {
     const getUser = (username) => {
       for (const item of this.state.friendList) {
         if (item.username === username) {
@@ -316,7 +316,7 @@ class Leaderboard extends Component {
     for (const userItem of this.state.carbonScoreList) {
       const friend = getUser(userItem.username);
       const carbonGoal = getForUser(userItem.username);
-      const status = parseInt(carbonGoal) - parseInt(userItem.carbonScore);
+      const status = carbonGoal - userItem.carbonScore;
       const mergedObject = {
         ...friend, rank: rank, carbonScore: userItem.carbonScore,
         carbonGoal: carbonGoal, status: status
@@ -330,7 +330,7 @@ class Leaderboard extends Component {
 
   render() {
     // merge user's goal and score for a specific month with existing info
-    const completeFollowingUsers = this.mergeUsersWithCarbonScore();
+    const completeFollowingUsers = this.mergeUsersforDisplay();
     // define the top columns for the table
     const columns = [
       {
@@ -486,8 +486,8 @@ function Mid({ name, id, month, onMonthChange }) {
    * @param {number} inputGoal - The input goal emission value.
    */
   const setGoal = async(inputGoal) => {
-    await API.setUserGoal(id, inputGoal, month.format('YYYY'), month.format('MMMM'));
-    setGoalEm(inputGoal);
+    await API.setUserGoal(id, parseInt(inputGoal), month.format('YYYY'), month.format('MMMM'));
+    setGoalEm(parseInt(inputGoal));
   };
 
   const handleEnterPress = (event) => {
