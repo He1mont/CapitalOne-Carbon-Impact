@@ -13,10 +13,10 @@ module.exports = app => {
   router.get('/accounts/:id', controller.account.getByID);
   router.patch('/accounts/:id/color-theme', controller.account.updateColorTheme);
   router.patch('/accounts/:id/currency', controller.account.updateCurrency);
-
   // Transactions
   router.post('/accounts/:id/transactions', controller.transaction.createRandom);
   router.get('/accounts/:id/transactions', controller.transaction.getAllTransactions);
+  router.get('/accounts/:id/transactions/monthly', controller.transaction.getTransactionsByMonth);
   router.get('/accounts/:accountID/transactions/:transactionID', controller.transaction.getByID);
   router.get('/accounts/:accountID/transactions/:transactionID/carbonScore', controller.transaction.getCarbonImpact);
   router.get('/accounts/:accountID/carbonScores/monthly', controller.transaction.getCarbonScoreByMonth);

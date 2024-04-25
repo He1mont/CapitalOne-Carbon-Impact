@@ -238,12 +238,11 @@ class TransactionService extends Service {
    * Retrieves a list of transactions for a specific month.
    * @param {string} accountID - The ID of the account.
    * @param {number} year - The year of the transactions.
-   * @param {number} month - The month of the transactions (1 to 12).
+   * @param {number} month - The month of the transactions (0 to 11).
    * @returns {Array} List of transactions for the specified month.
    */
   async getTransactionsByMonth(accountID, year, month) {
     const transactions = await this.getAllTransactions(accountID)
-    // getMonth returns 0 for Jan, 1 for Feb, ...
     return transactions.filter(item => {
       return item.date.getFullYear() === parseInt(year) && item.date.getMonth() === parseInt(month);
     });
