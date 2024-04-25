@@ -263,7 +263,7 @@ class Leaderboard extends Component {
 
     await Promise.all(friends.map(async (friend) => {
       const carbonScore = await API.getCarbonScoreByMonth(friend.accountID,
-        month.format('YYYY'), month.format('MM'));
+        month.year(), month.month());
       carbonScoreList.push({ username: friend.username, carbonScore: carbonScore });
     }));
 
@@ -453,7 +453,7 @@ function Mid({ name, id, month, onMonthChange }) {
   // recall useEffect when `month` is changed
   useEffect(() => {
     const fetchCarbonScore = async () => {
-      const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
+      const data = await API.getCarbonScoreByMonth(id, month.year(), month.month());
       setCarbonEm(data);
     };
 

@@ -127,11 +127,11 @@ class TransactionService extends Service {
   }
 
   /**
- * Retrieves the carbon impact of a transaction.
- * @param {string} accountID - The ID of the account associated with the transaction.
- * @param {string} transactionID - The ID of the transaction.
- * @returns {number} The carbon impact of the transaction.
- */
+   * Retrieves the carbon impact of a transaction.
+   * @param {string} accountID - The ID of the account associated with the transaction.
+   * @param {string} transactionID - The ID of the transaction.
+   * @returns {number} The carbon impact of the transaction.
+   */
   async getCarbonImpact(accountID, transactionID) {
     // Get the specified account from Hackathon API
     try {
@@ -235,39 +235,39 @@ class TransactionService extends Service {
   }
 
   /**
-* Retrieves a list of transactions for a specific month.
-* @param {string} accountID - The ID of the account.
-* @param {number} year - The year of the transactions.
-* @param {number} month - The month of the transactions (1 to 12).
-* @returns {Array} List of transactions for the specified month.
-*/
+   * Retrieves a list of transactions for a specific month.
+   * @param {string} accountID - The ID of the account.
+   * @param {number} year - The year of the transactions.
+   * @param {number} month - The month of the transactions (1 to 12).
+   * @returns {Array} List of transactions for the specified month.
+   */
   async getTransactionsByMonth(accountID, year, month) {
     const transactions = await this.getAllTransactions(accountID)
     // getMonth returns 0 for Jan, 1 for Feb, ...
     return transactions.filter(item => {
-      return item.date.getFullYear() === parseInt(year) && item.date.getMonth() === parseInt(month) - 1;
+      return item.date.getFullYear() === parseInt(year) && item.date.getMonth() === parseInt(month);
     });
   }
 
   /**
- * Retrieves the total carbon score for a specific month.
- * @param {string} accountID - The ID of the account.
- * @param {number} year - The year of the transactions.
- * @param {number} month - The month of the transactions (1 to 12).
- * @returns {number} Total carbon score for the specified month.
- */
+   * Retrieves the total carbon score for a specific month.
+   * @param {string} accountID - The ID of the account.
+   * @param {number} year - The year of the transactions.
+   * @param {number} month - The month of the transactions (0 to 11).
+   * @returns {number} Total carbon score for the specified month.
+   */
   async getCarbonScoreByMonth(accountID, year, month) {
     const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
     return filteredTransactions.reduce((acc, item) => acc + item.carbonScore, 0);
   }
 
   /**
- * Retrieves the carbon score by category for a specific month.
- * @param {string} accountID - The ID of the account.
- * @param {number} year - The year of the transactions.
- * @param {number} month - The month of the transactions (1 to 12).
- * @returns {Object} Carbon score by category for the specified month.
- */
+   * Retrieves the carbon score by category for a specific month.
+   * @param {string} accountID - The ID of the account.
+   * @param {number} year - The year of the transactions.
+   * @param {number} month - The month of the transactions (0 to 11).
+   * @returns {Object} Carbon score by category for the specified month.
+   */
   async getCarbonScoreByMonthInCategories(accountID, year, month) {
     const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
     const ret = {
@@ -290,12 +290,12 @@ class TransactionService extends Service {
   }
 
   /**
- * Adds a transaction to the Carbon API.
- * @param {string} accountID - The ID of the account.
- * @param {string} transactionID - The ID of the transaction.
- * @returns {Object} Response data from the Carbon API.
- * @throws {Error} If the account or transaction doesn't exist or if there's an API error.
- */
+   * Adds a transaction to the Carbon API.
+   * @param {string} accountID - The ID of the account.
+   * @param {string} transactionID - The ID of the transaction.
+   * @returns {Object} Response data from the Carbon API.
+   * @throws {Error} If the account or transaction doesn't exist or if there's an API error.
+   */
   async addTransactionToCarbonAPI(accountID, transactionID) {
     try {
       const hackathonResponse = await axios.get(`https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/${accountID}`, {

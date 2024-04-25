@@ -206,7 +206,7 @@ class Graphs extends Component {
     // traverse all the dates of dateList
     for (const date of monthList) {
       // call backend API to get carbon score of in category of a certain month
-      const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth() + 1);
+      const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth());
 
       // for each category in ret, if the category is selected, add the corresponding value
       ret.forEach(item => {
@@ -223,7 +223,7 @@ class Graphs extends Component {
     // traverse all the dates of dateList
     for (const date of monthList) {
       // call backend API to get carbon score of in category of a certain month
-      const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth() + 1);
+      const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth());
       obj.month = `${date.getMonth() + 1}/${date.getFullYear()}`
       // traverse all categories, if not selected, set the value of it to 0 in object
       this.getAllCategories().forEach(item => {
@@ -249,7 +249,7 @@ class Graphs extends Component {
     }));
     for (const date of monthList) {
       // call backend API to get carbon score of in category of a certain month
-      const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth() + 1);
+      const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth());
       ret.forEach(item => {
         if (this.state.categoryState[item.label])
           item.data.push(obj[item.label])
