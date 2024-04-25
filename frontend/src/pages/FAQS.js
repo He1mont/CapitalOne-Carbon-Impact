@@ -4,26 +4,6 @@ import styles from "../assets/styles/FAQ.module.css"; // Import CSS module
 import { useCollapse } from "react-collapsed";
 import axios from "axios";
 
-/**
- * Collapsible component
- */
-function Collap(props) {
-  const config = {
-    defaultExpanded: props.defaultExpanded || false,
-    collapsedHeight: props.collapsedHeight || 0,
-  };
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
-  return (
-    <div className={styles.collapsible}>
-      <div className={styles.header} {...getToggleProps()}>
-        <div className={styles.title}>{props.title}</div>
-      </div>
-      <div {...getCollapseProps()}>
-        <div className={styles.content}>{props.children}</div>
-      </div>
-    </div>
-  );
-}
 
 function Head() {
   const history = useHistory();
@@ -32,8 +12,20 @@ function Head() {
       pathname: "/",
     });
   }
+  function handleHelpClick() {
+    history.push({
+      pathname: "/help",
+    });
+  }
   return (
     <div className={styles.headBar}>
+          <div className={styles.headLeft}>
+        <img
+        src="/images/helpback.png"
+        className={styles.backimg}
+        onClick={handleHelpClick}
+        />
+      </div>
       {/* Logo */}
       <div className={styles.headCenter}>
         <img
@@ -50,7 +42,9 @@ function Head() {
 function Mid({ name }) {
   return (
     <div className={styles.midBar}>
+    
       <div className={styles.midHigh}>
+    
         {/* <h1 className={styles.title}>Help centre</h1> */}
       </div>
       {/* Carbon Impact Information Box */}
@@ -148,8 +142,9 @@ function Low({ name, id }) {
           </div>
           <div className={styles.questionWrapper}>
             <div className={styles.question}>
+            <button className={styles.play_button} onClick={handleqs1}></button>
               <span>1. How is my carbon impact calculated?</span>
-              <button className={styles.play_button} onClick={handleqs1}></button>
+              
             </div>
             <label>
               Our platform analyses transaction data, considering factors like
@@ -158,8 +153,9 @@ function Low({ name, id }) {
           </div>
           <div className={styles.questionWrapper}>
             <div className={styles.question}>
+            <button className={styles.play_button} onClick={handleqs2}></button>
               <span>2. How can I set carbon goals?</span>
-              <button className={styles.play_button} onClick={handleqs2}></button>
+             
             </div>
             <label>
               Setting carbon goals is easy! Navigate to your carbon goals page and
@@ -168,8 +164,9 @@ function Low({ name, id }) {
           </div>
           <div className={styles.questionWrapper}>
             <div className={styles.question}>
+            <button className={styles.play_button} onClick={handleqs3}></button>
               <span>3. Can I compare my carbon scores with friends?</span>
-              <button className={styles.play_button} onClick={handleqs3}></button>
+             
             </div>
             <label>
               Yes! Our platform offers a leaderboard table for comparing carbon
@@ -178,8 +175,9 @@ function Low({ name, id }) {
           </div>
           <div className={styles.questionWrapper}>
             <div className={styles.question}>
+            <button className={styles.play_button}onClick={handleqs4}></button>
               <span>4. How often are carbon scores updated?</span>
-              <button className={styles.play_button}onClick={handleqs4}></button>
+             
             </div>
             <label>
               Carbon scores are regularly updated based on the latest transaction
@@ -188,8 +186,9 @@ function Low({ name, id }) {
           </div>
           <div className={styles.questionWrapper}>
             <div className={styles.question}>
+            <button className={styles.play_button}onClick={handleqs5}></button>
               <span>5. How does the platform work?</span>
-              <button className={styles.play_button}onClick={handleqs5}></button>
+              
             </div>
             <label>
               Our platform helps users understand and reduce their carbon
@@ -199,8 +198,9 @@ function Low({ name, id }) {
           </div>
           <div className={styles.questionWrapper}>
             <div className={styles.question}>
+            <button className={styles.play_button}onClick={handleqs6}></button>
               <span>6. Is my data secure on the platform?</span>
-              <button className={styles.play_button}onClick={handleqs6}></button>
+              
             </div>
             <label>
               Absolutely. We prioritise the security and privacy of your data,

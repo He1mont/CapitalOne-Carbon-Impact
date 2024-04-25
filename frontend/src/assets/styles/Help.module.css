@@ -48,17 +48,6 @@ body {
   position: absolute;
 }
 
-/*---------- MID-HIGH ----------*/
-
-.midHigh {
-  z-index: -1;
-  user-select: none;
-  width: 100%;
-  height: 180px;
-  position: absolute;
-  text-align: center;
-  background-color: #073763ff;
-}
 
 .title {
   color: white;
@@ -254,15 +243,18 @@ body {
   width: 100%;
   height: 300px;
   position: absolute;
+  
 }
 
 /*---------- MID-HIGH ----------*/
 .midHigh {
   user-select: none;
+  background-color: #073763ff;
   width: 100%;
   height: 200px;
   position: absolute;
-  background-color: #073763ff;
+  z-index: 1;
+  
 }
 
 /*---------- CENTER ----------*/
@@ -303,7 +295,7 @@ body {
 .lowBar {
   position: absolute;
   top: 365px;
-  min-height: 330px;
+  min-height: 500px;
   height: auto;
   width: 100%;
   background-color: rgb(255, 255, 255);
