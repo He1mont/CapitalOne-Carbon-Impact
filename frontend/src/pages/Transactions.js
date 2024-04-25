@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
 // Helper functions
 import * as API from '../services/api';
@@ -9,8 +9,6 @@ import * as Sorter from '../services/sorter';
 // MUI component
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 
 /**
  * TransactionTbl component:
@@ -22,12 +20,15 @@ class TransactionTbl extends Component {
     this.state = {
       transactions: [],
       searchInput: '',
+      myCurrency: '',
+      currencyRate: '',
       loading: true,
     };
   }
 
   async componentDidMount() {
-    this.loadTransactions();
+    await this.loadCurrency();
+    await this.loadTransactions();
   }
 
   componentDidUpdate(prevProps) {
@@ -36,39 +37,27 @@ class TransactionTbl extends Component {
     }
   }
 
+  loadCurrency = async () => {
+    const data = await API.getAccountByID(this.props.id);
+    const myCurrency = data[0].currency
+    const currencyRate = await API.getCurrencyRates(myCurrency)
+    this.setState({ myCurrency, currencyRate });
+  }
+
   loadTransactions = async () => {
     this.setState({ loading: true });
     const year = this.props.month.year();
     const month = this.props.month.month();
     const transactions = await API.getTransactionsByMonth(this.props.id, year, month);
     const formattedTransactions = transactions.map(item => {
-      return { ...item, date: this.formatDate(item.date) };
+      return {
+        ...item,
+        date: this.formatDate(item.date),
+        amount: (item.amount / this.state.currencyRate[item.currency]).toFixed(2)
+      };
     });
     this.setState({ transactions: formattedTransactions, loading: false });
   }
-
-
-  // async componentDidMount() {
-  //   const data = await API.getAllTransactions(this.props.id);
-  //   const convertedTransactions = await Promise.all(data.map(async (transaction) => {
-  //     const convertedAmount = await this.converter(transaction.amount, 'GBP');
-  //     return {
-  //       ...transaction,
-  //       id: transaction.transactionUUID, // Ensure each row has an 'id' field
-  //       amount: convertedAmount,
-  //       date: this.formatDate(transaction.date),
-  //     };
-  //   }));
-  //   this.setState({ transactions: convertedTransactions, loading: false });
-  //   this.setState({ transactions: data, loading: false });
-  // }
-
-  // converter = async (value, currency) => {
-  //   const response = await fetch(`https://v6.exchangerate-api.com/v6/515e94b4c93a7abdfb065900/latest/USD`);
-  //   const data = await response.json();
-  //   const conversionRate = data.conversion_rates[currency];
-  //   return (value * conversionRate).toFixed(2);
-  // };
 
   formatDate = (timestamp) => {
     const date = new Date(timestamp);
@@ -113,9 +102,9 @@ class TransactionTbl extends Component {
   render() {
     const columns = [
       { field: 'date', headerName: 'Date', width: 100 },
-      { field: 'merchantName', headerName: 'Merchant Name', width: 200 },
-      { field: 'category', headerName: 'Category', width: 200 },
-      { field: 'amount', headerName: 'Amount (GBP)', width: 150 },
+      { field: 'merchantName', headerName: 'Merchant Name', width: 250 },
+      { field: 'category', headerName: 'Category', width: 250 },
+      { field: 'amount', headerName: `Amount (${this.state.myCurrency})`, width: 200 },
       { field: 'carbonScore', headerName: 'Carbon Score', width: 150 },
     ];
 
@@ -155,7 +144,6 @@ class TransactionTbl extends Component {
     );
   }
 }
-
 
 /**
  * Month selector component:

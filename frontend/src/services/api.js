@@ -240,3 +240,15 @@ export async function setUserGoal(accountID, goal, year, month) {
     throw error;
   }
 }
+
+export async function getCurrencyRates(baseCurrency) {
+  try {
+    const response = await fetch(`https://v6.exchangerate-api.com/v6/515e94b4c93a7abdfb065900/latest/${baseCurrency}`);
+    const data = await response.json();
+    return data.conversion_rates;
+
+  } catch (error) {
+    console.error('Error fetching currency exchange rate:', error);
+    throw error;
+  }
+}

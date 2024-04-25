@@ -3,7 +3,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import styles from "../assets/styles/MyAccount.module.css";
 import * as API from '../services/api';
 import { Logo, Footer, GoBackBtn } from './CommonComponents';
-import { Converter } from '../services/currencyConverter';
 import { filterStateInitializer } from '@mui/x-data-grid/internals';
 
 function Head({ name, id }) {
@@ -20,46 +19,41 @@ function Mid({ name, id }) {
   const [firstTran, setFirst] = useState('N/A');
   const [recentTran, setRecent] = useState('N/A');
   const [numberOfTran, setNumber] = useState(0);
-  const [ammount, setAmmount] = useState(0);
+  const [amount, setAmount] = useState(0);
   const [colorTheme, setColorTheme] = useState("0");
-  const [currency, setCurrency] = useState("GBP");
+  const [currency, setCurrency] = useState("");
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   // Helper function to convert a datetime into a formatted string
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return `${day}/${month}/${year}`;
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
 
-  // Load info for account
   useEffect(() => {
     const fetchData = async () => {
-      const data = await API.getAccountByID(id);
-      setAccount(data[0]);
-      setCurrency(data[0].currency);
+      // Load account info
+      const account = await API.getAccountByID(id);
+      setAccount(account[0]);
+      setCurrency(account[0].currency);
+
+      // Load transactions info
+      const transactions = await API.getAllTransactions(id);
+      if (transactions.length > 0) {
+        const sortedTransactions = transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+        const currencyRate = await API.getCurrencyRates(account[0].currency);
+        const total = sortedTransactions.reduce((acc, item) => {
+          return acc + item.amount / currencyRate[item.currency]
+        }, 0);
+
+        setNumber(sortedTransactions.length)
+        setAmount(total)
+        setFirst(formatDate(sortedTransactions[0].date))
+        setRecent(formatDate(sortedTransactions[sortedTransactions.length - 1].date))
+      };
     };
     fetchData();
-  }, [id]);
-
-  // Load info for transactions
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      const data = await API.getAllTransactions(id);
-
-      if (data.length > 0) {
-        const transactions = data.sort((a, b) => new Date(a.date) - new Date(b.date));
-        const total = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
-
-        setNumber(transactions.length)
-        setAmmount(total)
-        setFirst(formatDate(transactions[0].date))
-        setRecent(formatDate(transactions[transactions.length - 1].date))
-      };
-    }
-    fetchTransactions();
-  }, [id]);
+  }, [id, refreshTrigger]);
 
   // Update selected color theme
   const handleColorThemeChange = (event) => {
@@ -83,6 +77,7 @@ function Mid({ name, id }) {
     if (account.currency !== currency) {
       await API.updateCurrency(id, currency)
     }
+    setRefreshTrigger(oldTrigger => oldTrigger + 1);  // refresh the page everytime the form is submitted
   };
 
   return (
@@ -138,7 +133,7 @@ function Mid({ name, id }) {
             </tr>
             <tr>
               <td>{recentTran}</td>
-              <td>{ammount}</td>
+              <td>{amount.toFixed(2)}</td>
             </tr>
           </table>
           <div className={styles.sectionHeader}>Additional Options</div>
