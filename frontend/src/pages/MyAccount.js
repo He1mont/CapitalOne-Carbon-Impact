@@ -38,6 +38,7 @@ function Mid({ name, id }) {
     const fetchData = async () => {
       const data = await API.getAccountByID(id);
       setAccount(data[0]);
+      setCurrency(data[0].currency);
     };
     fetchData();
   }, [id]);
@@ -160,15 +161,18 @@ function Mid({ name, id }) {
                   </select>
                 </td>
                 <td>
-                  <select className={styles.AccTableDropdown} id="Currency"
-                    value={currency} onChange={handleCurrencyChange}
+                  <select
+                    className={styles.AccTableDropdown}
+                    id="Currency"
+                    value={currency}
+                    onChange={handleCurrencyChange}
                   >
                     <option value="AUD">AUD</option>
                     <option value="CAD">CAD</option>
                     <option value="CHF">CHF</option>
                     <option value="CNY">CNY</option>
                     <option value="EUR">EUR</option>
-                    <option value="GBP" selected>GBP</option>
+                    <option value="GBP">GBP</option>
                     <option value="INR">INR</option>
                     <option value="JPY">JPY</option>
                     <option value="MYR">MYR</option>
