@@ -65,6 +65,34 @@ class AccountController extends Controller {
     ctx.status = 200;
     ctx.body = res;
   }
+
+  // Method to update the color theme of an account
+  async updateColorTheme() {
+    const { ctx, service } = this;
+    ctx.validate({
+      newTheme: "int"
+    }, ctx.request.body);
+    const newTheme = ctx.request.body.newTheme;
+    const id = ctx.params.id;
+    const res = await service.account.updateColorTheme(id, newTheme);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
+
+  // Method to update the currency of an account
+  async updateCurrency() {
+    const { ctx, service } = this;
+    ctx.validate({
+      newCurr: "string"
+    }, ctx.request.body);
+    const newCurr = ctx.request.body.newCurr;
+    const id = ctx.params.id;
+    const res = await service.account.updateCurrency(id, newCurr);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
 }
 
 module.exports = AccountController; // Exporting AccountController class

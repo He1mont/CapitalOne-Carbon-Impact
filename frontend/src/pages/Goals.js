@@ -263,7 +263,7 @@ class Leaderboard extends Component {
 
     await Promise.all(friends.map(async (friend) => {
       const carbonScore = await API.getCarbonScoreByMonth(friend.accountID,
-        month.format('YYYY'), month.format('MM'));
+        month.year(), month.month());
       carbonScoreList.push({ username: friend.username, carbonScore: carbonScore });
     }));
 
@@ -281,7 +281,8 @@ class Leaderboard extends Component {
       const carbonGoal = await API.getUserGoal(friend.accountID);
       // Find the specific month
       for (const goalObj of carbonGoal) {
-        if (goalObj.month === month.format('MMMM')) {
+        if (goalObj.month === month.format('MMMM') && 
+            goalObj.year === month.format('YYYY')) {
           carbonGoalList.push({ username: friend.username, carbonGoal: goalObj.goal });
           break;
         }
@@ -453,7 +454,7 @@ function Mid({ name, id, month, onMonthChange }) {
   // recall useEffect when `month` is changed
   useEffect(() => {
     const fetchCarbonScore = async () => {
-      const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
+      const data = await API.getCarbonScoreByMonth(id, month.year(), month.month());
       setCarbonEm(data);
     };
 
@@ -487,7 +488,7 @@ function Mid({ name, id, month, onMonthChange }) {
    */
   const setGoal = async(inputGoal) => {
     await API.setUserGoal(id, parseInt(inputGoal), month.format('YYYY'), month.format('MMMM'));
-    setGoalEm(parseInt(inputGoal));
+    setGoalEm(inputGoal);
   };
 
   const handleEnterPress = (event) => {
@@ -507,7 +508,7 @@ function Mid({ name, id, month, onMonthChange }) {
         inputGoal = 99999;
       }
     }
-    setGoal(String(inputGoal))
+    setGoal(inputGoal)
     setInputValue('');
   };
 

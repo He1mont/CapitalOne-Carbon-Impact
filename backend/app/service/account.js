@@ -152,6 +152,53 @@ class AccountService extends Service {
   }
 
   /**
+   * Update the color theme of an account
+   * @param {string} id - The ID of the account to retrieve.
+   * @param {int} newTheme - The new color theme to update.
+   * @returns {Object} The updated account.
+   */
+  async updateColorTheme(id, newTheme) {
+    const validThemeNumber = [0, 1, 2, 3]
+    if (validThemeNumber.includes(newTheme)) {
+      const updateTheme = await prisma.account.update({
+        where: {
+          accountID: id,
+        },
+        data: {
+          colorMode: newTheme,
+        },
+      });
+      return updateTheme
+    } else {
+      throw new Error('Invalid Color Theme!');
+    }
+  }
+
+  /**
+   * Update the currency of an account
+   * @param {string} id - The ID of the account to retrieve.
+   * @param {string} newCurr - The new currency to update.
+   * @returns {Object} The updated account.
+   */
+  async updateCurrency(id, newCurr) {
+    const validCurr = ['USD','EUR','GBP','INR','AUD','CAD','SGD','CHF','MYR','JPY','CNY']
+    if (validCurr.includes(newCurr)) {
+      const updateTheme = await prisma.account.update({
+        where: {
+          accountID: id,
+        },
+        data: {
+          currency: newCurr,
+        },
+      });
+      return updateTheme
+    } else {
+      throw new Error('Invalid Currency!');
+    }
+  }
+
+
+  /**
    * Creates a card profile for the specified account.
    * @param {string} accountID - The ID of the account for which to create the card profile.
    */

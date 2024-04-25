@@ -21,6 +21,21 @@ class TransactionController extends Controller {
     ctx.status = 200;
     ctx.body = res;
   }
+  
+  // Method to get all transactions for a specific month
+  async getTransactionsByMonth() {
+    const { ctx, service } = this;
+    const { id } = this.ctx.params;
+    ctx.validate({
+      month: "string",
+      year: "string"
+    }, ctx.request.query);
+    const { month, year } = ctx.request.query; // Extracting variables from query
+    const res = await service.transaction.getTransactionsByMonth(id, year, month);
+    ctx.set('Access-Control-Allow-Origin', '*');
+    ctx.status = 200;
+    ctx.body = res;
+  }
 
   // Method to get a transaction by its ID for a specific account
   async getByID() {
@@ -50,12 +65,13 @@ class TransactionController extends Controller {
       month: 'string',
       year: 'string',
     }, ctx.request.query);
-    const { month, year } = ctx.request.query; // Extracting variables from request body
+    const { month, year } = ctx.request.query; // Extracting variables from query
     const res = await service.transaction.getCarbonScoreByMonth(accountID, year, month);
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.status = 200;
     ctx.body = res;
   }
+
   // Method to get the total carbon score within a month
   async getCarbonScoreByMonthInCaregories() {
     const { ctx, service } = this;

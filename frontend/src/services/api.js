@@ -34,6 +34,55 @@ export async function getAccountByUsername(username) {
   }
 }
 
+/**
+ * Retrieves an account by accountID from the backend.
+ * @param {string} accountID - The accountID to fetch.
+ * @returns {Promise<Object>} A Promise that resolves to the account data.
+ */
+export async function getAccountByID(accountID) {
+  try {
+    const response = await axios.get(`http://127.0.0.1:7001/accounts/${accountID}`);
+    return response.data
+
+  } catch (error) {
+    console.error("Error fetching account by accountID:", error);
+  }
+}
+
+/**
+ * Update the color theme of an account
+ * @param {string} accountID - The ID of the account to retrieve.
+ * @param {int} newTheme - The new color theme to update.
+ * @returns {Object} The updated account.
+ */
+export async function updateColorTheme(accountID, newTheme) {
+  try {
+    const data = { newTheme };
+    const response = await axios.patch(`http://127.0.0.1:7001/accounts/${accountID}/color-theme`, data);
+    return response.data
+
+  } catch (error) {
+    console.error("Error updating color theme:", error);
+  }
+}
+
+/**
+ * Update the currency of an account
+ * @param {string} id - The ID of the account to retrieve.
+ * @param {string} newCurr - The new currency to update.
+ * @returns {Object} The updated account.
+ */
+export async function updateCurrency(accountID, newCurr) {
+  try {
+    const data = { newCurr };
+    const response = await axios.patch(`http://127.0.0.1:7001/accounts/${accountID}/currency`, data);
+    return response.data
+
+  } catch (error) {
+    console.error("Error updating currency:", error);
+  }
+}
+
 // ####################### Transaction ############################
 
 /**
@@ -44,6 +93,25 @@ export async function getAccountByUsername(username) {
 export async function getAllTransactions(accountID) {
   try {
     const response = await axios.get(`http://localhost:7001/accounts/${accountID}/transactions`);
+    return response.data;
+
+  } catch (error) {
+    console.error('Error fetching transactions:', error);
+    throw error;
+  }
+}
+
+/**
+ * Retrieves transactions for a specific month associated with an account from the backend.
+ * @param {string} accountID - The ID of the account whose transactions to fetch.
+ * @param {string} year - The year of the month.
+ * @param {string} month - The month of the year.
+ * @returns {Promise<Array>} A Promise that resolves to an array of transaction data.
+ */
+export async function getTransactionsByMonth(accountID, year, month) {
+  try {
+    const data = { params: { year, month } };
+    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/transactions/monthly`, data);
     return response.data;
 
   } catch (error) {
@@ -70,7 +138,6 @@ export async function getCarbonScoreByMonth(accountID, year, month) {
     throw error;
   }
 }
-
 
 /**
  * Retrieves the carbon scores by category for a specific month associated with an account from the backend.
@@ -170,6 +237,18 @@ export async function setUserGoal(accountID, goal, year, month) {
 
   } catch (error) {
     console.error('Error fetching following users:', error);
+    throw error;
+  }
+}
+
+export async function getCurrencyRates(baseCurrency) {
+  try {
+    const response = await fetch(`https://v6.exchangerate-api.com/v6/515e94b4c93a7abdfb065900/latest/${baseCurrency}`);
+    const data = await response.json();
+    return data.conversion_rates;
+
+  } catch (error) {
+    console.error('Error fetching currency exchange rate:', error);
     throw error;
   }
 }

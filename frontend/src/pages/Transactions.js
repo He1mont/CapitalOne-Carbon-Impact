@@ -1,11 +1,14 @@
 import React, { Component, useState, useEffect } from 'react';
 import moment from 'moment';
 import styles from '../assets/styles/Transactions.module.css';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
-// helper functions
+// Helper functions
 import * as API from '../services/api';
 import * as Sorter from '../services/sorter';
+// MUI component
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
 
 /**
  * TransactionTbl component:
@@ -15,35 +18,47 @@ class TransactionTbl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentCol: null,   // currently selected column
-      currentDir: 0,
-      transactions: [],   // create an attribute to store all transactions
-      searchInput: '',    // input in search bar
+      transactions: [],
+      searchInput: '',
+      myCurrency: '',
+      currencyRate: '',
+      loading: true,
     };
   }
-  
 
-  // Intialize transactions using backend API
-  componentDidMount = async () => {
-    const data = await API.getAllTransactions(this.props.id);
-    const convertedTransactions = await Promise.all(data.map(async (transaction) => {
-      const convertedAmount = await this.converter(transaction.amount, 'GBP');
-      return { ...transaction, amount: convertedAmount };
-    }));
-    this.setState({ transactions: convertedTransactions });
+  async componentDidMount() {
+    await this.loadCurrency();
+    await this.loadTransactions();
   }
 
-  converter = async (value, currency) => {
-    const response = await fetch(
-        `https://v6.exchangerate-api.com/v6/515e94b4c93a7abdfb065900/latest/${"USD"}`
-    );
-    const data = await response.json();
-    const conversionRate = data.conversion_rates[currency];
-    const convertedValue = value * conversionRate;
-    return convertedValue.toFixed(2);
-  };
+  componentDidUpdate(prevProps) {
+    if (!this.props.month.isSame(prevProps.month)) {
+      this.loadTransactions();
+    }
+  }
 
-  // helper function to convert timestamp into format DD/MM
+  loadCurrency = async () => {
+    const data = await API.getAccountByID(this.props.id);
+    const myCurrency = data[0].currency
+    const currencyRate = await API.getCurrencyRates(myCurrency)
+    this.setState({ myCurrency, currencyRate });
+  }
+
+  loadTransactions = async () => {
+    this.setState({ loading: true });
+    const year = this.props.month.year();
+    const month = this.props.month.month();
+    const transactions = await API.getTransactionsByMonth(this.props.id, year, month);
+    const formattedTransactions = transactions.map(item => {
+      return {
+        ...item,
+        date: this.formatDate(item.date),
+        amount: (item.amount / this.state.currencyRate[item.currency]).toFixed(2)
+      };
+    });
+    this.setState({ transactions: formattedTransactions, loading: false });
+  }
+
   formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -51,70 +66,33 @@ class TransactionTbl extends Component {
     return `${day}/${month}`;
   }
 
-  /**
-   * Change the sorting order of transactions based on the selected column.
-   * @param {number} col - The column index to be sorted.
-   */
-  changeSort = async (col) => {
-    const { currentCol, currentDir } = this.state;
-
-    // Initialize temporary variables
-    const column = parseInt(col, 10);   // currently selected column
-    let newTransactions;
-    let newDir;
-
-    if (currentCol !== column || currentDir === 0) {    // if disordered
-      newDir = 1;
-      newTransactions = Sorter.colSort(this.state.transactions, column, true);    // true for ascending
-    } else if (currentDir === 1) {  // if ascending order
-      newDir = 2;
-      newTransactions = Sorter.colSort(this.state.transactions, column, false);   // false for descending
-    } else {                        // if descending order
-      newDir = 0;
-      newTransactions = await API.getAllTransactions(this.props.id)
-    }
-
-    // Update all states
-    this.setState({
-      currentCol: column,
-      currentDir: newDir,
-      transactions: newTransactions
-    });
-  }
-
-  // show the direction of arrow in the title of each column
-  showArrow = () => {
-    const { currentDir } = this.state;
-    if (currentDir === 0) {     // disordered
-      return
-    }
-    if (currentDir === 1) {     // ascending order
-      return <img src='/images/transaction-up.png' alt="up" style={{ height: "15px" }} />
-    }
-    if (currentDir === 2) {     // descending order
-      return <img src='/images/transaction-down.png' alt="down" style={{ height: "15px" }} />
-    }
-  }
-
-  // live update searchInput state when typing words in search frame
   handleInputChange = (event) => {
     this.setState({ searchInput: event.target.value });
   }
 
-  /**
-   * Call searchSort in Sorter when clicking the search button.
-   */
   handleClickSearch = async () => {
-    // Fetch all transactions
-    const transactions = await API.getAllTransactions(this.props.id)
-    const data = Sorter.searchSort(transactions, this.state.searchInput);
-    this.setState({
-      transactions: data,
-      searchInput: ''
+    this.setState({ loading: true });
+    const year = this.props.month.year();
+    const month = this.props.month.month();
+    const transactions = await API.getTransactionsByMonth(this.props.id, year, month);
+    const input = this.state.searchInput.toLowerCase();
+
+    const filteredTransactions = transactions.filter(item => {
+      return this.formatDate(item.date).includes(input) ||
+        item.merchantName.toLowerCase().includes(input) ||
+        item.category.toLowerCase().includes(input) ||
+        String(item.amount).includes(input) ||
+        String(item.carbonScore).includes(input)
+    }).map(item => {
+      return {
+        ...item,
+        date: this.formatDate(item.date)    // format date
+      };
     });
+    this.setState({ transactions: filteredTransactions, searchInput: '', loading: false });
   }
 
-  // automatically click button search when pressing enter
+  // Automatically click button search when pressing enter
   handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       this.handleClickSearch();
@@ -122,39 +100,17 @@ class TransactionTbl extends Component {
   }
 
   render() {
-    // Filter transactions of the corresponding month
-    const { month } = this.props;
-    const startOfMonth = month.clone().startOf('month');
-    const endOfMonth = month.clone().endOf('month');
-    const filteredTransactions = this.state.transactions.filter(transaction => {
-      const transactionDate = moment(transaction.date);
-      return transactionDate.isSameOrAfter(startOfMonth) && transactionDate.isSameOrBefore(endOfMonth);
-    });
-
-    // Render "No Data" if filteredTransactions length is 0
-    let tableBody;
-    if (filteredTransactions.length === 0) {
-      tableBody = (
-        <tr>
-          <td colSpan="5" className={styles.noDataCell}>No Data</td>
-        </tr>
-      );
-    } else {
-      tableBody = filteredTransactions.map((transaction) => (
-        <tr key={transaction.transactionUUID}>
-          <td>{this.formatDate(transaction.date)}</td>
-          <td>{transaction.merchantName}</td>
-          <td>{transaction.category}</td>
-          <td>{transaction.amount}</td>
-          <td>{transaction.carbonScore}</td>
-        </tr>
-      ));
-      
-    }
+    const columns = [
+      { field: 'date', headerName: 'Date', width: 150 },
+      { field: 'merchantName', headerName: 'Merchant Name', width: 250 },
+      { field: 'category', headerName: 'Category', width: 250 },
+      { field: 'amount', headerName: `Amount (${this.state.myCurrency})`, width: 200 },
+      { field: 'carbonScore', headerName: 'Carbon Score', width: 150 },
+    ];
 
     return (
       <div>
-        {/* Search and Filter Functionality */}
+        {/* Search frame and click button */}
         <div className={styles.transaction_btns}>
           <input
             className={styles.transaction_btns_search}
@@ -171,39 +127,18 @@ class TransactionTbl extends Component {
           </button>
         </div>
 
-        {/* Transaction Table Container */}
+        {/* Transaction Table */}
         <div className={styles.transaction_tbl_border}>
-          <div className={styles.transaction_tbl_container}>
-            <table className={styles.transaction_tbl}>
-              <thead>
-                <tr>
-                  <th className={styles.h} style={{ width: '10%' }} onClick={() => this.changeSort("1")}>
-                    <div className={styles.header_text}>Date</div>
-                    <div className={styles.sort_arrow}>{this.state.currentCol === 1 && this.showArrow()}</div>
-                  </th>
-                  <th className={styles.h} style={{ width: '20%' }} onClick={() => this.changeSort("2")}>
-                    <div className={styles.header_text}>Merchant Name</div>
-                    <div className={styles.sort_arrow}>{this.state.currentCol === 2 && this.showArrow()}</div>
-                  </th>
-                  <th className={styles.h} style={{ width: '15%' }} onClick={() => this.changeSort("3")}>
-                    <div className={styles.header_text}>Category</div>
-                    <div className={styles.sort_arrow}>{this.state.currentCol === 3 && this.showArrow()}</div>
-                  </th>
-                  <th className={styles.h} style={{ width: '20%' }} onClick={() => this.changeSort("4")}>
-                    <div className={styles.header_text}>Amount (GBP)</div>
-                    <div className={styles.sort_arrow}>{this.state.currentCol === 4 && this.showArrow()}</div>
-                  </th>
-                  <th className={styles.h} style={{ width: '35%' }} onClick={() => this.changeSort("5")}>
-                    <div className={styles.header_text}>Carbon Score</div>
-                    <div className={styles.sort_arrow}>{this.state.currentCol === 5 && this.showArrow()}</div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {tableBody}
-              </tbody>
-            </table>
-          </div>
+          <Box sx={{ height: 500, width: '100%' }}>
+            <DataGrid
+              rows={this.state.transactions}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5, 10, 20]}
+              disableSelectionOnClick
+              loading={this.state.loading}
+            />
+          </Box>
         </div>
       </div>
     );
@@ -289,7 +224,7 @@ function Mid({ name, id, month, onMonthChange }) {
      * Fetches the carbon score for the specified month and updates the state.
      */
     const fetchCarbonScore = async () => {
-      const data = await API.getCarbonScoreByMonth(id, month.format('YYYY'), month.format('MM'));
+      const data = await API.getCarbonScoreByMonth(id, month.year(), month.month());
       setCarbonScore(data);
     };
 
@@ -313,7 +248,7 @@ function Mid({ name, id, month, onMonthChange }) {
       <div className={styles.mid_center}>
         <img src="/images/transaction-mid.png" alt="forest container" className={styles.mid_box} />
         <div className={styles.mid_box_txt}>
-          <p><b>{carbonScore} kgco2</b></p>
+          <p><b>{carbonScore} kg CO2</b></p>
           <p><b>Estimate</b></p>
         </div>
       </div>
@@ -359,7 +294,7 @@ function Transactions() {
       <Head name={name} id={id} />
       <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange} />
       <Low name={name} id={id} month={month} />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }
