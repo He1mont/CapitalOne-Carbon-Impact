@@ -3,7 +3,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import styles from "../assets/styles/MyAccount.module.css";
 import * as API from '../services/api';
 import { Logo, Footer, GoBackBtn } from './CommonComponents';
-import { filterStateInitializer } from '@mui/x-data-grid/internals';
 
 function Head({ name, id }) {
   return (
@@ -189,7 +188,6 @@ function Mid({ name, id }) {
   )
 }
 
-
 function MyAccount() {
   const location = useLocation();
   const name = location.state?.name || "You need to login";
@@ -198,6 +196,7 @@ function MyAccount() {
     <div>
       <Head name={name} id={id} />
       <Mid name={name} id={id} />
+      <Footer />
     </div>
   );
 }

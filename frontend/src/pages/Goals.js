@@ -281,8 +281,8 @@ class Leaderboard extends Component {
       const carbonGoal = await API.getUserGoal(friend.accountID);
       // Find the specific month
       for (const goalObj of carbonGoal) {
-        if (goalObj.month === month.format('MMMM') && 
-            goalObj.year === month.format('YYYY')) {
+        if (goalObj.month === month.format('MMMM') &&
+          goalObj.year === month.format('YYYY')) {
           carbonGoalList.push({ username: friend.username, carbonGoal: goalObj.goal });
           break;
         }
@@ -391,7 +391,7 @@ class Leaderboard extends Component {
       }}>
         <div className={styles.leaderboard_container}>
           {this.state.friendList.length === 0 ? (
-            <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
+            <p style={{ textAlign: 'center' }}>To view friends, add then through settings</p>
           ) : (
             <div className={styles.leaderboard_list_container}>
               <Box
@@ -486,7 +486,7 @@ function Mid({ name, id, month, onMonthChange }) {
    * Sets the goal emission for the current month.
    * @param {number} inputGoal - The input goal emission value.
    */
-  const setGoal = async(inputGoal) => {
+  const setGoal = async (inputGoal) => {
     await API.setUserGoal(id, parseInt(inputGoal), month.format('YYYY'), month.format('MMMM'));
     setGoalEm(inputGoal);
   };
@@ -582,7 +582,7 @@ function Goals() {
       <Head name={name} id={id} />
       <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange} />
       <Low name={name} id={id} month={month} />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }
