@@ -171,11 +171,6 @@ body {
   padding: 1%;
   margin-left: 13%;
   margin-top: 80px;
-
-  border-style: solid;
-  border-color: rgb(157, 157, 157);
-  border-radius: 15px;
-  border-width: 2px;
 }
 
 .transaction_tbl_container {

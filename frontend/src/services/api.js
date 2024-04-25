@@ -102,6 +102,25 @@ export async function getAllTransactions(accountID) {
 }
 
 /**
+ * Retrieves transactions for a specific month associated with an account from the backend.
+ * @param {string} accountID - The ID of the account whose transactions to fetch.
+ * @param {string} year - The year of the month.
+ * @param {string} month - The month of the year.
+ * @returns {Promise<Array>} A Promise that resolves to an array of transaction data.
+ */
+export async function getTransactionsByMonth(accountID, year, month) {
+  try {
+    const data = { params: { year, month } };
+    const response = await axios.get(`http://localhost:7001/accounts/${accountID}/transactions/monthly`, data);
+    return response.data;
+
+  } catch (error) {
+    console.error('Error fetching transactions:', error);
+    throw error;
+  }
+}
+
+/**
  * Retrieves the carbon score for a specific month associated with an account from the backend.
  * @param {string} accountID - The ID of the account for which to retrieve the carbon score.
  * @param {string} year - The year of the month.
@@ -119,7 +138,6 @@ export async function getCarbonScoreByMonth(accountID, year, month) {
     throw error;
   }
 }
-
 
 /**
  * Retrieves the carbon scores by category for a specific month associated with an account from the backend.
