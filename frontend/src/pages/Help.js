@@ -119,7 +119,8 @@ function Low({ name, id }) {
 
   function handleFAQ() {
     history.push({
-      pathname: "/FAQS",
+      pathname: "/help/FAQs",
+      state: { name: name, id: id },
     });
   }
 

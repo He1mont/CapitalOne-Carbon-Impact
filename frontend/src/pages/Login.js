@@ -47,9 +47,9 @@ function Mid({
     <div className={styles.midBarLogin}>
       <div className={styles.midHighLogin}></div>
 
-      <div className={styles.homepageImage} >
+      {/* <div className={styles.homepageImage} >
         <img src="/images/login2.png" alt="Homepage" />
-      </div>
+      </div> */}
 
       <div className={styles.midCenterLogin}>
         <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>

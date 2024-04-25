@@ -21,9 +21,9 @@ function App() {
         <Route path="/home/history" component={History} />
         <Route path="/home/friends" component={Friends} />
         <Route path="/home/account" component={Account} />
-        <Route path="/home" component={HomePage} />
-        <Route path="/help" component={Help} />
-        <Route path="/FAQS" component={FAQS} />
+        <Route exact path="/home" component={HomePage} />
+        <Route exact path="/help/FAQS" component={FAQS} />
+        <Route exact path="/help" component={Help} />
         <Redirect from="/" to="/login" />
       </Switch>
     </Router>
