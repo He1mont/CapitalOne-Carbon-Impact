@@ -229,6 +229,14 @@ export async function getUserGoal(accountID) {
   }
 }
 
+/**
+ * Sets the goal of the specified account from the backend.
+ * @param {string} accountID - The ID of the account whose goal to fetch.
+ * @param {string} goal - The desired carbon goal.
+ * @param {string} year - The year the goal should be achieved by.
+ * @param {string} month - The month the goal should be achieved by.
+ * @returns {Promise<Object>} A Promise that resolves to the goal data.
+ */
 export async function setUserGoal(accountID, goal, year, month) {
   try {
     const data = { goal, year, month };
@@ -241,9 +249,40 @@ export async function setUserGoal(accountID, goal, year, month) {
   }
 }
 
+// ####################### Currency Conversion ############################
+
+
+/**
+ * Returns the latest currency conversion rates relative to a base currency.
+ * @param {string} baseCurrency - The base currency in which the conversion rates will be based on.
+ * @returns {Promise<Object>} A Promise that resolves to all conversion rates relative to the base currency.
+ */
 export async function getCurrencyRates(baseCurrency) {
   try {
-    const response = await fetch(`https://v6.exchangerate-api.com/v6/515e94b4c93a7abdfb065900/latest/${baseCurrency}`);
+    const response = await fetch(`https://v6.exchangerate-api.com/v6/1a914db28d7cc6e6c990e7c1/latest/${baseCurrency}`);
+    const data = await response.json();
+    return data.conversion_rates;
+
+  } catch (error) {
+    console.error('Error fetching currency exchange rate:', error);
+    throw error;
+  }
+}
+
+/**
+ * Returns the historical currency conversion rates relative to a base currency at a specific date.
+ * @param {string} baseCurrency - The base currency in which the conversion rates will be based on.
+ * @param {string} date - The historical date of format YYYY-MM-DD in which the currency converion rates will be based on.
+ * @returns {Promise<Object>} A Promise that resolves to all conversion rates relative to the base currency at the date provided.
+ */
+export async function getHistoricalCurrencyRates(baseCurrency,date) {
+  try {
+    date = date.split('-');
+    const year = date[0];
+    const month = date[1];
+    const day = date[2];
+
+    const response = await fetch(`https://v6.exchangerate-api.com/v6/1a914db28d7cc6e6c990e7c1/history/${baseCurrency}/${year}/${month}/${day}`);
     const data = await response.json();
     return data.conversion_rates;
 

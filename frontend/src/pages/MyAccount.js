@@ -29,6 +29,14 @@ function Mid({ name, id }) {
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   }
 
+  const formatDateYMD = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       // Load account info
@@ -41,10 +49,11 @@ function Mid({ name, id }) {
       const transactions = await API.getAllTransactions(id);
       if (transactions.length > 0) {
         const sortedTransactions = transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
-        const currencyRate = await API.getCurrencyRates(account[0].currency);
-        const total = sortedTransactions.reduce((acc, item) => {
-          return acc + item.amount / currencyRate[item.currency]
-        }, 0);
+        const total = await Promise.all(sortedTransactions.map(async item => {
+          const currencyRate = await API.getHistoricalCurrencyRates(account[0].currency, formatDateYMD(item.date));
+          return item.amount / currencyRate[item.currency];
+         })).then(amounts => {
+          return amounts.reduce((acc, amount) => acc + amount, 0)});
 
         setNumber(sortedTransactions.length)
         setAmount(total)
