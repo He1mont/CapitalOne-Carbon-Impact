@@ -40,8 +40,7 @@ class TransactionTbl extends Component {
   loadCurrency = async () => {
     const data = await API.getAccountByID(this.props.id);
     const myCurrency = data[0].currency
-    const currencyRate = await API.getCurrencyRates(myCurrency)
-    this.setState({ myCurrency, currencyRate });
+    this.setState({ myCurrency });
   }
 
   loadTransactions = async () => {
@@ -49,21 +48,30 @@ class TransactionTbl extends Component {
     const year = this.props.month.year();
     const month = this.props.month.month();
     const transactions = await API.getTransactionsByMonth(this.props.id, year, month);
-    const formattedTransactions = transactions.map(item => {
+    const formattedTransactions = await Promise.all(transactions.map(async item => {
+      const currencyRate = await API.getHistoricalCurrencyRates(this.state.myCurrency,this.formatDateYMD(item.date));
       return {
         ...item,
-        date: this.formatDate(item.date),
-        amount: (item.amount / this.state.currencyRate[item.currency]).toFixed(2)
+        date: this.formatDateDM(item.date),
+        amount: (item.amount / currencyRate[item.currency]).toFixed(2)
       };
-    });
+    }));
     this.setState({ transactions: formattedTransactions, loading: false });
   }
 
-  formatDate = (timestamp) => {
+  formatDateDM = (timestamp) => {
     const date = new Date(timestamp);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}/${month}`;
+  }
+
+  formatDateYMD = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   handleInputChange = (event) => {
@@ -78,7 +86,7 @@ class TransactionTbl extends Component {
     const input = this.state.searchInput.toLowerCase();
 
     const filteredTransactions = transactions.filter(item => {
-      return this.formatDate(item.date).includes(input) ||
+      return this.formatDateDM(item.date).includes(input) ||
         item.merchantName.toLowerCase().includes(input) ||
         item.category.toLowerCase().includes(input) ||
         String(item.amount).includes(input) ||
@@ -86,7 +94,7 @@ class TransactionTbl extends Component {
     }).map(item => {
       return {
         ...item,
-        date: this.formatDate(item.date)    // format date
+        date: this.formatDateDM(item.date)    // format date
       };
     });
     this.setState({ transactions: filteredTransactions, searchInput: '', loading: false });
