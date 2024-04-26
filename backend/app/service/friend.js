@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 /**
  * Service class responsible for managing user friendships and related operations.
- * @extends {Service}
+ * @augments {Service}
  */
 class FriendService extends Service {
 
@@ -14,7 +14,7 @@ class FriendService extends Service {
    * Adds a friend by ID to the specified user's friend list.
    * @param {string} accountID - The ID of the user.
    * @param {string} friendID - The ID of the friend to add.
-   * @returns {Object} Information about the added friend.
+   * @return {Object} Information about the added friend.
    */
   async addByID(accountID, friendID) {
     try {
@@ -56,7 +56,7 @@ class FriendService extends Service {
   /**
    * Retrieves all friends of a user.
    * @param {string} id - The ID of the user.
-   * @returns {Array} Array of user's friends.
+   * @return {Array} Array of user's friends.
    */
   async getAll(id) {
     const allfollowings = await prisma.following.findMany({

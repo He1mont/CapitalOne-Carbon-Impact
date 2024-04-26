@@ -70,7 +70,7 @@ class AccountController extends Controller {
   async updateColorTheme() {
     const { ctx, service } = this;
     ctx.validate({
-      newTheme: "int"
+      newTheme: 'int',
     }, ctx.request.body);
     const newTheme = ctx.request.body.newTheme;
     const id = ctx.params.id;
@@ -84,7 +84,7 @@ class AccountController extends Controller {
   async updateCurrency() {
     const { ctx, service } = this;
     ctx.validate({
-      newCurr: "string"
+      newCurr: 'string',
     }, ctx.request.body);
     const newCurr = ctx.request.body.newCurr;
     const id = ctx.params.id;

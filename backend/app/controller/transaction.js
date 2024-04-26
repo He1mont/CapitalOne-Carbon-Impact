@@ -21,14 +21,14 @@ class TransactionController extends Controller {
     ctx.status = 200;
     ctx.body = res;
   }
-  
+
   // Method to get all transactions for a specific month
   async getTransactionsByMonth() {
     const { ctx, service } = this;
     const { id } = this.ctx.params;
     ctx.validate({
-      month: "string",
-      year: "string"
+      month: 'string',
+      year: 'string',
     }, ctx.request.query);
     const { month, year } = ctx.request.query; // Extracting variables from query
     const res = await service.transaction.getTransactionsByMonth(id, year, month);

@@ -14,13 +14,13 @@ const CARBON_API_KEY = 'sQyPyTxcWvlFiLWFjmUlA';
 
 /**
  * Service class responsible for managing user accounts and related operations.
- * @extends {Service}
+ * @augments {Service}
  */
 class AccountService extends Service {
 
   /**
    * Creates a random user account.
-   * @returns {Object} The created account.
+   * @return {Object} The created account.
    */
   async createRandom() {
     const quantity = 1;
@@ -68,7 +68,7 @@ class AccountService extends Service {
           address: account.homeAddress,
           currency: account.currencyCode,
           state: account.state,
-          colorMode: 0
+          colorMode: 0,
         },
       });
 
@@ -102,7 +102,7 @@ class AccountService extends Service {
 
   /**
    * Retrieves all user accounts.
-   * @returns {Array} Array of user accounts.
+   * @return {Array} Array of user accounts.
    */
   async getAll() {
     const allAccounts = await prisma.account.findMany();
@@ -112,7 +112,7 @@ class AccountService extends Service {
   /**
    * Retrieves a user account by its ID; return empty list if not found.
    * @param {string} id - The ID of the account to retrieve.
-   * @returns {Array} Array containing the user account matching the ID.
+   * @return {Array} Array containing the user account matching the ID.
    */
   async getByID(id) {
     const account = await prisma.account.findMany({
@@ -126,7 +126,7 @@ class AccountService extends Service {
   /**
    * Retrieves a user account by its email; return empty list if not found.
    * @param {string} emailToFind - The email of the account to retrieve.
-   * @returns {Array} Array containing the user account matching the email.
+   * @return {Array} Array containing the user account matching the email.
    */
   async getByEmail(emailToFind) {
     const account = await prisma.account.findMany({
@@ -140,7 +140,7 @@ class AccountService extends Service {
   /**
    * Retrieves a user account by its username; return empty list if not found.
    * @param {string} userName - The username of the account to retrieve.
-   * @returns {Array} Array containing the user account matching the username.
+   * @return {Array} Array containing the user account matching the username.
    */
   async getByUserName(userName) {
     const account = await prisma.account.findMany({
@@ -155,10 +155,10 @@ class AccountService extends Service {
    * Update the color theme of an account
    * @param {string} id - The ID of the account to retrieve.
    * @param {int} newTheme - The new color theme to update.
-   * @returns {Object} The updated account.
+   * @return {Object} The updated account.
    */
   async updateColorTheme(id, newTheme) {
-    const validThemeNumber = [0, 1, 2, 3]
+    const validThemeNumber = [ 0, 1, 2, 3 ];
     if (validThemeNumber.includes(newTheme)) {
       const updateTheme = await prisma.account.update({
         where: {
@@ -168,20 +168,20 @@ class AccountService extends Service {
           colorMode: newTheme,
         },
       });
-      return updateTheme
-    } else {
-      throw new Error('Invalid Color Theme!');
+      return updateTheme;
     }
+    throw new Error('Invalid Color Theme!');
+
   }
 
   /**
    * Update the currency of an account
    * @param {string} id - The ID of the account to retrieve.
    * @param {string} newCurr - The new currency to update.
-   * @returns {Object} The updated account.
+   * @return {Object} The updated account.
    */
   async updateCurrency(id, newCurr) {
-    const validCurr = ['USD','EUR','GBP','INR','AUD','CAD','SGD','CHF','MYR','JPY','CNY']
+    const validCurr = [ 'USD', 'EUR', 'GBP', 'INR', 'AUD', 'CAD', 'SGD', 'CHF', 'MYR', 'JPY', 'CNY' ];
     if (validCurr.includes(newCurr)) {
       const updateTheme = await prisma.account.update({
         where: {
@@ -191,10 +191,10 @@ class AccountService extends Service {
           currency: newCurr,
         },
       });
-      return updateTheme
-    } else {
-      throw new Error('Invalid Currency!');
+      return updateTheme;
     }
+    throw new Error('Invalid Currency!');
+
   }
 
 
@@ -270,7 +270,7 @@ class AccountService extends Service {
   /**
    * Adds a transaction to the Carbon Interface API.
    * @param {Object} transactionData - Data of the transaction to add.
-   * @returns {Object} Response from the Carbon Interface API.
+   * @return {Object} Response from the Carbon Interface API.
    */
   async addTransactionToCarbonInterface(transactionData) {
     try {
@@ -328,7 +328,7 @@ class AccountService extends Service {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${CARBON_API_KEY}`,
-          }
+          },
         });
         const accountData = accounts.data;
         const account = accountData.find(account => account.data.attributes.external_id === accountID);
@@ -356,38 +356,38 @@ class AccountService extends Service {
           if (!existingTransaction.data.find(tr => tr.data.attributes.external_id === transaction.transactionID)) { // If not, add transaction
             let mcc;
             switch (transaction.merchant.category) { // Picking the merchant code based on merchant category
-              case "Entertainment":
-                mcc = "7996";
+              case 'Entertainment':
+                mcc = '7996';
                 break;
-              case "Education":
-                mcc = "5942";
+              case 'Education':
+                mcc = '5942';
                 break;
-              case "Shopping":
-                mcc = "5691";
+              case 'Shopping':
+                mcc = '5691';
                 break;
-              case "Personal Care":
-                mcc = "8050";
+              case 'Personal Care':
+                mcc = '8050';
                 break;
-              case "Health & Fitness":
-                mcc = "7298";
+              case 'Health & Fitness':
+                mcc = '7298';
                 break;
-              case "Food & Dining":
-                mcc = "5812";
+              case 'Food & Dining':
+                mcc = '5812';
                 break;
-              case "Gifts & Donations":
-                mcc = "5947";
+              case 'Gifts & Donations':
+                mcc = '5947';
                 break;
-              case "Bills & Utilities":
-                mcc = "4900";
+              case 'Bills & Utilities':
+                mcc = '4900';
                 break;
-              case "Auto & Transport":
-                mcc = "4111";
+              case 'Auto & Transport':
+                mcc = '4111';
                 break;
-              case "Travel":
-                mcc = "4582";
+              case 'Travel':
+                mcc = '4582';
                 break;
               default:
-                mcc = "5399";
+                mcc = '5399';
             }
 
             const transactionData = {
@@ -440,7 +440,7 @@ class AccountService extends Service {
    * Retrieves the carbon impact of a transaction.
    * @param {string} accountID - The ID of the account associated with the transaction.
    * @param {string} transactionID - The ID of the transaction.
-   * @returns {number} The carbon impact of the transaction.
+   * @return {number} The carbon impact of the transaction.
    */
   async getCarbonImpact(accountID, transactionID) {
     // Get the specified account from Hackathon API
@@ -530,7 +530,7 @@ class AccountService extends Service {
           let carbonScore = Math.abs(carbonInGrams);
 
           // Include point of sale as a multiplier
-          if ((hackathonTransactionResponse.data.pointOfSale = 'Online')) {
+          if ((hackathonTransactionResponse.data.pointOfSale === 'Online')) {
             carbonScore = carbonScore / 2;
           }
           // Return as a score, not grams value

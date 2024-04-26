@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 /**
  * Service class responsible for managing user goals and related operations.
- * @extends {Service}
+ * @augments {Service}
  */
 class userGoalService extends Service {
 
@@ -13,8 +13,9 @@ class userGoalService extends Service {
    * Creates a goal for a specified user and month.
    * @param {string} id - The ID of the user.
    * @param {number} goal - The goal value.
+   * @param {year} year - The year for which the goal is set.
    * @param {number} month - The month for which the goal is set.
-   * @returns {Object} The created user goal.
+   * @return {Object} The created user goal.
    */
   async createGoal(id, goal, year, month) {
     try {
@@ -32,7 +33,7 @@ class userGoalService extends Service {
           where: {
             accountID: id,
             year,
-            month
+            month,
           },
           data: {
             goal,
@@ -40,6 +41,7 @@ class userGoalService extends Service {
         });
         return { status: 200, message: 'Sucessfully updated the user goal' };
       }
+
       // If the account doesn't exist, create it with the goal
       const newUserGoal = await prisma.userGoals.create({
         data: {
@@ -59,7 +61,7 @@ class userGoalService extends Service {
   /**
    * Retrieves the user goals for the specified user.
    * @param {string} id - The ID of the user.
-   * @returns {Array} The user goals.
+   * @return {Array} The user goals.
    */
   async getUserGoals(id) {
     try {

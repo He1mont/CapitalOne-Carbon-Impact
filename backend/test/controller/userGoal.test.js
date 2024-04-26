@@ -3,7 +3,7 @@ const { app, assert } = require('egg-mock/bootstrap');
 describe('UserGoalController', () => {
   it('should create a goal for a specified month', async () => {
     const mockID = 1;
-    const mockGoal = '3000';
+    const mockGoal = 3000;
     const mockYear = '2024';
     const mockMonth = 'January';
     // Mock the userGoalService.createGoal method
@@ -29,7 +29,7 @@ describe('UserGoalController', () => {
 
   it('should get all goals for an account', async () => {
     const mockID = 1;
-    const mockGoal = '3000';
+    const mockGoal = 3000;
     // Mock the userGoalService.getUserGoals method
     app.mockService('userGoal', 'getUserGoals', async () => {
       return { accountID: mockID, goal: mockGoal };

@@ -13,7 +13,7 @@ app.use(express.json());
  * If the user goal already exists, it updates the existing goal; otherwise, it creates a new goal.
  * @param {Object} req - The request object containing the accountID and goal in the body.
  * @param {Object} res - The response object.
- * @returns {Object} The created or updated user goal.
+ * @return {Object} The created or updated user goal.
  */
 app.post('/user-goals', async (req, res) => {
   const { accountID, goal } = req.body;
@@ -54,7 +54,7 @@ app.post('/user-goals', async (req, res) => {
  * API endpoint to get the user goal by accountID.
  * @param {Object} req - The request object containing the accountID as a URL parameter.
  * @param {Object} res - The response object.
- * @returns {Object} The user goal associated with the provided accountID.
+ * @return {Object} The user goal associated with the provided accountID.
  */
 app.get('/user-goals/:accountID', async (req, res) => {
   const { accountID } = req.params;
@@ -84,7 +84,7 @@ app.get('/user-goals/:accountID', async (req, res) => {
  * API endpoint to delete the user goal by accountID.
  * @param {Object} req - The request object containing the accountID as a URL parameter.
  * @param {Object} res - The response object.
- * @returns {Object} A message indicating the success or failure of the deletion operation.
+ * @return {Object} A message indicating the success or failure of the deletion operation.
  */
 app.delete('/delete-user-goals/:accountID', async (req, res) => {
   const { accountID } = req.params;
@@ -119,7 +119,7 @@ app.delete('/delete-user-goals/:accountID', async (req, res) => {
  * Route to create a new transaction in the database.
  * @param {Object} req - The request object containing the transactionUUID, accountID, and carbonScore in the body.
  * @param {Object} res - The response object.
- * @returns {Object} The created transaction.
+ * @return {Object} The created transaction.
  */
 app.post('/transactions', async (req, res) => {
   const { transactionUUID, accountID, carbonScore } = req.body;

@@ -14,14 +14,14 @@ const CARBON_API_KEY = 'sQyPyTxcWvlFiLWFjmUlA';
 
 /**
  * Service class responsible for managing transactions and related operations.
- * @extends {Service}
+ * @augments {Service}
  */
 class TransactionService extends Service {
 
   /**
    * Generates random transactions for a specified account ID.
    * @param {string} id - The ID of the account.
-   * @returns {Object} Information about the generated transactions.
+   * @return {Object} Information about the generated transactions.
    */
   async createRandom(id) {
     // Set the number of transactions to create
@@ -44,7 +44,7 @@ class TransactionService extends Service {
       );
     }
     // Throw an error if accountID is suspended or closed
-    if (['closed', 'suspended'].includes(account[0].state)) {
+    if ([ 'closed', 'suspended' ].includes(account[0].state)) {
       throw new Error(
         JSON.stringify({
           errorCode: 400,
@@ -99,7 +99,7 @@ class TransactionService extends Service {
   /**
    * Retrieves all transactions associated with a specified account ID.
    * @param {string} id - The ID of the account.
-   * @returns {Array} Array of transactions.
+   * @return {Array} Array of transactions.
    */
   async getAllTransactions(id) {
     const transactions = await prisma.transaction.findMany({
@@ -114,7 +114,7 @@ class TransactionService extends Service {
    * Retrieves a transaction by its ID and associated account ID.
    * @param {string} accountID - The ID of the account.
    * @param {string} transactionID - The ID of the transaction.
-   * @returns {Object} Transaction information.
+   * @return {Object} Transaction information.
    */
   async getByID(accountID, transactionID) {
     const transaction = await prisma.transaction.findMany({
@@ -130,7 +130,7 @@ class TransactionService extends Service {
    * Retrieves the carbon impact of a transaction.
    * @param {string} accountID - The ID of the account associated with the transaction.
    * @param {string} transactionID - The ID of the transaction.
-   * @returns {number} The carbon impact of the transaction.
+   * @return {number} The carbon impact of the transaction.
    */
   async getCarbonImpact(accountID, transactionID) {
     // Get the specified account from Hackathon API
@@ -219,7 +219,7 @@ class TransactionService extends Service {
           let carbonScore = Math.abs(carbonInGrams);
 
           // Include point of sale as a multiplier
-          if ((hackathonTransactionResponse.data.pointOfSale = 'Online')) {
+          if ((hackathonTransactionResponse.data.pointOfSale === 'Online')) {
             carbonScore = carbonScore / 2;
           }
           // Return as a score, not grams value
@@ -239,10 +239,10 @@ class TransactionService extends Service {
    * @param {string} accountID - The ID of the account.
    * @param {number} year - The year of the transactions.
    * @param {number} month - The month of the transactions (0 to 11).
-   * @returns {Array} List of transactions for the specified month.
+   * @return {Array} List of transactions for the specified month.
    */
   async getTransactionsByMonth(accountID, year, month) {
-    const transactions = await this.getAllTransactions(accountID)
+    const transactions = await this.getAllTransactions(accountID);
     return transactions.filter(item => {
       return item.date.getFullYear() === parseInt(year) && item.date.getMonth() === parseInt(month);
     });
@@ -253,7 +253,7 @@ class TransactionService extends Service {
    * @param {string} accountID - The ID of the account.
    * @param {number} year - The year of the transactions.
    * @param {number} month - The month of the transactions (0 to 11).
-   * @returns {number} Total carbon score for the specified month.
+   * @return {number} Total carbon score for the specified month.
    */
   async getCarbonScoreByMonth(accountID, year, month) {
     const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
@@ -265,21 +265,21 @@ class TransactionService extends Service {
    * @param {string} accountID - The ID of the account.
    * @param {number} year - The year of the transactions.
    * @param {number} month - The month of the transactions (0 to 11).
-   * @returns {Object} Carbon score by category for the specified month.
+   * @return {Object} Carbon score by category for the specified month.
    */
   async getCarbonScoreByMonthInCategories(accountID, year, month) {
     const filteredTransactions = await this.getTransactionsByMonth(accountID, year, month);
     const ret = {
-      'Entertainment': 0,
-      'Education': 0,
-      'Shopping': 0,
+      Entertainment: 0,
+      Education: 0,
+      Shopping: 0,
       'Personal Care': 0,
       'Health & Fitness': 0,
       'Food & Dining': 0,
       'Gifts & Donations': 0,
       'Bills & Utilities': 0,
       'Auto & Transport': 0,
-      'Travel': 0,
+      Travel: 0,
     };
     // Calculate carbon score by category
     for (const item of filteredTransactions) {
@@ -292,7 +292,7 @@ class TransactionService extends Service {
    * Adds a transaction to the Carbon API.
    * @param {string} accountID - The ID of the account.
    * @param {string} transactionID - The ID of the transaction.
-   * @returns {Object} Response data from the Carbon API.
+   * @return {Object} Response data from the Carbon API.
    * @throws {Error} If the account or transaction doesn't exist or if there's an API error.
    */
   async addTransactionToCarbonAPI(accountID, transactionID) {
