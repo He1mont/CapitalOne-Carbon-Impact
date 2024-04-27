@@ -38,7 +38,6 @@ function Mid({ name }) {
   return (
     <div className={styles.midBar}>
       <div className={styles.midHigh}>
-        {/* <h1 className={styles.title}>Help centre</h1> */}
       </div>
       {/* Carbon Impact Information Box */}
       <div className={styles.midCenter}>
@@ -48,8 +47,6 @@ function Mid({ name }) {
           alt="Mid Box"
         />
       </div>
-
-      {/* Help Button */}
       <div className={styles.midLow}></div>
     </div>
   );
