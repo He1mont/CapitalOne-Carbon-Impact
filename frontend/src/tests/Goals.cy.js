@@ -7,11 +7,6 @@ import { act } from 'react-dom/test-utils';
 import styles from '../assets/styles/Goals.module.css';
 import { createMemoryHistory } from 'history';
 
-const history = createMemoryHistory({
-  initialEntries: ['/some-route'], // Use the actual route expected by the component, if specific
-  initialIndex: 0,
-});
-
 const mockLocationState = {
   name: 'John Doe',
   id: '123'
