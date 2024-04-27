@@ -201,8 +201,8 @@ body {
 }
 
 .helpTable {
-  position: absolute;
-  padding: auto;
+  position: relative;
+  margin: 0 auto;
   width: 70vw;
 
 
@@ -228,18 +228,14 @@ body {
 
 
 .questionWrapper {
-
-  padding-left: 50px;
+  position: relative;
+  margin: 0 auto;
   color: #000000;
   margin-bottom: 20px;
   margin-top: 5px;
   font-size: large;
-  width: 900px;
+  width: 90%;
   border-bottom: 1px solid #ccc;
-
-  /* margin-top: 1rem;
-  padding: 1rem 2rem; */
-
 }
 
 .question {
