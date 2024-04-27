@@ -274,7 +274,10 @@ function Low({ name, id, month }) {
 
   return (
     <div className={styles.low_bar}>
-      <TransactionTbl name={name} id={id} month={month} />
+      <div className={styles.table_container}>
+        <TransactionTbl name={name} id={id} month={month} />
+      </div>
+      
     </div>
   )
 }
@@ -302,7 +305,7 @@ function Transactions() {
       <Head name={name} id={id} />
       <Mid name={name} id={id} month={month} onMonthChange={handleMonthChange} />
       <Low name={name} id={id} month={month} />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }
