@@ -73,7 +73,7 @@ class userGoalService extends Service {
       return userGoal;
 
     } catch (error) {
-      console.error('Error retrieving user goal:', error);
+      error.message('Error retrieving user goal:', error);
       throw new Error(error.response ? error.response.data : error.message);
     }
   }

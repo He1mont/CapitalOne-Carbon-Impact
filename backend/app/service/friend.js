@@ -82,6 +82,7 @@ class FriendService extends Service {
         },
       });
     } catch (error) {
+      error.message('This following relationship does not exist.', error);
       throw new Error(error.response ? error.response.data : error.message);
     }
   }

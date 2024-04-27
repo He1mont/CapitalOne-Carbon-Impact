@@ -1,96 +1,145 @@
 const { app, assert } = require('egg-mock/bootstrap');
-const axios = require('axios');
-const sinon = require('sinon');
+const { PrismaClient } = require('@prisma/client');
 
 describe('AccountService', () => {
-  it('getByEmail should return accountId if account with given email exists', async () => {
-    // Bypass actual HTTP requests and directly call service methods
-    const ctx = app.mockContext();
+  let ctx;
+  const testAccountID = '12345';
+  const testUsername = 'TestW12345';
+  const testEmail = 'test@outlook.com';
 
-    // Get all accounts by calling getAll
-    const accountsData = await ctx.service.account.getAll();
-    // Extract account array
-    const accounts = accountsData.Accounts;
-
-    if (accounts != null) {
-      // Select an account randomly
-      const randomIndex = Math.floor(Math.random() * accounts.length);
-      const targetAccount = accounts[randomIndex];
-      const emailToFind = targetAccount.email;
-      const expectedAccountId = targetAccount.accountId;
-
-      const returnedAccountId = await ctx.service.account.getByEmail(emailToFind);
-      assert.strictEqual(returnedAccountId, expectedAccountId);
-    }
+  before(async () => {
+    ctx = app.mockContext(); // Create a mock context environment
+    ctx.prisma = new PrismaClient(); // Set the Prisma instance
+    await ctx.prisma.account.create({ // Create an account used for testing
+      data: {
+        accountID: testAccountID,
+        username: testUsername,
+        email: testEmail,
+        colorMode: 0, // Initial color mode
+        currency: 'USD', // Initial currency
+        firstName: 'Test',
+        lastName: 'Test',
+        phone: 'Test',
+        address: 'Test',
+        state: 'Test',
+      },
+    });
   });
 
-  it('getByEmail should return null if input is a part of a valid email', async () => {
-    const ctx = app.mockContext();
-    const accountsData = await ctx.service.account.getAll();
-    const accounts = accountsData.Accounts;
-
-    if (accounts != null) {
-      // Select an account randomly
-      const randomIndex = Math.floor(Math.random() * accounts.length);
-      const targetAccount = accounts[randomIndex];
-
-      // Obtain the username section of the email
-      const emailPart = targetAccount.email.split('@')[0];
-
-      const result = await ctx.service.account.getByEmail(emailPart);
-      assert.strictEqual(result, null);
-    }
+  after(async () => {
+    await ctx.prisma.account.delete({ // Delete the testing account
+      where: { accountID: testAccountID },
+    });
+    ctx.prisma.$disconnect(); // Disconnect Prisma client
   });
 
-  it('getByEmail should return null if an accountId is used as an input', async () => {
-    const ctx = app.mockContext();
-    const accountsData = await ctx.service.account.getAll();
-    const accounts = accountsData.Accounts;
-
-    if (accounts != null) {
-      // Select an account randomly
-      const randomIndex = Math.floor(Math.random() * accounts.length);
-      const targetAccount = accounts[randomIndex];
-      const accountId = targetAccount.accountId;
-
-      const result = await ctx.service.account.getByEmail(accountId);
-      assert.strictEqual(result, null);
-    }
+  describe('getAll', () => {
+    it('should retrieve all user accounts', async () => {
+      const allAccounts = await ctx.service.account.getAll();
+      assert(Array.isArray(allAccounts)); // The result should be an array
+      assert(allAccounts.length > 0); // There's at least one account in the account table
+      // The last account should be the created account
+      assert.equal(allAccounts[allAccounts.length - 1].accountID, testAccountID);
+      assert.equal(allAccounts[allAccounts.length - 1].username, testUsername);
+      assert.equal(allAccounts[allAccounts.length - 1].email, testEmail);
+    });
   });
 
-  it('getByEmail should return null if no account with given email exists', async () => {
-    const ctx = app.mockContext();
-    const nonExistentEmail = 'nonexistent@example.com';
-    const returnedAccountId = await ctx.service.account.getByEmail(nonExistentEmail);
-    assert.strictEqual(returnedAccountId, null);
+  describe('getByID', () => {
+    it('should retrieve a user account by its ID', async () => {
+      const account = await ctx.service.account.getByID(testAccountID);
+      assert(Array.isArray(account));
+      assert.equal(account.length, 1);
+      assert.equal(account[0].accountID, testAccountID); // should be the input accountID
+    });
+
+    it('should return an empty array if the ID does not exist', async () => {
+      const nonExistentID = 'nonExistentID';
+      const account = await ctx.service.account.getByID(nonExistentID);
+      assert(Array.isArray(account));
+      assert.equal(account.length, 0);
+    });
   });
 
-  it('getByEmail should return null if axios.get returns empty account list', async () => {
-    const ctx = app.mockContext();
-    const emptyResponse = { data: { Accounts: [] } };
+  describe('getByEmail', () => {
+    it('should retrieve a user account by its email', async () => {
+      const account = await ctx.service.account.getByEmail(testEmail);
+      assert(Array.isArray(account));
+      assert.equal(account.length, 1);
+      assert.equal(account[0].email, testEmail); // should be the input email
+      assert.equal(account[0].accountID, testAccountID); // should be the corresponding accountID
+    });
 
-    // Simulate `axios.get` using sinon and return an empty account array
-    sinon.stub(axios, 'get').resolves(emptyResponse);
-    const result = await ctx.service.account.getByEmail('Leann.Fay@emailprovider.com');
-    assert.strictEqual(result, null);
-
-    // Restore the original call to axios.get to avoid affecting other test cases
-    axios.get.restore();
+    it('should return an empty array if the email does not exist', async () => {
+      const nonExistentEmail = 'nonExistentEmail@example.com';
+      const account = await ctx.service.account.getByEmail(nonExistentEmail);
+      assert(Array.isArray(account));
+      assert.equal(account.length, 0);
+    });
   });
 
-  it('getByEmail should throw an error if axios request fails', async () => {
-    const ctx = app.mockContext();
-    const email = 'test@example.com';
-    const error = new Error('Failed to get all accounts');
+  describe('getByUserName', () => {
+    it('should retrieve a user account by its username', async () => {
+      const account = await ctx.service.account.getByUserName(testUsername);
+      assert(Array.isArray(account));
+      assert.equal(account.length, 1);
+      assert.equal(account[0].username, testUsername); // should be the input
+      assert.equal(account[0].accountID, testAccountID); // should be the corresponding accountID
+    });
 
-    // Simulate axios.get fails
-    const stub = sinon.stub(axios, 'get').rejects(error);
+    it('should return an empty array if the username does not exist', async () => {
+      const nonExistentUsername = 'nonExistentUsername';
+      const account = await ctx.service.account.getByUserName(nonExistentUsername);
+      assert(Array.isArray(account));
+      assert.equal(account.length, 0);
+    });
+  });
 
-    // Verify if an error is thrown
-    await assert.rejects(async () => {
-      await ctx.service.account.getByEmail(email);
-    }, error);
+  describe('updateColorTheme', () => {
+    it('should update the color theme of an account', async () => {
+      const newTheme = 2; // Valid new color theme
+      const updatedAccount = await ctx.service.account.updateColorTheme(testAccountID, newTheme);
+      assert(updatedAccount);
+      assert.equal(updatedAccount.colorMode, newTheme);
+    });
 
-    stub.restore();
+    it('should throw an error for invalid color theme', async () => {
+      const invalidTheme = 5; // Invalid new color theme
+      await assert.rejects(async () => {
+        await ctx.service.account.updateColorTheme(testAccountID, invalidTheme);
+      }, Error, 'Invalid Color Theme!');
+    });
+
+    it('should throw an error for invalid account ID', async () => {
+      const newTheme = 1; // Valid new color theme
+      const invalidAccountID = 'invalidID';
+      await assert.rejects(async () => {
+        await ctx.service.account.updateColorTheme(invalidAccountID, newTheme);
+      }, Error);
+    });
+  });
+
+  describe('updateCurrency', () => {
+    it('should update the currency of an account', async () => {
+      const newCurrency = 'EUR'; // Valid new currency
+      const updatedAccount = await ctx.service.account.updateCurrency(testAccountID, newCurrency);
+      assert(updatedAccount);
+      assert.equal(updatedAccount.currency, newCurrency);
+    });
+
+    it('should throw an error for invalid currency', async () => {
+      const invalidCurrency = 'XYZ'; // Invalid new currency
+      await assert.rejects(async () => {
+        await ctx.service.account.updateCurrency(testAccountID, invalidCurrency);
+      }, Error, 'Invalid Currency!');
+    });
+
+    it('should throw an error for invalid account ID', async () => {
+      const newCurrency = 'GBP'; // Valid new currency
+      const invalidAccountID = 'invalidID';
+      await assert.rejects(async () => {
+        await ctx.service.account.updateCurrency(invalidAccountID, newCurrency);
+      }, Error);
+    });
   });
 });
