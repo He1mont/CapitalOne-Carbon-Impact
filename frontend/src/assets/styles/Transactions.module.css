@@ -130,8 +130,8 @@ body {
 .transaction_btns {
   width: 60%;
   height: 50px;
-  position: absolute;
-  margin-left: 20%;
+  position: relative;
+  margin: 0 auto;
 }
 
 .transaction_btns_search {
@@ -171,12 +171,12 @@ body {
   margin: 0 auto;
 }
 .transaction_tbl_border {
-  position: absolute;
+  position: relative;
   height: auto;
   width: 74%;
   padding: 1%;
-  margin-left: 13%;
-  margin-top: 80px;
+  padding-top: 40px;
+  margin: 0 auto;
 }
 
 

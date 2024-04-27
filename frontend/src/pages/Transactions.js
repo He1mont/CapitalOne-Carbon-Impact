@@ -109,11 +109,11 @@ class TransactionTbl extends Component {
 
   render() {
     const columns = [
-      { field: 'date', headerName: 'Date', width: 150 },
-      { field: 'merchantName', headerName: 'Merchant Name', width: 250 },
-      { field: 'category', headerName: 'Category', width: 250 },
-      { field: 'amount', headerName: `Amount (${this.state.myCurrency})`, width: 200 },
-      { field: 'carbonScore', headerName: 'Carbon Score', width: 150 },
+      { field: 'date', renderHeader: () => (<strong>{'Data'}</strong>), width: 150, headerClassName: 'super-app-theme--header'},
+      { field: 'merchantName', renderHeader: () => (<strong>{'Merchant Name'}</strong>), width: 250, headerClassName: 'super-app-theme--header' },
+      { field: 'category', renderHeader: () => (<strong>{'Category'}</strong>), width: 250, headerClassName: 'super-app-theme--header' },
+      { field: 'amount', renderHeader: () => (<strong>{`Amount (${this.state.myCurrency})`}</strong>), width: 200, headerClassName: 'super-app-theme--header' },
+      { field: 'carbonScore', renderHeader: () => (<strong>{'Carbon Score'}</strong>), flex: 1, minWidth: 150, headerClassName: 'super-app-theme--header' },
     ];
 
     return (
@@ -137,7 +137,14 @@ class TransactionTbl extends Component {
 
         {/* Transaction Table */}
         <div className={styles.transaction_tbl_border}>
-          <Box sx={{ height: 500, width: '100%' }}>
+          <Box 
+            sx={{ 
+              height: 500, 
+              width: '100%',
+              '& .super-app-theme--header': {
+                backgroundColor: 'rgba(92, 166, 209, 0.55)',
+              }
+            }}>
             <DataGrid
               rows={this.state.transactions}
               columns={columns}
