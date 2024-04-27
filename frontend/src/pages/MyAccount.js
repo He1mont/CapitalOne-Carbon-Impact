@@ -161,9 +161,9 @@ function Mid({ name, id }) {
                     onChange={handleColorThemeChange}
                   >
                     <option value="0">Off</option>
-                    <option value="1">Protanopia</option>
-                    <option value="2">Deuteranopia</option>
-                    <option value="3">Tritanopia</option>
+                    <option value="1">Protanopia / Deuteranopia</option>
+                    <option value="2">Tritanopia</option>
+                    <option value="3">Monochromatism</option>
                   </select>
                 </td>
                 <td>

@@ -488,12 +488,15 @@ class Graphs extends Component {
                     </button>
                   </th>
                   <th style={{ width: '10%' }}>
+                    <div style={{ width: '40px' }}></div>
+                  </th>
+                  <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
-                      style={{ borderColor: 'green' }}
+                      style={{ borderColor: '#073763ff' }}
                       onClick={() => this.handleClickAllOn()}>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className={styles.graph_category_circle}
-                          style={{ backgroundColor: 'green' }}>
+                          style={{ backgroundColor: '#073763ff' }}>
                         </div>
                         <div style={{ marginLeft: '10px' }}>
                           All On
@@ -574,12 +577,15 @@ class Graphs extends Component {
                     </button>
                   </th>
                   <th style={{ width: '10%' }}>
+                    
+                  </th>
+                  <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
-                      style={{ borderColor: 'red' }}
+                      style={{ borderColor: '#073763ff' }}
                       onClick={() => this.handleClickAllOf()}>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <div className={styles.graph_category_circle}
-                          style={{ backgroundColor: 'red' }}>
+                          style={{ backgroundColor: '#073763ff' }}>
                         </div>
                         <div style={{ marginLeft: '10px' }}>
                           All Off
