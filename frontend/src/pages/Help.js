@@ -217,11 +217,10 @@ function Low({ name, id }) {
                   alt="username"
                 />
                 <h2 className={styles.low_bar_btn_title}>
-                  Changing your username
+                  Seeing your account details
                 </h2>
                 <p className={styles.low_bar_btn_sub}>
-                  To change your username you should go into your account
-                  settings...
+                  To see your account information you should go click...
                 </p>
               </button>
               <UsernamePopup

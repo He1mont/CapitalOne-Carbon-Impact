@@ -10,7 +10,7 @@ app.use(cors());
 
 const openaiClient = new openai.OpenAI(process.env.OPENAI_API_KEY);
 
-// Function to extract a summarized response from the OpenAI API output
+// Function to extract a summarised response from the OpenAI API output
 const extractSummary = (response) => {
   // Split the response by periods to create sentences
   const sentences = response.split(".");
