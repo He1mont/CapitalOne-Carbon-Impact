@@ -8,13 +8,8 @@ import PasswordPopup from "../components/PasswordPopup";
 import ContactPopup from "../components/ContactPopup";
 import Tickets from "../components/Ticket";
 import { Logo, GoBackBtn, Footer } from "./CommonComponents";
-// import { useCollapse } from "react-collapsed";
-// import kommunicateChat from "../chat";
 import axios from "axios";
-// import openai from "openai";
-// const openaiClient = new openai(
-//   "sk-proj-i6EmGycfY7PUHGzZASw5T3BlbkFJ0Zvmq1gszKiCg9rohEIz"
-// );
+
 
 /**
  * Head component

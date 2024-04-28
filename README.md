@@ -221,3 +221,13 @@ By default, accounts and transactions are created in the Carbon API when running
  > **Note:** Transactions cannot be deleted once they have been created
 
  To run these files enter `python {path_of_file}` and follow the prompts.
+
+### OpenAI API
+
+The openAI API calls the openAI API in and generates response the users prompts. The responses are tailored and summarised before displayed to users.
+
+```shell
+cd openAI
+npm install
+node index.js
+```
