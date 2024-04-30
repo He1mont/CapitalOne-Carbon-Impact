@@ -203,22 +203,22 @@ function Low({ name, id }) {
                 onClose={() => setOpenPasswordPopup(false)}
               />
             </th>
-            
+
             <th>
-                <button
-                      className={styles.low_bar_btn}
-                      onClick={handleUserManual}>
-                      <img
-                        //src="/images/"  
-                       // className={styles.low_bar_btn_img}
-                       // alt="User Manual"
-                      />
-                      <h2 className={styles.low_bar_btn_title}>User Manual</h2>
-                      <p className={styles.low_bar_btn_sub}>
-                        Check our detailed user guide for more information.
-                      </p>
-                </button>
-             </th>
+              <button
+                className={styles.low_bar_btn}
+                onClick={handleUserManual}>
+                <img
+                  src="/images/linkToUserManual.png"
+                  className={styles.low_bar_btn_img}
+                  alt="User Manual"
+                />
+                <h2 className={styles.low_bar_btn_title}>User Manual</h2>
+                <p className={styles.low_bar_btn_sub}>
+                  Check our detailed user guide for more information.
+                </p>
+              </button>
+            </th>
           </tr>
           <br></br>
           <br></br>
@@ -288,8 +288,8 @@ function Low({ name, id }) {
               />
             </th>
           </tr>
-       
-        
+
+
         </tbody>
       </table>
       <ResponsePopup open={response !== ""} onClose={() => setResponse("")} response={response} />
