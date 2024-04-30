@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom';
 import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
 // Helper functions
 import * as API from '../services/api';
-import * as Sorter from '../services/sorter';
 // MUI component
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
@@ -49,7 +48,7 @@ class TransactionTbl extends Component {
     const month = this.props.month.month();
     const transactions = await API.getTransactionsByMonth(this.props.id, year, month);
     const formattedTransactions = await Promise.all(transactions.map(async item => {
-      const currencyRate = await API.getHistoricalCurrencyRates(this.state.myCurrency,this.formatDateYMD(item.date));
+      const currencyRate = await API.getHistoricalCurrencyRates(this.state.myCurrency, this.formatDateYMD(item.date));
       return {
         ...item,
         date: this.formatDateDM(item.date),
@@ -109,10 +108,10 @@ class TransactionTbl extends Component {
 
   render() {
     const columns = [
-      { field: 'date', renderHeader: () => (<strong>{'Data'}</strong>), width: 150, headerClassName: 'super-app-theme--header'},
-      { field: 'merchantName', renderHeader: () => (<strong>{'Merchant Name'}</strong>), width: 250, headerClassName: 'super-app-theme--header' },
-      { field: 'category', renderHeader: () => (<strong>{'Category'}</strong>), width: 250, headerClassName: 'super-app-theme--header' },
-      { field: 'amount', renderHeader: () => (<strong>{`Amount (${this.state.myCurrency})`}</strong>), width: 200, headerClassName: 'super-app-theme--header' },
+      { field: 'date', renderHeader: () => (<strong>{'Data'}</strong>), width: 100, headerClassName: 'super-app-theme--header' },
+      { field: 'merchantName', renderHeader: () => (<strong>{'Merchant Name'}</strong>), width: 230, headerClassName: 'super-app-theme--header' },
+      { field: 'category', renderHeader: () => (<strong>{'Category'}</strong>), width: 230, headerClassName: 'super-app-theme--header' },
+      { field: 'amount', renderHeader: () => (<strong>{`Amount (${this.state.myCurrency})`}</strong>), width: 180, headerClassName: 'super-app-theme--header' },
       { field: 'carbonScore', renderHeader: () => (<strong>{'Carbon Score'}</strong>), flex: 1, minWidth: 150, headerClassName: 'super-app-theme--header' },
     ];
 
@@ -137,12 +136,12 @@ class TransactionTbl extends Component {
 
         {/* Transaction Table */}
         <div className={styles.transaction_tbl_border}>
-          <Box 
-            sx={{ 
-              height: 500, 
+          <Box
+            sx={{
+              height: 500,
               width: '100%',
               '& .super-app-theme--header': {
-                backgroundColor: 'rgba(92, 166, 209, 0.55)',
+                backgroundColor: '#f0f0f0',
               }
             }}>
             <DataGrid
@@ -284,7 +283,7 @@ function Low({ name, id, month }) {
       <div className={styles.table_container}>
         <TransactionTbl name={name} id={id} month={month} />
       </div>
-      
+
     </div>
   )
 }
