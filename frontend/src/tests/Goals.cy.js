@@ -5,7 +5,7 @@ import moment from 'moment';
 import Goals from '../pages/Goals';
 import { act } from 'react-dom/test-utils';
 import styles from '../assets/styles/Goals.module.css';
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory } from 'history'
 
 const mockLocationState = {
   name: 'John Doe',

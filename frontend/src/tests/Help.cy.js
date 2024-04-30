@@ -54,11 +54,9 @@ describe('<Help />', () => {
     cy.viewport('ipad-2');
     cy.get('.low_bar_tbl').should('not.exist');
 
-        // Accessibility: Tab navigation and ARIA roles
+    // Accessibility
     cy.get('button').first().focus();
     cy.focused().should('not.have.attr', 'aria-label', 'Open About Us Popup');
 
   });
-
-
 });
