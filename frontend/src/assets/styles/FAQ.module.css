@@ -1,6 +1,6 @@
 html,
 body {
-  max-width: 100%;
+  max-width: 100vw;
   padding-left: 0px;
   margin: 0px;
   background-color: rgb(255, 255, 255);
@@ -44,64 +44,40 @@ body {
 /*------------------------------ MID ------------------------------*/
 .midBar {
   top: 65px;
-  width: 100%;
-  height: 275px;
+  width: 100vw;
+  height: 314px;
   position: absolute;
 }
-
-/*---------- MID-HIGH ----------*/
-
 .midHigh {
   z-index: 1;
   user-select: none;
   width: 100%;
-  height: 180px;
+  height: 232px;
   position: absolute;
-  text-align: center;
   background-color: #073763ff;
 }
 
-.title {
-  color: white;
-  padding-top: 3%;
-  font-size: xx-large;
-
-}
-
-/*---------- CENTER ----------*/
-.midCenter {
-  user-select: none;
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-}
-
-/* iframe[title="React error overlay"] {
-    display: none;
-} */
-
-.midBox {
-  height: 175px;
-  position: relative;
-  margin-top: 90px;
-
-}
-
-/*---------- LOW ----------*/
 .midLow {
   position: absolute;
-  top: 180px;
+  top: 232px;
   height: 82px;
   width: 100%;
   background-color: #f3f3f3ff;
 }
 
-.midBoxLogin {
-  /* default styles for the box */
-  padding: 20px;
-  border: 1px solid #ccc;
+/*---------- CENTER ----------*/
+.midCenter {
+  user-select: none;
+  position: relative;
+  top: 35%;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.midBox {
+  width: 1000px;
+  display: block;
+  margin: auto;
 }
 
 
@@ -109,7 +85,7 @@ body {
 /*------------------------------ LOW ------------------------------*/
 .lowBar {
   position: absolute;
-  top: 365px;
+  top: 415px;
   min-height: 330px;
   height: 850px;
   width: 100vw;
@@ -201,9 +177,10 @@ body {
 }
 
 .helpTable {
-  position: absolute;
-  padding: auto;
+  position: relative;
+  margin: 0 auto;
   width: 70vw;
+  text-align: center;
 
 
 }
@@ -215,10 +192,10 @@ body {
 }
 
 .helpTableTitle {
+  position: relative;
   font-size: xx-large;
   margin-top: 5px;
   margin-bottom: 5px;
-  margin-left: 300px;
 
 }
 
@@ -228,18 +205,15 @@ body {
 
 
 .questionWrapper {
-
-  padding-left: 50px;
+  position: relative;
+  margin: 0 auto;
   color: #000000;
   margin-bottom: 20px;
   margin-top: 5px;
   font-size: large;
-  width: 900px;
+  width: 90%;
   border-bottom: 1px solid #ccc;
-
-  /* margin-top: 1rem;
-  padding: 1rem 2rem; */
-
+  text-align: left;
 }
 
 .question {

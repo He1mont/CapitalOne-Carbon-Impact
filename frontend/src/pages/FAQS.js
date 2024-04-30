@@ -24,7 +24,7 @@ function Mid({ name }) {
       {/* Carbon Impact Information Box */}
       <div className={styles.midCenter}>
         <img
-          src="/images/help-center.png"
+          src="/images/faq-center.png"
           className={styles.midBox}
           alt="Mid Box"
         />

@@ -5,7 +5,6 @@ body {
   margin: 0px;
   background-color: white;
   font-family: Arial, sans-serif;
-  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -120,8 +119,8 @@ body {
 .low_bar {
   position: absolute;
   top: 379px;
-  height: 450px;
-  width: 100%;
+  height: auto;
+  width: 100vw;
   background-color: white;
   padding-top: 30px;
   bottom: 0px;
@@ -131,8 +130,8 @@ body {
 .transaction_btns {
   width: 60%;
   height: 50px;
-  position: absolute;
-  margin-left: 20%;
+  position: relative;
+  margin: 0 auto;
 }
 
 .transaction_btns_search {
@@ -164,23 +163,22 @@ body {
   background-color: #0c5e93ff;
 }
 
+.table_container {
+  position: relative;
+  width: 80vw;
+  min-width: 1000px;
+  height: 40vw;
+  margin: 0 auto;
+}
 .transaction_tbl_border {
-  position: absolute;
+  position: relative;
   height: auto;
   width: 74%;
   padding: 1%;
-  margin-left: 13%;
-  margin-top: 80px;
+  padding-top: 40px;
+  margin: 0 auto;
 }
 
-.transaction_tbl_container {
-  position: relative;
-  width: auto;
-  height: auto;
-
-  max-height: 250px;
-  overflow: auto;
-}
 
 .transaction_tbl {
   width: 100%;
