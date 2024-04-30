@@ -17,7 +17,7 @@ describe('TransactionController', () => {
     assert.deepStrictEqual(result.body, { id: mockAccountID, name: 'Transaction 1' });
   });
 
-  it('should get transactions of an account', async () => {
+  it('should get all transactions of an account', async () => {
     const mockAccountID = 1;
     // Mock the getAll method of the transaction service
     app.mockService('transaction', 'getAllTransactions', async () => {
