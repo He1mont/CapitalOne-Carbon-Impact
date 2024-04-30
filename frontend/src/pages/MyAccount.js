@@ -1,9 +1,15 @@
-import React, { Component, useState, useEffect } from 'react';
-import { useHistory, useLocation } from "react-router-dom";
-import styles from "../assets/styles/MyAccount.module.css";
-import * as API from '../services/api';
-import { Logo, Footer, GoBackBtn } from './CommonComponents';
+// MyAccount.js
+import React, { useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
+import styles from "../assets/styles/MyAccount.module.css";     // CSS modules
+import { Logo, Footer, GoBackBtn } from './CommonComponents';   // Reusable components
+import * as API from '../services/api';   // API functions for server-side interactions
 
+/**
+ * Renders the header of the MyAccount page, which includes the go back button and logo.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
+ */
 function Head({ name, id }) {
   return (
     <div className={styles.headBar}>
@@ -13,7 +19,12 @@ function Head({ name, id }) {
   );
 }
 
-function Mid({ name, id }) {
+/**
+ * The main component of the MyAccount page that displays user account and transaction details.
+ * @param {string} id - AccountID of the user.
+ */
+function Mid({ id }) {
+  // State hooks for various account and transaction details
   const [account, setAccount] = useState(null);
   const [firstTran, setFirst] = useState('N/A');
   const [recentTran, setRecent] = useState('N/A');
@@ -37,6 +48,7 @@ function Mid({ name, id }) {
     return `${year}-${month}-${day}`;
   }
 
+  // Effect hook to fetch account and transaction data from the API
   useEffect(() => {
     const fetchData = async () => {
       // Load account info
@@ -52,8 +64,9 @@ function Mid({ name, id }) {
         const total = await Promise.all(sortedTransactions.map(async item => {
           const currencyRate = await API.getHistoricalCurrencyRates(account[0].currency, formatDateYMD(item.date));
           return item.amount / currencyRate[item.currency];
-         })).then(amounts => {
-          return amounts.reduce((acc, amount) => acc + amount, 0)});
+        })).then(amounts => {
+          return amounts.reduce((acc, amount) => acc + amount, 0)
+        });
 
         setNumber(sortedTransactions.length)
         setAmount(total)
@@ -89,14 +102,18 @@ function Mid({ name, id }) {
     setRefreshTrigger(oldTrigger => oldTrigger + 1);  // refresh the page everytime the form is submitted
   };
 
+  // Renders account information and transaction data, and allows user settings adjustments
   return (
     <div className={styles.midBody}>
       <div className={styles.midHigh} />
       <div className={styles.midLow} />
       <div className={styles.midCenter}>
         <div className={styles.centerContainer}>
+          {/* Section header for account information */}
           <div className={styles.titleText}>My Account</div>
           <div className={styles.sectionHeader}>Personal</div>
+
+          {/* Table displaying basic personal information */}
           <table className={styles.AccInfoTable}>
             <tr>
               <td className={styles.AccTableHeads}> Firstname(s): </td>
@@ -125,7 +142,11 @@ function Mid({ name, id }) {
               <td>{account?.address}</td>
             </tr>
           </table>
+
+          {/* Section header for transaction information */}
           <div className={styles.sectionHeader}>Transactions</div>
+
+          {/* Table displaying transaction details */}
           <table className={styles.AccInfoTable}>
             <tr>
               <td className={styles.AccTableHeads}> First Transaction: </td>
@@ -145,7 +166,11 @@ function Mid({ name, id }) {
               <td>{amount.toFixed(2)}</td>
             </tr>
           </table>
+
+          {/* Section header for additional user-configurable options */}
           <div className={styles.sectionHeader}>Additional Options</div>
+
+          {/* Form for updating user preferences such as color correction and primary currency */}
           <form onSubmit={handleSubmit}>
             <table className={styles.AccInfoTable}>
               <tr>
@@ -197,6 +222,9 @@ function Mid({ name, id }) {
   )
 }
 
+/**
+ * Main MyAccount component assembling header, mid, and footer components for the account management page.
+ */
 function MyAccount() {
   const location = useLocation();
   const name = location.state?.name || "You need to login";

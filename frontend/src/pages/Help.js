@@ -1,20 +1,19 @@
 // Help.js
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import styles from "../assets/styles/Help.module.css"; // Import CSS module
-import Popup from "../components/popup";
-import UsernamePopup from "../components/UsernamePopup";
-import PasswordPopup from "../components/PasswordPopup";
-import ContactPopup from "../components/ContactPopup";
-import Tickets from "../components/Ticket";
-import { Logo, GoBackBtn, Footer } from "./CommonComponents";
-import axios from "axios";
-
+import axios from "axios";  // Axios for HTTP requests
+import styles from "../assets/styles/Help.module.css";    // Import style
+import Popup from "../components/popup";                  // Import Popup 
+import UsernamePopup from "../components/UsernamePopup";  // Import Popup for username-related actions
+import PasswordPopup from "../components/PasswordPopup";  // Import Popup for password recovery
+import ContactPopup from "../components/ContactPopup";    // Import Popup for contact information
+import Tickets from "../components/Ticket";               // Import Component for ticket creation
+import { Logo, GoBackBtn, Footer } from "./CommonComponents"; // Reusable components across pages
 
 /**
- * Head component
- * Displays the top part of the help including the rgo.
- * Utilizes useHistory from react-router-dom for navigation.
+ * Head component that renders the logo and go-back button at the top of the Help page.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
 function Head({ name, id }) {
   return (
@@ -26,10 +25,11 @@ function Head({ name, id }) {
 }
 
 /**
- * Mid component
- * Displays the middle section of the help page, including user information and button redirecting to other pages.
+ * Mid component for displaying static content in the Help page middle section.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
-function Mid({ name }) {
+function Mid() {
   return (
     <div className={styles.midBar}>
       <div className={styles.midHigh}>
@@ -48,8 +48,9 @@ function Mid({ name }) {
 }
 
 /**
- * Low component
- * Displays the lower section of the help page, including buttons for transactions, goals, and history.
+ * ResponsePopup component to display responses in a modal dialog.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
 function ResponsePopup({ open, onClose, response }) {
   console.log("Response prop:", response);
@@ -84,15 +85,26 @@ function ResponsePopup({ open, onClose, response }) {
   );
 }
 
+/**
+ * Low component that handles user interactions and displays dynamic responses or actions.
+ * Includes functionality to submit queries and display various popups.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
+ */
 function Low({ name, id }) {
   const history = useHistory();
+  // State hooks to manage visibility of various popups
   const [openPop, setOpen] = useState(false);
   const [openUsernamePopup, setOpenUsernamePopup] = useState(false);
   const [openContactPopup, setOpenContactPopup] = useState(false);
   const [openPasswordPopup, setOpenPasswordPopup] = useState(false);
   const [openTicketPopup, setTicketPopup] = useState(false);
+
+  // State for managing user input and server responses
   const [prompt, setPrompt] = useState("");
   const [response, setResponse] = useState("");
+
+  // Handles the submission of the chat form.
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -100,28 +112,29 @@ function Low({ name, id }) {
         prompt,
       });
       console.log("API Response:", data);
-
       // Use the response directly from the backend
       setResponse(data.message);
-
     } catch (error) {
       console.error(error);
     }
   };
 
+  // Navigation handler for FAQs
   function handleFAQ() {
     history.push({
       pathname: "/help/FAQs",
       state: { name: name, id: id },
     });
   }
-  // User Manual
+
+  // Handler to open external user manual
   function handleUserManual() {
     window.open("https://su-guo.notion.site/e7b9a642a83d467bb8b62cba73e02578?v=4d1ca443210843ddabeff5a269a84ac4", "_blank");
   }
 
   return (
     <div className={styles.lowBar}>
+      {/* Search form for user queries */}
       <div className={styles.search}>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
@@ -148,9 +161,11 @@ function Low({ name, id }) {
         </form>
       </div>
 
+      {/* Table for navigation and utility buttons */}
       <table className={styles.low_bar_tbl}>
         <tbody>
           <tr>
+            {/* About us section with popup */}
             <th>
               <button
                 className={styles.low_bar_btn}
@@ -169,6 +184,8 @@ function Low({ name, id }) {
               </button>
               <Popup open={openPop} onClose={() => setOpen(false)} />
             </th>
+
+            {/* FAQ section */}
             <th>
               <button className={styles.low_bar_btn} onClick={handleFAQ}>
                 <img
@@ -182,6 +199,8 @@ function Low({ name, id }) {
                 </p>
               </button>
             </th>
+
+            {/* Password recovery section with popup */}
             <th>
               <button
                 className={styles.low_bar_btn}
@@ -204,6 +223,7 @@ function Low({ name, id }) {
               />
             </th>
 
+            {/* User Manual link */}
             <th>
               <button
                 className={styles.low_bar_btn}
@@ -220,9 +240,8 @@ function Low({ name, id }) {
               </button>
             </th>
           </tr>
-          <br></br>
-          <br></br>
           <tr>
+            {/* Seeing account details section with popup */}
             <th>
               <button
                 onClick={() => setOpenUsernamePopup(true)}
@@ -245,6 +264,8 @@ function Low({ name, id }) {
                 onClose={() => setOpenUsernamePopup(false)}
               />
             </th>
+
+            {/* Create a ticket section with popup */}
             <th>
               <button
                 className={styles.low_bar_btn}
@@ -266,6 +287,8 @@ function Low({ name, id }) {
                 onClose={() => setTicketPopup(false)}
               />
             </th>
+            
+            {/* Contact us section with popup */}
             <th>
               <button
                 className={styles.low_bar_btn}
@@ -288,8 +311,6 @@ function Low({ name, id }) {
               />
             </th>
           </tr>
-
-
         </tbody>
       </table>
       <ResponsePopup open={response !== ""} onClose={() => setResponse("")} response={response} />
@@ -297,18 +318,16 @@ function Low({ name, id }) {
   );
 }
 
-
-
-
 /**
- * HomePage component
- * Composes the Head, Mid, Low, and Footer components to form the homepage.
+ * Help component that aggregates all sub-components (Head, Mid, Low, Footer) into the Help page.
+ * It also manages loading of external scripts for chat functionalities.
  */
 function Help() {
   const location = useLocation();
   const name = location.state?.name || "You need to login";
   const id = location.state?.id;
 
+  // React effect for loading external chat widget script only once after the component mounts
   useEffect(() => {
     console.log("Executing useEffect");
 
@@ -317,19 +336,22 @@ function Help() {
       console.warn("Kommunicate script is already loaded.");
       return;
     }
+
+    // Load the Kommunicate chat widget script dynamically and configure it
     (function (d, m) {
       var kommunicateSettings = {
         appId: "4ff9d4f79551f6d18d4b7ae38565b9b4",
         popupWidget: true,
         automaticChatOpenOnNavigation: true,
       };
+      // Insert script tag for Kommunicate chat widget into the document head
       var s = document.createElement("script");
       s.type = "text/javascript";
       s.async = true;
       s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
       var h = document.getElementsByTagName("head")[0];
       h.appendChild(s);
-      window.kommunicate = m;
+      window.kommunicate = m;   // Initialize global settings for the chat widget
       m._globals = kommunicateSettings;
     })(document, window.kommunicate || {});
   }, []);

@@ -3,16 +3,23 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from '../assets/styles/CommonComponent.module.css';
 
-
+/**
+ * Renders a Go Back button that navigates the user to the home page.
+ * @param {string} name - username of the user
+ * @param {string} id - accountID of the user
+ */
 export function GoBackBtn({ name, id }) {
   const history = useHistory();
 
+  // Handles the click event on the Go Back button
   function handleGoBackClick() {
+    // Using a Proxy to read URL search parameters
     const params = new Proxy(new URLSearchParams(window.location.search), {
       get: (searchParams, prop) => searchParams.get(prop),
     });
-    let helpPrev = params.prevPage;
+    let helpPrev = params.prevPage;  // Get previous page from URL search parameters
 
+    // Redirect based on the previous page
     if (helpPrev === "login") {
       history.push({
         pathname: '/login',
@@ -25,6 +32,7 @@ export function GoBackBtn({ name, id }) {
     }
   }
 
+  // Render Go Back button
   return (
     <div>
       <button onClick={handleGoBackClick} className={styles.go_back_btn}>
@@ -34,6 +42,9 @@ export function GoBackBtn({ name, id }) {
   )
 }
 
+/**
+ * Renders the logo of this project
+ */
 export function Logo() {
   return (
     <div className={styles.head_center}>
@@ -42,24 +53,30 @@ export function Logo() {
   )
 }
 
+/**
+ * Render and manage a settings button with a dropdown menu
+ * @param {string} name - username of the user
+ * @param {string} id - accountID of the user
+ */
 export function SettingBtn({ name, id }) {
   const history = useHistory();
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // Functions for clicking each button
+  // Handlers for clicking button MyAccount
   function handleMyAccountClick() {
     history.push({
       pathname: '/home/account',
       state: { name: name, id: id }
     });
-    
   }
+  // Handlers for clicking button Friend
   function handleFriendsClick() {
     history.push({
       pathname: '/home/friends',
       state: { name: name, id: id }
     });
   }
+  // Handlers for clicking button Help
   function handleHelpClick() {
     history.push({
       pathname: '/help',
@@ -67,20 +84,23 @@ export function SettingBtn({ name, id }) {
       state: { name: name, id: id }
     });
   }
+  // Handlers for clicking button Sign Out
   function handleSignoutClick() {
     history.push('/login');
   }
+  // Handlers for clicking button setting
   function handleSettingsClick() {
     setShowDropdown(!showDropdown);
   }
-  // Show the setting dropdown
+
+  // Render the settings dropdown if it is visible
   function showSettings() {
     if (showDropdown) {
       return (
         <div className={styles.dropdownBox}>
           <div className={styles.triangle}></div>
-          {/* <div className={styles.dropdownAccName}><b>{name}</b></div> */}
           <div className={`${styles.dropdownContainer}`}>
+            {/* Button elements for different settings options */}
             <div className={styles.dropdownBtn} style={{ top: '30px' }} onClick={handleMyAccountClick}>
               <img src="/images/user.png" alt="Settings" className={styles.dropdownImg} />
               <div className={styles.dropdownTxt}><b>My Account</b></div>
@@ -102,6 +122,8 @@ export function SettingBtn({ name, id }) {
       )
     }
   }
+  
+  // Render the settings button with conditional dropdown rendering
   return (
     <div className={styles.head_settings_container}>
       <button onClick={handleSettingsClick} className={styles.settings_btn}>
@@ -112,6 +134,9 @@ export function SettingBtn({ name, id }) {
   )
 }
 
+/**
+ * Renders a Footer that shows at the bottom of the page
+ */
 export function Footer() {
   return (
     <div className={styles.footer}>
