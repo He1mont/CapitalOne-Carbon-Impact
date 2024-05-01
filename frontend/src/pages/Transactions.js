@@ -40,7 +40,7 @@ class TransactionTbl extends Component {
   // Load the user's preferred currency from the backend using their user ID.
   loadCurrency = async () => {
     const data = await API.getAccountByID(this.props.id);
-    const myCurrency = data[0].currency
+    const myCurrency = data.length !== 0 ? data[0].currency : ""
     this.setState({ myCurrency });
   }
 

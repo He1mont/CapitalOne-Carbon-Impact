@@ -28,8 +28,8 @@ function Mid({ id }) {
   const [account, setAccount] = useState(null);
   const [firstTran, setFirst] = useState('N/A');
   const [recentTran, setRecent] = useState('N/A');
-  const [numberOfTran, setNumber] = useState(0);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(0.0);
+  const [balance, setBalance] = useState(0.0)
   const [colorTheme, setColorTheme] = useState("0");
   const [currency, setCurrency] = useState("");
   const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -68,7 +68,7 @@ function Mid({ id }) {
           return amounts.reduce((acc, amount) => acc + amount, 0)
         });
 
-        setNumber(sortedTransactions.length)
+        setBalance(account[0].balance);
         setAmount(total)
         setFirst(formatDate(sortedTransactions[0].date))
         setRecent(formatDate(sortedTransactions[sortedTransactions.length - 1].date))
@@ -150,20 +150,20 @@ function Mid({ id }) {
           <table className={styles.AccInfoTable}>
             <tr>
               <td className={styles.AccTableHeads}> First Transaction: </td>
-              <td className={styles.AccTableHeads}> Completed Transactions</td>
+              <td className={styles.AccTableHeads}> Total Amount</td>
             </tr>
             <tr>
               <td>{firstTran}</td>
-              <td>{numberOfTran}</td>
+              <td>{amount.toFixed(2)}</td>
             </tr>
             <br />
             <tr>
               <td className={styles.AccTableHeads}> Most Recent Transaction: </td>
-              <td className={styles.AccTableHeads}> Value of Transactions</td>
+              <td className={styles.AccTableHeads}> Balance </td>
             </tr>
             <tr>
               <td>{recentTran}</td>
-              <td>{amount.toFixed(2)}</td>
+              <td>{balance}</td>
             </tr>
           </table>
 
