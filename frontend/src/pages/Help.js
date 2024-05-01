@@ -6,7 +6,6 @@ import styles from "../assets/styles/Help.module.css";    // Import style
 import Popup from "../components/popup";                  // Import Popup 
 import UsernamePopup from "../components/UsernamePopup";  // Import Popup for username-related actions
 import PasswordPopup from "../components/PasswordPopup";  // Import Popup for password recovery
-import ContactPopup from "../components/ContactPopup";    // Import Popup for contact information
 import Tickets from "../components/Ticket";               // Import Component for ticket creation
 import { Logo, GoBackBtn, Footer } from "./CommonComponents"; // Reusable components across pages
 
@@ -96,7 +95,6 @@ function Low({ name, id }) {
   // State hooks to manage visibility of various popups
   const [openPop, setOpen] = useState(false);
   const [openUsernamePopup, setOpenUsernamePopup] = useState(false);
-  const [openContactPopup, setOpenContactPopup] = useState(false);
   const [openPasswordPopup, setOpenPasswordPopup] = useState(false);
   const [openTicketPopup, setTicketPopup] = useState(false);
 
@@ -121,10 +119,17 @@ function Low({ name, id }) {
 
   // Navigation handler for FAQs
   function handleFAQ() {
-    history.push({
-      pathname: "/help/FAQs",
-      state: { name: name, id: id },
-    });
+    if (id === undefined) {
+      history.push({
+        pathname: "/help/FAQS",
+        search: "prevPage=login",
+      });
+    } else {
+      history.push({
+        pathname: "/help/FAQS",
+        state: { name: name, id: id },
+      });
+    }
   }
 
   // Handler to open external user manual
@@ -271,7 +276,7 @@ function Low({ name, id }) {
                 onClose={() => setTicketPopup(false)}
               />
             </th>
-            
+
             {/* User Manual link */}
             <th>
               <button
