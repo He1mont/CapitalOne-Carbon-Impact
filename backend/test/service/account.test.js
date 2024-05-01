@@ -95,6 +95,20 @@ describe('AccountService', () => {
     });
   });
 
+  describe('getBalance', () => {
+    it('should get the balance by account ID', async () => {
+      const returnedBalance = await ctx.service.account.getBalance(testAccountID);
+      assert.equal(returnedBalance, 1000); // should be the default balance
+    });
+
+    it('should throw an error for invalid account ID', async () => {
+      const nonExistentID = 'nonExistentID';
+      await assert.rejects(async () => {
+        await ctx.service.account.getBalance(nonExistentID);
+      }, Error);
+    });
+  });
+
   describe('updateColorTheme', () => {
     it('should update the color theme of an account', async () => {
       const newTheme = 2; // Valid new color theme
