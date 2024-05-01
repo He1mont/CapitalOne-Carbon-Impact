@@ -39,7 +39,7 @@ describe('<Help />', () => {
 
     // Verify popup functionality by clicks and checking for popup visibility
     cy.get(`button.${styles.low_bar_btn}`).contains('About us').click({force:true});
-    cy.get(`.${styles.overlay}`).should('not.visible');
+    cy.get(`.${styles.overlay}`).should('exist');
     cy.get(`.${styles.closeBtn}`).click({force:true});
     cy.get(`.${styles.overlay}`).should('not.exist');
    

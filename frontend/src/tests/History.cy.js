@@ -112,12 +112,12 @@ describe('<History />', () => {
         );
 
         // click on the Entertainment category button
-        cy.get(`.${styles.graph_category_btn}`).first().click({force: true});
+        cy.get(`.${styles.graph_category_btn}`).first().click();
         // Assert that the Entertainment category is toggled
         cy.get(`.${styles.graph_container_pie} text`).contains('Entertainment').should('not.exist');
 
         //  click on the Education category button
-        cy.get(`.${styles.graph_category_btn}`).eq(1).click({force: true});
+        cy.get(`.${styles.graph_category_btn}`).eq(1).click();
         // Assert that the Education category is toggled
         cy.get(`.${styles.graph_container_pie} text`).contains('Education').should('not.exist');
     });
