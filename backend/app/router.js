@@ -11,6 +11,7 @@ module.exports = app => {
   router.get('/accounts/username', controller.account.getByUserName);
   router.get('/accounts/email', controller.account.getByEmail);
   router.get('/accounts/:id', controller.account.getByID);
+  router.get('/accounts/:id/balance', controller.account.getBalance);
   router.patch('/accounts/:id/color-theme', controller.account.updateColorTheme);
   router.patch('/accounts/:id/currency', controller.account.updateCurrency);
   // Transactions

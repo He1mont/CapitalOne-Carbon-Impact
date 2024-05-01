@@ -68,6 +68,7 @@ class AccountService extends Service {
           address: account.homeAddress,
           currency: account.currencyCode,
           state: account.state,
+          balance: account.balance,
           colorMode: 0,
         },
       });
@@ -149,6 +150,20 @@ class AccountService extends Service {
       },
     });
     return account;
+  }
+
+  /**
+   * Retrieves a user account by its username; return empty list if not found.
+   * @param {string} id - The account ID of the account to retrieve.
+   * @return {Array} Array containing the user account matching the username.
+   */
+  async getBalance(id) {
+    const account = await prisma.account.findUnique({
+      where: {
+        accountID: id,
+      },
+    });
+    return account.balance;
   }
 
   /**
