@@ -24,6 +24,8 @@ function Head({ name, id }) {
 function Mid() {
   return (
     <div className={styles.midBar}>
+      <div className={styles.midHigh}>
+      </div>
       {/* Carbon Impact Information Box */}
       <div className={styles.midCenter}>
         <img

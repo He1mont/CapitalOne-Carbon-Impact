@@ -9,7 +9,6 @@ import clsx from 'clsx';
 import Box from '@mui/material/Box';    // MUI Components
 import { DataGrid } from '@mui/x-data-grid';
 
-
 /**
  * Month selector component:
  * Renders a month selector for the user to use to view data from a given month.
@@ -75,9 +74,6 @@ class MonthSelect extends Component {
  * constructs a comparison chart of the month in carbon against the goal.
  */
 class CarbonUseCircle extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   // Calculates the percentage of carbon emission compared to the goal emissions.
   getPercentage = (carbonEmission, goalEmissions) => {
@@ -91,12 +87,6 @@ class CarbonUseCircle extends Component {
   // Generates SVG markup to render a circular progress chart.
   drawCircle = ({ color }) => {
     let percentage = 0;
-    const diameter = 210;
-    const radius = diameter / 2;
-    const strokeWidth = 15;
-    const viewBoxSize = diameter + strokeWidth;
-    const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset = ((100 - percentage) * circumference) / 100;
 
     // Adjust color and completion percentage based on current emissions
     if (color === 'white') {
@@ -107,6 +97,13 @@ class CarbonUseCircle extends Component {
         color = 'white';  // Set circle color to white if no emissions
       }
     }
+
+    const diameter = 210;
+    const radius = diameter / 2;
+    const strokeWidth = 15;
+    const viewBoxSize = diameter + strokeWidth;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDashoffset = ((100 - percentage) * circumference) / 100;
 
     // Update color based on percentage to visualize emission severity
     if (color !== 'white' && this.props.carbonEmission !== 0) {
@@ -446,33 +443,34 @@ function Mid({ name, id, month, onMonthChange }) {
   const [goalEm, setGoalEm] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
-  // recall useEffect when `month` is changed
+  // Recall useEffect when `month` is changed
   useEffect(() => {
+    // Fetch the total carbon score of the given month from backend API
     const fetchCarbonScore = async () => {
       const data = await API.getCarbonScoreByMonth(id, month.year(), month.month());
       setCarbonEm(data);
     };
 
+    // Updates the goal emission for the current month.
+    const updateGoal = async () => {
+      let ifSet = false;
+      let goals = await API.getUserGoal(id);
+
+      goals.forEach(goalItem => {
+        if ((month.format('YYYY') === goalItem.year) &&
+          (month.format('MMMM') === goalItem.month)) {
+          setGoalEm(goalItem.goal);
+          ifSet = true;
+        }
+      });
+      if (!ifSet) {
+        setGoalEm(0);   // Didn't set a goal for this month 
+      }
+    };
+
     fetchCarbonScore();
     updateGoal();
-  }, [month]);
-
-  // Updates the goal emission for the current month.
-  const updateGoal = async () => {
-    let ifSet = false;
-    let goals = await API.getUserGoal(id);
-
-    goals.map(goalItem => {
-      if ((month.format('YYYY') === goalItem.year) &&
-        (month.format('MMMM') === goalItem.month)) {
-        setGoalEm(goalItem.goal);
-        ifSet = true;
-      }
-    });
-    if (!ifSet) {
-      setGoalEm(0);   // Didn't set a goal for this month 
-    }
-  };
+  }, [month, id]);
 
   // Sets the goal emission for the current month.
   const setGoal = async (inputGoal) => {
