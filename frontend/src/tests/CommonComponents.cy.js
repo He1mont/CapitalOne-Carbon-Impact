@@ -5,6 +5,7 @@ import { GoBackBtn, Logo, SettingBtn, Footer } from '../pages/CommonComponents';
 import styles from '../assets/styles/CommonComponent.module.css';
 import * as reactRouter from 'react-router-dom';
 
+// Components checks
 describe('Common Components', () => {
  
 
@@ -21,7 +22,7 @@ describe('Common Components', () => {
     });
   });
   
-
+ // Footer checks
   context('Footer', () => {
     // Test case to verify that the Footer component renders the expected text correctly
     it('renders the footer text correctly', () => {
