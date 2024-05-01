@@ -19,24 +19,6 @@ describe('<History />', () => {
       cy.get(`.${styles.month_select}`).should('be.visible');
     });
 
-    it('handles API errors', () => {
-        // Mock an API call that returns an error
-        cy.intercept('GET', '/api/data', { statusCode: 500, body: 'Internal Server Error' });
-    
-        mount(
-            <MemoryRouter>
-                <History />
-            </MemoryRouter>
-        );
-    
-      // The test verifies that the component handles the API error appropriately. 
-      //  cy.contains('Failed to fetch data', { timeout: 10000 }).should('be.visible');
-
-      // By mocking the API response to simulate an error condition, 
-      // this test ensures that the History component handles API errors by displaying an appropriate error message to the user.
-    });
-    
-
 
     it('displays the correct title', () => {
         mount(
