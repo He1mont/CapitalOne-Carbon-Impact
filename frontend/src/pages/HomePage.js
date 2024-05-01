@@ -1,13 +1,14 @@
 // HomePage.js
-import React, { useState, useEffect, useRef, Component } from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import styles from '../assets/styles/Home.module.css'; // Import CSS file
-import { SettingBtn, Logo, Footer } from './CommonComponents';
+import styles from '../assets/styles/Home.module.css';          // CSS modules
+import { SettingBtn, Logo, Footer } from './CommonComponents';  // Reused components
 
 /**
  * Head component:
- * Displays the top part of the homepage including the logo and login button.
- * Utilizes useHistory from react-router-dom for navigation.
+ * Displays the top part of the homepage including the logo button.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
 function Head({ name, id }) {
   return (
@@ -21,13 +22,13 @@ function Head({ name, id }) {
 /**
  * Mid component
  * Displays the middle section of the homepage, includes a dropdown for help and user settings.
+ * @param {string} name - Username of the user.
  */
 function Mid({ name }) {
   return (
     <div className={styles.mid_bar}>
       {/* User Information and Carbon Impact Section */}
       <div className={styles.mid_high}>
-
         <div className={styles.mid_high_txt_left}>
           <p>{name}</p>
           <h1>Your Carbon Impact</h1>
@@ -58,23 +59,21 @@ function Mid({ name }) {
 /**
  * Low component:
  * Displays the lower section of the homepage, including buttons for transactions, goals, and history.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
 function Low({ name, id }) {
   const history = useHistory();
 
-  /**
-   * Handles click event to navigate to the Transactions page.
-   */
+  // Handles click event to navigate to the Transactions page.
   function handleTransactionsClick() {
     history.push({
       pathname: '/home/transactions',
       state: { name: name, id: id }
     });
   }
-
-  /**
-   * Handles click event to navigate to the Goals page.
-   */
+  
+  // Handles click event to navigate to the Goals page.
   function handleGoalsClick() {
     history.push({
       pathname: '/home/goals',
@@ -82,9 +81,7 @@ function Low({ name, id }) {
     });
   }
 
-  /**
-   * Handles click event to navigate to the History page.
-   */
+  // Handles click event to navigate to the History page.
   function handleHistoryClick() {
     history.push({
       pathname: '/home/history',
@@ -148,8 +145,8 @@ function Low({ name, id }) {
 }
 
 /**
- * HomePage component
- * Composes the Head, Mid, Low, and Footer components to form the homepage.
+ * HomePage is the primary container component for the application's homepage.
+ * It integrates the Head, Mid, and Low components with user-specific data fetched from the router's location state.
  */
 function HomePage() {
   const location = useLocation();

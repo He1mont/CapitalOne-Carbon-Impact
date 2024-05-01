@@ -1,13 +1,13 @@
+// Login.js
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import styles from "../assets/styles/Login.module.css";
-import * as API from '../services/api';
-import { Logo, Footer } from './CommonComponents';
+import styles from "../assets/styles/Login.module.css"; // CSS styles
+import * as API from '../services/api';                 // API services for backend communication
+import { Logo, Footer } from './CommonComponents';      // Reusable components
 
 /**
  * Head component:
  * Displays the top part of the login page including the logo.
- * The logo serves as a button to redirect the user to the home page.
  */
 function Head() {
   return (
@@ -36,9 +36,7 @@ function Mid({
   const isSuccess = loginMessage.includes("success");
   const history = useHistory();
 
-  /**
-   * Handles click event to navigate to the Help page.
-   */
+  // Redirects user to the Help page
   function handleHelpClick() {
     history.push('/help?prevPage=login');
   }
@@ -46,11 +44,6 @@ function Mid({
   return (
     <div className={styles.midBarLogin}>
       <div className={styles.midHighLogin}></div>
-
-      {/* <div className={styles.homepageImage} >
-        <img src="/images/login2.png" alt="Homepage" />
-      </div> */}
-
       <div className={styles.midCenterLogin}>
         <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
           <h1 className={styles.midBoxTxtTitleLogin}>Log in to your account</h1>
@@ -127,7 +120,6 @@ function Mid({
 
           {/* Help Button */}
           <button className={styles.smallHelpBtn} onClick={handleHelpClick}>? Help</button>
-
         </div>
       </div>
     </div>
@@ -148,37 +140,34 @@ function Login() {
   const [loginMessage, setLoginMessage] = useState("");
   const history = useHistory();
 
+  // Validates user input before submitting
   const isValidInput = () => {
     return email !== "" && password !== ""
   }
 
-  /**
-   * Handles the form submission for logging in.
-   * Validates the user credentials and sets appropriate login messages.
-   * @param {Event} e - Event triggered on form submission.
-   */
+  // Handles login form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();     // Prevent the default form submission behavior
 
-    if (!isValidInput()) {                  // invalid input
+    if (!isValidInput()) {  // Invalid input
       setLoginMessage("Invalid Email or Password!");
 
-    } else {                                // call backend API
-      const data = await API.getAccountByEmail(email);
+    } else {                                
+      const data = await API.getAccountByEmail(email);  // Call backend API
 
-      if (data.length === 0) {              // email does not exist
+      if (data.length === 0) {  // Email does not exist
         setLoginMessage("Email Not Found!");
 
       } else {
         const account = data[0]
 
-        if (account.state === "closed") {   // email is suspended or closed
+        if (account.state === "closed") {   // Email is suspended or closed
           setLoginMessage("Your account has been closed!");
 
         } else if (account.state === "suspended") {
           setLoginMessage("Your account has been suspended!");
 
-        } else {                            // email is open or flagged
+        } else {  // Successfully login
           const username = account.username;
           setLoginMessage("Log in successfully!");
           history.push({
