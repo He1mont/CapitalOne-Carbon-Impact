@@ -93,7 +93,7 @@ class Graphs extends Component {
       dataForBar: [],
       categoryState: this.returnCategoryState(true),
       loading: true,
-      colourCorrection: 3
+      colorTheme: 0
     };
   }
 
@@ -115,7 +115,7 @@ class Graphs extends Component {
 
   // Return an object, each attribute is a category with value representing color
   getColors() {
-    if (this.state.colourCorrection == 0) {
+    if (this.state.colorTheme === 0) {
       return {
         'Entertainment': '#9e0142',
         'Education': '#e66100',
@@ -128,7 +128,7 @@ class Graphs extends Component {
         'Auto & Transport': '#b200ff',
         'Travel': '#cc2ca3'
       };
-    } else if (this.state.colourCorrection == 1) {
+    } else if (this.state.colorTheme === 1) {
       return {
         'Entertainment': '#0051a8',
         'Education': '#006cdd',
@@ -141,7 +141,7 @@ class Graphs extends Component {
         'Auto & Transport': '#c4922a',
         'Travel': '#826219'
       };
-    } else if (this.state.colourCorrection == 2) {
+    } else if (this.state.colorTheme === 2) {
       return {
         'Entertainment': '#8b373b',
         'Education': '#c74c52',
@@ -154,7 +154,7 @@ class Graphs extends Component {
         'Auto & Transport': '#31a1ae',
         'Travel': '#31a1ae'
       };
-    } else if (this.state.colourCorrection == 3) {
+    } else if (this.state.colorTheme === 3) {
       return {
         'Entertainment': '#e0e0e0',
         'Education': '#e0e0e0',
@@ -179,7 +179,11 @@ class Graphs extends Component {
   }
 
   // Loads initial data for all chart types
-  componentDidMount() {
+  async componentDidMount() {
+    const data = await API.getAccountByID(this.props.id)
+    const colorTheme = data[0].colorMode
+
+    this.setState({ colorTheme: colorTheme })
     this.generatePieChartData();
     this.generateLineChartData();
     this.generateBarChartData();
