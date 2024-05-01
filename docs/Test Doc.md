@@ -1,32 +1,32 @@
 # Test Document
-- [Test Document](#test-document)
-  - [Backend Testing](#backend-testing)
-    - [Controller](#controller)
-      - [AccountController](#accountcontroller)
-      - [TransactionController](#transactioncontroller)
-      - [FriendController](#friendcontroller)
-      - [UserGoalController](#usergoalcontroller)
-    - [Service](#service)
-      - [AccountService](#accountservice)
-        - [`getAll()`](#getall)
-        - [`getByID(accountID)`](#getbyidaccountid)
-        - [`getByEmail(email)`](#getbyemailemail)
-        - [`getByUserName(username)`](#getbyusernameusername)
-        - [`updateColorTheme(accountID, newTheme)`](#updatecolorthemeaccountid-newtheme)
-        - [`updateCurrency(accountID, newCurrency)`](#updatecurrencyaccountid-newcurrency)
-      - [TransactionService](#transactionservice)
-        - [`getAllTransactions(accountID)`](#getalltransactionsaccountid)
-        - [`getByID(accountID, transactionID)`](#getbyidaccountid-transactionid)
-        - [`getTransactionsByMonth(accountID, year, month)`](#gettransactionsbymonthaccountid-year-month)
-        - [`getCarbonScoreByMonth(accountID, year, month)`](#getcarbonscorebymonthaccountid-year-month)
-        - [`getCarbonScoreByMonthInCategories(accountID, year, month)`](#getcarbonscorebymonthincategoriesaccountid-year-month)
-      - [FriendService](#friendservice)
-        - [`addByID(accountID, friendID)`](#addbyidaccountid-friendid)
-        - [`getAll(accountID)`](#getallaccountid)
-        - [`deleteFriend(accountID, friendID)`](#deletefriendaccountid-friendid)
-      - [UserGoalService](#usergoalservice)
-        - [`createGoal(accountID, goal, year, month)`](#creategoalaccountid-goal-year-month)
-        - [`getUserGoals(accountID)`](#getusergoalsaccountid)
+- [Backend Testing](#backend-testing)
+  - [Controller](#controller)
+    - [AccountController](#accountcontroller)
+    - [TransactionController](#transactioncontroller)
+    - [FriendController](#friendcontroller)
+    - [UserGoalController](#usergoalcontroller)
+  - [Service](#service)
+    - [AccountService](#accountservice)
+      - [`getAll()`](#getall)
+      - [`getByID(accountID)`](#getbyidaccountid)
+      - [`getByEmail(email)`](#getbyemailemail)
+      - [`getByUserName(username)`](#getbyusernameusername)
+      - [`updateColorTheme(accountID, newTheme)`](#updatecolorthemeaccountid-newtheme)
+      - [`updateCurrency(accountID, newCurrency)`](#updatecurrencyaccountid-newcurrency)
+    - [TransactionService](#transactionservice)
+      - [`getAllTransactions(accountID)`](#getalltransactionsaccountid)
+      - [`getByID(accountID, transactionID)`](#getbyidaccountid-transactionid)
+      - [`getTransactionsByMonth(accountID, year, month)`](#gettransactionsbymonthaccountid-year-month)
+      - [`getCarbonScoreByMonth(accountID, year, month)`](#getcarbonscorebymonthaccountid-year-month)
+      - [`getCarbonScoreByMonthInCategories(accountID, year, month)`](#getcarbonscorebymonthincategoriesaccountid-year-month)
+    - [FriendService](#friendservice)
+      - [`addByID(accountID, friendID)`](#addbyidaccountid-friendid)
+      - [`getAll(accountID)`](#getallaccountid)
+      - [`deleteFriend(accountID, friendID)`](#deletefriendaccountid-friendid)
+    - [UserGoalService](#usergoalservice)
+      - [`createGoal(accountID, goal, year, month)`](#creategoalaccountid-goal-year-month)
+      - [`getUserGoals(accountID)`](#getusergoalsaccountid)
+- Frontend Testing
 
 ## Backend Testing
 
@@ -73,22 +73,21 @@
 #### AccountService
 
 ```js
-    const testAccountID = '12345';
-    const testUsername = 'TestW12345';
-    const testEmail = 'test@outlook.com';
-    testAccount = 
-        {
-            accountID: testAccountID,
-            username: testUsername,
-            email: testEmail,
-            colorMode: 0,
-            currency: 'USD',
-            firstName: 'Test',
-            lastName: 'Test',
-            phone: 'Test',
-            address: 'Test',
-            state: 'Test',
-        }
+const testAccountID = '12345';
+const testUsername = 'TestW12345';
+const testEmail = 'test@outlook.com';
+testAccount = {
+    accountID: testAccountID,
+    username: testUsername,
+    email: testEmail,
+    colorMode: 0,
+    currency: 'USD',
+    firstName: 'Test',
+    lastName: 'Test',
+    phone: 'Test',
+    address: 'Test',
+    state: 'Test',
+}
 ```
 
 ##### `getAll()` 
@@ -137,49 +136,49 @@
 #### TransactionService
 
 ```js
-    const testAccountID = '12345';
-    const testTransactionID1 = 'abcde';
-    const testTransactionID2 = 'abcdf';
-    const testYear = 2024;
-    const testMonth = 3; // April (0-indexed)
-    testAccount = 
-        {
-            accountID: testAccountID,
-            username: 'TestW12345',
-            email: 'test@outlook.com',
-            colorMode: 0,
-            currency: 'USD',
-            firstName: 'Test',
-            lastName: 'Test',
-            phone: 'Test',
-            address: 'Test',
-            state: 'Test',
-        }
-    testTransactions = 
-        [{
-            accountID: testAccountID,
-            transactionUUID: testTransactionID1,
-            date: new Date(testYear, testMonth, 1),
-            carbonScore: 10,
-            category: 'Food & Dining',
-            amount: 100,
-            merchantName: 'Test',
-            indicator: 'Test',
-            currency: 'Test',
-            status: 'Test',
-        },
-        {
-            accountID: testAccountID,
-            transactionUUID: testTransactionID2,
-            date: new Date(testYear, testMonth, 5),
-            carbonScore: 5,
-            category: 'Entertainment',
-            amount: 200,
-            merchantName: 'Test',
-            indicator: 'Test',
-            currency: 'Test',
-            status: 'Test',
-        }]
+const testAccountID = '12345';
+const testTransactionID1 = 'abcde';
+const testTransactionID2 = 'abcdf';
+const testYear = 2024;
+const testMonth = 3; // April (0-indexed)
+testAccount = {
+    accountID: testAccountID,
+    username: 'TestW12345',
+    email: 'test@outlook.com',
+    colorMode: 0,
+    currency: 'USD',
+    firstName: 'Test',
+    lastName: 'Test',
+    phone: 'Test',
+    address: 'Test',
+    state: 'Test',
+}
+testTransactions = [
+    {
+        accountID: testAccountID,
+        transactionUUID: testTransactionID1,
+        date: new Date(testYear, testMonth, 1),
+        carbonScore: 10,
+        category: 'Food & Dining',
+        amount: 100,
+        merchantName: 'Test',
+        indicator: 'Test',
+        currency: 'Test',
+        status: 'Test',
+    },
+    {
+        accountID: testAccountID,
+        transactionUUID: testTransactionID2,
+        date: new Date(testYear, testMonth, 5),
+        carbonScore: 5,
+        category: 'Entertainment',
+        amount: 200,
+        merchantName: 'Test',
+        indicator: 'Test',
+        currency: 'Test',
+        status: 'Test',
+    }
+]
 ```
 
 ##### `getAllTransactions(accountID)` 
