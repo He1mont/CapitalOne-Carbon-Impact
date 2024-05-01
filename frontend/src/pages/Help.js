@@ -222,24 +222,8 @@ function Low({ name, id }) {
                 onClose={() => setOpenPasswordPopup(false)}
               />
             </th>
-
-            {/* User Manual link */}
-            <th>
-              <button
-                className={styles.low_bar_btn}
-                onClick={handleUserManual}>
-                <img
-                  src="/images/linkToUserManual.png"
-                  className={styles.low_bar_btn_img}
-                  alt="User Manual"
-                />
-                <h2 className={styles.low_bar_btn_title}>User Manual</h2>
-                <p className={styles.low_bar_btn_sub}>
-                  Check our detailed user guide for more information.
-                </p>
-              </button>
-            </th>
           </tr>
+          <br></br>
           <tr>
             {/* Seeing account details section with popup */}
             <th>
@@ -288,27 +272,21 @@ function Low({ name, id }) {
               />
             </th>
             
-            {/* Contact us section with popup */}
+            {/* User Manual link */}
             <th>
               <button
                 className={styles.low_bar_btn}
-                onClick={() => setOpenContactPopup(true)}
-              >
+                onClick={handleUserManual}>
                 <img
-                  src="/images/contact-us.png"
+                  src="/images/linkToUserManual.png"
                   className={styles.low_bar_btn_img}
-                  alt="contact"
+                  alt="User Manual"
                 />
-                <h2 className={styles.low_bar_btn_title}> Contact us</h2>
+                <h2 className={styles.low_bar_btn_title}>User Manual</h2>
                 <p className={styles.low_bar_btn_sub}>
-                  We're here to assist you with any questions, concerns, or
-                  feedback you may...
+                  Check our detailed user guide for more information.
                 </p>
               </button>
-              <ContactPopup
-                open={openContactPopup}
-                onClose={() => setOpenContactPopup(false)}
-              />
             </th>
           </tr>
         </tbody>
@@ -340,7 +318,7 @@ function Help() {
     // Load the Kommunicate chat widget script dynamically and configure it
     (function (d, m) {
       var kommunicateSettings = {
-        appId: "4ff9d4f79551f6d18d4b7ae38565b9b4",
+        appId: "1051cabdc243ee6454658b09be71080da",
         popupWidget: true,
         automaticChatOpenOnNavigation: true,
       };
