@@ -31,13 +31,6 @@ class AccountController extends Controller {
   async getByEmail() {
     const { ctx, service } = this;
     const { email } = ctx.request.query; // Extracting email from request query
-
-    // Validate the presence of the email parameter
-    // if (!email) {
-    //   ctx.status = 400; // Bad Request
-    //   ctx.body = { error: 'Email parameter is missing' };
-    //   return;
-    // }
     ctx.validate({
       email: 'email',
     }, ctx.request.query);
@@ -50,18 +43,19 @@ class AccountController extends Controller {
   async getByUserName() {
     const { ctx, service } = this;
     const { username } = ctx.request.query;
-
-    // Validate the presence of the username parameter
-    // if (!username) {
-    //   ctx.status = 400; // Bad Request
-    //   ctx.body = { error: 'Username parameter is missing' };
-    //   return;
-    // }
-    // Validate the type of the username parameter
-    ctx.validate({
+    ctx.validate({ // Validate the type of the username parameter
       username: 'string',
     }, ctx.request.query);
     const res = await service.account.getByUserName(username); // Call the service method to get account by username
+    ctx.status = 200;
+    ctx.body = res;
+  }
+
+  // Method to get the balance by ID
+  async getBalance() {
+    const { ctx, service } = this;
+    const id = ctx.params.id; // Extracting account ID from request parameters
+    const res = await service.account.getBalance(id); // Call the service method to get account by username
     ctx.status = 200;
     ctx.body = res;
   }

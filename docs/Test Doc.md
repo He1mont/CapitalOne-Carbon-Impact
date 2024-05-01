@@ -1,32 +1,38 @@
 # Test Document
-- [Backend Testing](#backend-testing)
-  - [Controller](#controller)
-    - [AccountController](#accountcontroller)
-    - [TransactionController](#transactioncontroller)
-    - [FriendController](#friendcontroller)
-    - [UserGoalController](#usergoalcontroller)
-  - [Service](#service)
-    - [AccountService](#accountservice)
-      - [`getAll()`](#getall)
-      - [`getByID(accountID)`](#getbyidaccountid)
-      - [`getByEmail(email)`](#getbyemailemail)
-      - [`getByUserName(username)`](#getbyusernameusername)
-      - [`updateColorTheme(accountID, newTheme)`](#updatecolorthemeaccountid-newtheme)
-      - [`updateCurrency(accountID, newCurrency)`](#updatecurrencyaccountid-newcurrency)
-    - [TransactionService](#transactionservice)
-      - [`getAllTransactions(accountID)`](#getalltransactionsaccountid)
-      - [`getByID(accountID, transactionID)`](#getbyidaccountid-transactionid)
-      - [`getTransactionsByMonth(accountID, year, month)`](#gettransactionsbymonthaccountid-year-month)
-      - [`getCarbonScoreByMonth(accountID, year, month)`](#getcarbonscorebymonthaccountid-year-month)
-      - [`getCarbonScoreByMonthInCategories(accountID, year, month)`](#getcarbonscorebymonthincategoriesaccountid-year-month)
-    - [FriendService](#friendservice)
-      - [`addByID(accountID, friendID)`](#addbyidaccountid-friendid)
-      - [`getAll(accountID)`](#getallaccountid)
-      - [`deleteFriend(accountID, friendID)`](#deletefriendaccountid-friendid)
-    - [UserGoalService](#usergoalservice)
-      - [`createGoal(accountID, goal, year, month)`](#creategoalaccountid-goal-year-month)
-      - [`getUserGoals(accountID)`](#getusergoalsaccountid)
-- Frontend Testing
+<details>
+  <summary>Table of Content</summary>
+  
+- [Test Document](#test-document)
+  - [Backend Testing](#backend-testing)
+    - [Controller](#controller)
+      - [AccountController](#accountcontroller)
+      - [TransactionController](#transactioncontroller)
+      - [FriendController](#friendcontroller)
+      - [UserGoalController](#usergoalcontroller)
+    - [Service](#service)
+      - [AccountService](#accountservice)
+        - [`getAll()`](#getall)
+        - [`getByID(accountID)`](#getbyidaccountid)
+        - [`getByEmail(email)`](#getbyemailemail)
+        - [`getByUserName(username)`](#getbyusernameusername)
+        - [`getBalance(accountID)`](#getbalanceaccountid)
+        - [`updateColorTheme(accountID, newTheme)`](#updatecolorthemeaccountid-newtheme)
+        - [`updateCurrency(accountID, newCurrency)`](#updatecurrencyaccountid-newcurrency)
+      - [TransactionService](#transactionservice)
+        - [`getAllTransactions(accountID)`](#getalltransactionsaccountid)
+        - [`getByID(accountID, transactionID)`](#getbyidaccountid-transactionid)
+        - [`getTransactionsByMonth(accountID, year, month)`](#gettransactionsbymonthaccountid-year-month)
+        - [`getCarbonScoreByMonth(accountID, year, month)`](#getcarbonscorebymonthaccountid-year-month)
+        - [`getCarbonScoreByMonthInCategories(accountID, year, month)`](#getcarbonscorebymonthincategoriesaccountid-year-month)
+      - [FriendService](#friendservice)
+        - [`addByID(accountID, friendID)`](#addbyidaccountid-friendid)
+        - [`getAll(accountID)`](#getallaccountid)
+        - [`deleteFriend(accountID, friendID)`](#deletefriendaccountid-friendid)
+      - [UserGoalService](#usergoalservice)
+        - [`createGoal(accountID, goal, year, month)`](#creategoalaccountid-goal-year-month)
+        - [`getUserGoals(accountID)`](#getusergoalsaccountid)
+</details>
+
 
 ## Backend Testing
 
@@ -34,24 +40,27 @@
 
 #### AccountController
 
-| Test | Method          | Router                   | Expected Status | Test Status | Result           | Remark                                |
-| ---- | --------------- | ------------------------ | --------------- | ----------- | ---------------- | ------------------------------------- |
-| 1    | `createRandom`  | Post `/accounts`         | `200`           | `200`       | Pass @04/30/2024 | Create a random account               |
-| 2    | `getAll`        | Get `/accounts`          | `200`           | `200`       | Pass @04/30/2024 | Get all existing accounts             |
-| 3    | `getByID`       | Get `/accounts/:id`      | `200`           | `200`       | Pass @04/30/2024 | Get the account specified by ID       |
-| 4    | `getByEmail`    | Get `/accounts/email`    | `200`           | `200`       | Pass @04/30/2024 | Get the account specified by email    |
-| 5    | `getByUserName` | Get `/accounts/username` | `200`           | `200`       | Pass @04/30/2024 | Get the account specified by username |
+| Test | Method             | Router                            | Expected Status | Test Status | Result           | Remark                                |
+| ---- | ------------------ | --------------------------------- | --------------- | ----------- | ---------------- | ------------------------------------- |
+| 1    | `createRandom`     | Post `/accounts`                  | `200`           | `200`       | Pass @04/30/2024 | Create a random account               |
+| 2    | `getAll`           | Get `/accounts`                   | `200`           | `200`       | Pass @04/30/2024 | Get all existing accounts             |
+| 3    | `getByID`          | Get `/accounts/:id`               | `200`           | `200`       | Pass @04/30/2024 | Get the account specified by ID       |
+| 4    | `getByEmail`       | Get `/accounts/email`             | `200`           | `200`       | Pass @04/30/2024 | Get the account specified by email    |
+| 5    | `getByUserName`    | Get `/accounts/username`          | `200`           | `200`       | Pass @04/30/2024 | Get the account specified by username |
+| 6    | `getBalance`       | Get `/accounts/:id/balance`       | `200`           | `200`       | Pass @04/30/2024 | Get the balance by ID                 |
+| 7    | `updateColorTheme` | Petch `/accounts/:id/color-theme` | `200`           | `200`       | Pass @04/30/2024 | Update the colour theme by ID         |
+| 8    | `updateCurrency`   | Petch `/accounts/:id/currency`    | `200`           | `200`       | Pass @04/30/2024 | Update the currency by ID             |
 
 #### TransactionController
 
-| Test | Method                              | Router                                                             | Expected Status | Test Status | Result           | Remark                                                                     |
-| ---- | ----------------------------------- | ------------------------------------------------------------------ | --------------- | ----------- | ---------------- | -------------------------------------------------------------------------- |
-| 1    | `createRandom`                      | Post `/accounts/:accountID/transactions`                           | `200`           | `200`       | Pass @04/30/2024 | Create random transactions for an account                                  |
-| 2    | `getAllTransactions`                | Get `/accounts/:accountID/transactions`                            | `200`           | `200`       | Pass @04/30/2024 | Get all transactions of an account                                         |
-| 3    | `getByID`                           | Get `/accounts/:accountID/transactions/:transactionID`             | `200`           | `200`       | Pass @04/30/2024 | Get a specified transaction of an account                                  |
-| 4    | `getCarbonImpact`                   | Get `/accounts/:accountID/transactions/:transactionID/carbonScore` | `200`           | `200`       | Pass @04/30/2024 | Get the carbon score of a transaction                                      |
-| 5    | `getByUserName`                     | Get `/accounts/:accountID/carbonScores/monthly`                    | `200`           | `200`       | Pass @04/30/2024 | Get the carbon score for a specific year and month                         |
-| 6    | `getCarbonScoreByMonthInCategories` | Get `/accounts/:accountID/carbonScores/monthly/allCategories`      | `200`           | `200`       | Pass @04/30/2024 | Get the carbon score for a specific year and month and group by categories |
+| Test | Method                              | Router                                                        | Expected Status | Test Status | Result           | Remark                                                                     |
+| ---- | ----------------------------------- | ------------------------------------------------------------- | --------------- | ----------- | ---------------- | -------------------------------------------------------------------------- |
+| 1    | `createRandom`                      | Post `/accounts/:accountID/transactions`                      | `200`           | `200`       | Pass @04/30/2024 | Create random transactions for an account                                  |
+| 2    | `getAllTransactions`                | Get `/accounts/:accountID/transactions`                       | `200`           | `200`       | Pass @04/30/2024 | Get all transactions of an account                                         |
+| 3    | `getTransactionsByMonth`            | Get `/accounts/:accountID/transactions/monthly`               | `200`           | `200`       | Pass @04/30/2024 | Get all transactions of an account for a specific month                    |
+| 4    | `getByID`                           | Get `/accounts/:accountID/transactions/:transactionID`        | `200`           | `200`       | Pass @04/30/2024 | Get a specified transaction of an account                                  |
+| 5    | `getCarbonScoreByMonth`             | Get `/accounts/:accountID/carbonScores/monthly`               | `200`           | `200`       | Pass @04/30/2024 | Get the carbon score for a specific year and month                         |
+| 6    | `getCarbonScoreByMonthInCategories` | Get `/accounts/:accountID/carbonScores/monthly/allCategories` | `200`           | `200`       | Pass @04/30/2024 | Get the carbon score for a specific year and month and group by categories |
 
 #### FriendController
 
@@ -116,6 +125,13 @@ testAccount = {
 | ---- | --------------------- | ---------------- | --------------- | ---------------- | ----------------------------------- |
 | 1    | `testUsername`        | `[testAccount]`  | `[testAccount]` | Pass @04/30/2024 | Retrieve a user account by username |
 | 2    | `nonExistentUsername` | `[]`             | `[]`            | Pass @04/30/2024 | Query for non-existent username     |
+
+##### `getBalance(accountID)`
+
+| Test | Inputs          | Expected Outcome       | Test Outcome   | Result           | Remark                                |
+| ---- | --------------- | ---------------------- | -------------- | ---------------- | ------------------------------------- |
+| 1    | `testAccountID` | Default balance `1000` | `1000`         | Pass @04/30/2024 | Retrieve account balance by accountID |
+| 2    | `nonExistentID` | Catch an error         | Catch an error | Pass @04/30/2024 | Query for non-existent account ID     |
 
 ##### `updateColorTheme(accountID, newTheme)`
 

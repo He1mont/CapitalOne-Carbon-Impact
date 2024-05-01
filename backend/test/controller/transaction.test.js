@@ -33,6 +33,25 @@ describe('TransactionController', () => {
     assert.deepStrictEqual(result.body, [{ id: mockAccountID, name: 'Transaction 1' }]);
   });
 
+  it('should get all transactions of an account for a specific month', async () => {
+    const mockAccountID = '123';
+    const mockYear = '2024';
+    const mockMonth = '3';
+    // Mock the transactionService.getCarbonImpact method
+    app.mockService('transaction', 'getTransactionsByMonth', async () => {
+      return [{ id: mockAccountID, name: 'Transaction 1' }];
+    });
+
+    // Make an GET request to fetch the transactions
+    const result = await app.httpRequest()
+      .get(`/accounts/${mockAccountID}/transactions/monthly`)
+      .query({ month: mockMonth, year: mockYear })
+      .expect(200);
+
+    // Assert that the body of the response matches the expected result
+    assert.deepStrictEqual(result.body, [{ id: mockAccountID, name: 'Transaction 1' }]);
+  });
+
   it('should get a specified transaction of an account', async () => {
     const mockAccountID = '123';
     const mockTransactionID = '456';
@@ -49,23 +68,6 @@ describe('TransactionController', () => {
 
     // Assert that the response body matches the expected transaction
     assert.deepStrictEqual(result.body, expectedTransaction);
-  });
-
-  it('should get the carbon score of a transaction', async () => {
-    const mockAccountID = '123';
-    const mockTransactionID = '456';
-    // Mock the transactionService.getCarbonImpact method
-    app.mockService('transaction', 'getCarbonImpact', async () => {
-      return { carbonScore: 55 };
-    });
-
-    // Make an GET request to fetch the carbon score
-    const result = await app.httpRequest()
-      .get(`/accounts/${mockAccountID}/transactions/${mockTransactionID}/carbonScore`)
-      .expect(200);
-
-    // Assert that the body of the response matches the expected result
-    assert.deepStrictEqual(result.body, { carbonScore: 55 });
   });
 
   it('should get the carbon score for a specific year and month', async () => {

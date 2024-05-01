@@ -89,9 +89,35 @@ class TransactionService extends Service {
           },
         });
       }
+
+      // Update Balance for this account
+      this.updateBalance(id, response.data.newBalance);
+
       return response.data;
     } catch (error) {
       // Throw error if request fails
+      throw new Error(error.response ? error.response.data : error.message);
+    }
+  }
+
+  /**
+   * Update the balance of an account
+   * @param {string} id - The ID of the account.
+   * @param {float} newBalance - The new balance to update.
+   * @return {Object} The updated account.
+   */
+  async updateBalance(id, newBalance) {
+    try {
+      await prisma.account.update({
+        where: {
+          accountID: id,
+        },
+        data: {
+          balance: newBalance,
+        },
+      });
+    } catch (error) {
+      error.messgae('Invalid Balance!');
       throw new Error(error.response ? error.response.data : error.message);
     }
   }
