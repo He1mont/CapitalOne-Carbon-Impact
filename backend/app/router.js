@@ -18,9 +18,8 @@ module.exports = app => {
   router.get('/accounts/:id/transactions', controller.transaction.getAllTransactions);
   router.get('/accounts/:id/transactions/monthly', controller.transaction.getTransactionsByMonth);
   router.get('/accounts/:accountID/transactions/:transactionID', controller.transaction.getByID);
-  router.get('/accounts/:accountID/transactions/:transactionID/carbonScore', controller.transaction.getCarbonImpact);
   router.get('/accounts/:accountID/carbonScores/monthly', controller.transaction.getCarbonScoreByMonth);
-  router.get('/accounts/:accountID/carbonScores/monthly/allCategories', controller.transaction.getCarbonScoreByMonthInCaregories);
+  router.get('/accounts/:accountID/carbonScores/monthly/allCategories', controller.transaction.getCarbonScoreByMonthInCategories);
   // Friends
   router.post('/accounts/:accountID/friends/:friendID', controller.friend.addByID);
   router.delete('/accounts/:accountID/friends/:friendID', controller.friend.deleteFriend);

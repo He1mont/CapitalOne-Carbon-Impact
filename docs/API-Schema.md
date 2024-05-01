@@ -1,161 +1,222 @@
-# API Design
+# API Schema
+
+- [API Schema](#api-schema)
+  - [Account](#account)
+    - [Create a random account](#create-a-random-account)
+    - [Get all accounts](#get-all-accounts)
+    - [Get an account by username](#get-an-account-by-username)
+    - [Get an account by email](#get-an-account-by-email)
+    - [Get an account by accountID](#get-an-account-by-accountid)
+    - [Update the color theme for an account](#update-the-color-theme-for-an-account)
+    - [Update the currency mode for an account](#update-the-currency-mode-for-an-account)
+  - [Transaction](#transaction)
+    - [Create random transactions for an account](#create-random-transactions-for-an-account)
+    - [Get all transactions by accountID](#get-all-transactions-by-accountid)
+    - [Get transactions by month](#get-transactions-by-month)
+    - [Get a transaction by accountID and transactionID](#get-a-transaction-by-accountid-and-transactionid)
+    - [Get carbon score by month](#get-carbon-score-by-month)
+    - [Get carbon score by month in categories](#get-carbon-score-by-month-in-categories)
+  - [Friends](#friends)
+    - [Add a friend by their IDs](#add-a-friend-by-their-ids)
+    - [Get all following users for an account](#get-all-following-users-for-an-account)
+    - [Delete a following relationship](#delete-a-following-relationship)
+  - [User Goals](#user-goals)
+    - [Create a user goal](#create-a-user-goal)
+    - [Get all goals for an account](#get-all-goals-for-an-account)
 
 ## Account
-
-### 1. Create a random account
+### Create a random account
 
 - POST `/accounts`
-
-- sample output
-
+- Sample Output
     ```json
         {
-            "firstname":"Agustin",
-            "creditScore":"253",
-            "liveBalance":"false",
-            "lastname":"Klein",
-            "accountId":"62839645",
-            "developerId":"9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
-            "phoneNumber":"+44806234270",
-            "balance":"378.0",
-            "creditLimit":"0.0",
-            "uci":"035329",
-            "riskScore":"25",
-            "state":"open",
-            "currencyCode":"GBP",
-            "email":"Agustin.Klein@bmail.com",
-            "productType":"Debit",
-            "homeAddress":"44 Mill Way, Walthamstow, United Kingdom"
+            "firstname": "Dudley",
+            "creditScore": "343",
+            "liveBalance": "false",
+            "lastname": "Beahan",
+            "accountId": "42636885",
+            "developerId": "9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
+            "phoneNumber": "+44838528746",
+            "balance": "1173.0",
+            "creditLimit": "0.0",
+            "uci": "836632",
+            "riskScore": "36",
+            "state": "flagged",
+            "currencyCode": "GBP",
+            "email": "Dudley.Beahan@emailprovider.com",
+            "productType": "Debit",
+            "homeAddress": "96 Oak Drive, Glasgow, United Kingdom"
         }
     ```
 
-- There will be a username created for this user and store in the database
-   - id
-   - username
-   - accountID
-
-
-### 2. Get all accounts
+### Get all accounts
 
 - GET `/accounts`
-
-- sample output
-
-    ```json
-    {
-        "Accounts":[
-            {
-                "creditScore":"390",
-                "firstname":"Jackqueline",
-                "liveBalance":"false",
-                "lastname":"Reichel",
-                "accountId":"26639675",
-                "phoneNumber":"+44896761206",
-                "developerId":"9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
-                "balance":"781",
-                "creditLimit":"781",
-                "uci":"307156",
-                "riskScore":"30",
-                "state":"suspended",
-                "currencyCode":"GBP",
-                "productType":"Credit",
-                "email":"Jackqueline.Reichel@freeemailservice.com",
-                "homeAddress":"78 Country Drive, Thornbury, United Kingdom"
-            },
-            {
-                "creditScore":"489",
-                "firstname":"Marine",
-                "liveBalance":"false",
-                "lastname":"Block",
-                "accountId":"52434597",
-                "phoneNumber":"+44881492542",
-                "developerId":"9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
-                "balance":"224",
-                "creditLimit":"0",
-                "uci":"421302",
-                "riskScore":"80",
-                "state":"closed",
-                "currencyCode":"EUR",
-                "productType":"Debit",
-                "email":"Marine.Block@emailshere.com",
-                "homeAddress":"94 Oliver Street, Irvine, United Kingdom"
-            },
-            {
-                "creditScore":"332",
-                "firstname":"Shakira",
-                "liveBalance":"false",
-                "lastname":"Von",
-                "accountId":"11948520",
-                "phoneNumber":"+44806755286",
-                "developerId":"9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
-                "balance":"1462",
-                "creditLimit":"1462",
-                "uci":"084989",
-                "riskScore":"42",
-                "state":"flagged",
-                "currencyCode":"EUR",
-                "productType":"Credit",
-                "email":"Shakira.Von@bmail.com",
-                "homeAddress":"79 Fairbank Close, Durham, United Kingdom"
-            }
-        ]
-    }
-    ```
-
-
-### 3. Get an account by accountID
-
-- GET `/accounts/:accountID`
-
-- sample output
-    - by account `00428702`
-
+- Sample Output
     ```json
         {
-            "Accounts": [
+            "Accounts":[
                 {
-                    "accountId": "00428702",
-                    "firstname": "Orval",
-                    "phoneNumber": "+44863579571",
-                    "developerId": "123",
-                    "uci": "856747",
-                    "riskScore": "35",
-                    "creditScore": "600",
-                    "currencyCode": "GBP",
-                    "productType": "Debit",
-                    "email": "Orval.Schuster@sendemails.com",
-                    "lastname": "Schuster",
-                    "homeAddress": "18 Fairbank Avenue, Bexleyheath, United Kingdom",
+                    "id": 10,
+                    "accountID": "35984412",
+                    "username": "NaomiC39266",
+                    "firstName": "Naomi",
+                    "lastName": "Cassin",
+                    "email": "Naomi.Cassin@freeemailservice.com",
+                    "phone": "+44839663691",
+                    "address": "45 Bank Road, Sheffield, United Kingdom",
+                    "currency": "GBP",
+                    "state": "closed",
+                    "colorMode": 0
+                },
+                {
+                    "id": 11,
+                    "accountID": "84528128",
+                    "username": "AhmedK60774",
+                    "firstName": "Ahmed",
+                    "lastName": "King",
+                    "email": "Ahmed.King@freeemailservice.com",
+                    "phone": "+44836122509",
+                    "address": "37 South Avenue, Ayr, United Kingdom",
+                    "currency": "GBP",
                     "state": "open",
-                    "creditLimit": "0",
-                    "balance": "1000",
-                    "liveBalance": "false"
-                }
+                    "colorMode": 0
+                },
+                {
+                    "id": 12,
+                    "accountID": "60905847",
+                    "username": "WillisG15897",
+                    "firstName": "Willis",
+                    "lastName": "Goldner",
+                    "email": "Willis.Goldner@sendemails.com",
+                    "phone": "+44834506673",
+                    "address": "94 Orchard Street, Romford, United Kingdom",
+                    "currency": "GBP",
+                    "state": "closed",
+                    "colorMode": 0
+                },
             ]
         }
     ```
 
-### 4. Get an account by email
+### Get an account by username
 
-- GET `/accounts/:email`
-- Return the corresponding accountID if the email is found; otherwise print an error message.
-
-- sample output
-    - by email `Hunter.Schroeder@emailshere.com`
-
+- GET `/accounts/username`
+    - Query Params: `username`
+- Sample Output
     ```json
-        "04295728"
+        [
+            {
+                "id": 10,
+                "accountID": "35984412",
+                "username": "NaomiC39266",
+                "firstName": "Naomi",
+                "lastName": "Cassin",
+                "email": "Naomi.Cassin@freeemailservice.com",
+                "phone": "+44839663691",
+                "address": "45 Bank Road, Sheffield, United Kingdom",
+                "currency": "GBP",
+                "state": "closed",
+                "colorMode": 0
+            }
+        ]
     ```
 
 
+### Get an account by email
+
+- GET `/accounts/email`
+    - Query Params: `email`
+- Sample Output
+    ```json
+        [
+            {
+                "id": 13,
+                "accountID": "25197003",
+                "username": "GeorgeannW83460",
+                "firstName": "Georgeann",
+                "lastName": "Weimann",
+                "email": "Georgeann.Weimann@sendemails.com",
+                "phone": "+44855659809",
+                "address": "36 Lower Drive, Peterborough, United Kingdom",
+                "currency": "EUR",
+                "state": "flagged",
+                "colorMode": 0
+            }
+        ]
+    ```
+
+### Get an account by accountID
+
+- GET `/accounts/:id`
+- Sample Output
+    ```json
+        [
+            {
+                "id": 16,
+                "accountID": "45843190",
+                "username": "WhitneyK13015",
+                "firstName": "Whitney",
+                "lastName": "Koelpin",
+                "email": "Whitney.Koelpin@booglemail.co.uk",
+                "phone": "+44854344242",
+                "address": "8 Richmond Drive, Port Talbot, United Kingdom",
+                "currency": "GBP",
+                "state": "open",
+                "colorMode": 0
+            }
+        ]
+    ```
+
+
+### Update the color theme for an account
+
+- PATCH `/accounts/:id/color-theme`
+    - Body: `newTheme`
+- Sample Output
+    ```json
+        {
+            "id": 16,
+            "accountID": "45843190",
+            "username": "WhitneyK13015",
+            "firstName": "Whitney",
+            "lastName": "Koelpin",
+            "email": "Whitney.Koelpin@booglemail.co.uk",
+            "phone": "+44854344242",
+            "address": "8 Richmond Drive, Port Talbot, United Kingdom",
+            "currency": "GBP",
+            "state": "open",
+            "colorMode": 2
+        }
+    ```
+
+### Update the currency mode for an account
+
+- PATCH `/accounts/:id/currency`
+    - Body: `newCurr`
+- Sample Output
+    ```json
+        {
+            "id": 16,
+            "accountID": "45843190",
+            "username": "WhitneyK13015",
+            "firstName": "Whitney",
+            "lastName": "Koelpin",
+            "email": "Whitney.Koelpin@booglemail.co.uk",
+            "phone": "+44854344242",
+            "address": "8 Richmond Drive, Port Talbot, United Kingdom",
+            "currency": "USD",
+            "state": "open",
+            "colorMode": 2
+        }
+    ```
+
 ## Transaction
-### 5. Create 3 random transactions by accountID
+### Create random transactions for an account
 
-- POST `account/:accountID/transactions`
-
-- sample output
-    - by account `21950161`
-
+- POST `accounts/:id/transactions`
+- Sample Output
     ```json
         {
             "Transactions": [
@@ -227,317 +288,252 @@
     ``` 
 
 
-### 6. Get all transactions by accountID
+### Get all transactions by accountID
 
-- GET `account/:accountID/transactions`
-
-- sample output
-    - by account `72965642`
-
+- GET `accounts/:id/transactions`
+- Sample Output
     ```json
-        {
-            "Transactions": [
-                {
-                    "transactionUUID": "0673bca4-fbb2-46bd-aa76-36243305ceed",
-                    "accountUUID": "72965642",
-                    "merchant": {
-                        "name": "Capital Two",
-                        "category": "Bills & Utilities",
-                        "description": "Credit Card Company",
-                        "pointOfSale": ["Online"]
-                    },
-                    "amount": 843.92,
-                    "creditDebitIndicator": "Debit",
-                    "currency": "GBP",
-                    "timestamp": "2019-05-20 10:51:33",
-                    "emoji": "🤑",
-                    "latitude": -4.38849,
-                    "longitude": 52.33594,
-                    "status": "Successful",
-                    "message": "Weekly groceries shopping",
-                    "pointOfSale": "Online"
-                },
-                {
-                    "transactionUUID": "093c805f-31c1-4721-8642-b7e9a09964f0",
-                    "accountUUID": "72965642",
-                    "merchant": {
-                        "name": "Blahbucks",
-                        "category": "Food & Dining",
-                        "description": "Supplying all your coffee needs",
-                        "pointOfSale": ["In-store"]
-                    },
-                    "amount": 517.06,
-                    "creditDebitIndicator": "Credit",
-                    "currency": "GBP",
-                    "timestamp": "2019-07-09 11:47:47",
-                    "emoji": "🥰",
-                    "latitude": -1.86852,
-                    "longitude": 53.39733,
-                    "status": "Successful",
-                    "message": "Holiday souvenirs",
-                    "pointOfSale": "In-store"
-                }
-            ]
-        }
+        [
+            {
+                "id": 71,
+                "transactionUUID": "d3077864-973c-4c84-b232-2c987280eb49",
+                "accountID": "42636885",
+                "merchantName": "McFairbank",
+                "category": "Food & Dining",
+                "currency": "GBP",
+                "amount": -125.9,
+                "status": "Successful",
+                "indicator": "Debit",
+                "date": "2024-01-05T03:31:05.000Z",
+                "carbonScore": 139
+            },
+            {
+                "id": 72,
+                "transactionUUID": "895380ad-186f-4bdb-b652-d5a2aa3e5995",
+                "accountID": "42636885",
+                "merchantName": "Masalas",
+                "category": "Shopping",
+                "currency": "GBP",
+                "amount": -58.17,
+                "status": "Successful",
+                "indicator": "Credit",
+                "date": "2024-02-28T22:52:42.000Z",
+                "carbonScore": 65
+            },
+            {
+                "id": 73,
+                "transactionUUID": "be54d4ee-c640-4b14-affa-6ed238d98adc",
+                "accountID": "42636885",
+                "merchantName": "Fact News",
+                "category": "Education",
+                "currency": "GBP",
+                "amount": -119.99,
+                "status": "Successful",
+                "indicator": "Debit",
+                "date": "2023-12-15T02:01:24.000Z",
+                "carbonScore": 66
+            }
+        ]
     ```
 
-### 7. Get a transaction by accountID and transactionID
+### Get transactions by month
 
-- GET `account/:accountID/transactions/:transactionID`
-
-- sample output
-    - by account `72965642`
-    - by transaction `69082761-2c4e-450b-90bb-5570cd76881e`
-
+- GET `accounts/:id/transactions/monthly`
+    - Query Params: `month`, `year`
+- Sample Output
     ```json
-        {
-            "Transactions": [
-                {
-                    "transactionUUID": "69082761-2c4e-450b-90bb-5570cd76881e",
-                    "accountUUID": "72965642",
-                    "merchant": {
-                        "name": "Capital Two",
-                        "category": "Bills & Utilities",
-                        "description": "Credit Card Company",
-                        "pointOfSale": ["Online"]
-                    },
-                    "amount": 12.98,
-                    "creditDebitIndicator": "Credit",
-                    "currency": "INR",
-                    "timestamp": "2019-10-25 08:19:03",
-                    "emoji": "🧐",
-                    "latitude": -3.67859,
-                    "longitude": 53.6952,
-                    "status": "Pending",
-                    "message": "Back to school essentials",
-                    "pointOfSale": "Online"
-                }
-            ]
-        }
+        [
+            {
+                "id": 3,
+                "transactionUUID": "ffb27d0a-654b-4850-9ada-084063a3e82a",
+                "accountID": "84528128",
+                "merchantName": "CatShoes",
+                "category": "Personal Care",
+                "currency": "GBP",
+                "amount": -79.99,
+                "status": "Successful",
+                "indicator": "Debit",
+                "date": "2024-04-13T06:50:38.000Z",
+                "carbonScore": 44
+            },
+            {
+                "id": 7,
+                "transactionUUID": "4fd732ea-8d70-411b-9998-77b94b83c635",
+                "accountID": "84528128",
+                "merchantName": "Car Stickers",
+                "category": "Auto & Transport",
+                "currency": "GBP",
+                "amount": 8829.5,
+                "status": "Successful",
+                "indicator": "Credit",
+                "date": "2024-04-18T17:05:02.000Z",
+                "carbonScore": 4856
+            },
+            {
+                "id": 17,
+                "transactionUUID": "9600d8f5-1b00-487a-ae09-7c6bc1de135e",
+                "accountID": "84528128",
+                "merchantName": "Trees Trees Trees",
+                "category": "Education",
+                "currency": "GBP",
+                "amount": -45.61,
+                "status": "Successful",
+                "indicator": "Debit",
+                "date": "2024-04-19T06:13:31.000Z",
+                "carbonScore": 26
+            },
+            {
+                "id": 35,
+                "transactionUUID": "98674e6d-ac66-4e6e-b6ce-77dadbea9b26",
+                "accountID": "84528128",
+                "merchantName": "McFairbank",
+                "category": "Food & Dining",
+                "currency": "GBP",
+                "amount": -10.56,
+                "status": "Successful",
+                "indicator": "Debit",
+                "date": "2024-04-08T15:16:33.000Z",
+                "carbonScore": 7
+            },
+        ]
     ```
 
-### 8. Group daily transactions by accountID
+### Get a transaction by accountID and transactionID
 
-- GET `/accounts/:accountID/transactions/group-by-date`
-
-- sample output
-    - by account `41495172`
-
+- GET `accounts/:accountID/transactions/:transactionID`
+- Sample Output
     ```json
-        {
-            "2023-08-05":[
-                {
-                    "transactionUUID":"946a7fb9-5840-44c2-b345-8f7c956bb485",
-                    "accountUUID":"41495172",
-                    "merchantUUID":"10",
-                    "merchant":{
-                        "name":"Car Stickers",
-                        "category":"Auto & Transport",
-                        "description":"High quality car racing stickers, that are used at races.",
-                        "pointOfSale":["Online","In-store"]
-                    },
-                    "amount":-119.99,
-                    "creditDebitIndicator":"Debit",
-                    "currency":"GBP",
-                    "timestamp":"2023-08-05 00:45:04",
-                    "emoji":"🤑",
-                    "latitude":54.57446014496158,
-                    "longitude":-2.0238078261677312,
-                    "status":"Successful",
-                    "message":"Weekly wage of 119.99 (GBP, positive) from Car Stickers",
-                    "pointOfSale":"In-store"
-                }
-            ],
-            "2023-07-07":[
-                {
-                    "transactionUUID":"5ae57e7a-7736-4070-9ae1-155f16d3545a",
-                    "accountUUID":"41495172",
-                    "merchantUUID":"10",
-                    "merchant":{
-                        "name":"Car Stickers",
-                        "category":"Auto & Transport",
-                        "description":"High quality car racing stickers, that are used at races.",
-                        "pointOfSale":["Online","In-store"]
-                    },
-                    "amount":-166.25,
-                    "creditDebitIndicator":"Debit",
-                    "currency":"GBP",
-                    "timestamp":"2023-07-07 07:03:38",
-                    "emoji":"💸",
-                    "latitude":53.74239147512421,
-                    "longitude":-0.815154545152708,
-                    "status":"Successful",
-                    "message":"Weekly wage of 166.25 (GBP, positive) from Car Stickers",
-                    "pointOfSale":"Online"
-                }
-            ]
-        }
+        [
+            {
+                "id": 1,
+                "transactionUUID": "377dee7b-3e28-492f-bba3-e857ba07f92a",
+                "accountID": "84528128",
+                "merchantName": "Fact News",
+                "category": "Education",
+                "currency": "GBP",
+                "amount": -124.42,
+                "status": "Successful",
+                "indicator": "Debit",
+                "date": "2024-01-22T17:30:07.000Z",
+                "carbonScore": 69
+            }
+        ]
     ```
 
+### Get carbon score by month
+
+- GET `/accounts/:accountID/carbonScores/monthly`
+   - Query Params: `month`, `year`
+- Sample Output
+    ```json
+        0
+    ```
+
+### Get carbon score by month in categories
+
+- GET `/accounts/:accountID/carbonScores/monthly/allCategories`
+   - Query Params: `month`, `year`
+- Sample Output
+    ```json
+        {
+            "Entertainment": 71,
+            "Education": 33,
+            "Shopping": 120,
+            "Personal Care": 0,
+            "Health & Fitness": 0,
+            "Food & Dining": 57,
+            "Gifts & Donations": 21,
+            "Bills & Utilities": 0,
+            "Auto & Transport": 72,
+            "Travel": 0
+        }
+    ```
 
 ## Friends
-### 10. Add a friend by username
+### Add a friend by their IDs
 
-- POST `/friend/create-username/:accountID`
+- POST `/accounts/:accountID/friends/:friendID`
+- Sample Output
+    ```json
+        {
+            "id": 36,
+            "accountID": "31325266",
+            "followingID": "84528128"
+        }
+    ```
 
-    - Automatically generate a username: `firstname + lastname + '_' + accountID`
-    - Store in the database `Friend`
-    - If the user already has a username, an error will be reported:
-        ```json
+### Get all following users for an account
+
+- GET `/accounts/:id/friends`
+- Sample Output
+    ```json
+        [
             {
-                errorCode: 130,
-                message: "This user has already have a username.",
+                "id": 11,
+                "accountID": "84528128",
+                "username": "AhmedK60774",
+                "firstName": "Ahmed",
+                "lastName": "King",
+                "email": "Ahmed.King@freeemailservice.com",
+                "phone": "+44836122509",
+                "address": "37 South Avenue, Ayr, United Kingdom",
+                "currency": "GBP",
+                "state": "open",
+                "colorMode": 0
             }
-        ```
-
-- sample output
-    - by account `48151457`
-    ```json
-        {"id":1,"username":"FelipeMcLaughlin_48151457","accountID":"48151457"}
+        ]
     ```
 
-### 10. Get the accountID by username
+### Delete a following relationship
 
-- GET `/friends`
-
-    - Send `username` in JSON request body
-    - If the username is not exist in the database, an error will be reported:
+- DELETE `/accounts/:accountID/friends/:friendID`
+- Sample Output
     ```json
-        {
-            errorCode: 131,
-            message: "Can't find this friend: " + username,
-        }
+        null
     ```
-    - If the user search his own username:
-    ```json
-        {
-            errorCode: 132,
-            message: "Can't add yourself as friends.",
-        }
-    ```
-    - If these two users are already friends
-    ```json
-        {
-            errorCode: 133,
-            message: "This user is already your friend.",
-        }
-    ```
-
-### 10. Get the accountID by username
-
-- GET `/friends`
-
-    - Send `username` in JSON request body
-    - If the username is not exist in the database, an error will be reported:
-    ```json
-        {
-            "firstname": "Dirk",
-            "creditScore": "513",
-            "liveBalance": "false",
-            "lastname": "Jenkins",
-            "accountId": "61187062",
-            "developerId": "9febea5fd5281f66cd106858432ff4fc55c3150ec10e33ccfdbee9c81fe019db",
-            "phoneNumber": "+44800624217",
-            "balance": "349.0",
-            "creditLimit": "349.0",
-            "uci": "387869",
-            "riskScore": "73",
-            "state": "closed",
-            "currencyCode": "GBP",
-            "email": "Dirk.Jenkins@emailshere.com",
-            "productType": "Credit",
-            "homeAddress": "92 White Road, Wakefield, United Kingdom"
-        }
-    ```
-
-### Get all following users
-
-- GET `/friend/get-all/:id`
-- sample output
-    ```json
-    [
-        {
-            "id": 4,
-            "username": "EddyD27176",
-            "accountID": "34330204",
-            "email": "Eddy.Davis@bmail.com"
-        },
-        {
-            "id": 2,
-            "username": "BrockB60703",
-            "accountID": "44591710",
-            "email": "Brock.Bins@booglemail.co.uk"
-        },
-        {
-            "id": 3,
-            "username": "KeriC11006",
-            "accountID": "77083294",
-            "email": "Keri.Champlin@emailprovider.com"
-        }
-    ]
-    ```
-
-### Delete a following relation
-
-- DELETE `/friend/delete/:id/:username`
-- no output
 
 ## User Goals
-### 11. Create a user goal
+### Create a user goal
 
-- POST `/accounts/:accountID/userGoal`
-    - Submit `goal` and `month` in JSON request body
-    - if there already is a goal for that id update the goal else create a new one
-
-- sample output
-    -  id `48151457` goal `5000`
-
+- POST `/accounts/:id/userGoal`
+    - Body: `goal`, `year`, `month`
+- Sample Output
     ```json 
     {
-        "message":"User goal created successfully" 
+        "id": 57,
+        "accountID": "25197003",
+        "goal": 100,
+        "year": "2024",
+        "month": "March"
     }
     ```
 
-### 12. Delete a user goal
+### Get all goals for an account
 
-- DELETE `/accounts/:accountID/userGoal`
-
-- sample output
-    - id `48151457`
+- GET `accounts/:id/userGoal`
+- Sample Output
     ```json 
-    {
-        "message":"User goal deleted successfully" 
-    }
+        [
+            {
+                "id": 13,
+                "accountID": "84528128",
+                "goal": 3000,
+                "year": "2022",
+                "month": "January"
+            },
+            {
+                "id": 25,
+                "accountID": "84528128",
+                "goal": 300,
+                "year": "2023",
+                "month": "April"
+            },
+            {
+                "id": 5,
+                "accountID": "84528128",
+                "goal": 3000,
+                "year": "2023",
+                "month": "December"
+            }
+        ]
     ```
-
-### 13. Get a users goal from the database
-
-- GET `accounts/:accountID/userGoal`
-
-- sample output
-    - id `48151457`
-    ```json 
-    {
-        "id": 1,
-        "accountID": "48151457",
-        "goal": "5000"
-    }
-    ```
-
-
-
-## Carbon Impact
-### Calculate the carbon impact for one transaction
-
-- POST 
-
-    - Store in the database `Transaction`
-
-### Calculate the total carbon impact
-
-- GET `/accounts/:accountID/transactions/:transactionID/carbonImpact`
-
-    - Using the carbon score stored in the database `Transaction`
-
-
-
