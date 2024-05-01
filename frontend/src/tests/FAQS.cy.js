@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import FAQS from '../pages/FAQS';
 import styles from '../assets/styles/FAQ.module.css';
 
+// FAQS Tests
 describe('<FAQS />', () => {
     // Before each test, mount the FAQS component within a MemoryRouter to handle any routing.
     beforeEach(() => {

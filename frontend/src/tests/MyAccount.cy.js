@@ -5,15 +5,10 @@ import MyAccount from '../pages/MyAccount';
 import styles from '../assets/styles/MyAccount.module.css';
 
 describe('<MyAccount />', () => {
-  // Setup the initial state for the MyAccount component
-  const initialState = {
-    name: 'Test User',
-    id: 'user-id-123',
-  };
 
   it('renders the MyAccount page with all components', () => {
     mount(
-      <MemoryRouter initialEntries={[{ pathname: '/myaccount', state: initialState }]}>
+      <MemoryRouter>
         <MyAccount />
       </MemoryRouter>
     );
@@ -45,6 +40,5 @@ describe('<MyAccount />', () => {
 
     cy.get('button').first().focus();
     cy.focused().should('have.not.attr', 'aria-label', 'Go back to previous page');
-    
   });
 });
