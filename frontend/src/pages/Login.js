@@ -111,10 +111,10 @@ function Mid({
           {/* Forgotten Credentials Links */}
           <div className={styles.loginForgottenBtn}>
             <p className={styles.forgotUsername + " " + styles.textRight}>
-              <a href="#">Forgot your email?</a>
+              <a href="http://localhost:3000/help/FAQS?prevPage=login">Forgot your email?</a>
             </p>
             <p className={styles.forgotPassword + " " + styles.textRight}>
-              <a href="#">Forgot your password?</a>
+              <a href="http://localhost:3000/help/FAQS?prevPage=login">Forgot your password?</a>
             </p>
           </div>
 

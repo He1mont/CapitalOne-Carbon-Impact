@@ -263,7 +263,7 @@ function Mid({ name, id, month, onMonthChange }) {
     };
 
     fetchCarbonScore();
-  }, [month]);  // Dependency array, useEffect is called again if 'month' changes.
+  }, [month, id]);  // Dependency array, useEffect is called again if 'month' changes.
 
   return (
     <div className={styles.mid_bar}>
