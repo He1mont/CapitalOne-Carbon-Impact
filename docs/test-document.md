@@ -31,6 +31,20 @@
       - [UserGoalService](#usergoalservice)
         - [`createGoal(accountID, goal, year, month)`](#creategoalaccountid-goal-year-month)
         - [`getUserGoals(accountID)`](#getusergoalsaccountid)
+  - [Frontend Testing](#frontend-testing)
+    - [Component Testing](#component-testing)
+      - [Tests for Common Components](#tests-for-common-components)
+      - [Tests for FAQS Page](#tests-for-faqs-page)
+      - [Tests for Friends Page](#tests-for-friends-page)
+      - [Tests for Goals Page](#tests-for-goals-page)
+      - [Tests for Help Page](#tests-for-help-page)
+      - [Tests for History Page](#tests-for-history-page)
+      - [Tests for HomePage](#tests-for-homepage)
+      - [Tests for Head Page](#tests-for-head-page)
+      - [Tests for Mid Page](#tests-for-mid-page)
+      - [Tests for Low Page](#tests-for-low-page)
+      - [Tests for MyAccount Page](#tests-for-myaccount-page)
+      - [Tests for Transactions Page](#tests-for-transactions-page)
 </details>
 
 
@@ -236,21 +250,20 @@ testTransactions = [
 #### FriendService
 
 ```js
-    const testAccountID = '12345';
-    const testFriendID = '54321';
-    testAccount = 
-        {
-            accountID: testFriendID,
-            username: 'TestW12345',
-            email: 'test@outlook.com',
-            colorMode: 0,
-            currency: 'Test',
-            firstName: 'Test',
-            lastName: 'Test',
-            phone: 'Test',
-            address: 'Test',
-            state: 'Test',
-        }
+const testAccountID = '12345';
+const testFriendID = '54321';
+testAccount = {
+    accountID: testFriendID,
+    username: 'TestW12345',
+    email: 'test@outlook.com',
+    colorMode: 0,
+    currency: 'Test',
+    firstName: 'Test',
+    lastName: 'Test',
+    phone: 'Test',
+    address: 'Test',
+    state: 'Test',
+}
 ```
 
 ##### `addByID(accountID, friendID)` 
@@ -277,22 +290,21 @@ testTransactions = [
 #### UserGoalService
 
 ```js
-    const testAccountID = '12345';
-    const testYear = '2020';
-    const testMonth = 'January';
-    testAccount = 
-        {
-            accountID: testAccountID,
-            username: 'TestW12345',
-            email: 'test@outlook.com',
-            colorMode: 0,
-            currency: 'Test',
-            firstName: 'Test',
-            lastName: 'Test',
-            phone: 'Test',
-            address: 'Test',
-            state: 'Test',
-        }
+const testAccountID = '12345';
+const testYear = '2020';
+const testMonth = 'January';
+testAccount = {
+    accountID: testAccountID,
+    username: 'TestW12345',
+    email: 'test@outlook.com',
+    colorMode: 0,
+    currency: 'Test',
+    firstName: 'Test',
+    lastName: 'Test',
+    phone: 'Test',
+    address: 'Test',
+    state: 'Test',
+}
 ```
 
 ##### `createGoal(accountID, goal, year, month)` 
@@ -311,112 +323,100 @@ testTransactions = [
 | 2    | `invalidID`     | `[]`             | `[]`            | Pass @04/30/2024 | Return an empty array if retrieving user does not exist |
 
 
-# Cypress Test Documentation for React Components
+## Frontend Testing
 
-## Test Document Structure
-- [Component Testing](#tests-for-settingbtn-component)
-- [FAQS](#tests-for-faqs-component)
-- [Friends Component](#tests-for-friends-component)
-- [Goals Component](#tests-for-goals-component)
-- [Help Component](#tests-for-help-component)
-- [History Component](#tests-for-history-component)
-- [HomePage Component](#tests-for-homepage-component)
-  - [Head Component](#tests-for-head-component)
-  - [Mid Component](#tests-for-mid-component)
-  - [Low Component](#tests-for-low-component)
-- [MyAccount Component](#tests-for-myaccount-component)
-- [Transactions Component](#tests-for-transactions-component)
+### Component Testing
 
-#### Tests for SettingBtn Component
-| Test ID | Description                         | Method | Expected Outcome                           | Result               |
-|---------|-------------------------------------|--------|--------------------------------------------|----------------------|
-| 1       | Navigates on clicking settings      | Click  | Navigate to corresponding settings page    | Pass @04/30/2024 |
-| 2       | Navigates back on click             | Click  | Navigate to the previous page in history   | Pass @04/30/2024|
-| 3       | Click redirects to homepage         | Click  | Navigate to the homepage                   | Pass @04/30/2024  |
-| 4       | Renders footer text correctly       | Render | Display correct copyright text             | Pass @04/30/2024 |
+#### Tests for Common Components
+| Test ID | Description                    | Method | Expected Outcome                         | Result           |
+| ------- | ------------------------------ | ------ | ---------------------------------------- | ---------------- |
+| 1       | Navigates on clicking settings | Click  | Navigate to corresponding settings page  | Pass @04/30/2024 |
+| 2       | Navigates back on click        | Click  | Navigate to the previous page in history | Pass @04/30/2024 |
+| 3       | Click redirects to homepage    | Click  | Navigate to the homepage                 | Pass @04/30/2024 |
+| 4       | Renders footer text correctly  | Render | Display correct copyright text           | Pass @04/30/2024 |
 
-#### Tests for FAQS Component
-| Test ID | Description                                            | Method        | Expected Outcome                                        | Result            |
-| ------- | ------------------------------------------------------ | ------------- | ------------------------------------------------------- | ------------------|
-| 1       | Renders the FAQS page successfully                     | Render        | FAQS page is successfully rendered with the main header | Pass @04/30/2024 |
-| 2       | Displays all predefined questions                      | Check         | All predefined questions are visible                    | Pass @04/30/2024      |
-| 3       | Updates content when questions are interacted with     | Click         | Content updates to display the answer to the question   | Pass @04/30/2024 |
-| 4       | Verifies that all audio play buttons are functional    | Click & Audio | Audio play buttons trigger speech synthesis             | Pass @04/30/2024 |
-| 5       | Handles browser history correctly                      | URL Check     | Browser URL reflects the FAQS page route                | Pass @04/30/2024 |
-| 6       | Checks that the footer is correctly displayed          | Render        | Footer displays correct copyright text                  | Pass @04/30/2024 |
+#### Tests for FAQS Page
+| Test ID | Description                                         | Method        | Expected Outcome                                        | Result           |
+| ------- | --------------------------------------------------- | ------------- | ------------------------------------------------------- | ---------------- |
+| 1       | Renders the FAQS page successfully                  | Render        | FAQS page is successfully rendered with the main header | Pass @04/30/2024 |
+| 2       | Displays all predefined questions                   | Check         | All predefined questions are visible                    | Pass @04/30/2024 |
+| 3       | Updates content when questions are interacted with  | Click         | Content updates to display the answer to the question   | Pass @04/30/2024 |
+| 4       | Verifies that all audio play buttons are functional | Click & Audio | Audio play buttons trigger speech synthesis             | Pass @04/30/2024 |
+| 5       | Handles browser history correctly                   | URL Check     | Browser URL reflects the FAQS page route                | Pass @04/30/2024 |
+| 6       | Checks that the footer is correctly displayed       | Render        | Footer displays correct copyright text                  | Pass @04/30/2024 |
 
-#### Tests for Friends Component
-| Test ID | Description                                       | Method    | Expected Outcome                                              | Result  |
-|---------|---------------------------------------------------|-----------|---------------------------------------------------------------|---------|
-| 1       | Renders the Friends page with all components      | Render    | All components are visible on the Friends page                | Pass @04/30/2024 |
-| 2       | Checks responsiveness on mobile devices           | Viewport  | Friends component should be responsive on mobile devices      | Pass @04/30/2024 |
-| 3       | Adjusts layout for mobile view                    | Viewport  | Layout adjusts correctly to fit mobile view without data grid | Pass @04/30/2024 |
+#### Tests for Friends Page
+| Test ID | Description                                  | Method   | Expected Outcome                                              | Result           |
+| ------- | -------------------------------------------- | -------- | ------------------------------------------------------------- | ---------------- |
+| 1       | Renders the Friends page with all components | Render   | All components are visible on the Friends page                | Pass @04/30/2024 |
+| 2       | Checks responsiveness on mobile devices      | Viewport | Friends component should be responsive on mobile devices      | Pass @04/30/2024 |
+| 3       | Adjusts layout for mobile view               | Viewport | Layout adjusts correctly to fit mobile view without data grid | Pass @04/30/2024 |
 
-#### Tests for Goals Component
-| Test ID | Description                                      | Method   | Expected Outcome                                               | Result  |
-|---------|--------------------------------------------------|----------|----------------------------------------------------------------|---------|
-| 1       | Renders with initial month and user data         | Render   | Correct initial data and month are displayed                   | Pass @04/30/2024|
-| 2       | Displays the correct initial month               | Render   | Current month is correctly displayed at initial render         | Pass @04/30/2024 |
-| 3       | Changes month when decrease month button clicked | Click    | Display updates to show the previous month                     | Pass @04/30/2024 |
-| 4       | Changes month when increase month button clicked | Click    | Display updates to show the next month                         | Pass @04/30/2024 |
-| 5       | Renders lower section content                    | Render   | Lower section of the component is visible                      | Pass @04/30/2024 |
-| 6       | Redirects unauthenticated users to login         | Redirect | Unauthenticated users are redirected to login upon access      | Pass @04/30/2024 |
+#### Tests for Goals Page
+| Test ID | Description                                      | Method   | Expected Outcome                                          | Result           |
+| ------- | ------------------------------------------------ | -------- | --------------------------------------------------------- | ---------------- |
+| 1       | Renders with initial month and user data         | Render   | Correct initial data and month are displayed              | Pass @04/30/2024 |
+| 2       | Displays the correct initial month               | Render   | Current month is correctly displayed at initial render    | Pass @04/30/2024 |
+| 3       | Changes month when decrease month button clicked | Click    | Display updates to show the previous month                | Pass @04/30/2024 |
+| 4       | Changes month when increase month button clicked | Click    | Display updates to show the next month                    | Pass @04/30/2024 |
+| 5       | Renders lower section content                    | Render   | Lower section of the component is visible                 | Pass @04/30/2024 |
+| 6       | Redirects unauthenticated users to login         | Redirect | Unauthenticated users are redirected to login upon access | Pass @04/30/2024 |
 
-#### Tests for Help Component
-| Test ID | Description                                       | Method    | Expected Outcome                                              | Result  |
-|---------|---------------------------------------------------|-----------|----------------------------------------------------------------|---------|
-| 1       | Renders Help page with all components             | Render    | All components on the Help page are visible and functional    | Pass @04/30/2024 |
-| 2       | Checks logo and navigation button presence        | Existence | Logo image and go back button are present                     | Pass @04/30/2024 |
-| 3       | Verifies mid-section content                      | Existence | Help-center image is present                                  | Pass @04/30/2024 |
-| 4       | Checks form functionality                         | Input     | Input field and submit button work as expected                | Pass @04/30/2024 |
-| 5       | Verifies button functionality and popups          | Click     | Buttons function and associated popups are correctly displayed| Pass @04/30/2024|
-| 6       | Assesses responsive design                        | Viewport  | Design adjusts correctly for mobile devices                   | Pass @04/30/2024|
-| 7       | Evaluates accessibility of the first button       | Focus     | First button meets accessibility standards                    | Pass @04/30/2024 |
+#### Tests for Help Page
+| Test ID | Description                                 | Method    | Expected Outcome                                               | Result           |
+| ------- | ------------------------------------------- | --------- | -------------------------------------------------------------- | ---------------- |
+| 1       | Renders Help page with all components       | Render    | All components on the Help page are visible and functional     | Pass @04/30/2024 |
+| 2       | Checks logo and navigation button presence  | Existence | Logo image and go back button are present                      | Pass @04/30/2024 |
+| 3       | Verifies mid-section content                | Existence | Help-center image is present                                   | Pass @04/30/2024 |
+| 4       | Checks form functionality                   | Input     | Input field and submit button work as expected                 | Pass @04/30/2024 |
+| 5       | Verifies button functionality and popups    | Click     | Buttons function and associated popups are correctly displayed | Pass @04/30/2024 |
+| 6       | Assesses responsive design                  | Viewport  | Design adjusts correctly for mobile devices                    | Pass @04/30/2024 |
+| 7       | Evaluates accessibility of the first button | Focus     | First button meets accessibility standards                     | Pass @04/30/2024 |
 
-#### Tests for History Component
-| Test ID | Description                                      | Method    | Expected Outcome                                               | Result  |
-|---------|--------------------------------------------------|-----------|----------------------------------------------------------------|---------|
-| 1       | Renders the History page                         | Render    | History page is rendered with "Carbon History" title           | Pass @04/30/2024|
-| 2       | Handles API errors gracefully                    | API       | API errors are handled without crashing the page               | Pass @04/30/2024 |
-| 3       | Displays the correct title                       | Existence | "Carbon History" title exists                                  | Pass @04/30/2024 |
-| 4       | Renders month selector with the current month    | Render    | Month selector displays the correct initial month              | Pass @04/30/2024 |
-| 5       | Renders month range selector buttons             | Existence | Month selector buttons are correctly rendered                  | Pass @04/30/2024|
-| 6       | Toggles category visibility on button click      | Click     | Category buttons toggle visibility of categories               | Pass @04/30/2024|
-| 7       | Updates the month range when buttons clicked     | Click     | Clicking month buttons updates the month range correctly       | Pass @04/30/2024 |
-| 8       | Navigates to home on logo click                  | Navigation| Clicking the logo navigates to the homepage                    | Pass @04/30/2024 |
+#### Tests for History Page
+| Test ID | Description                                   | Method     | Expected Outcome                                         | Result           |
+| ------- | --------------------------------------------- | ---------- | -------------------------------------------------------- | ---------------- |
+| 1       | Renders the History page                      | Render     | History page is rendered with "Carbon History" title     | Pass @04/30/2024 |
+| 2       | Handles API errors gracefully                 | API        | API errors are handled without crashing the page         | Pass @04/30/2024 |
+| 3       | Displays the correct title                    | Existence  | "Carbon History" title exists                            | Pass @04/30/2024 |
+| 4       | Renders month selector with the current month | Render     | Month selector displays the correct initial month        | Pass @04/30/2024 |
+| 5       | Renders month range selector buttons          | Existence  | Month selector buttons are correctly rendered            | Pass @04/30/2024 |
+| 6       | Toggles category visibility on button click   | Click      | Category buttons toggle visibility of categories         | Pass @04/30/2024 |
+| 7       | Updates the month range when buttons clicked  | Click      | Clicking month buttons updates the month range correctly | Pass @04/30/2024 |
+| 8       | Navigates to home on logo click               | Navigation | Clicking the logo navigates to the homepage              | Pass @04/30/2024 |
 
-#### Tests for HomePage Component
-| Test ID | Description                           | Method    | Expected Outcome                                   | Result  |
-|---------|---------------------------------------|-----------|----------------------------------------------------|---------|
-| 1       | Renders HomePage with key components  | Render    | HomePage loads with necessary sections             | Pass @04/30/2024|
+#### Tests for HomePage
+| Test ID | Description                          | Method | Expected Outcome                       | Result           |
+| ------- | ------------------------------------ | ------ | -------------------------------------- | ---------------- |
+| 1       | Renders HomePage with key components | Render | HomePage loads with necessary sections | Pass @04/30/2024 |
 
-#### Tests for Head Component
-| Test ID | Description                      | Method | Expected Outcome                        | Result  |
-|---------|----------------------------------|--------|-----------------------------------------|---------|
-| 1       | Renders logo and settings button | Render | Logo and settings button are visible    | Pass @04/30/2024|
+#### Tests for Head Page
+| Test ID | Description                      | Method | Expected Outcome                     | Result           |
+| ------- | -------------------------------- | ------ | ------------------------------------ | ---------------- |
+| 1       | Renders logo and settings button | Render | Logo and settings button are visible | Pass @04/30/2024 |
 
-#### Tests for Mid Component
-| Test ID | Description                             | Method | Expected Outcome                                     | Result  |
-|---------|-----------------------------------------|--------|------------------------------------------------------|---------|
-| 1       | Shows login prompt and carbon impact    | Render | Login prompt and carbon impact information displayed | Pass @04/30/2024|
-| 2       | Displays user name when logged in       | Render | User's name is displayed if logged in                | Pass @04/30/2024 |
+#### Tests for Mid Page
+| Test ID | Description                          | Method | Expected Outcome                                     | Result           |
+| ------- | ------------------------------------ | ------ | ---------------------------------------------------- | ---------------- |
+| 1       | Shows login prompt and carbon impact | Render | Login prompt and carbon impact information displayed | Pass @04/30/2024 |
+| 2       | Displays user name when logged in    | Render | User's name is displayed if logged in                | Pass @04/30/2024 |
 
-#### Tests for Low Component
-| Test ID | Description                           | Method   | Expected Outcome                                  | Result  |
-|---------|---------------------------------------|----------|---------------------------------------------------|---------|
-| 1       | Renders buttons and handles navigation| Navigate | Buttons render and navigate correctly             | Pass @04/30/2024 |
+#### Tests for Low Page
+| Test ID | Description                            | Method   | Expected Outcome                      | Result           |
+| ------- | -------------------------------------- | -------- | ------------------------------------- | ---------------- |
+| 1       | Renders buttons and handles navigation | Navigate | Buttons render and navigate correctly | Pass @04/30/2024 |
 
-#### Tests for MyAccount Component
-| Test ID | Description                                     | Method    | Expected Outcome                                               | Result  |
-|---------|-------------------------------------------------|-----------|----------------------------------------------------------------|---------|
-| 1       | Renders MyAccount page with all components      | Render    | All components on the MyAccount page are visible and functional| Pass @04/30/2024  |
-| 2      | Checks responsiveness on mobile devices              | Responsive   | UI elements adjust properly on mobile viewports                  | Pass @04/30/2024|
-| 3       | Validates accessibility standards                    | Accessibility| Focusable elements meet accessibility standards                  | Pass @04/30/2024  |
-| 4       | Checks the visibility and functionality of UI elements for updating account info | Functional  | UI elements for updating information are visible and operational | Pass @04/30/2024  |
+#### Tests for MyAccount Page
+| Test ID | Description                                                                      | Method        | Expected Outcome                                                 | Result           |
+| ------- | -------------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------- | ---------------- |
+| 1       | Renders MyAccount page with all components                                       | Render        | All components on the MyAccount page are visible and functional  | Pass @04/30/2024 |
+| 2       | Checks responsiveness on mobile devices                                          | Responsive    | UI elements adjust properly on mobile viewports                  | Pass @04/30/2024 |
+| 3       | Validates accessibility standards                                                | Accessibility | Focusable elements meet accessibility standards                  | Pass @04/30/2024 |
+| 4       | Checks the visibility and functionality of UI elements for updating account info | Functional    | UI elements for updating information are visible and operational | Pass @04/30/2024 |
 
-#### Tests for Transactions Component
-| Test ID | Description                                | Method    | Expected Outcome                                            | Result  |
-|---------|--------------------------------------------|-----------|-------------------------------------------------------------|---------|
-| 1       | Renders Transactions page with all elements| Render    | All main components of the Transactions page are visible    |  Pass @04/30/2024 |
-| 2       | Displays the correct initial month         | Date Check| Current month is displayed correctly on the Transactions page|  Pass @04/30/2024 |
-| 3       | Sorts transactions by amount               | Sort Check| Transactions are sortable by amount                         |  Pass @04/30/2024 |
+#### Tests for Transactions Page
+| Test ID | Description                                 | Method     | Expected Outcome                                              | Result           |
+| ------- | ------------------------------------------- | ---------- | ------------------------------------------------------------- | ---------------- |
+| 1       | Renders Transactions page with all elements | Render     | All main components of the Transactions page are visible      | Pass @04/30/2024 |
+| 2       | Displays the correct initial month          | Date Check | Current month is displayed correctly on the Transactions page | Pass @04/30/2024 |
+| 3       | Sorts transactions by amount                | Sort Check | Transactions are sortable by amount                           | Pass @04/30/2024 |
