@@ -5,7 +5,7 @@ import moment from 'moment';
 import History from '../pages/History.js'; 
 import styles from '../assets/styles/History.module.css';
 
-
+// History page
 describe('<History />', () => {
     it('successfully renders', () => {
       mount(
@@ -28,16 +28,10 @@ describe('<History />', () => {
                 <History />
             </MemoryRouter>
         );
-    
-      // The test verifies that the component handles the API error appropriately. 
-      //  cy.contains('Failed to fetch data', { timeout: 10000 }).should('be.visible');
-
-      // By mocking the API response to simulate an error condition, 
-      // this test ensures that the History component handles API errors by displaying an appropriate error message to the user.
     });
     
 
-
+    // Title checker 
     it('displays the correct title', () => {
         mount(
             <MemoryRouter>
@@ -47,7 +41,7 @@ describe('<History />', () => {
         cy.contains('Carbon History').should('exist');
     });
     
-
+    // Initial month checker
     it('renders the month selector with correct initial month', () => {
         mount(
           <MemoryRouter>
@@ -68,42 +62,8 @@ describe('<History />', () => {
         );
         cy.get(`.${styles.month_select_btn}`).should('have.length', 4);
     });
-
-   /* it('decreases start month when left arrow is clicked', () => {
-        const initialStartMonth = moment(); // Get the initial start month
-        mount(
-            <MemoryRouter>
-                <History />
-            </MemoryRouter>
-        );
-        cy.get(`.${styles.month_select_btn}`).first().click();
-        // Wait for the start month to update
-        cy.wait(1000);
-        // Get the updated start month after clicking the left arrow
-        const updatedStartMonth = moment().subtract(1, 'month').startOf('month');
-        // Assert that the start month has decreased correctly
-        expect(updatedStartMonth.month()).to.equal(initialStartMonth.subtract(1, 'month').startOf('month').month());
-        expect(updatedStartMonth.year()).to.equal(initialStartMonth.subtract(1, 'month').startOf('month').year());
-    });
-
-    it('increases end month when right arrow is clicked', () => {
-        const initialEndMonth = moment(); // Get the initial end month
-        mount(
-            <MemoryRouter>
-                <History />
-            </MemoryRouter>
-        );
-        // cy.get(`.${styles.month_select_btn}`).last().click();
-        // Wait for the end month to update
-        cy.wait(1000);
-        // updated end month after clicking the right arrow
-        const updatedEndMonth = moment().add(1, 'month').startOf('month');
-        // Assert that the end month has increased correctly
-        expect(updatedEndMonth.month()).to.equal(initialEndMonth.add(1, 'month').startOf('month').month());
-        expect(updatedEndMonth.year()).to.equal(initialEndMonth.add(1, 'month').startOf('month').year());
-    });*/
-
     
+    // Visibility check when button category is clicked
     it('toggles category visibility when clicking category buttons', () => {
         mount(
             <MemoryRouter>
@@ -127,32 +87,8 @@ describe('<History />', () => {
       
      
     });
-
-
-  /*  it('changes the graph type when selecting different graph options', () => {
-        mount(
-            <MemoryRouter>
-                <History />
-            </MemoryRouter>
-        );
-
-        // Simulate selecting the Pie Chart option
-        cy.contains('Pie Chart').click({force: true});
-        // Assert that the Pie Chart is displayed
-        //cy.get(`.${styles.graph_container_pie}`).should('be.visible');
-
-        // Simulate selecting the Line Graph option
-       // cy.contains('Line Graph').click();
-        // Assert that the Line Graph is displayed
-       // cy.get(`.${styles.graph_container_line}`).should('be.visible');
-
-        // Simulate selecting the Bar Graph option
-       // cy.contains('Bar Graph').click();
-        // Assert that the Bar Graph is displayed
-      //  cy.get(`.${styles.graph_container_bar}`).should('be.visible');
-    });*/
-
-
+    
+    // Updates of month 
     it('updates the month range when clicking the month buttons', () => {
         // Mount the component
         mount(
@@ -189,17 +125,13 @@ describe('<History />', () => {
         });
     });
 
+    // Navigation logo
     it('navigates to the home page on logo click', () => {
         mount(
             <MemoryRouter>
                 <History />
             </MemoryRouter>
         );
-
-        // Simulate clicking on the logo
-        //cy.get(`.${styles.head_img}`).click({force:false});
-
-        // Verify if the router navigates to the home page
         cy.url().should('include', '/');
     });
 

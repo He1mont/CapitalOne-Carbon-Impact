@@ -5,6 +5,7 @@ import HomePage from '../pages/HomePage';
 import styles from '../assets/styles/Home.module.css';
 import { createMemoryHistory } from 'history';
 
+// Homepage 
 describe('HomePage Component', () => {
   // Test to ensure the HomePage component renders correctly
   it('successfully renders', () => {
@@ -15,11 +16,12 @@ describe('HomePage Component', () => {
       </MemoryRouter>
     );
     // Check for the presence of specific text elements that indicate successful rendering
-    cy.contains('You need to login').should('exist'); // login check
+    cy.contains('You need to login').should('exist'); // Login check
     cy.contains('Your Carbon Impact').should('exist'); // Verifies the carbon impact section is rendered
   });
 });
 
+// Head comoent checker
 describe('Head Component', () => {
   // Test to ensure the head component renders
   it('renders the logo and settings button', () => {
@@ -34,6 +36,8 @@ describe('Head Component', () => {
     cy.get(`.${styles.head_bar}`).click();
   });
 });
+
+// Mid component checker
 describe('Mid Component', () => {
   // Test to verify that the middle section of the homepage renders correctly
   it('shows default login prompt and carbon impact info', () => {
@@ -63,7 +67,7 @@ describe('Mid Component', () => {
   });
 });
 
-
+// Low component checkere 
 describe('Low Component', () => {
   // Test to check if the lower component of the home page renders buttons and handles navigation correctly
   it('renders buttons and navigates correctly', () => {
@@ -75,19 +79,9 @@ describe('Low Component', () => {
         <HomePage />
       </Router>
     );
-    
+
     // Ensure the correct number of navigation buttons are present
     cy.get(`.${styles.low_bar_btn}`).should('have.length', 3);
-
-  /*  cy.get(`.${styles.low_bar_btn}`).eq(0).click().then(() => {
-      expect(spy).to.have.been.calledWith('../Pages/Transactions');
-    });
-    cy.get(`.${styles.low_bar_btn}`).eq(1).click().then(() => {
-      expect(spy).to.have.been.calledWith('/home/goals');
-    });
-    cy.get(`.${styles.low_bar_btn}`).eq(2).click().then(() => {
-      expect(spy).to.have.been.calledWith('/home/history');
-    });*/
   });
 });
 

@@ -28,7 +28,7 @@ describe('<Goals />', () => {
     );
 
     // Assert that specific texts indicating successful rendering are visible
-    cy.contains('Carbon Goals').should('exist');//  title
+    cy.contains('Carbon Goals').should('exist');// Title
     cy.contains('You need to login').should('exist');
     cy.contains(moment().format('MMM YYYY')).should('exist');// Checks for the current month
   });
@@ -63,7 +63,7 @@ describe('<Goals />', () => {
       </MemoryRouter>
     );
 
-    // Click the button to decrease the month
+    //  Click the button to decrease the month
     cy.get(`.${styles.month_select_btn}`).first().click();
 
     // Check that the month has decreased

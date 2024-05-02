@@ -52,8 +52,4 @@ describe('<Friends /> Component Tests', () => {
     cy.get('.MuiDataGrid-root').should('not.exist');
   
   });
-
-
-  
-
 });
