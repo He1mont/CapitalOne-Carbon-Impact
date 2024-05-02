@@ -1,3 +1,4 @@
+// HomePage.cy.js
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter, Router } from 'react-router-dom';
@@ -84,6 +85,4 @@ describe('Low Component', () => {
     cy.get(`.${styles.low_bar_btn}`).should('have.length', 3);
   });
 });
-
-
 

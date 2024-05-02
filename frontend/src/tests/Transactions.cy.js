@@ -1,9 +1,9 @@
+// Transactions.cy.js
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
-import Transactions, { TransactionTbl } from '../pages/Transactions';
+import Transactions from '../pages/Transactions';
 import styles from '../assets/styles/Transactions.module.css';
-import moment from 'moment';
 
 describe('<Transactions />', () => {
   // Define initial state for the component to simulate a logged-in user
@@ -19,10 +19,10 @@ describe('<Transactions />', () => {
       </MemoryRouter>
     );
   });
-  
+
   // Test to ensure that the Transactions page renders successfully with all main components visible
   it('successfully renders the transactions page', () => {
-     // Check visibility of main structural elements of the page 
+    // Check visibility of main structural elements of the page 
     cy.get(`.${styles.head_bar}`).should('be.visible'); //head
     cy.get(`.${styles.mid_bar}`).should('be.visible'); //mid
     cy.get(`.${styles.low_bar}`).should('be.visible'); //low

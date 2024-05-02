@@ -1,4 +1,4 @@
-// login.cy.js
+// Login.cy.js
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';

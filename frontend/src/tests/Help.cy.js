@@ -1,3 +1,4 @@
+// Help.cy.js
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -38,11 +39,11 @@ describe('<Help />', () => {
     cy.get(`button.${styles.low_bar_btn}`).contains('Password recovery').should('exist');
 
     // Verify popup functionality by clicks and checking for popup visibility
-    cy.get(`button.${styles.low_bar_btn}`).contains('User Manual').click({force:true});
+    cy.get(`button.${styles.low_bar_btn}`).contains('User Manual').click({ force: true });
     cy.get(`.${styles.overlay}`).should('not.exist');
     //cy.get(`.${styles.closeBtn}`).click({force:false});
-   
-    cy.get('button').contains('About us').click({force:true});
+
+    cy.get('button').contains('About us').click({ force: true });
 
     // Responsive design check shoudln't work
     cy.viewport('iphone-6');

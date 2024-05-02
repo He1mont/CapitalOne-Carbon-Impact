@@ -1,3 +1,4 @@
+// Friends.cy.js
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -27,13 +28,13 @@ describe('<Friends /> Component Tests', () => {
     cy.get(`.${styles.leaderboard_addfriend}`).should('exist');
     cy.get(`button.${styles.button_confirm}`).should('exist');
 
-     // Ensure the leaderboard container displays the correct default text
+    // Ensure the leaderboard container displays the correct default text
     cy.get(`.${styles.leaderboard_container}`).contains('To view friends, add them by entering their username').should('exist');
   });
 
   // Test to check if the Friends component is responsive on mobile devices
   it('checks responsiveness on mobile devices', () => {
-    
+
     // Set the viewport to iPhone 6 size and check for visibility of the add friend section
     cy.viewport('iphone-6');
     cy.get(`.${styles.leaderboard_addfriend}`).should('exist');
@@ -50,6 +51,5 @@ describe('<Friends /> Component Tests', () => {
     // Check that the middle container adjusts its width and no data grid is present.
     cy.get(`.${styles.mid_center}`).should('have.css', 'width').and('match', /px/);
     cy.get('.MuiDataGrid-root').should('not.exist');
-  
   });
 });
