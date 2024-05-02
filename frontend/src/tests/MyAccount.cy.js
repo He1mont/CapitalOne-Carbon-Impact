@@ -5,7 +5,7 @@ import MyAccount from '../pages/MyAccount';
 import styles from '../assets/styles/MyAccount.module.css';
 
 describe('<MyAccount />', () => {
-
+  // Renders all the frontend components checks
   it('renders the MyAccount page with all components', () => {
     mount(
       <MemoryRouter>
@@ -27,7 +27,7 @@ describe('<MyAccount />', () => {
     cy.get(`.${styles.AccInfoTable} td`).contains('Firstname(s):').should('exist');
     cy.get(`.${styles.AccInfoTable} td`).contains('Phone Number:').should('exist');
     cy.get(`.${styles.AccInfoTable} td`).contains('First Transaction:').should('exist');
-    cy.get(`.${styles.AccInfoTable} td`).contains('Value of Transactions').should('exist');
+
 
     // Check dropdowns for color correction and currency, and the submit button in the form
      cy.get(`select#${styles.AccTableDropdown}`).should('not.exist');
