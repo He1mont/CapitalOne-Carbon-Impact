@@ -33,6 +33,7 @@
         - [`getUserGoals(accountID)`](#getusergoalsaccountid)
   - [Frontend Testing](#frontend-testing)
     - [Component Testing](#component-testing)
+      - [Test for App](#tests-for-app-component)
       - [Tests for Common Components](#tests-for-common-components)
       - [Tests for FAQS Page](#tests-for-faqs-page)
       - [Tests for Friends Page](#tests-for-friends-page)
@@ -40,9 +41,7 @@
       - [Tests for Help Page](#tests-for-help-page)
       - [Tests for History Page](#tests-for-history-page)
       - [Tests for HomePage](#tests-for-homepage)
-      - [Tests for Head Page](#tests-for-head-page)
-      - [Tests for Mid Page](#tests-for-mid-page)
-      - [Tests for Low Page](#tests-for-low-page)
+      - [Tests for Index Page](#tests-for-index-page)
       - [Tests for MyAccount Page](#tests-for-myaccount-page)
       - [Tests for Transactions Page](#tests-for-transactions-page)
 </details>
@@ -327,6 +326,17 @@ testAccount = {
 
 ### Component Testing
 
+#### Tests for App Component
+| Test ID | Description                                            | Method   | Expected Outcome                                        | Result           |
+| ------- | ------------------------------------------------------ | -------- | ------------------------------------------------------- | ---------------- |
+| 1       | Default redirection to login                           | Redirect | Application redirects to "/login" upon initial load     | Pass @04/30/2024         |
+| 2       | Login page form is present                             | Render   | Login form should be visible on the login page          | Pass @04/30/2024        |
+| 3       | Transactions page should not render by default         | Check    | No visible elements from the Transactions page          | Pass @04/30/2024         |
+| 4       | Goals page should not render by default                | Check    | No visible elements from the Goals page                 | Pass @04/30/2024        |
+| 5       | History page should not render by default              | Check    | No visible elements from the History page               |Pass @04/30/2024        |
+| 6       | Friends page should not render by default              | Check    | No visible elements from the Friends page               | Pass @04/30/2024         |
+| 7       | Account page should not render by default              | Check    | No visible elements from the Account page               | Pass @04/30/2024          |
+
 #### Tests for Common Components
 | Test ID | Description                    | Method | Expected Outcome                         | Result           |
 | ------- | ------------------------------ | ------ | ---------------------------------------- | ---------------- |
@@ -389,22 +399,16 @@ testAccount = {
 | Test ID | Description                          | Method | Expected Outcome                       | Result           |
 | ------- | ------------------------------------ | ------ | -------------------------------------- | ---------------- |
 | 1       | Renders HomePage with key components | Render | HomePage loads with necessary sections | Pass @04/30/2024 |
+| 2       | Renders logo and settings button | Render | Logo and settings button are visible | Pass @04/30/2024 |
+| 3       | Shows login prompt and carbon impact | Render | Login prompt and carbon impact information displayed | Pass @04/30/2024 |
+| 4       | Displays user name when logged in    | Render | User's name is displayed if logged in                | Pass @04/30/2024 |
+| 5       | Renders buttons and handles navigation | Navigate | Buttons render and navigate correctly | Pass @04/30/2024 |
 
-#### Tests for Head Page
-| Test ID | Description                      | Method | Expected Outcome                     | Result           |
-| ------- | -------------------------------- | ------ | ------------------------------------ | ---------------- |
-| 1       | Renders logo and settings button | Render | Logo and settings button are visible | Pass @04/30/2024 |
-
-#### Tests for Mid Page
-| Test ID | Description                          | Method | Expected Outcome                                     | Result           |
-| ------- | ------------------------------------ | ------ | ---------------------------------------------------- | ---------------- |
-| 1       | Shows login prompt and carbon impact | Render | Login prompt and carbon impact information displayed | Pass @04/30/2024 |
-| 2       | Displays user name when logged in    | Render | User's name is displayed if logged in                | Pass @04/30/2024 |
-
-#### Tests for Low Page
-| Test ID | Description                            | Method   | Expected Outcome                      | Result           |
-| ------- | -------------------------------------- | -------- | ------------------------------------- | ---------------- |
-| 1       | Renders buttons and handles navigation | Navigate | Buttons render and navigate correctly | Pass @04/30/2024 |
+#### Tests for Index Page
+| Test ID | Description                                    | Method  | Expected Outcome                               | Result           |
+| ------- | ---------------------------------------------- | ------- | ---------------------------------------------- | ---------------- |
+| 1       | Renders the Index page without crashing        | Render  | Index page loads without errors                | Pass @04/30/2024        |
+| 2       | App component is the root component            | Render  | App component is rendered as the root element  | Pass @04/30/2024        |
 
 #### Tests for MyAccount Page
 | Test ID | Description                                                                      | Method        | Expected Outcome                                                 | Result           |
