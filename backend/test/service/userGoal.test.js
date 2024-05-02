@@ -45,6 +45,7 @@ describe('UserGoalService', () => {
   describe('createGoal', () => {
     it('should create a goal for a specified user and month', async () => {
       const testGoal = 3000;
+      // Call the createGoal method
       const createdGoal = await ctx.service.userGoal.createGoal(testAccountID, testGoal, testYear, testMonth);
       // Assert whether the goal is created successfully
       assert(createdGoal);
@@ -87,6 +88,7 @@ describe('UserGoalService', () => {
   describe('getUserGoals', () => {
     it('should retrieve all goals for a specified account', async () => {
       const testGoal = 2000;
+      // Call the getUserGoals method
       const userGoals = await ctx.service.userGoal.getUserGoals(testAccountID);
       // Assert whether the user goals are retrieved successfully
       assert(Array.isArray(userGoals));

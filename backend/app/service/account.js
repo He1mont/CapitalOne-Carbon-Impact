@@ -26,9 +26,6 @@ class AccountService extends Service {
     const quantity = 1;
     const numTransactions = 0;
     const liveBalance = false;
-    // var account = null;
-    // var randomNumber;
-    // var userName;
 
     try {
       // Create an account through Hackathon API
@@ -72,28 +69,6 @@ class AccountService extends Service {
           colorMode: 0,
         },
       });
-
-      // // for each account made, find the ccount ID and call functions to add to carbon API
-      // for (let i = 0; i < quantity; i++) {
-      //   account = response.data.Accounts[i];
-      //   const accountID = account.accountId;
-
-      //   // create a (Carbon API) card profile from the created account
-      //   await this.createCardProfile(accountID);
-      //   // add each existing transaction as a Carbon API transaction
-      //   await this.createTransactionsForAll(accountID);
-
-      //   randomNumber = Math.random() * 10;
-      //   userName = account.firstname + account.lastname[0] + randomNumber;
-
-      //   // Store the username into database
-      //   await prisma.account.create({
-      //     data: {
-      //       username: userName,
-      //       accountID: accountID,
-      //     },
-      //   });
-      // }
 
       return account;
     } catch (error) {
