@@ -67,6 +67,7 @@ describe('TransactionService', () => {
 
   describe('getAllTransactions', () => {
     it('should retrieve all transactions associated with a specified accountID', async () => {
+      // Call the getAllTransactions method
       const transactions = await ctx.service.transaction.getAllTransactions(testAccountID);
       assert(Array.isArray(transactions));
       assert.equal(transactions.length, 2); // There are two transactions created for the test account
@@ -79,13 +80,14 @@ describe('TransactionService', () => {
     it('should return an empty array if the account has no transactions', async () => {
       const testInvalidID = 'invalidID';
       const transactions = await ctx.service.transaction.getAllTransactions(testInvalidID);
-      assert(Array.isArray(transactions));
+      assert(Array.isArray(transactions));  // should be an empty list
       assert.equal(transactions.length, 0);
     });
   });
 
   describe('getByID', () => {
     it('should retrieve a transaction by its ID and associated accountID', async () => {
+      // Call the getByID method
       const transaction = await ctx.service.transaction.getByID(testAccountID, testTransactionID1);
       assert(Array.isArray(transaction));
       assert.equal(transaction.length, 1);
@@ -96,20 +98,21 @@ describe('TransactionService', () => {
     it('should return an empty array if the transaction ID does not exist', async () => {
       const testInvalidTransactionID = 'invalidTransactionID';
       const transaction = await ctx.service.transaction.getByID(testAccountID, testInvalidTransactionID);
-      assert(Array.isArray(transaction));
+      assert(Array.isArray(transaction)); // should be an empty list
       assert.equal(transaction.length, 0);
     });
 
     it('should return an empty array if the account ID does not exist', async () => {
       const testInvalidID = 'invalidID';
       const transaction = await ctx.service.transaction.getByID(testInvalidID, testTransactionID2);
-      assert(Array.isArray(transaction));
+      assert(Array.isArray(transaction)); // should be an empty list
       assert.equal(transaction.length, 0);
     });
   });
 
   describe('getTransactionsByMonth', () => {
     it('should retrieve a list of transactions for a specific month', async () => {
+      // Call the getTransactionsByMonth method
       const transactions = await ctx.service.transaction.getTransactionsByMonth(testAccountID, testYear, testMonth);
       assert(Array.isArray(transactions));
       assert.equal(transactions.length, 2); // There are two transaction created for the specified month
@@ -121,16 +124,17 @@ describe('TransactionService', () => {
 
     it('should return an empty array if no transactions exist for the specified month', async () => {
       const transactions = await ctx.service.transaction.getTransactionsByMonth(testAccountID, testYear, 0); // January
-      assert(Array.isArray(transactions));
+      assert(Array.isArray(transactions)); // should be an empty list
       assert.equal(transactions.length, 0);
     });
   });
 
   describe('getCarbonScoreByMonth', () => {
     it('should retrieve the total carbon score for a specific month', async () => {
+      // Call the getCarbonScoreByMonth method
       const carbonScore = await ctx.service.transaction.getCarbonScoreByMonth(testAccountID, testYear, testMonth);
       assert(typeof carbonScore === 'number');
-      assert.equal(carbonScore, 15);
+      assert.equal(carbonScore, 15);  // should be the total carbon score
     });
 
     it('should return 0 if no transactions exist for the specified month', async () => {
@@ -141,6 +145,7 @@ describe('TransactionService', () => {
 
   describe('getCarbonScoreByMonthInCategories', () => {
     it('should retrieve the carbon score by category for a specific month', async () => {
+      // Call the getCarbonScoreByMonthInCategories method
       const carbonScoreByCategory = await ctx.service.transaction.getCarbonScoreByMonthInCategories(testAccountID, testYear, testMonth);
       assert(typeof carbonScoreByCategory === 'object');
       // Validate carbon score by category

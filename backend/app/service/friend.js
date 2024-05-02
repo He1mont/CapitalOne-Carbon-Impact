@@ -28,7 +28,7 @@ class FriendService extends Service {
         },
       });
 
-      if (following) {
+      if (following) {  // Have exist in the database
         throw new Error(
           JSON.stringify({
             errorCode: 400,
