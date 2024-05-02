@@ -3,8 +3,8 @@ import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
 import moment from 'moment';
-import Goals from '../pages/Goals';
-import styles from '../assets/styles/Goals.module.css';
+import Goals from '../../src/pages/Goals';
+import styles from '../../src/assets/styles/Goals.module.css';
 
 const mockLocationState = {
   name: 'John Doe',

@@ -2,8 +2,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
-import MyAccount from '../pages/MyAccount';
-import styles from '../assets/styles/MyAccount.module.css';
+import MyAccount from '../../src/pages/MyAccount';
+import styles from '../../src/assets/styles/MyAccount.module.css';
 
 describe('<MyAccount />', () => {
   // Renders all the frontend components checks

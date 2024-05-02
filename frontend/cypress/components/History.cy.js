@@ -3,8 +3,8 @@ import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
 import moment from 'moment';
-import History from '../pages/History.js';
-import styles from '../assets/styles/History.module.css';
+import History from '../../src/pages/History.js';
+import styles from '../../src/assets/styles/History.module.css';
 
 // History page
 describe('<History />', () => {

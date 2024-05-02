@@ -2,8 +2,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
-import FAQS from '../pages/FAQS';
-import styles from '../assets/styles/FAQ.module.css';
+import FAQS from '../../src/pages/FAQS';
+import styles from '../../src/assets/styles/FAQ.module.css';
 
 // FAQS Tests
 describe('<FAQS />', () => {

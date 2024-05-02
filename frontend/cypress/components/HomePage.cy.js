@@ -2,8 +2,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter, Router } from 'react-router-dom';
-import HomePage from '../pages/HomePage';
-import styles from '../assets/styles/Home.module.css';
+import HomePage from '../../src/pages/HomePage';
+import styles from '../../src/assets/styles/Home.module.css';
 import { createMemoryHistory } from 'history';
 
 // Homepage 

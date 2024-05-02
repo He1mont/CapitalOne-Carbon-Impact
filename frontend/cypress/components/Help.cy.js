@@ -2,8 +2,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
-import Help from '../pages/Help';
-import styles from '../assets/styles/Help.module.css';
+import Help from '../../src/pages/Help';
+import styles from '../../src/assets/styles/Help.module.css';
 
 describe('<Help />', () => {
   // Setup the initial state if needed

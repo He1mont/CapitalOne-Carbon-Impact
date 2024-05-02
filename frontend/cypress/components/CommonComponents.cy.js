@@ -2,8 +2,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
-import { GoBackBtn, Logo, SettingBtn, Footer } from '../pages/CommonComponents';
-import styles from '../assets/styles/CommonComponent.module.css';
+import { GoBackBtn, Logo, SettingBtn, Footer } from '../../src/pages/CommonComponents';
+import styles from '../../src/assets/styles/CommonComponent.module.css';
 
 // Components checks
 describe('Common Components', () => {

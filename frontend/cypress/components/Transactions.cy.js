@@ -2,8 +2,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
-import Transactions from '../pages/Transactions';
-import styles from '../assets/styles/Transactions.module.css';
+import Transactions from '../../src/pages/Transactions';
+import styles from '../../src/assets/styles/Transactions.module.css';
 
 describe('<Transactions />', () => {
   // Define initial state for the component to simulate a logged-in user

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { mount } from '@cypress/react';
-import App from '../App';
-import '../assets/styles/index.css';
+import App from '../../src/App';
+import '../../src/assets/styles/index.css';
 
 describe('Index page rendering', () => {
     let root;

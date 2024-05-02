@@ -2,8 +2,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
-import Friends from '../pages/Friends';
-import styles from '../assets/styles/Friends.module.css';
+import Friends from '../../src/pages/Friends';
+import styles from '../../src/assets/styles/Friends.module.css';
 
 describe('<Friends /> Component Tests', () => {
   // Before each test, mount the Friends component within a MemoryRouter to handle routing

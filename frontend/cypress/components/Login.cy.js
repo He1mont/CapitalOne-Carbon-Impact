@@ -2,7 +2,7 @@
 import React from 'react';
 import { mount } from '@cypress/react';
 import { MemoryRouter } from 'react-router-dom';
-import Login from '../pages/Login';
+import Login from '../../src/pages/Login';
 
 describe('Login Component', () => {
   // Before each test, mount the Login component wrapped in a MemoryRouter
