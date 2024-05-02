@@ -80,7 +80,7 @@ body {
     color: rgb(80, 80, 80);
 }
 .AccTableDropdown {
-    width: 110px;
+    width: 180px;
     height: 25px;
     border-style: solid;
     border-color: black;
@@ -88,13 +88,14 @@ body {
 }
 .AccTableSubmit {
     width: 120px;
-    height: 20px;
+    height: 30px;
     margin-left: 10px;
     background-color: white;
     border-style: solid;
     border-color: black;
     border-radius: 3px;
     border-width: 1px;
+    font-weight: bold;
 }
 .AccTableSubmit:hover {
     background-color: rgb(237, 237, 237);
