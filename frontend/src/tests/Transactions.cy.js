@@ -19,6 +19,7 @@ describe('<Transactions />', () => {
       </MemoryRouter>
     );
   });
+  
   // Test to ensure that the Transactions page renders successfully with all main components visible
   it('successfully renders the transactions page', () => {
      // Check visibility of main structural elements of the page 
@@ -46,29 +47,5 @@ describe('<Transactions />', () => {
   it('sorts transactions by amount', () => {
     // The presence of a sorting arrow icon can indicate that sorting is enabled or not.
     cy.get(`.${styles.sort_arrow}`).should('not.exist');
-
-    // Check if transactions are sorted 
-    //  cy.get(`.${styles.transaction_tbl}`).find('tr').eq(1).find('td').eq(3).should('contain', '50.00');
   });
-
- /* describe('Low Component Functionality', () => {
-   
-
-   
-   
-     it('allows searching transactions', () => {
-       mount(
-         <MemoryRouter>
-           <Transactions />
-         </MemoryRouter>
-       );
-   
-       cy.get(`input.${styles.transaction_btns_search}`).type('coffee');
-       cy.get(`button.${styles.transaction_btns_download}`).click();
-       // Check if the table contains transactions related to "coffee"
-       cy.get('table').contains('td', 'coffee', { matchCase: false});
-     });
-
-
-  });*/
 })
