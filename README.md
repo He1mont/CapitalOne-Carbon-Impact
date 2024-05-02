@@ -11,7 +11,7 @@
 - [Anqi](contributors/anqi.md)
 - [Yanqian](contributors/yanqian.md)
 
-## 1. Project Initialization
+## 1. Project Overview
 
 ### Backend 
 
@@ -22,10 +22,6 @@ cd backend
 npm install
 ```
 
-In backend, we use the library `axios` to interact with [Hackathon API](https://hackathon.capitalone.co.uk). So we need to install `axios` beforehand.
-
-The `egg-mock` framework and `mocha` library is adopted as the test tools for backend. It could be installed by the following command
-
 ### Frontend
 
 The frontend is built with the [React](https://github.com/facebook/create-react-app) library. Likewise, we use `npm install` to add all dependencies.
@@ -34,6 +30,35 @@ The frontend is built with the [React](https://github.com/facebook/create-react-
 cd frontend
 npm install
 ```
+
+### Database
+This project utilizes [Prisma](https://www.prisma.io/docs) as the development tool. Detailed implementations of how to use prisma could be found the [Prisma Document](./docs/prisma-document.md).
+
+
+The database is deployed on [Amazon RDS](https://aws.amazon.com/rds/). Please note that some networks, such as `eduroam`, may block access to Amazon RDS. If you encounter any other errors accessing Amazon RDS, please contact scygs2@nottingham.ac.uk.
+
+### APIs
+The APIs utilised in this project are listed below.
+
+#### 1. Hackathon API
+
+The [Hackathon API](https://hackathon.capitalone.co.uk) is used in this project to create accounts and transactions, and it is implemented in `backend/app/service/` directory using JavaScript. Additionally, a set of Python files for interacting with the Hackathon API is located in the [Hack-API](./Hack-API/) directory. For detailed implementation, please refer to [Hackathon API document](./docs/hackAPI-document.md).
+
+#### 2. Carbon API
+
+The [CarbonAPI](https://docs.carboninterface.com/#/?id=estimates-api) is used in this project to calculate the carbon impact of each transaction. Python files that call the Carbon API are available in the [Carbon-API](./Carbon-API/) directory. For detailed implementation, please refer to [Carbon API document](./docs/carbonAPI-document.md).
+
+#### 3. OpenAI API
+
+The [OpenAI API](https://platform.openai.com/docs/assistants/overview) is used in this project to generate a AI assistant on the help page, providing useful information about this project. For detailed implementation, please refer to [OpenAI API document](./docs/openAI-document.md).
+
+#### 4. Currency Converter API
+
+The [Currency Converter API](https://exchangeratesapi.io/documentation/) is used in this project to convert the amount of each transaction into a uniform currency. 
+
+#### 5. Our Own API
+
+The currently implemented APIs are detailed in the [router configuration file](./backend/app/router.js). The full API document could be found [API document](./docs/api-document.md)
 
 ## 2. Launch the Project
 
@@ -45,11 +70,7 @@ In [backend](./backend/) directory, the project could be started by running the 
 npm run dev
 ```
 
-After starting the server, access it via http://localhost:7001/.
-
-The currently implemented APIs are detailed in the [router configuration file](./backend/app/router.js). And the full API document could be found [here](./API-Schema.md)
-
-Information on how to connect the database using prism can be found [here](./backend/prisma/README.md)
+The backend server is started on http://localhost:7001/.
 
 ### Frontend
 
@@ -59,175 +80,47 @@ In [frontend](./frontend/) directory, the project could be started by running th
 npm start
 ```
 
-The website would be available at http://localhost:3000
+The frontend server is started on http://localhost:3000/.
 
-## 3. Testing
+### Database
+In [backend](./backend/) directory, the prisma could be started by running the following command:
+
+```shell
+npx prisma studio
+```
+
+The prisma server is started on http://localhost:5555/.
+
+### OpenAI
+
+In [openAI](./openAI/) directory, the chatGPT could be started by running the following command:
+
+```shell
+npm install
+node index.js
+```
+
+The openAI server is started at http://localhost:8080
+
+## 3. Test
 
 ### Backend
 
-To run all tests for backend, use the following command
+To run all tests for backend, make sure you're in `backend/` directory, and use the following command
 ```shell
 npm test
 ```
 
-### Frontend
+### Frontend: Cypress
 
-The frontend has been thoroughly tested, and all tests have successfully passed. To run the tests, use the following command:
+[Cypress](https://docs.cypress.io/guides/overview/why-cypress) is implemented for the frontend testing. In the `frontend/` directory, it can be launched by using either following command:
 
-```shell
-npm test /src/tests
-```
-
-### Cypress
-
-Cypres Installation: 
-First, ensure Cypress is installed in your project. If not, install it by running:
-```shell
-npm install cypress --save-dev
-```
-
-Cypress could be launched using either following command:
-This command opens the Cypress Test Runner, where you can select and run individual test.
 ```shell
 npm run cypress:open
 npx cypress open
 ```
-Cypress Test List:
-Transactions Page, HomePage Component, History, Goals, Help Component
-Ensures the Transactions page and its components render correctly and interact as expected with the backend.
 
-Running Tests with Cypress
-To run tests, select the desired test from the Cypress Test Runner. 
-Each test automatically executes in a browser window, allowing real-time results.
+#### Component Test
 
-For automated testing, you can run Cypress in terminal :
-```shell
-npx cypress run
-```
+#### End-to-End Test
 
-More detailed documentation could be found [here](https://docs.cypress.io/guides/overview/why-cypress/)
-
-
-## 4. Create Fake Data
-
-### Account and Transaction
-
-Create a random account with two transactions:
-```shell
-curl -X POST http://localhost:7001/accounts
-```
-
-Create five random transactions for a sepcified account:
-```shell
-curl -X POST http://localhost:7001/accounts/:accountID/transactions
-```
-
-### Creating/Viewing Accounts & Transactions with Python
-
-Alternatively, you can use the provided Python files to create and view accounts and transactions
-
-#### Creating Accounts & Transactions
-
-##### Accounts
-
-1) To create accounts go into the `/accounts` folder using the command `cd accounts`.
-
-2) From there enter `python account-create-random.py`. You will then be asked how many account you would like created and how many transactions you want each account to have.
-
-3) Once you have entered the required details the accounts will be created and will be printed in in JSON format to the console
-
-##### Transactions
-
-1) To create transactions go into the `/transactions` folder using the command `cd transactions`.
-
-2) From there enter `python tran-create-random.py`. You will then be asked for the account ID of the account you would like to add transactions to and how many transactions you want added to the account. **Note that transactions cannot be added to accounts with a 'suspended' or 'closed' status.**
-
-3) Once you have entered the required details the transactions will be created and will be printed in in JSON format to the console 
-
-#### Getting Accounts & Transactions Created From API
-
-##### Accounts
-
-1) To get account info go into the `/accounts` folder using the command `cd accounts`.
-
-###### Viewing All Accounts
-
-2) Enter `python account-get-all.py`.
-
-3) All accounts and their information will then be printed to the terminal.
-
-###### Viewing Account By ID
-
-2) Enter `python account-get-by-id.py`. You will then be prompted to enter an account ID.
-
-3) All information for that specific account will then be printed out to the console.
-
-##### Transactions
-
-1) To view transaction information go into the `/transactions` folder using the command `cd transactions`.
-
-###### Viewing All Transactions from One Account
-
-2) Enter `python tran-get-all.py`. You will then be prompted to enter an account ID.
-
-3) All transactions related to the account (if found) entered will then be printed to the console.
-
-###### Vieiwng A Specific Transaction On A Specific Account
-
-2) Enter `python tran-get-all.py`. You will then be prompted to enter an account ID and transaction ID.
-
-3) Once all required information is entered, the details of the specific transaction (if found) in the account specified will be printed to the terminal
-
-#### Create fake data without using Hack-API
-
-There are two python files for create temporary fake data of accounts and transactions.
-
-Run these files separately, it would generate an `Account.json` file and `Transaction.json` file in the current working directory, which conform to the format of Hackathon API.
-
-```shell
-python create_account.py
-python create_transaction.py
-```
-
-The default number of created accounts and transactions are `5`, and the default `accountID` of the created transactions are `12345678`. Feel free to modify it manually in function `main()`.
-
-```python
-def main():
-    numOfAccounts = 5
-
-def main():
-    numOfTransactions = 5
-    account_id = '12345678'
-```
-
-## 5. Carbon API
-
-For this project, we will be using an API provided by [Carbon Interface](https://docs.carboninterface.com/#/) to provide us with carbon impact estimates for our transactions. They have a dedicated feature in the API named `Carbon Ledger` which allows us to input data about a transaction (amount spent, merchant data, etc.) and in return we get a carbon score in grams.
-
-The image below shows the data model for the Carbon Ledger. All of our data will be stored in a Program, which contains Card Profiles, which is the equivalent of an account in the Hackathon API. Each Card Profile contains transactions, where a carbon impact estimate is also stored. The model is the underlying algorithm that calculates the carbon emissions for transactions. At the moment, we are only able to use one test model provided by Carbon Interface themselves. Furthermore, the Carbon Ledger is in Beta, so it likely doesn't produce the most accurate carbon impact estimate.
-![Carbon Ledger Data Model](assets/carbon_ledger_data_model.png)
-
-By default, accounts and transactions are created in the Carbon API when running the commands listed in [Account and Transaction](#Account-and-Transaction), providing us with a carbon impact score for every transaction, but you could also do the same (and more) with the provided Python files:
-
- - [Creating Card Profile (Account)](Carbon-API/create_card_profile.py)
- - [Deleting Card Profile](Carbon-API/delete_card_profile.py)
- - [Retrieve all Card Profiles](Carbon-API/get_all_card_profiles.py)
- - [Retrieve Card Profile by ID](Carbon-API/get_card_profile_by_id.py)
- - [Create Transaction](Carbon-API/add_transaction.py)
- - [Retrieve all Transactions on a specific account](Carbon-API/get_all_transactions.py)
- - [Retrieve a Transaction by ID](Carbon-API/get_transaction_by_id.py)
- - [Retrieve Carbon Impact Score of specific Transaction](Carbon-API/get_carbon_impact_from_transaction.py)
-
- > **Note:** Transactions cannot be deleted once they have been created
-
- To run these files enter `python {path_of_file}` and follow the prompts.
-
-### OpenAI API
-
-The openAI API calls the openAI API in and generates response the users prompts. The responses are tailored and summarised before displayed to users.
-
-```shell
-cd openAI
-npm install
-node index.js
-```
