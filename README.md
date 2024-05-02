@@ -28,7 +28,7 @@ The frontend is built with the [React](https://github.com/facebook/create-react-
 
 ```shell
 cd frontend
-npm install
+npm install # or npm install --force
 ```
 
 ### Database
@@ -116,11 +116,8 @@ npm test
 [Cypress](https://docs.cypress.io/guides/overview/why-cypress) is implemented for the frontend testing. In the `frontend/` directory, it can be launched by using either following command:
 
 ```shell
-npm run cypress:open
 npx cypress open
 ```
 
-#### Component Test
-
-#### End-to-End Test
+Once Cypress is launched, you will be presented with two testing options: **End-to-End Tests** and **Component Tests**. Click on either option to access a list of test files available for execution.
 
