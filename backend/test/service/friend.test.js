@@ -34,6 +34,7 @@ describe('FriendService', () => {
 
   describe('addByID', () => {
     it('should add a following relationship by accountID and friendID', async () => {
+      // Call the addByID method
       const addedFriend = await ctx.service.friend.addByID(testAccountID, testFriendID);
       // Assert whether the following relationship is added successfully
       assert(addedFriend);
@@ -50,9 +51,10 @@ describe('FriendService', () => {
 
   describe('getAll', () => {
     it('should retrieve all following users of an account', async () => {
+      // Call the getAll method
       const userFriends = await ctx.service.friend.getAll(testAccountID);
       // Assert whether the user's friends are retrieved successfully
-      assert(Array.isArray(userFriends));
+      assert(Array.isArray(userFriends));  // should contain the input friend
       assert.equal(userFriends.length, 1);
       userFriends.forEach(friend => {
         assert.equal(friend.accountID, testFriendID);
@@ -62,13 +64,14 @@ describe('FriendService', () => {
     it('should return an empty array if no friends exist for the account', async () => {
       const testInvalidID = 'invalidID';
       const userFriends = await ctx.service.friend.getAll(testInvalidID);
-      assert(Array.isArray(userFriends));
+      assert(Array.isArray(userFriends));  // should return an empty list
       assert.equal(userFriends.length, 0);
     });
   });
 
   describe('deleteFriend', () => {
     it('should delete a following relationship by accountID and friendID', async () => {
+      // Call the deleteFriend method
       await ctx.service.friend.deleteFriend(testAccountID, testFriendID);
       // No assertion needed for deletion
     });

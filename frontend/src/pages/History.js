@@ -1,11 +1,12 @@
+// History.js
 import React, { Component } from 'react';
-import moment from 'moment';
-import styles from '../assets/styles/History.module.css';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import styles from '../assets/styles/History.module.css';                 // CSS modules
+import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents'; // Reused components
+import * as API from '../services/api';   // API functions for server-side interactions
+import moment from 'moment';              // External libraries
+import { Hidden } from '@mui/material';   // MUI Components
 import { PieChart, LineChart, BarChart } from '@mui/x-charts';
-import { Hidden } from '@mui/material';
-import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
-import * as API from '../services/api';
 
 /**
  * Month selection component:
@@ -22,9 +23,11 @@ class MonthRangeSelect extends Component {
 
     return (
       <div className={styles.month_range_container}>
+        {/* Table layout to arrange month selectors horizontally. */}
         <table className={styles.month_select}>
           <tbody>
             <tr>
+              {/* Buttons and displays for selecting the start month. */}
               <th style={{ width: '16%', textAlign: 'right' }}>
                 <button className={styles.month_select_btn} onClick={decreaseStartMonth}>
                   <img src="/images/month-range-left.png" alt="Left Arrow" width="30px" />
@@ -42,9 +45,13 @@ class MonthRangeSelect extends Component {
                   <img src="/images/month-range-right.png" alt="Right Arrow" width="30px" />
                 </button>
               </th>
+
+              {/* Static 'To' label for visual separation between start and end month selectors. */}
               <th style={{ width: '17%', textAlign: 'center' }}>
                 To
               </th>
+
+              {/* Buttons and displays for selecting the end month. */}
               <th style={{ width: '16%', textAlign: 'right' }}>
                 <button className={styles.month_select_btn} onClick={decreaseEndMonth}>
                   <img src="/images/month-range-left.png" alt="Left Arrow" width="30px" />
@@ -86,11 +93,11 @@ class Graphs extends Component {
       dataForBar: [],
       categoryState: this.returnCategoryState(true),
       loading: true,
-      colourCorrection: 3
+      colorTheme: 0
     };
   }
 
-  // return a list of strings representing each category
+  // Return a list of strings representing each category
   getAllCategories() {
     return [
       'Entertainment',
@@ -106,9 +113,9 @@ class Graphs extends Component {
     ];
   }
 
-  // return an object, each attribute is a category with value representing color
+  // Return an object, each attribute is a category with value representing color
   getColors() {
-    if (this.state.colourCorrection == 0) {
+    if (this.state.colorTheme === 0) {
       return {
         'Entertainment': '#9e0142',
         'Education': '#e66100',
@@ -121,7 +128,7 @@ class Graphs extends Component {
         'Auto & Transport': '#b200ff',
         'Travel': '#cc2ca3'
       };
-    } else if (this.state.colourCorrection == 1) {
+    } else if (this.state.colorTheme === 1) {
       return {
         'Entertainment': '#0051a8',
         'Education': '#006cdd',
@@ -134,7 +141,7 @@ class Graphs extends Component {
         'Auto & Transport': '#c4922a',
         'Travel': '#826219'
       };
-    } else if (this.state.colourCorrection == 2) {
+    } else if (this.state.colorTheme === 2) {
       return {
         'Entertainment': '#8b373b',
         'Education': '#c74c52',
@@ -147,7 +154,7 @@ class Graphs extends Component {
         'Auto & Transport': '#31a1ae',
         'Travel': '#31a1ae'
       };
-    } else if (this.state.colourCorrection == 3) {
+    } else if (this.state.colorTheme === 3) {
       return {
         'Entertainment': '#e0e0e0',
         'Education': '#e0e0e0',
@@ -161,9 +168,9 @@ class Graphs extends Component {
         'Travel': '#040404'
       };
     }
-    
   }
 
+  // Fetches the background color for a given category
   getBackgroundColor(category) {
     if (this.state.categoryState[category]) {
       return this.getColors()[category]
@@ -171,7 +178,12 @@ class Graphs extends Component {
     return 'rgb(172, 172, 172)'
   }
 
-  componentDidMount() {
+  // Loads initial data for all chart types
+  async componentDidMount() {
+    const data = await API.getAccountByID(this.props.id)
+    const colorTheme = data[0].colorMode
+
+    this.setState({ colorTheme: colorTheme })
     this.generatePieChartData();
     this.generateLineChartData();
     this.generateBarChartData();
@@ -180,6 +192,7 @@ class Graphs extends Component {
     }, 800);
   }
 
+  // Reacts to changes in props or state
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.startMonth !== this.props.startMonth || prevProps.endMonth !== this.props.endMonth
       || prevState.categoryState !== this.state.categoryState) {
@@ -189,12 +202,13 @@ class Graphs extends Component {
     }
   }
 
+  // Sets the graph selection to user choice
   changeSelection = (sel) => {
     console.log("Changing selection to:", sel);
     this.setState({ graphSelection: sel });
   }
 
-  // return an object, each of the attribute is an category with value bool
+  // Initializes all categories to a specified boolean state
   returnCategoryState(bool) {
     const categories = this.getAllCategories();
     return categories.reduce((acc, item) => {
@@ -203,15 +217,17 @@ class Graphs extends Component {
     }, {});
   }
 
+  // Enables all categories
   handleClickAllOn = () => {
     this.setState({ categoryState: this.returnCategoryState(true) });
   }
 
+  // Disables all categories
   handleClickAllOf = () => {
     this.setState({ categoryState: this.returnCategoryState(false) });
   }
 
-  // change the state of a given category
+  // Toggles the state for a single category
   handleClickCategoryButton = (category) => {
     this.setState(prevState => ({
       categoryState: {
@@ -221,7 +237,7 @@ class Graphs extends Component {
     }));
   };
 
-  // set the monthList as a list of date representing each month
+  // Generates a list of months between the start and end month
   generateMonthList() {
     const { startMonth, endMonth } = this.props;
     const start = startMonth.toDate();
@@ -236,22 +252,22 @@ class Graphs extends Component {
     return monthList
   }
 
-  // generate data to dataForPie based on the current monthlist
+  // Generate data to dataForPie based on the current monthlist
   generatePieChartData = async () => {
-    const monthList = this.generateMonthList(); // generate a month list
-    const categories = this.getAllCategories()     // get a list of categories
-    const colors = this.getColors()             // get an object of categories and colors
-    let ret = categories.map(item => ({         // initialization of return data
+    const monthList = this.generateMonthList(); // Generate a month list
+    const categories = this.getAllCategories()  // Get a list of categories
+    const colors = this.getColors()             // Get an object of categories and colors
+    let ret = categories.map(item => ({         // Initialization of return data
       value: 0,
       label: item,
       color: colors[item]
     }));
-    // traverse all the dates of dateList
+    // Traverse all the dates of dateList
     for (const date of monthList) {
-      // call backend API to get carbon score of in category of a certain month
+      // Call backend API to get carbon score of in category of a certain month
       const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth());
 
-      // for each category in ret, if the category is selected, add the corresponding value
+      // For each category in ret, if the category is selected, add the corresponding value
       ret.forEach(item => {
         if (this.state.categoryState[item.label])
           item.value += obj[item.label]
@@ -260,15 +276,17 @@ class Graphs extends Component {
     this.setState({ dataForPie: ret })
   }
 
+  // Generate data to dataForLine based on the current monthlist
   generateLineChartData = async () => {
-    const monthList = this.generateMonthList(); // generate a month list
-    let ret = []                                // initialization of return data
-    // traverse all the dates of dateList
+    const monthList = this.generateMonthList(); // Generate a month list
+    let ret = []                                // Initialization of return data
+    // Traverse all the dates of dateList
     for (const date of monthList) {
-      // call backend API to get carbon score of in category of a certain month
+      // Call backend API to get carbon score of in category of a certain month
       const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth());
       obj.month = `${date.getMonth() + 1}/${date.getFullYear()}`
-      // traverse all categories, if not selected, set the value of it to 0 in object
+
+      // Traverse all categories, if not selected, set the value of it to 0 in object
       this.getAllCategories().forEach(item => {
         if (!this.state.categoryState[item]) {
           obj[item] = 0
@@ -279,19 +297,19 @@ class Graphs extends Component {
     this.setState({ dataForLine: ret })
   }
 
-  // generate data to dataForPie based on the current monthlist
+  // Generate data to dataForBar based on the current monthlist
   generateBarChartData = async () => {
-    const monthList = this.generateMonthList(); // generate a month list
-    const categories = this.getAllCategories()     // get a list of categories
-    const colors = this.getColors()             // get an object of categories and colors
-    let ret = categories.map(item => ({         // initialization of return data
+    const monthList = this.generateMonthList()  // Generate a month list
+    const categories = this.getAllCategories()  // Get a list of categories
+    const colors = this.getColors()             // Get an object of categories and colors
+    let ret = categories.map(item => ({         // Initialization of return data
       data: [],
       stack: 'A',
       label: item,
       color: colors[item]
     }));
     for (const date of monthList) {
-      // call backend API to get carbon score of in category of a certain month
+      // Call backend API to get carbon score of in category of a certain month
       const obj = await API.getCarbonScoreByMonthInCategory(this.props.id, date.getFullYear(), date.getMonth());
       ret.forEach(item => {
         if (this.state.categoryState[item.label])
@@ -301,7 +319,7 @@ class Graphs extends Component {
     this.setState({ dataForBar: ret })
   };
 
-  // generate a lsit of string representing each month for bar chart
+  // Creates labels for the X-axis of the bar chart
   generateBarChartXLabel() {
     const monthList = this.generateMonthList();
     return monthList.map(item => `${item.getMonth() + 1}/${item.getFullYear()}`);
@@ -310,6 +328,7 @@ class Graphs extends Component {
   render() {
     let selectedGraph;
 
+    // Configuration for how the data should be stacked in line and bar charts.
     const stackStrategy = {
       stack: 'total',
       area: true,
@@ -324,8 +343,9 @@ class Graphs extends Component {
         </div>
       );
     } else {
-      // Determine which graph is shown based on graphSelection
+      // Selects the graph to display based on the current graph selection state.
       if (this.state.graphSelection === 1) {
+        // Renders a pie chart if the first option is selected.
         selectedGraph =
           <div className={styles.graph_container_pie}>
             <PieChart
@@ -342,7 +362,9 @@ class Graphs extends Component {
               slotProps={{ legend: { hidden: Hidden } }}
             />
           </div>;
+
       } else if (this.state.graphSelection === 2) {
+        // Renders a line chart if the second option is selected.
         selectedGraph =
           <div className={styles.graph_container_line}>
             <LineChart
@@ -366,10 +388,11 @@ class Graphs extends Component {
           </div>;
 
       } else if (this.state.graphSelection === 3) {
+        // Renders a bar chart if the third option is selected.
         selectedGraph =
           <div className={styles.graph_container_bar}>
             <BarChart
-              xAxis={[{ data: this.generateBarChartXLabel(), scaleType: 'band'}]}
+              xAxis={[{ data: this.generateBarChartXLabel(), scaleType: 'band' }]}
               series={this.state.dataForBar}
               width={700}
               height={350}
@@ -382,41 +405,36 @@ class Graphs extends Component {
     return (
       <div className={styles.graphs_container}>
         <div className={styles.picker_container}>
+          {/* Table for graph type selection: Pie Chart, Line Graph, Bar Graph */}
           <table className={styles.graphs_picker}>
             <thead>
               <tr>
-                <th
-                  className={`${styles.graph_selection_heads} ${this.state.graphSelection === 1 ? styles.selected : ''}`}
-                  style={{ width: '33%' }}
-                  onClick={() => this.changeSelection(1)}
-                >
+                <th className={`${styles.graph_selection_heads} ${this.state.graphSelection === 1 ? styles.selected : ''}`}
+                  style={{ width: '33%' }} onClick={() => this.changeSelection(1)}>
                   Pie Chart
                 </th>
-                <th
-                  className={`${styles.graph_selection_heads} ${this.state.graphSelection === 2 ? styles.selected : ''}`}
-                  style={{ width: '34%' }}
-                  onClick={() => this.changeSelection(2)}
-                >
+                <th className={`${styles.graph_selection_heads} ${this.state.graphSelection === 2 ? styles.selected : ''}`}
+                  style={{ width: '34%' }} onClick={() => this.changeSelection(2)}>
                   Line Graph
                 </th>
-                <th
-                  className={`${styles.graph_selection_heads} ${this.state.graphSelection === 3 ? styles.selected : ''}`}
-                  style={{ width: '33%' }}
-                  onClick={() => this.changeSelection(3)}
-                >
+                <th className={`${styles.graph_selection_heads} ${this.state.graphSelection === 3 ? styles.selected : ''}`}
+                  style={{ width: '33%' }} onClick={() => this.changeSelection(3)}>
                   Bar Graph
                 </th>
               </tr>
             </thead>
           </table>
         </div>
+        {/* Displays the currently selected graph */}
         <div className={styles.graphs_inner_container}>
           {selectedGraph}
 
+          {/* Category selection buttons for graph data filtering */}
           <div className={styles.graph_category_container}>
             <table className={styles.graph_category_picker}>
               <thead>
                 <tr>
+                  {/* Buttons for Entertainment with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.entertainment ? this.state.entertainmentC : 'black' }}
@@ -431,6 +449,7 @@ class Graphs extends Component {
                       </div>
                     </button>
                   </th>
+                  {/* Buttons for Education with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.education ? this.state.educationC : 'black' }}
@@ -445,6 +464,7 @@ class Graphs extends Component {
                       </div>
                     </button>
                   </th>
+                  {/* Buttons for Shopping with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.shopping ? this.state.shoppingC : 'black' }}
@@ -459,6 +479,7 @@ class Graphs extends Component {
                       </div>
                     </button>
                   </th>
+                  {/* Buttons for Personal Care with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.care ? this.state.careC : 'black' }}
@@ -473,6 +494,7 @@ class Graphs extends Component {
                       </div>
                     </button>
                   </th>
+                  {/* Buttons for Health & Fitness with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.health ? this.state.healthC : 'black' }}
@@ -490,6 +512,7 @@ class Graphs extends Component {
                   <th style={{ width: '10%' }}>
                     <div style={{ width: '40px' }}></div>
                   </th>
+                  {/* Buttons for All On */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: '#073763ff' }}
@@ -506,6 +529,7 @@ class Graphs extends Component {
                   </th>
                 </tr>
                 <tr>
+                  {/* Buttons for Food & Dining with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.food ? this.state.foodC : 'black' }}
@@ -520,6 +544,7 @@ class Graphs extends Component {
                       </div>
                     </button>
                   </th>
+                  {/* Buttons for Gifts & Donations with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.gifts ? this.state.giftsC : 'black' }}
@@ -534,6 +559,7 @@ class Graphs extends Component {
                       </div>
                     </button>
                   </th>
+                  {/* Buttons for Bills & Utilities with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.utilities ? this.state.utilitiesC : 'black' }}
@@ -548,6 +574,7 @@ class Graphs extends Component {
                       </div>
                     </button>
                   </th>
+                  {/* Buttons for Auto & Transport with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.transport ? this.state.transportC : 'black' }}
@@ -562,6 +589,7 @@ class Graphs extends Component {
                       </div>
                     </button>
                   </th>
+                  {/* Buttons for Travel with on/off toggle */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: this.state.travel ? this.state.travelC : 'black' }}
@@ -577,8 +605,8 @@ class Graphs extends Component {
                     </button>
                   </th>
                   <th style={{ width: '10%' }}>
-                    
                   </th>
+                  {/* Buttons for All Off */}
                   <th style={{ width: '10%' }}>
                     <button className={styles.graph_category_btn}
                       style={{ borderColor: '#073763ff' }}
@@ -605,16 +633,15 @@ class Graphs extends Component {
 
 /**
  * Head component:
- * Displays the header bar with the logo and handles navigation to the home page.
- * @param {string} name - The name of the user.
- * @param {string} id - The ID of the user.
+ * Displays the top part including the logo and GoBack button and a Setting button.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
 function Head({ name, id }) {
   return (
     <div className={styles.head_bar}>
       <GoBackBtn name={name} id={id} />
       <Logo />
-
       <SettingBtn name={name} id={id} />
     </div>
   );
@@ -630,6 +657,7 @@ class Mid extends Component {
     endMonth: moment(),
   };
 
+  // Decreases the start month but ensures it doesn't go before a set minimum date or the current end month.
   decreaseStartMonth = () => {
     const nextMonth = this.state.startMonth.clone().subtract(1, 'month');
     const minDate = moment('2021-01-01');
@@ -637,65 +665,71 @@ class Mid extends Component {
       if (nextMonth.isBefore(this.state.endMonth)) {
         this.setState({ startMonth: nextMonth });
       }
-  }
-};
+    }
+  };
 
-increaseStartMonth = () => {
-  const nextMonth = this.state.startMonth.clone().add(1, 'month');
-  if (nextMonth.isSameOrBefore(this.state.endMonth)) {
-    this.setState({ startMonth: nextMonth });
-  }
-};
+  // Increases the start month but ensures it doesn't exceed the end month.
+  increaseStartMonth = () => {
+    const nextMonth = this.state.startMonth.clone().add(1, 'month');
+    if (nextMonth.isSameOrBefore(this.state.endMonth)) {
+      this.setState({ startMonth: nextMonth });
+    }
+  };
 
-decreaseEndMonth = () => {
-  const nextMonth = this.state.endMonth.clone().subtract(1, 'month');
-  const minDate = moment('2021-01-01');
-  if (nextMonth.isSameOrAfter(minDate)) {
+  // Decreases the end month but ensures it doesn't go before the start month or a set minimum date.
+  decreaseEndMonth = () => {
+    const nextMonth = this.state.endMonth.clone().subtract(1, 'month');
+    const minDate = moment('2021-01-01');
+    if (nextMonth.isSameOrAfter(minDate)) {
+      if (nextMonth.isSameOrAfter(this.state.startMonth)) {
+        this.setState({ endMonth: nextMonth });
+      }
+    }
+  };
+
+  // Increases the end month freely.
+  increaseEndMonth = () => {
+    const nextMonth = this.state.endMonth.clone().add(1, 'month');
     if (nextMonth.isSameOrAfter(this.state.startMonth)) {
       this.setState({ endMonth: nextMonth });
     }
-  }
-};
+  };
 
-increaseEndMonth = () => {
-  const nextMonth = this.state.endMonth.clone().add(1, 'month');
-  if (nextMonth.isSameOrAfter(this.state.startMonth)) {
-    this.setState({ endMonth: nextMonth });
-  }
-};
+  render() {
+    const { name, id } = this.props;
+    const { startMonth, endMonth } = this.state;
 
-render() {
-  const { name, id } = this.props;
-  const { startMonth, endMonth } = this.state;
-
-  return (
-    <div className={styles.mid_bar}>
-      <div className={styles.mid_high}>
-        <div className={styles.mid_high_txt_left}>
-          <p>{name}</p>
-          <h1>Carbon History</h1>
+    return (
+      <div className={styles.mid_bar}>
+        {/* Header display showing the name and title 'Carbon History' */}
+        <div className={styles.mid_high}>
+          <div className={styles.mid_high_txt_left}>
+            <p>{name}</p>
+            <h1>Carbon History</h1>
+          </div>
+          <div className={styles.mid_high_center_container}>
+            {/* Component for selecting the range of months */}
+            <MonthRangeSelect
+              startMonth={startMonth}
+              endMonth={endMonth}
+              decreaseStartMonth={this.decreaseStartMonth}
+              increaseStartMonth={this.increaseStartMonth}
+              decreaseEndMonth={this.decreaseEndMonth}
+              increaseEndMonth={this.increaseEndMonth}
+            />
+          </div>
         </div>
-        <div className={styles.mid_high_center_container}>
-          <MonthRangeSelect
+        {/* Renders the graphs based on selected date range */}
+        <div className={styles.mid_low}>
+          <Graphs
+            id={id}
             startMonth={startMonth}
             endMonth={endMonth}
-            decreaseStartMonth={this.decreaseStartMonth}
-            increaseStartMonth={this.increaseStartMonth}
-            decreaseEndMonth={this.decreaseEndMonth}
-            increaseEndMonth={this.increaseEndMonth}
           />
         </div>
       </div>
-      <div className={styles.mid_low}>
-        <Graphs
-          id={id}
-          startMonth={startMonth}
-          endMonth={endMonth}
-        />
-      </div>
-    </div>
-  );
-}
+    );
+  }
 }
 
 /**

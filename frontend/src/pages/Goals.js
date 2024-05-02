@@ -1,24 +1,20 @@
+// Goal.js
 import React, { Component, useState, useEffect } from 'react';
-import moment from 'moment';
-import styles from '../assets/styles/Goals.module.css';
-import { useHistory, useLocation } from 'react-router-dom';
-import * as API from '../services/api';
-import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
-// MUI Components
-import { DataGrid } from '@mui/x-data-grid';
-import Box from '@mui/material/Box';
+import { useLocation } from 'react-router-dom';
+import styles from '../assets/styles/Goals.module.css';                   // CSS modules
+import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents'; // Reused Components
+import * as API from '../services/api'; // API functions for server-side interactions
+import moment from 'moment';            // External libraries
 import clsx from 'clsx';
-
+import Box from '@mui/material/Box';    // MUI Components
+import { DataGrid } from '@mui/x-data-grid';
 
 /**
  * Month selector component:
  * Renders a month selector for the user to use to view data from a given month.
  */
 class MonthSelect extends Component {
-  /**
-   * Decreases the selected month by one.
-   * Only allows the month to be decreased if it goes to a date after the start of 2021.
-   */
+  // Decreases the selected month by one
   decreaseMonth = () => {
     const { month, onMonthChange } = this.props;
     const nextMonth = month.clone().subtract(1, 'month');
@@ -28,36 +24,35 @@ class MonthSelect extends Component {
       onMonthChange(nextMonth);
     }
   };
-  /**
-   * Increases the selected month by one.
-   * Only allows the month to be increased if it's not beyond the current month.
-   */
+
+  // Increases the selected month by one.
   increaseMonth = () => {
     const { month, onMonthChange } = this.props;
     const nextMonth = month.clone().add(1, 'month');
+    // Only allows the month to be increased if it's not beyond the current month.
     if (nextMonth <= moment()) {
       onMonthChange(nextMonth);
     }
   };
 
-  /**
-   * Renders the month selector table.
-   * @returns {JSX.Element} The rendered month selector.
-   */
+  // Renders the month selector table.
   render() {
     const { month } = this.props;
     return (
       <table className={styles.month_select}>
         <tbody>
           <tr>
+            {/* Button to decrease the month with an image of a left arrow */}
             <th style={{ width: '33%', textAlign: 'right' }}>
               <button className={styles.month_select_btn} onClick={this.decreaseMonth}>
                 <img src="/images/month-left.png" alt="Left Arrow" width="30px" />
               </button>
             </th>
+            {/* Displays the currently selected month in 'MMM YYYY' format */}
             <th style={{ width: '34%', textAlign: 'center' }}>
               <span>{month.format('MMM YYYY')}</span>
             </th>
+            {/* Button to increase the month with an image of a right arrow */}
             <th style={{ width: '33%', textAlign: 'left' }}>
               <button
                 className={styles.month_select_btn}
@@ -79,16 +74,8 @@ class MonthSelect extends Component {
  * constructs a comparison chart of the month in carbon against the goal.
  */
 class CarbonUseCircle extends Component {
-  constructor(props) {
-    super(props);
-  }
 
-  /**
-   * Calculates the percentage of carbon emission compared to the goal emissions.
-   * @param {number} carbonEmission - The carbon emission value.
-   * @param {number} goalEmissions - The goal emissions value.
-   * @returns {number} The percentage of carbon emission compared to the goal emissions.
-   */
+  // Calculates the percentage of carbon emission compared to the goal emissions.
   getPercentage = (carbonEmission, goalEmissions) => {
     let percentage = carbonEmission / goalEmissions;
     if (percentage > 1) {
@@ -97,16 +84,17 @@ class CarbonUseCircle extends Component {
     return percentage * 100;
   };
 
+  // Generates SVG markup to render a circular progress chart.
   drawCircle = ({ color }) => {
     let percentage = 0;
 
+    // Adjust color and completion percentage based on current emissions
     if (color === 'white') {
-      percentage = 100;
-    }
-    else {
+      percentage = 100;   // Set full circle if specified color is white
+    } else {
       percentage = this.getPercentage(this.props.carbonEmission, this.props.goalEmissions);
       if (this.props.carbonEmission === 0) {
-        color = 'white';
+        color = 'white';  // Set circle color to white if no emissions
       }
     }
 
@@ -117,6 +105,7 @@ class CarbonUseCircle extends Component {
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = ((100 - percentage) * circumference) / 100;
 
+    // Update color based on percentage to visualize emission severity
     if (color !== 'white' && this.props.carbonEmission !== 0) {
       const hue = ((100 - percentage) / 100) * 120;
       color = `hsl(${hue}, 100%, 50%)`;
@@ -146,6 +135,8 @@ class CarbonUseCircle extends Component {
 
   render() {
     let difference, returnSetence;
+
+    // Calculate the difference between the goal and actual emissions
     const { goalEmissions, carbonEmission } = this.props;
     if (goalEmissions >= carbonEmission) {
       difference = goalEmissions - carbonEmission;
@@ -158,10 +149,11 @@ class CarbonUseCircle extends Component {
     return (
       <div style={{ position: 'relative', height: '100%' }}>
 
-        {/* Render the table containing carbon use circle and mid_circles */}
+        {/* Table layout to organize the display of carbon data visually */}
         <table className={styles.goals_circle_tbl}>
           <tbody>
             <tr>
+              {/* Display current carbon emission score */}
               <th style={{ width: '33%', textAlign: 'center' }}>
                 <div className={styles.mid_circle_wrapper}>
                   <div className={styles.mid_circles}>
@@ -173,6 +165,7 @@ class CarbonUseCircle extends Component {
                   </div>
                 </div>
               </th>
+              {/* Visual representation of the carbon goal */}
               <th style={{ width: '34%', textAlign: 'center' }}>
                 <img src="/images/goals-mid.png" alt="arctic container" className={styles.img_box} />
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
@@ -194,6 +187,7 @@ class CarbonUseCircle extends Component {
                   </div>
                 </div>
               </th>
+              {/* Display the difference in emissions relative to the goal */}
               <th style={{ width: '33%', textAlign: 'center' }}>
                 <div className={styles.mid_circle_wrapper}>
                   <div className={styles.mid_circles}>
@@ -224,9 +218,7 @@ class Leaderboard extends Component {
     };
   }
 
-  /**
-   * Initializes and displays the friend list and fetches carbon scores for friends.
-   */
+  // Initializes and displays the friend list and fetches carbon scores for friends.
   async componentDidMount() {
     const id = this.props.userID;
     await API.getAllFollowings(id)
@@ -237,14 +229,11 @@ class Leaderboard extends Component {
         console.error('Error fetching following users:', error);
         this.setState({ friendList: [] });
       });
-
     await this.fetchCarbonScoreForFriends();
     await this.fetchCarbonGoalForFriends();
   }
 
-  /**
-   * Fetches carbon scores for friends when the month changes.
-   */
+  // Fetches carbon scores for friends when the month changes.
   async componentDidUpdate(prevProps, prevState) {
     // Check if the month has changed
     if (prevProps.month.format('MM') !== this.props.month.format('MM')) {
@@ -253,9 +242,7 @@ class Leaderboard extends Component {
     }
   }
 
-  /**
-   * Fetches carbon scores for all friends.
-   */
+  // Fetches and stores carbon scores for all friends for the current month.
   fetchCarbonScoreForFriends = async () => {
     let friends = this.state.friendList;
     const month = this.props.month;
@@ -272,6 +259,7 @@ class Leaderboard extends Component {
     this.setState({ carbonScoreList });
   };
 
+  // Fetches and stores carbon goals for all friends.
   fetchCarbonGoalForFriends = async () => {
     let friends = this.state.friendList;
     const month = this.props.month;
@@ -294,7 +282,9 @@ class Leaderboard extends Component {
     this.setState({ carbonGoalList });
   };
 
+  // Merges carbon score and goal data for display.
   mergeUsersforDisplay = () => {
+    // Helper to retrieve a friend's details by username.
     const getUser = (username) => {
       for (const item of this.state.friendList) {
         if (item.username === username) {
@@ -303,6 +293,7 @@ class Leaderboard extends Component {
       }
       return null;
     };
+    // Helper to retrieve a friend's carbon goal by username.
     const getForUser = (username) => {
       for (const item of this.state.carbonGoalList) {
         if (item.username === username) {
@@ -314,6 +305,7 @@ class Leaderboard extends Component {
 
     let rank = 1;
     const mergedArray = [];
+    // Merge data for each user in the carbon score list.
     for (const userItem of this.state.carbonScoreList) {
       const friend = getUser(userItem.username);
       const carbonGoal = getForUser(userItem.username);
@@ -328,53 +320,44 @@ class Leaderboard extends Component {
     return mergedArray;
   };
 
-
   render() {
-    // merge user's goal and score for a specific month with existing info
+    // Merge user data with their goals and scores to display in the DataGrid.
     const completeFollowingUsers = this.mergeUsersforDisplay();
-    // define the top columns for the table
+
+    // / Define the columns for the DataGrid, including custom header styles and alignment properties.
     const columns = [
       {
         field: 'rank', width: 70, headerClassName: 'header-theme',
-        renderHeader: () => (
-          <strong>{'Rank'}</strong>
-        )
+        renderHeader: () => (<strong>{'Rank'}</strong>)
       },
       {
         field: 'username', width: 180, headerClassName: 'header-theme',
-        renderHeader: () => (
-          <strong>{'Following Users'}</strong>
-        )
+        renderHeader: () => (<strong>{'Following Users'}</strong>)
       },
       {
         field: 'carbonScore', width: 170, headerClassName: 'header-theme',
         align: 'center', headerAlign: 'center',
-        renderHeader: () => (
-          <strong>{'Carbon Score'}</strong>
-        )
+        renderHeader: () => (<strong>{'Carbon Score'}</strong>)
       },
       {
         field: 'carbonGoal', width: 170, headerClassName: 'header-theme',
         align: 'center', headerAlign: 'center',
-        renderHeader: () => (
-          <strong>{'Carbon Goal'}</strong>
-        )
+        renderHeader: () => (<strong>{'Carbon Goal'}</strong>)
       },
       {
         field: 'status', width: 170, headerClassName: 'header-theme',
         align: 'center', headerAlign: 'center',
+        // Apply conditional styling based on the status value.
         cellClassName: (params) => {
           if (params.value == null) {
             return '';
           }
           return clsx('super-app', {
-            negative: params.value < 0,
-            positive: params.value >= 0,
+            negative: params.value < 0,   // Style for negative status.
+            positive: params.value >= 0,  // Style for positive or neutral status.
           });
         },
-        renderHeader: () => (
-          <strong>{'Status'}</strong>
-        )
+        renderHeader: () => (<strong>{'Status'}</strong>)
       },
     ];
 
@@ -431,6 +414,12 @@ class Leaderboard extends Component {
   }
 }
 
+/**
+ * Head component:
+ * Displays the top part including the logo and GoBack button and a Setting button.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
+ */
 function Head({ name, id }) {
   return (
     <div className={styles.head_bar}>
@@ -444,61 +433,62 @@ function Head({ name, id }) {
 /**
  * Mid component:
  * Renders the middle section of the Goals page, providing contextual information.
- * @param {Object} props - The props containing name, id, month, and onMonthChange function.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
+ * @param {object} month - Currently selected month object, typically a moment.js object.
+ * @param {function} onMonthChange - Callback function to handle changes to the selected month.
  */
 function Mid({ name, id, month, onMonthChange }) {
   const [carbonEm, setCarbonEm] = useState(0);
   const [goalEm, setGoalEm] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
-  // recall useEffect when `month` is changed
+  // Recall useEffect when `month` is changed
   useEffect(() => {
+    // Fetch the total carbon score of the given month from backend API
     const fetchCarbonScore = async () => {
       const data = await API.getCarbonScoreByMonth(id, month.year(), month.month());
       setCarbonEm(data);
     };
 
+    // Updates the goal emission for the current month.
+    const updateGoal = async () => {
+      let ifSet = false;
+      let goals = await API.getUserGoal(id);
+
+      goals.forEach(goalItem => {
+        if ((month.format('YYYY') === goalItem.year) &&
+          (month.format('MMMM') === goalItem.month)) {
+          setGoalEm(goalItem.goal);
+          ifSet = true;
+        }
+      });
+      if (!ifSet) {
+        setGoalEm(0);   // Didn't set a goal for this month 
+      }
+    };
+
     fetchCarbonScore();
     updateGoal();
-  }, [month]);
+  }, [month, id]);
 
-  /**
-   * Updates the goal emission for the current month.
-   */
-  const updateGoal = async () => {
-    let ifSet = false;
-    let goals = await API.getUserGoal(id);
-
-    goals.map(goalItem => {
-      if ((month.format('YYYY') === goalItem.year) &&
-        (month.format('MMMM') === goalItem.month)) {
-        setGoalEm(goalItem.goal);
-        ifSet = true;
-      }
-    });
-    if (!ifSet) {
-      // Didn't set a goal for this month 
-      setGoalEm(0);
-    }
-  };
-
-  /**
-   * Sets the goal emission for the current month.
-   * @param {number} inputGoal - The input goal emission value.
-   */
+  // Sets the goal emission for the current month.
   const setGoal = async (inputGoal) => {
     await API.setUserGoal(id, parseInt(inputGoal), month.format('YYYY'), month.format('MMMM'));
     setGoalEm(inputGoal);
   };
 
+  // Handles keyboard input to trigger setting a new goal when the Enter key is pressed.
   const handleEnterPress = (event) => {
     if (event.key === 'Enter') {
       handleSetGoal();
     }
   };
 
+  // Validates and sets a new goal based on the user input from the input field.
   const handleSetGoal = () => {
     let inputGoal = parseInt(inputValue, 10);
+    // Validate input goal value to ensure it is within allowed range.
     if (isNaN(inputGoal)) {
       inputGoal = 0;
     } else {
@@ -514,6 +504,7 @@ function Mid({ name, id, month, onMonthChange }) {
 
   return (
     <div className={styles.mid_bar}>
+      {/* Displays user's name and a header for the Carbon Goals section. */}
       <div className={styles.mid_high}>
         <div className={styles.mid_high_txt_left}>
           <p>{name}</p>
@@ -523,9 +514,13 @@ function Mid({ name, id, month, onMonthChange }) {
           <MonthSelect month={month} onMonthChange={onMonthChange} />
         </div>
       </div>
+
+      {/* Visualization of the current carbon emissions compared to the goals. */}
       <div className={styles.mid_center}>
         <CarbonUseCircle carbonEmission={carbonEm} goalEmissions={goalEm} id={id} month={month} />
       </div>
+
+      {/* Input field and button for setting new carbon goals. */}
       <div className={styles.mid_low}>
         <div className={styles.goal_input}>
           <input
@@ -547,7 +542,8 @@ function Mid({ name, id, month, onMonthChange }) {
 /**
  * Low component:
  * Renders the lower section of the Goals page.
- * @param {Object} props - The props containing id and month.
+ * @param {string} id - AccountID of the user.
+ * @param {object} month - Currently selected month object, typically a moment.js object.
  */
 function Low({ id, month }) {
   return (
@@ -569,10 +565,7 @@ function Goals() {
   const id = location.state?.id;
   const [month, setMonth] = useState(moment());
 
-  /**
-   * Handles month change.
-   * @param {Object} newMonth - The new month object.
-   */
+  // Handles month change.
   const handleMonthChange = (newMonth) => {
     setMonth(newMonth);
   };

@@ -7,11 +7,19 @@ module.exports = defineConfig({
     devServer: {
       framework: "react",
       bundler: "webpack",
-      webpackConfig, 
+      webpackConfig,
       setupNodeEvents(on, config) {
-        on('dev-server:start', options => startDevServer({ options, webpackConfig }));
+        on("dev-server:start", (options) =>
+          startDevServer({ options, webpackConfig })
+        );
         return config;
       },
+    },
+  },
+
+  e2e: {
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
     },
   },
 });

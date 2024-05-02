@@ -13,6 +13,7 @@ model account {
   accountID    String        @unique
   email        String        @unique
   state        String
+  balance      Float         @default(1000)
   address      String
   colorMode    Int
   currency     String

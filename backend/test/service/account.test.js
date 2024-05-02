@@ -35,6 +35,7 @@ describe('AccountService', () => {
 
   describe('getAll', () => {
     it('should retrieve all user accounts', async () => {
+      // Call the getAll method
       const allAccounts = await ctx.service.account.getAll();
       assert(Array.isArray(allAccounts)); // The result should be an array
       assert(allAccounts.length > 0); // There's at least one account in the account table
@@ -47,6 +48,7 @@ describe('AccountService', () => {
 
   describe('getByID', () => {
     it('should retrieve a user account by its ID', async () => {
+      // Call the getByID method
       const account = await ctx.service.account.getByID(testAccountID);
       assert(Array.isArray(account));
       assert.equal(account.length, 1);
@@ -63,6 +65,7 @@ describe('AccountService', () => {
 
   describe('getByEmail', () => {
     it('should retrieve a user account by its email', async () => {
+      // Call the getByEmail method
       const account = await ctx.service.account.getByEmail(testEmail);
       assert(Array.isArray(account));
       assert.equal(account.length, 1);
@@ -73,13 +76,14 @@ describe('AccountService', () => {
     it('should return an empty array if the email does not exist', async () => {
       const nonExistentEmail = 'nonExistentEmail@example.com';
       const account = await ctx.service.account.getByEmail(nonExistentEmail);
-      assert(Array.isArray(account));
+      assert(Array.isArray(account));  // should be an empty list
       assert.equal(account.length, 0);
     });
   });
 
   describe('getByUserName', () => {
     it('should retrieve a user account by its username', async () => {
+      // Call the getByUserName method
       const account = await ctx.service.account.getByUserName(testUsername);
       assert(Array.isArray(account));
       assert.equal(account.length, 1);
@@ -90,14 +94,30 @@ describe('AccountService', () => {
     it('should return an empty array if the username does not exist', async () => {
       const nonExistentUsername = 'nonExistentUsername';
       const account = await ctx.service.account.getByUserName(nonExistentUsername);
-      assert(Array.isArray(account));
+      assert(Array.isArray(account)); // should be an empty list
       assert.equal(account.length, 0);
+    });
+  });
+
+  describe('getBalance', () => {
+    it('should get the balance by account ID', async () => {
+       // Call the getBalance method
+      const returnedBalance = await ctx.service.account.getBalance(testAccountID);
+      assert.equal(returnedBalance, 1000); // should be the default balance
+    });
+
+    it('should throw an error for invalid account ID', async () => {
+      const nonExistentID = 'nonExistentID';
+      await assert.rejects(async () => {
+        await ctx.service.account.getBalance(nonExistentID);
+      }, Error);
     });
   });
 
   describe('updateColorTheme', () => {
     it('should update the color theme of an account', async () => {
       const newTheme = 2; // Valid new color theme
+      // Call the updateColorTheme method
       const updatedAccount = await ctx.service.account.updateColorTheme(testAccountID, newTheme);
       assert(updatedAccount);
       assert.equal(updatedAccount.colorMode, newTheme);
@@ -122,6 +142,7 @@ describe('AccountService', () => {
   describe('updateCurrency', () => {
     it('should update the currency of an account', async () => {
       const newCurrency = 'EUR'; // Valid new currency
+      // Call the updateCurrency method
       const updatedAccount = await ctx.service.account.updateCurrency(testAccountID, newCurrency);
       assert(updatedAccount);
       assert.equal(updatedAccount.currency, newCurrency);

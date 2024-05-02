@@ -1,12 +1,11 @@
+// Transaction.js
 import React, { Component, useState, useEffect } from 'react';
-import moment from 'moment';
-import styles from '../assets/styles/Transactions.module.css';
 import { useLocation } from 'react-router-dom';
-import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents';
-// Helper functions
-import * as API from '../services/api';
-// MUI component
-import Box from '@mui/material/Box';
+import styles from '../assets/styles/Transactions.module.css';            // CSS modules
+import { Logo, GoBackBtn, SettingBtn, Footer } from './CommonComponents'; // Reused components
+import * as API from '../services/api';   // API functions for server-side interactions
+import moment from 'moment';              // External libraries
+import Box from '@mui/material/Box';      // Material UI components
 import { DataGrid } from '@mui/x-data-grid';
 
 /**
@@ -25,23 +24,27 @@ class TransactionTbl extends Component {
     };
   }
 
+  // Fetch currency and transactions when the component mounts.
   async componentDidMount() {
     await this.loadCurrency();
     await this.loadTransactions();
   }
 
+  // Reload transactions when the month prop changes, indicating a change in the period viewed.
   componentDidUpdate(prevProps) {
     if (!this.props.month.isSame(prevProps.month)) {
       this.loadTransactions();
     }
   }
 
+  // Load the user's preferred currency from the backend using their user ID.
   loadCurrency = async () => {
     const data = await API.getAccountByID(this.props.id);
-    const myCurrency = data[0].currency
+    const myCurrency = data.length !== 0 ? data[0].currency : ""
     this.setState({ myCurrency });
   }
 
+  // Fetch transactions for a given month and format them for display.
   loadTransactions = async () => {
     this.setState({ loading: true });
     const year = this.props.month.year();
@@ -58,6 +61,7 @@ class TransactionTbl extends Component {
     this.setState({ transactions: formattedTransactions, loading: false });
   }
 
+  // Format a timestamp into day/month format for display purposes.
   formatDateDM = (timestamp) => {
     const date = new Date(timestamp);
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -65,6 +69,7 @@ class TransactionTbl extends Component {
     return `${day}/${month}`;
   }
 
+  // Format a timestamp into year-month-day format for compatibility with backend or other processes.
   formatDateYMD = (timestamp) => {
     const date = new Date(timestamp);
     const year = date.getFullYear();
@@ -73,10 +78,12 @@ class TransactionTbl extends Component {
     return `${year}-${month}-${day}`;
   }
 
+  // Update the search input state as the user types.
   handleInputChange = (event) => {
     this.setState({ searchInput: event.target.value });
   }
 
+  // Search transactions based on the user input and update the transaction display.
   handleClickSearch = async () => {
     this.setState({ loading: true });
     const year = this.props.month.year();
@@ -93,13 +100,13 @@ class TransactionTbl extends Component {
     }).map(item => {
       return {
         ...item,
-        date: this.formatDateDM(item.date)    // format date
+        date: this.formatDateDM(item.date)
       };
     });
     this.setState({ transactions: filteredTransactions, searchInput: '', loading: false });
   }
 
-  // Automatically click button search when pressing enter
+  // Trigger search when 'Enter' is pressed in the search input field.
   handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       this.handleClickSearch();
@@ -107,6 +114,7 @@ class TransactionTbl extends Component {
   }
 
   render() {
+    // Define the column configuration for the DataGrid component
     const columns = [
       { field: 'date', renderHeader: () => (<strong>{'Data'}</strong>), width: 100, headerClassName: 'super-app-theme--header' },
       { field: 'merchantName', renderHeader: () => (<strong>{'Merchant Name'}</strong>), width: 230, headerClassName: 'super-app-theme--header' },
@@ -117,7 +125,7 @@ class TransactionTbl extends Component {
 
     return (
       <div>
-        {/* Search frame and click button */}
+        {/* Search input and button for filtering transactions */}
         <div className={styles.transaction_btns}>
           <input
             className={styles.transaction_btns_search}
@@ -164,9 +172,8 @@ class TransactionTbl extends Component {
  * Renders a month selector for the user to use to view data from a given month
  */
 class MonthSelect extends Component {
-  /**
-   * Decrease the currently selected month by one month and invoke the onMonthChange callback.
-   */
+
+  // Decrease the currently selected month by one month and invoke the onMonthChange callback.
   decreaseMonth = () => {
     const { month, onMonthChange } = this.props;
     const nextMonth = month.clone().subtract(1, 'month');
@@ -177,9 +184,7 @@ class MonthSelect extends Component {
     }
   };
 
-  /**
-   * Increase the currently selected month by one month and invoke the onMonthChange callback.
-   */
+  // Increase the currently selected month by one month and invoke the onMonthChange callback.
   increaseMonth = () => {
     const { month, onMonthChange } = this.props;
     const nextMonth = month.clone().add(1, 'month');
@@ -194,12 +199,17 @@ class MonthSelect extends Component {
       <table className={styles.month_select}>
         <tbody>
           <tr>
+            {/* Button to decrease the month with an image of a left arrow */}
             <th style={{ width: '33%' }}>
               <button className={styles.month_select_btn} onClick={this.decreaseMonth}>
                 <img src="/images/month-left.png" alt="Left Arrow" width="30px" />
               </button>
             </th>
-            <th style={{ width: '34%' }}><span>{month.format('MMM YYYY')}</span></th>
+            {/* Display the currently selected month in 'MMM YYYY' format */}
+            <th style={{ width: '34%' }}>
+              <span>{month.format('MMM YYYY')}</span>
+            </th>
+            {/* Button to increase the month with an image of a right arrow */}
             <th style={{ width: '33%' }}>
               <button
                 className={styles.month_select_btn}
@@ -216,6 +226,12 @@ class MonthSelect extends Component {
   }
 }
 
+/**
+ * Head component:
+ * Displays the top part including the logo and GoBack button and a Setting button.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
+ */
 function Head({ name, id }) {
   return (
     <div className={styles.head_bar}>
@@ -229,21 +245,25 @@ function Head({ name, id }) {
 /**
  * Mid component:
  * Renders the middle section of the Transactions page, providing contextual information and additional controls.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
+ * @param {object} month - Currently selected month object, typically a moment.js object.
+ * @param {function} onMonthChange - Callback function to handle changes to the selected month.
  */
 function Mid({ name, id, month, onMonthChange }) {
+  // State to hold the carbon score for the currently selected month.
   const [carbonScore, setCarbonScore] = useState(null);
 
+  // Effect to fetch the carbon score when the selected month changes.
   useEffect(() => {
-    /**
-     * Fetches the carbon score for the specified month and updates the state.
-     */
+    // Fetches the carbon score for the specified month and updates the state.
     const fetchCarbonScore = async () => {
       const data = await API.getCarbonScoreByMonth(id, month.year(), month.month());
       setCarbonScore(data);
     };
 
     fetchCarbonScore();
-  }, [month]);    // recall useEffect when `month` is changed
+  }, [month, id]);  // Dependency array, useEffect is called again if 'month' changes.
 
   return (
     <div className={styles.mid_bar}>
@@ -275,15 +295,15 @@ function Mid({ name, id, month, onMonthChange }) {
 /**
  * Low component:
  * Renders the lower section of the Transactions page, mainly comprising the TransactionTbl component.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
 function Low({ name, id, month }) {
-
   return (
     <div className={styles.low_bar}>
       <div className={styles.table_container}>
         <TransactionTbl name={name} id={id} month={month} />
       </div>
-
     </div>
   )
 }
@@ -298,10 +318,7 @@ function Transactions() {
   const id = location.state?.id;
   const [month, setMonth] = useState(moment());
 
-  /**
-   * Handles the change in selected month.
-   * @param {Moment} newMonth - The new selected month.
-   */
+  // Handles the change in selected month.
   const handleMonthChange = (newMonth) => {
     setMonth(newMonth);
   };

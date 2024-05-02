@@ -1,40 +1,39 @@
 // Friends.js
-import React, { Component, useState } from 'react';
-import styles from '../assets/styles/Friends.module.css';
-import { useHistory, useLocation } from 'react-router-dom';
-import { Logo, GoBackBtn, Footer } from './CommonComponents';
-// helper functions
-import * as API from '../services/api';
-// table
-import { DataGrid } from '@mui/x-data-grid';
+import React, { Component } from 'react';
+import { useLocation } from 'react-router-dom';
+import styles from '../assets/styles/Friends.module.css';     // CSS module
+import { Logo, GoBackBtn, Footer } from './CommonComponents'; // Reusable components
+import * as API from '../services/api';       // API functions for server-side interactions
+import { DataGrid } from '@mui/x-data-grid';  // Material-UI component
 import Box from '@mui/material/Box';
 
 /**
- * FollowingTbl component
- * Renders a table displaying all following users.
+ * Leaderboard component that manages and displays a list of friends following the user.
+ * It supports adding, removing, and listing friends using backend API calls.
  */
 class Leaderboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      friendList: [],
-      newFriend: '',
-      message: '',
-      isValidInput: true,
-      selectionModel: [],
+      friendList: [],     // list of friends following the user
+      newFriend: '',      // input username for adding a new friend
+      message: '',        // feedback message for the user
+      isValidInput: true, // validity of the input
+      selectionModel: [], // selected items in the grid
     };
   }
-  // initialize and display the friendList
+  // Fetches the list of all following users once the component mounts.
   componentDidMount = async () => {
     const data = await API.getAllFollowings(this.props.userID)
     this.setState({ friendList: data });
   }
-  // check if a user is already in the friend list
+
+  // Checks if a username is already in the friend list.
   isInFriendList = (username) => {
     return this.state.friendList.some(item => item.username === username);
   }
 
-  // add new friend by calling backend API
+  // Add new friend by calling backend API
   addFriend = async () => {
     const currentID = this.props.userID
 
@@ -68,35 +67,36 @@ class Leaderboard extends Component {
       }
     }
   }
-  // remove a friend by calling backend API
+
+  // Remove a friend by calling backend API
   removeFriend = async () => {
     const { selectionModel } = this.state;
     selectionModel.forEach(async (friend) => {
       await API.deleteFollowing(this.props.userID, friend.accountID);
     });
-    // update friendList and selectionModel
+    // Update friendList and selectionModel
     this.setState((prevState) => ({
       friendList: prevState.friendList.filter((followingUser) => !prevState.selectionModel.includes(followingUser)),
     }));
     this.setState({ selectionModel: [] });
   };
 
-  // update search frame
+  // Handles text input changes.
   handleChange = (event) => {
     this.setState({ newFriend: event.target.value });
   }
 
-  // link button confirm to key press 'Enter'
+  // Allows submitting new friend addition on pressing 'Enter'.
   handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       this.addFriend();
     }
   }
 
-  // call this function when ticking a box
+  // Handles row selection in the data grid.
   handleSingleCellClick = (newSelection) => {
     this.setState((prevState) => {
-      // check if exist
+      // Check if exists
       const index = prevState.selectionModel.findIndex((item) => item.accountID === newSelection.row.accountID);
       if (index === -1) {
         return {
@@ -112,19 +112,18 @@ class Leaderboard extends Component {
     });
   };
 
-  // call this function when ticking the top column
+  // Handles column header click to select or deselect all rows.
   handleColumnClick = () => {
     this.setState((prevState) => {
-      // check if selectionModel is empty
+      // Check if selectionModel is empty
       if (prevState.selectionModel.length === 0) {
         return {
-          // add all friends into selectionModel
+          // Add all friends into selectionModel
           selectionModel: this.state.friendList,
         };
       } else {
         return {
-          // set empty
-          selectionModel: [],
+          selectionModel: [],   // Set empty
         };
       }
     });
@@ -159,9 +158,11 @@ class Leaderboard extends Component {
         alignItems: 'center',
       }}>
         <div className={styles.leaderboard_container}>
+          {/* Feedback message display based on input validation */}
           <div className={this.state.isValidInput ? styles.normalMessage : styles.errorMessage}>
             {this.state.message}
           </div>
+          {/* Input field for adding a new friend */}
           <input
             className={styles.leaderboard_addfriend}
             placeholder="Enter your friend's username"
@@ -169,12 +170,16 @@ class Leaderboard extends Component {
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
           />
+          {/* Button to confirm adding a new friend */}
           <button className={styles.button_confirm} onClick={this.addFriend}>
             Confirm
           </button>
+          {/* Button to remove a friend */}
           <img src={`/images/bin.png`} className={styles.button_delete}
+            alt="Delete Button"
             onClick={this.removeFriend} />
         </div>
+        {/* Leaderboard */}
         <div className={styles.leaderboard_container}>
           {this.state.friendList.length === 0 ? (
             <p style={{ textAlign: 'center' }}>To view friends, add them by entering their username</p>
@@ -208,8 +213,9 @@ class Leaderboard extends Component {
 }
 
 /**
- * Head component
- * Renders the header of the Friend page, including a logo.
+ * Head component for the Friends page displaying the logo and a go back button.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
 function Head({ name, id }) {
   return (
@@ -221,11 +227,12 @@ function Head({ name, id }) {
 }
 
 /**
- * Mid component
- * Renders the middle section of the Friend page.
+ * Mid component for rendering the main section of the Friends page.
+ * It includes the leaderboard of friends and user information.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
 function Mid({ name, id }) {
-
   return (
     <div className={styles.mid_body}>
       {/* User Information and Friend Overview */}
@@ -242,8 +249,8 @@ function Mid({ name, id }) {
 }
 
 /**
- * Friends component
- * Main component aggregating Head, Mid, and footer components to form the complete Friends page.
+ * Friends component that aggregates all sub-components
+ * It manages the overall layout and state passing to sub-components.
  */
 function Friends() {
   const location = useLocation();

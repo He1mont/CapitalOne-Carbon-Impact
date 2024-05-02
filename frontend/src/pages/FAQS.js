@@ -1,9 +1,14 @@
 // FAQ.js
 import React from "react";
 import { useLocation } from "react-router-dom";
-import styles from "../assets/styles/FAQ.module.css"; // Import CSS module
-import { Logo, GoBackBtn, Footer } from "./CommonComponents";
+import styles from "../assets/styles/FAQ.module.css";         // Imports styles for FAQ components.
+import { Logo, GoBackBtn, Footer } from "./CommonComponents"; // Import reusable components 
 
+/**
+ * Renders the header component with logo and go back button.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
+ */
 function Head({ name, id }) {
   return (
     <div className={styles.headBar}>
@@ -13,13 +18,13 @@ function Head({ name, id }) {
   );
 }
 
-function Mid({ name }) {
+/**
+ * Middle section of the FAQ page, could potentially display dynamic content or images.
+ */
+function Mid() {
   return (
     <div className={styles.midBar}>
-
       <div className={styles.midHigh}>
-
-        {/* <h1 className={styles.title}>Help centre</h1> */}
       </div>
       {/* Carbon Impact Information Box */}
       <div className={styles.midCenter}>
@@ -29,23 +34,26 @@ function Mid({ name }) {
           alt="Mid Box"
         />
       </div>
-
       {/* Help Button */}
       <div className={styles.midLow}></div>
     </div>
   );
 }
 
-function Low({ name, id }) {
+/**
+ * Renders the lower part of the FAQ page that contains frequently asked questions.
+ * Utilizes speech synthesis to vocalize answers when interacted with.
+ */
+function Low() {
+
+  // Helper function to handle speech synthesis for FAQ answers.
   const handleqs1 = () => {
     const text =
       "1. How is my carbon impact calculated?  Our platform analyses transaction data, considering factors like merchant codes and transaction type, to calculate carbon emissions.";
     const value = new SpeechSynthesisUtterance(text);
     value.voice = speechSynthesis.getVoices()[0];
     value.rate = 1.1;
-
     window.speechSynthesis.speak(value);
-
   };
 
   const handleqs2 = () => {
@@ -54,9 +62,7 @@ function Low({ name, id }) {
     const value = new SpeechSynthesisUtterance(text);
     value.voice = speechSynthesis.getVoices()[0];
     value.rate = 1.1;
-
     window.speechSynthesis.speak(value);
-
   };
 
   const handleqs3 = () => {
@@ -65,9 +71,7 @@ function Low({ name, id }) {
     const value = new SpeechSynthesisUtterance(text);
     value.voice = speechSynthesis.getVoices()[0];
     value.rate = 1.1;
-
     window.speechSynthesis.speak(value);
-
   };
 
   const handleqs4 = () => {
@@ -76,9 +80,7 @@ function Low({ name, id }) {
     const value = new SpeechSynthesisUtterance(text);
     value.voice = speechSynthesis.getVoices()[0];
     value.rate = 1.1;
-
     window.speechSynthesis.speak(value);
-
   };
 
   const handleqs5 = () => {
@@ -87,9 +89,7 @@ function Low({ name, id }) {
     const value = new SpeechSynthesisUtterance(text);
     value.voice = speechSynthesis.getVoices()[0];
     value.rate = 1.1;
-
     window.speechSynthesis.speak(value);
-
   };
 
   const handleqs6 = () => {
@@ -98,11 +98,10 @@ function Low({ name, id }) {
     const value = new SpeechSynthesisUtterance(text);
     value.voice = speechSynthesis.getVoices()[0];
     value.rate = 1.1;
-
     window.speechSynthesis.speak(value);
-
   };
 
+  // Renders the questions and their corresponding answers within interactive containers.
   return (
     <div className={styles.lowBar}>
       <div className={styles.helpTable}>
@@ -183,8 +182,13 @@ function Low({ name, id }) {
   );
 }
 
+/**
+ * The main FAQS component assembling all parts of the FAQ page.
+ */
 function FAQS() {
   const location = useLocation();
+  
+  // Extract username and accountID from route state
   const name = location.state?.name || "You need to login";
   const id = location.state?.id;
 
