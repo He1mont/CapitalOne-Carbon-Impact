@@ -11,6 +11,7 @@ import FAQS from './pages/FAQS';
 import Account from './pages/MyAccount';
 import './assets/styles/App.css';
 
+
 function App() {
   return (
     <Router>
