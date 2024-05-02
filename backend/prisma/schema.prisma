@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model account {
+  id           Int           @id @default(autoincrement())
+  username     String        @unique
+  accountID    String        @unique
+  email        String        @unique
+  state        String
+  balance      Float         @default(1000)
+  address      String
+  colorMode    Int
+  currency     String
+  firstName    String
+  lastName     String
+  phone        String
+  followings   following[]
+  transactions transaction[]
+  goals        userGoals[]
+}
+
+model transaction {
+  id              Int      @id @default(autoincrement())
+  transactionUUID String   @unique
+  accountID       String
+  merchantName    String
+  category        String
+  amount          Float
+  date            DateTime
+  carbonScore     Float
+  currency        String
+  indicator       String
+  status          String
+  account         account  @relation(fields: [accountID], references: [accountID])
+
+  @@index([accountID], map: "transaction_accountID_fkey")
+}
+
+model following {
+  id          Int     @id @default(autoincrement())
+  accountID   String
+  followingID String
+  account     account @relation(fields: [followingID], references: [accountID])
+
+  @@unique([accountID, followingID], name: "Unique_accountID_followingID")
+  @@index([followingID], map: "following_followingID_fkey")
+}
+
+model userGoals {
+  id        Int     @id @default(autoincrement())
+  accountID String
+  goal      Int
+  month     String
+  year      String
+  account   account @relation(fields: [accountID], references: [accountID])
+
+  @@unique([accountID, year, month], name: "Unique_year_month")
+}

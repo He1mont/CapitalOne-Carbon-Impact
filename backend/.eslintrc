@@ -1,4 +1,12 @@
 {
   "extends": "eslint-config-egg",
-  "root": true
+  "root": true,
+  "plugins": ["jest"],
+  "env": {
+    "jest/globals": true
+  },
+
+  "rules":{
+    "eggache/no-override-exports":"off"
+  }
 }

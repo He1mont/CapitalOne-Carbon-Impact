@@ -1,72 +1,78 @@
 // Login.js
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import '../assets/styles/Login.css';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import styles from "../assets/styles/Login.module.css"; // CSS styles
+import * as API from '../services/api';                 // API services for backend communication
+import { Logo, Footer } from './CommonComponents';      // Reusable components
 
 /**
- * Head component
+ * Head component:
  * Displays the top part of the login page including the logo.
- * The logo serves as a button to redirect the user to the home page.
  */
 function Head() {
-  const history = useHistory();
-
-  /**
-   * handleLoginClick function
-   * Redirects the user to the home page when the logo is clicked.
-   */
-  function handleLoginClick() {
-    history.push('/');
-  }
-
   return (
-    <div className="head-bar">
-      <div className="head-center">
-        <img src="/images/Logo1.png" className="head-img" alt="Logo" onClick={handleLoginClick} />
-      </div>
+    <div className={styles.headBar}>
+      <Logo />
     </div>
   );
 }
 
 /**
- * Mid component
+ * Mid component:
  * Renders the login form including fields for email, password and a remember me checkbox.
  * @param {Object} props - Contains email, setEmail, password, setPassword, rememberMe, setRememberMe, loginMessage, and handleSubmit.
  */
-function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe, loginMessage, handleSubmit }) {
+function Mid({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  rememberMe,
+  setRememberMe,
+  loginMessage,
+  handleSubmit,
+}) {
   // Determines if the login message indicates a successful login
-  const isSuccess = loginMessage.includes('success');
+  const isSuccess = loginMessage.includes("success");
+  const history = useHistory();
+
+  // Redirects user to the Help page
+  function handleHelpClick() {
+    history.push('/help?prevPage=login');
+  }
 
   return (
-    <div className="mid-bar-login">
-      <div className="mid-high-login"></div>
-
-      <div className="mid-center-login">
-        <div className={`mid-box-login ${isSuccess ? 'success' : 'error'}`}>
-          <h1 className="mid-box-txt-title-login">Login to your account</h1>
+    <div className={styles.midBarLogin}>
+      <div className={styles.midHighLogin}></div>
+      <div className={styles.midCenterLogin}>
+        <div className={`${styles.midBoxLogin} ${isSuccess ? styles.success : styles.error}`}>
+          <h1 className={styles.midBoxTxtTitleLogin}>Log in to your account</h1>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit}>
             {/* Email Input */}
-            <div className="mb-3">
-              {loginMessage && <p className="login-message">{loginMessage}</p>}
-              {/* <div className='login-message-box'> </div> */}
-              <div className="login-input-title">Username (email)</div>
+            <div>
+              {loginMessage && (
+                <div className={styles.inputErrorMessage}>
+                  {loginMessage}
+                </div>
+              )}
+              <div className={styles.loginInputTitle}>Email</div>
               <input
                 type="email"
-                className="form-control"
-                aria-label="Username (email)"
+                className={styles.formControl}
+                aria-label="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
             {/* Password Input */}
-            <div className="mb-3">
-              <div className="login-input-title">Password</div>
+            <div>
+              <div className={styles.loginInputTitle}>Password</div>
               <input
                 type="password"
-                className="form-control"
+                className={styles.formControl}
                 aria-label="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -74,17 +80,20 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
             </div>
 
             {/* Remember Me Checkbox */}
-            <div className="mb-3">
-              <div className="login-remember">
-                <div className="custom-control custom-checkbox">
+            <div>
+              <div className={styles.loginRemember}>
+                <div className={styles.customControl}>
                   <input
                     type="checkbox"
-                    className="custom-control-input"
+                    className={styles.customControlInput}
                     id="customCheck1"
                     checked={rememberMe}
                     onChange={() => setRememberMe(!rememberMe)}
                   />
-                  <label className="custom-control-label" htmlFor="customCheck1">
+                  <label
+                    className={styles.customControlLabel}
+                    htmlFor="customCheck1"
+                  >
                     Remember me
                   </label>
                 </div>
@@ -92,43 +101,27 @@ function Mid({ email, setEmail, password, setPassword, rememberMe, setRememberMe
             </div>
 
             {/* Submit Button */}
-            <div className="d-grid">
-              <button type="submit" className="login-btn-submit">
-                Sign in
+            <div className={styles.dGrid}>
+              <button type="submit" className={styles.loginBtnSubmit}>
+                Log in
               </button>
             </div>
           </form>
 
           {/* Forgotten Credentials Links */}
-          <div className="login-forgotten-btn">
-            <p className="forgot-username text-right">
-              <a href="#">Forgot your username?</a>
+          <div className={styles.loginForgottenBtn}>
+            <p className={styles.forgotUsername + " " + styles.textRight}>
+              <a href="http://localhost:3000/help/FAQS?prevPage=login">Forgot your email?</a>
             </p>
-            <p className="forgot-password text-right">
-              <a href="#">Forgot your password?</a>
+            <p className={styles.forgotPassword + " " + styles.textRight}>
+              <a href="http://localhost:3000/help/FAQS?prevPage=login">Forgot your password?</a>
             </p>
           </div>
+
+          {/* Help Button */}
+          <button className={styles.smallHelpBtn} onClick={handleHelpClick}>? Help</button>
         </div>
       </div>
-
-      {/* Help Button */}
-      <div className="mid-low">
-        <div className="mid-low-help">
-          <button className="small-help-btn">? Help</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * Footer component
- * Displays the footer of the login page, including copyright information.
- */
-function Footer() {
-  return (
-    <div className="footer">
-      <p>© 2023-2024 Team7. All rights reserved.</p>
     </div>
   );
 }
@@ -141,47 +134,49 @@ function Footer() {
  */
 function Login() {
   // State for managing login credentials and messages
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [loginMessage, setLoginMessage] = useState('');
+  const [loginMessage, setLoginMessage] = useState("");
+  const history = useHistory();
 
-  /**
-   * handleSubmit function
-   * Handles the form submission for logging in.
-   * Validates the user credentials and sets appropriate login messages.
-   * @param {Event} e - Event triggered on form submission.
-   */
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Validates user input before submitting
+  const isValidInput = () => {
+    return email !== "" && password !== ""
+  }
 
-    // For testing purposes,
-    const correctEmail = 'test@example.com';
-    const correctPassword = 'Test@123'; // Example password
+  // Handles login form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();     // Prevent the default form submission behavior
 
-    // Login validation logic
-    if (email === correctEmail && password === correctPassword) {
-      setLoginMessage('Logged in successfully!');
-      // redirect or perform other actions here
-    }
-    if (email === '') {
-      setLoginMessage('Please enter your username.');
-      e.preventDefault();
-    }
-    else if (password === '') {
-      setLoginMessage('Please enter your password.');
-    }
-    else if (email === '' && password === '') {
-      setLoginMessage('Please enter your email and password.');
-    }
-    if (email !== correctEmail && password !== correctPassword) {
-      setLoginMessage('Username or password is incorrect.');
-    }
+    if (!isValidInput()) {  // Invalid input
+      setLoginMessage("Invalid Email or Password!");
 
-    // Clear login message after a delay
-    setTimeout(() => {
-      setLoginMessage('');
-    }, 1000);
+    } else {                                
+      const data = await API.getAccountByEmail(email);  // Call backend API
+
+      if (data.length === 0) {  // Email does not exist
+        setLoginMessage("Email Not Found!");
+
+      } else {
+        const account = data[0]
+
+        if (account.state === "closed") {   // Email is suspended or closed
+          setLoginMessage("Your account has been closed!");
+
+        } else if (account.state === "suspended") {
+          setLoginMessage("Your account has been suspended!");
+
+        } else {  // Successfully login
+          const username = account.username;
+          setLoginMessage("Log in successfully!");
+          history.push({
+            pathname: "/home",
+            state: { name: username, id: account.accountID },
+          });
+        }
+      }
+    }
   };
 
   return (
@@ -195,9 +190,9 @@ function Login() {
         rememberMe={rememberMe}
         setRememberMe={setRememberMe}
         loginMessage={loginMessage}
-        handleSubmit={handleSubmit} />
+        handleSubmit={handleSubmit}
+      />
       <Footer />
-
     </div>
   );
 }

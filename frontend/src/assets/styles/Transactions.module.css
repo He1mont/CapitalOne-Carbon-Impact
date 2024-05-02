@@ -1,14 +1,17 @@
-html, body {
-  max-width: 100%;
+html,
+body {
+  max-width: 100vw;
   padding-left: 0px;
   margin: 0px;
   background-color: white;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
 }
 
 /*------------------------------ HEADER ------------------------------*/
-.head_bar{
-  width: 100%;
+.head_bar {
+  user-select: none;
+  width: 100vw;
   height: 65px;
   top: 0px;
   background-color: #f3f3f3ff;
@@ -17,35 +20,33 @@ html, body {
   overflow: hidden;
   z-index: 4;
 }
-.head_center{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.head_img{
-  position: absolute;
-  width: 130px;
-  top: -35px;
-  left: -65px;
-}
 
 /*------------------------------ MID ------------------------------*/
-.mid_bar{
+.mid_bar {
   top: 65px;
-  width: 100%;
-  height: 450px;
+  width: 100vw;
+  height: 314px;
   position: absolute;
 }
-/*---------- HIGH ----------*/
-.mid_high{
+
+.mid_high {
   user-select: none;
   width: 100%;
-  height: 300px;
+  height: 232px;
   position: absolute;
   background-color: #073763ff;
 }
-.mid_high_txt_left{
+
+.mid_low {
+  width: 100%;
+  height: 82px;
+  position: absolute;
+  background-color: #f3f3f3ff;
+  bottom: 0px;
+}
+
+/*---------- HIGH ----------*/
+.mid_high_txt_left {
   position: absolute;
   text-align: left;
   left: 30px;
@@ -53,25 +54,32 @@ html, body {
   line-height: 10px;
   color: white;
 }
-.mid_high_center{
+
+.mid_high_center {
   position: absolute;
-  top: 40px;
+  top: 10px;
   left: 50%;
 }
-.month_select{
+
+.month_select {
   margin: 0 auto;
   transform: translate(-50%, -0%);
   color: white;
   font-size: x-large;
+  table-layout: initial;
+  width: 150px;
+  align-items: center;
+  user-select: none;
 }
-.month_select_btn{
-  background-color: white;
+
+.month_select_btn {
+  background-color: transparent;
   border-color: transparent;
+  background-repeat: no-repeat;
+  user-select: none;
 }
-.month_select_btn:hover{
-  background-color: whitesmoke;
-}
-.mid_high_profile{
+
+.mid_high_profile {
   position: absolute;
   background-color: rgb(187, 32, 140);
   right: 40px;
@@ -81,91 +89,149 @@ html, body {
 }
 
 /*---------- CENTER ----------*/
-.mid_center{
+.mid_center {
   user-select: none;
   position: absolute;
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
 }
-.mid_box{
-  width: 300px;
+
+.mid_box {
+  width: 291px;
   position: relative;
 }
-.mid_box_txt{
+
+.mid_box_txt {
   position: absolute;
-  top: 70px;
+  top: 40px;
   color: white;
+
   text-align: center;
   width: 100%;
-  font-size: x-large;
-  line-height: 15px;
+  font-size: 30px;
+  line-height: 5px;
 
 }
-/*---------- LOW ----------*/
-.mid_low{
-  width: 100%;
-  height: 100px;
-  position: absolute;
-  background-color: white;
-  bottom: 0px;
-  z-index: -1;
-}
+
 /*------------------------------ LOW ------------------------------*/
-.low_bar{
+.low_bar {
   position: absolute;
-  top: 515px;
+  top: 379px;
   height: auto;
-  width: 100%;
+  width: 100vw;
   background-color: white;
-  padding-top: 20px;
+  padding-top: 30px;
+  bottom: 0px;
 }
+
 /*---------- Transaction Table ----------*/
-.transaction_btns{
-  width: 80%;
+.transaction_btns {
+  width: 60%;
   height: 50px;
-  position: absolute;
-  margin-left: 10%;
+  position: relative;
+  margin: 0 auto;
 }
-.transaction_btns_search{
+
+.transaction_btns_search {
   position: absolute;
   height: 40px;
-  width: 75%;
+  width: 70%;
   border-width: 2px;
   border-radius: 5px;
+  padding-left: 10px;
+  border-color: rgb(157, 157, 157);
+  border-style: solid;
 }
-.transaction_btns_filter{
+
+.transaction_btns_download {
   position: absolute;
   height: 46px;
-  border-width: 2px;
-  background-color: transparent;
-  width: 20%;
-  right: 0px;
-  border-radius: 5px;
+  width: 15%;
+  right: 70px;
+  font-size: 16px;
+  border: none;
+  background-color: #073763ff;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
-.transaction_tbl_container{
-  width: 85%;
+
+.transaction_btns_download:hover{
+  background-color: #0c5e93ff;
+}
+
+.table_container {
+  position: relative;
+  width: 80vw;
+  min-width: 1000px;
+  height: 40vw;
+  margin: 0 auto;
+}
+.transaction_tbl_border {
+  position: relative;
   height: auto;
-  position: absolute;
-  margin-left: 7.5%;
-  margin-top: 70px;
+  width: 74%;
+  padding: 1%;
+  padding-top: 40px;
+  margin: 0 auto;
+  padding-bottom: 100px;
 }
-.transaction_tbl{
+
+
+.transaction_tbl {
   width: 100%;
   top: 100px;
   border-spacing: 0;
   border-collapse: collapse;
-}
-.transaction_tbl td{
-  border: 1px solid;
+  table-layout: initial;
 }
 
-.l{
+.transaction_tbl th,
+.transaction_tbl td {
+  border: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.transaction_tbl td {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+.noDataCell {
+  text-align: center;
+}
+
+.h:hover {
+  background-color: rgb(234, 250, 255);
+}
+
+.l {
   text-align: left;
 }
-.r{
+
+.r {
   text-align: right;
 }
-.c{
+
+.c {
   text-align: center;
+}
+
+.header_text {
+  float: left;
+  user-select: none;
+}
+
+.header_text_r {
+  float: right;
+  user-select: none;
+}
+
+.sort_arrow {
+  user-select: none;
+  float: right
 }

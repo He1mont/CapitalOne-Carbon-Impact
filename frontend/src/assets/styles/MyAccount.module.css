@@ -1,0 +1,102 @@
+html,
+body {
+  max-width: 100vw;
+  height: 100%;
+  padding-left: 0px;
+  margin: 0px;
+  background-color: rgb(255, 255, 255);
+  font-family: Arial, sans-serif;
+}
+/*------------------------------ HEADER ------------------------------*/
+.headBar {
+    width: 100vw;
+    height: 65px;
+    top: 0px;
+    background-color: #f3f3f3ff;
+    position: fixed;
+    text-align: center;
+    overflow: hidden;
+    z-index: 4;
+  }
+
+/*------------------------------ MID ------------------------------*/
+.midBody {
+    width: 100vw;
+}
+.midHigh {
+    width: 100vw;
+    height: 60vh;
+    background-color: #073763ff;
+    position: absolute;
+}
+.midLow {
+    width: 100vw;
+    height: 40vh;
+    min-height: 350px;
+    top: 60vh;
+    background-color: white;
+    position: absolute;
+}
+
+/*------------------------------ MID CENTER ------------------------------*/
+.midCenter {
+    width: 60vw;
+    min-width: 540px;
+    height: 70vh;
+    min-height: 610px;
+    left: 20vw;
+    top: calc(65px + 6vh);
+    position: absolute;
+
+    background-color: white;
+    border-radius: 10px;
+    border-color: rgb(231, 231, 231);
+    border-width: 5px;
+    border-style: solid;
+
+}
+.centerContainer {
+    width: calc(100% - 120px);
+    height: calc(100% - 60px);
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.titleText {
+    font-size: 28px;
+}
+.sectionHeader {
+    padding-top: 10px;
+    font-size: 20px;
+}
+.AccInfoTable {
+    width: calc(100% - 20px);
+    table-layout: fixed;
+    margin-top: 1.5vh;
+    margin-left: 10px;
+}
+.AccTableHeads {
+    color: rgb(80, 80, 80);
+}
+.AccTableDropdown {
+    width: 180px;
+    height: 25px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 3px;
+}
+.AccTableSubmit {
+    width: 120px;
+    height: 30px;
+    margin-left: 10px;
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-radius: 3px;
+    border-width: 1px;
+    font-weight: bold;
+}
+.AccTableSubmit:hover {
+    background-color: rgb(237, 237, 237);
+}

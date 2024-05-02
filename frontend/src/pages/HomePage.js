@@ -1,117 +1,110 @@
 // HomePage.js
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import '../assets/styles/App.css';
+import { useHistory, useLocation } from 'react-router-dom';
+import styles from '../assets/styles/Home.module.css';          // CSS modules
+import { SettingBtn, Logo, Footer } from './CommonComponents';  // Reused components
 
 /**
- * Head component
- * Displays the top part of the homepage including the logo and login button.
- * Utilizes useHistory from react-router-dom for navigation.
+ * Head component:
+ * Displays the top part of the homepage including the logo button.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
-function Head() {
-  const history = useHistory();
-
-  /**
-   * handleLoginClick function
-   * Redirects user to the login page when the login button is clicked.
-   */
-  function handleLoginClick() {
-    history.push('/Login');
-  }
+function Head({ name, id }) {
   return (
-
-    <div className="head-bar">
-      {/* Logo */}
-      <div className="head-center">
-        <img src="/images/Logo1.png" className="head-img" alt="Logo" />
-      </div>
-
-      {/* Login */}
-      <div className="head-high-txt-right">
-        <button onClick={handleLoginClick} className="login-btn">
-          <img src="/images/user.png" alt="Login" />
-        </button>
-      </div>
-
+    <div className={styles.head_bar}>
+      <Logo />
+      <SettingBtn name={name} id={id} />
     </div>
-
-
   );
 }
+
 /**
  * Mid component
- * Displays the middle section of the homepage, including user information and button redirecting to other pages.
+ * Displays the middle section of the homepage, includes a dropdown for help and user settings.
+ * @param {string} name - Username of the user.
  */
-function Mid() {
+function Mid({ name }) {
   return (
-    <div className="mid-bar">
-
+    <div className={styles.mid_bar}>
       {/* User Information and Carbon Impact Section */}
-      <div className="mid-high">
-        <div className="mid-high-txt-left">
-          <p>Fahad... 1234</p>
+      <div className={styles.mid_high}>
+        <div className={styles.mid_high_txt_left}>
+          <p>{name}</p>
           <h1>Your Carbon Impact</h1>
         </div>
-        <div className="mid-high-profile"></div>
       </div>
 
       {/* Carbon Impact Information Box */}
-      <div className="mid-center">
-        <img src="/images/mid-box.png" className="mid-box" alt="Mid Box" />
-
-        <div className="mid-box-txt">
-          <h1 className="mid-box-txt-title">View your Carbon Impact</h1>
-          <p className="mid-box-txt-line">
+      <div className={styles.mid_center}>
+        <img src="/images/mid-box-slim.png" className={styles.mid_box} alt="Mid Box" />
+        <div className={styles.mid_box_txt}>
+          <h2 className={styles.mid_box_txt_title}>View your Carbon Impact</h2>
+          <p className={styles.mid_box_txt_line}>
             Find out how your spending habits affect the planet
           </p>
-          <p className="mid-box-txt-line">
+          <p className={styles.mid_box_txt_line}>
             and how you can reduce your carbon footprint.
           </p>
         </div>
       </div>
 
       {/* Help Button */}
-      <div className="mid-low">
-        <div className="mid-low-help">
-          <button className="small-help-btn">? Help</button>
-        </div>
+      <div className={styles.mid_low}>
       </div>
     </div>
-
   );
 }
 
 /**
- * Low component
+ * Low component:
  * Displays the lower section of the homepage, including buttons for transactions, goals, and history.
+ * @param {string} name - Username of the user.
+ * @param {string} id - AccountID of the user.
  */
-function Low() {
+function Low({ name, id }) {
   const history = useHistory();
 
-  /**
-   * handleTransactionsClick function
-   * Redirects user to the transactions page when the transactions button is clicked.
-   */
+  // Handles click event to navigate to the Transactions page.
   function handleTransactionsClick() {
-    history.push('/Transactions');
+    history.push({
+      pathname: '/home/transactions',
+      state: { name: name, id: id }
+    });
+  }
+  
+  // Handles click event to navigate to the Goals page.
+  function handleGoalsClick() {
+    history.push({
+      pathname: '/home/goals',
+      state: { name: name, id: id }
+    });
+  }
+
+  // Handles click event to navigate to the History page.
+  function handleHistoryClick() {
+    history.push({
+      pathname: '/home/history',
+      state: { name: name, id: id }
+    });
   }
 
   return (
-    <div className="low-bar">
+    <div className={styles.low_bar}>
       {/* Interactive Buttons for Transactions, Goals, and History */}
-      <table className="low-bar-tbl">
+      <table className={styles.low_bar_tbl}>
         <tbody>
           <tr>
-             {/* Transactions Button */}
+            {/* Transactions Button */}
             <th>
-              <button className="low-bar-btn" onClick={handleTransactionsClick}>
+              <button className={styles.low_bar_btn} onClick={handleTransactionsClick}>
                 <img
                   src="/images/transactions.png"
-                  className="low-bar-btn-img"
+                  className={styles.low_bar_btn_img}
                   alt="Transactions"
                 />
-                <h2 className="low-bar-btn-title"> View Transactions</h2>
-                <p className="low-bar-btn-sub">
+                <h2 className={styles.low_bar_btn_title}> View Transactions</h2>
+                <p className={styles.low_bar_btn_sub}>
                   View the individual carbon impact of each transaction you
                   make.
                 </p>
@@ -120,10 +113,10 @@ function Low() {
 
             {/* Goals Button */}
             <th>
-              <button className="low-bar-btn">
-                <img src="/images/goal.png" className="low-bar-btn-img" alt="Goals" />
-                <h2 className="low-bar-btn-title"> Carbon Goals</h2>
-                <p className="low-bar-btn-sub">
+              <button className={styles.low_bar_btn} onClick={handleGoalsClick}>
+                <img src="/images/goal.png" className={styles.low_bar_btn_img} alt="Goals" />
+                <h2 className={styles.low_bar_btn_title}> Carbon Goals</h2>
+                <p className={styles.low_bar_btn_sub}>
                   Set goals to reduce your carbon impact in different spending
                   categories.
                 </p>
@@ -132,14 +125,14 @@ function Low() {
 
             {/* History Button */}
             <th>
-              <button className="low-bar-btn">
+              <button className={styles.low_bar_btn} onClick={handleHistoryClick}>
                 <img
                   src="/images/history.png"
-                  className="low-bar-btn-img"
+                  className={styles.low_bar_btn_img}
                   alt="History"
                 />
-                <h2 className="low-bar-btn-title"> Carbon History</h2>
-                <p className="low-bar-btn-sub">
+                <h2 className={styles.low_bar_btn_title}> Carbon History</h2>
+                <p className={styles.low_bar_btn_sub}>
                   View your carbon impact over time to see how you’ve improved.
                 </p>
               </button>
@@ -152,26 +145,18 @@ function Low() {
 }
 
 /**
- * Footer component
- * Displays the footer of the homepage, including copyright information.
- */
-function Footer() {
-  return (
-    <div className="footer">
-      <p>© 2023-2024 Team7. All rights reserved.</p>
-    </div>
-  );
-}
-/**
- * HomePage component
- * Composes the Head, Mid, Low, and Footer components to form the homepage.
+ * HomePage is the primary container component for the application's homepage.
+ * It integrates the Head, Mid, and Low components with user-specific data fetched from the router's location state.
  */
 function HomePage() {
+  const location = useLocation();
+  const name = location.state?.name || "You need to login";
+  const id = location.state?.id;
   return (
     <div>
-      <Head />
-      <Mid />
-      <Low />
+      <Head name={name} id={id} />
+      <Mid name={name} />
+      <Low name={name} id={id} />
       <Footer />
     </div>
   );

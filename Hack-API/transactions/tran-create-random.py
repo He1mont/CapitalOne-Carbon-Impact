@@ -10,11 +10,18 @@ headers = {
 }
 
 account_id = input("Please enter the account_id: ")
-quantity = input("Please enter the number of transactions: ")
 
-payload = json.dumps({"quantity": quantity})
-
-
-response = requests.post(f"https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/{account_id}/create", headers=headers, data=payload).text
+response = requests.get(f"https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/{account_id}", headers=headers).text
 json_response = json.loads(response)
-print(json_response)
+state = json_response['Accounts'][0]['state']
+
+if(state in ['suspended','closed']):
+    print("Cannot add transactions to an account with 'closed' or 'suspended' status. Please select another account ID.")
+else:
+    quantity = input("Please enter the number of transactions: ")
+
+    payload = json.dumps({"quantity": quantity})
+
+    response = requests.post(f"https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/transactions/accounts/{account_id}/create", headers=headers, data=payload).text
+    json_response = json.loads(response)
+    print(json_response)
