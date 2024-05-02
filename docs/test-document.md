@@ -44,6 +44,7 @@
       - [Tests for Index Page](#tests-for-index-page)
       - [Tests for MyAccount Page](#tests-for-myaccount-page)
       - [Tests for Transactions Page](#tests-for-transactions-page)
+    - [End-to-End (E2E) Testing](#e2e-testing)
 </details>
 
 
@@ -424,3 +425,45 @@ testAccount = {
 | 1       | Renders Transactions page with all elements | Render     | All main components of the Transactions page are visible      | Pass @04/30/2024 |
 | 2       | Displays the correct initial month          | Date Check | Current month is displayed correctly on the Transactions page | Pass @04/30/2024 |
 | 3       | Sorts transactions by amount                | Sort Check | Transactions are sortable by amount                           | Pass @04/30/2024 |
+
+### E2E Testing
+
+#### Tests for Login Page
+
+| Test ID | Description                                                             | Expected Outcome                                                                                                 | Result           |
+| ------- | ------------------------------------------------------------------------| -----------------------------------------------------------------------------------------------------------------| ---------------- |
+| 1       | Checks router directs to login page                                     | When accessing `localhost:3000`, path should be redirected to `localhost:3000/login`                             | Pass @04/30/2024 |
+| 2       | Checks if no input is rejected with error message on login              | Error message 'Invalid Email or Password!' should appear on page when trying to log in without entering anything | Pass @04/30/2024 |
+| 3       | Checks if incorrect email input is rejected with error message on login | Error message 'Email Not Found!' when entering email not stored in database                                      | Pass @04/30/2024 |
+| 4       | Checks if correct email input is accepted on login                      | Page redirects to `localhost:3000/home` and correct username is displayed                                        | Pass @04/30/2024 |
+| 5       | Checks if user is able to sign out                                      | User is signed out and login page is shown                                                                       | Pass @04/30/2024 |
+
+#### Tests for Transactions Page
+
+| Test ID | Description                                                             | Expected Outcome                                                                                                 | Result           |
+| ------- | ------------------------------------------------------------------------| -----------------------------------------------------------------------------------------------------------------| ---------------- |
+| 1       | Checks router directs to transactions page                              | When accessing `localhost:3000`, path should be redirected to `localhost:3000/transactions`                      | Pass @05/02/2024 |
+
+#### Tests for Goals Page
+
+| Test ID | Description                                                             | Expected Outcome                                                                                                 | Result           |
+| ------- | ------------------------------------------------------------------------| -----------------------------------------------------------------------------------------------------------------| ---------------- |
+| 1       | Checks router directs to goals page                                     | When accessing `localhost:3000`, path should be redirected to `localhost:3000/goals`                             | Pass @05/02/2024 |
+
+#### Tests for History Page
+
+| Test ID | Description                                                             | Expected Outcome                                                                                                 | Result           |
+| ------- | ------------------------------------------------------------------------| -----------------------------------------------------------------------------------------------------------------| ---------------- |
+| 1       | Checks router directs to history page                                   | When accessing `localhost:3000`, path should be redirected to `localhost:3000/history`                           | Pass @05/02/2024 |
+
+#### Tests for Friends Page
+
+| Test ID | Description                                                             | Expected Outcome                                                                                                 | Result           |
+| ------- | ------------------------------------------------------------------------| -----------------------------------------------------------------------------------------------------------------| ---------------- |
+| 1       | Checks router directs to friends page                                   | When accessing `localhost:3000`, path should be redirected to `localhost:3000/friends`                           | Pass @05/02/2024 |
+
+#### Tests for Help Page
+
+| Test ID | Description                                                             | Expected Outcome                                                                                                 | Result           |
+| ------- | ------------------------------------------------------------------------| -----------------------------------------------------------------------------------------------------------------| ---------------- |
+| 1       | Checks router directs to help page                                      | When accessing `localhost:3000`, path should be redirected to `localhost:3000/help`                              | Pass @05/02/2024 |
