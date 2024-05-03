@@ -65,7 +65,7 @@ class AccountService extends Service {
           address: account.homeAddress,
           currency: account.currencyCode,
           state: account.state,
-          balance: account.balance,
+          balance: parseFloat(account.balance),
           colorMode: 0,
         },
       });
