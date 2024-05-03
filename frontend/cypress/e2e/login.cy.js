@@ -15,7 +15,7 @@ describe('Login Test #2', () => {
     cy.visit('http://localhost:3000/login')
 
     // Click 'Log in' button
-    cy.get('.Login_loginBtnSubmit__llfLu').click()
+    cy.contains('button', 'Log in').click();
 
     // Check if error message appears
     cy.contains('Invalid Email or Password!')
@@ -28,15 +28,15 @@ describe('Login Test #3', () => {
     cy.visit('http://localhost:3000/login')
 
     // Enter email not stored in database & check if it has been entered correctly
-    cy.get(':nth-child(1) > .Login_formControl__r-i1w').type('incorrect@email.com')
-    cy.get(':nth-child(1) > .Login_formControl__r-i1w').should('have.value', 'incorrect@email.com')
+    cy.contains('div', 'Email').next('input').type('incorrect@email.com')
+    cy.contains('div', 'Email').next('input').should('have.value', 'incorrect@email.com')
 
     // Enter password (can be anything except empty) & check if it has been entered correctly
-    cy.get(':nth-child(2) > .Login_formControl__r-i1w').type('rejectThisPassword')
-    cy.get(':nth-child(2) > .Login_formControl__r-i1w').should('have.value', 'rejectThisPassword')
+    cy.contains('div', 'Password').next('input').type('rejectThisPassword')
+    cy.contains('div', 'Password').next('input').should('have.value', 'rejectThisPassword')
 
     // Click 'Log in' button
-    cy.get('.Login_loginBtnSubmit__llfLu').click()
+    cy.contains('button', 'Log in').click();
 
     // Check if error message appears
     cy.contains('Email Not Found!')
@@ -49,22 +49,21 @@ describe('Login Test #4', () => {
     cy.visit('http://localhost:3000/login')
 
     // Enter email stored in database & check if it has been entered correctly
-    cy.get(':nth-child(1) > .Login_formControl__r-i1w').type('Ahmed.King@freeemailservice.com')
-    cy.get(':nth-child(1) > .Login_formControl__r-i1w').should('have.value', 'Ahmed.King@freeemailservice.com')
+    cy.contains('div', 'Email').next('input').type('Ahmed.King@freeemailservice.com')
+    cy.contains('div', 'Email').next('input').should('have.value', 'Ahmed.King@freeemailservice.com')
 
     // Enter password (can be anything except empty) & check if it has been entered correctly
-    cy.get(':nth-child(2) > .Login_formControl__r-i1w').type('acceptThisPassword')
-    cy.get(':nth-child(2) > .Login_formControl__r-i1w').should('have.value', 'acceptThisPassword')
+    cy.contains('div', 'Password').next('input').type('acceptThisPassword')
+    cy.contains('div', 'Password').next('input').should('have.value', 'acceptThisPassword')
 
     // Click 'Log in' button
-    cy.get('.Login_loginBtnSubmit__llfLu').click()
+    cy.contains('button', 'Log in').click();
 
     // Check if user is taken to the home page
     cy.url().should('include', '/home')
 
     //Check if the username on the homepage matches what is stored on the database to ensure the correct user is logged in
     cy.contains('AhmedK60774')
-
   })
 })
 
@@ -75,18 +74,18 @@ describe('Log out Test #1', () => {
     cy.visit('http://localhost:3000/login')
 
     // Enter email stored in database & check if it has been entered correctly
-    cy.get(':nth-child(1) > .Login_formControl__r-i1w').type('Ahmed.King@freeemailservice.com')
-    cy.get(':nth-child(1) > .Login_formControl__r-i1w').should('have.value', 'Ahmed.King@freeemailservice.com')
+    cy.contains('div', 'Email').next('input').type('Ahmed.King@freeemailservice.com')
+    cy.contains('div', 'Email').next('input').should('have.value', 'Ahmed.King@freeemailservice.com')
 
     // Enter password (can be anything except empty) & check if it has been entered correctly
-    cy.get(':nth-child(2) > .Login_formControl__r-i1w').type('acceptThisPassword')
-    cy.get(':nth-child(2) > .Login_formControl__r-i1w').should('have.value', 'acceptThisPassword')
+    cy.contains('div', 'Password').next('input').type('acceptThisPassword')
+    cy.contains('div', 'Password').next('input').should('have.value', 'acceptThisPassword')
 
     // Click 'Log in' button
-    cy.get('.Login_loginBtnSubmit__llfLu').click()
+    cy.contains('button', 'Log in').click()
 
     // Click settings icon
-    cy.get('.CommonComponent_settings_btn__FdGrj').click()
+    cy.get('button:has(img[alt="Settings"])').click()
 
     // Click sign out button
     cy.get('[style="top: 180px;"]').click()
