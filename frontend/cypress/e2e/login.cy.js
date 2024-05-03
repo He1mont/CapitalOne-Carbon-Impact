@@ -1,5 +1,4 @@
-// spec.cy.js
-
+// login.cy.js
 describe('Login Test #1', () => {
   it('Checks router directs to login page', () => {
     // Access the website
@@ -16,7 +15,7 @@ describe('Login Test #2', () => {
     cy.visit('http://localhost:3000/login')
 
     // Click 'Log in' button
-    cy.get('.Login_loginBtnSubmit__yaBcb').click()
+    cy.get('.Login_loginBtnSubmit__llfLu').click()
 
     // Check if error message appears
     cy.contains('Invalid Email or Password!')
@@ -29,19 +28,18 @@ describe('Login Test #3', () => {
     cy.visit('http://localhost:3000/login')
 
     // Enter email not stored in database & check if it has been entered correctly
-    cy.get(':nth-child(1) > .Login_formControl__CS63v').type('incorrect@email.com')
-    cy.get(':nth-child(1) > .Login_formControl__CS63v').should('have.value','incorrect@email.com')
+    cy.get(':nth-child(1) > .Login_formControl__r-i1w').type('incorrect@email.com')
+    cy.get(':nth-child(1) > .Login_formControl__r-i1w').should('have.value', 'incorrect@email.com')
 
     // Enter password (can be anything except empty) & check if it has been entered correctly
-    cy.get(':nth-child(2) > .Login_formControl__CS63v').type('rejectThisPassword')
-    cy.get(':nth-child(2) > .Login_formControl__CS63v').should('have.value','rejectThisPassword')
+    cy.get(':nth-child(2) > .Login_formControl__r-i1w').type('rejectThisPassword')
+    cy.get(':nth-child(2) > .Login_formControl__r-i1w').should('have.value', 'rejectThisPassword')
 
     // Click 'Log in' button
-    cy.get('.Login_loginBtnSubmit__yaBcb').click()
+    cy.get('.Login_loginBtnSubmit__llfLu').click()
 
     // Check if error message appears
     cy.contains('Email Not Found!')
-
   })
 })
 
@@ -51,15 +49,15 @@ describe('Login Test #4', () => {
     cy.visit('http://localhost:3000/login')
 
     // Enter email stored in database & check if it has been entered correctly
-    cy.get(':nth-child(1) > .Login_formControl__CS63v').type('Ahmed.King@freeemailservice.com')
-    cy.get(':nth-child(1) > .Login_formControl__CS63v').should('have.value','Ahmed.King@freeemailservice.com')
+    cy.get(':nth-child(1) > .Login_formControl__r-i1w').type('Ahmed.King@freeemailservice.com')
+    cy.get(':nth-child(1) > .Login_formControl__r-i1w').should('have.value', 'Ahmed.King@freeemailservice.com')
 
     // Enter password (can be anything except empty) & check if it has been entered correctly
-    cy.get(':nth-child(2) > .Login_formControl__CS63v').type('acceptThisPassword')
-    cy.get(':nth-child(2) > .Login_formControl__CS63v').should('have.value','acceptThisPassword')
+    cy.get(':nth-child(2) > .Login_formControl__r-i1w').type('acceptThisPassword')
+    cy.get(':nth-child(2) > .Login_formControl__r-i1w').should('have.value', 'acceptThisPassword')
 
     // Click 'Log in' button
-    cy.get('.Login_loginBtnSubmit__yaBcb').click()
+    cy.get('.Login_loginBtnSubmit__llfLu').click()
 
     // Check if user is taken to the home page
     cy.url().should('include', '/home')
@@ -73,27 +71,27 @@ describe('Login Test #4', () => {
 describe('Log out Test #1', () => {
   it('Checks if user is able to sign out', () => {
 
-  // Go to login page
-  cy.visit('http://localhost:3000/login')
+    // Go to login page
+    cy.visit('http://localhost:3000/login')
 
-  // Enter email stored in database & check if it has been entered correctly
-  cy.get(':nth-child(1) > .Login_formControl__CS63v').type('Ahmed.King@freeemailservice.com')
-  cy.get(':nth-child(1) > .Login_formControl__CS63v').should('have.value','Ahmed.King@freeemailservice.com')
+    // Enter email stored in database & check if it has been entered correctly
+    cy.get(':nth-child(1) > .Login_formControl__r-i1w').type('Ahmed.King@freeemailservice.com')
+    cy.get(':nth-child(1) > .Login_formControl__r-i1w').should('have.value', 'Ahmed.King@freeemailservice.com')
 
-  // Enter password (can be anything except empty) & check if it has been entered correctly
-  cy.get(':nth-child(2) > .Login_formControl__CS63v').type('acceptThisPassword')
-  cy.get(':nth-child(2) > .Login_formControl__CS63v').should('have.value','acceptThisPassword')
+    // Enter password (can be anything except empty) & check if it has been entered correctly
+    cy.get(':nth-child(2) > .Login_formControl__r-i1w').type('acceptThisPassword')
+    cy.get(':nth-child(2) > .Login_formControl__r-i1w').should('have.value', 'acceptThisPassword')
 
-  // Click 'Log in' button
-  cy.get('.Login_loginBtnSubmit__yaBcb').click()
-  
-  // Click settings icon
-  cy.get('.CommonComponent_settings_btn__M-NTH').click()
+    // Click 'Log in' button
+    cy.get('.Login_loginBtnSubmit__llfLu').click()
 
-  // Click sign out button
-  cy.get('[style="top: 180px;"]').click()
+    // Click settings icon
+    cy.get('.CommonComponent_settings_btn__FdGrj').click()
 
-  // Check if router redirects to login page
-  cy.url().should('include', '/login')
+    // Click sign out button
+    cy.get('[style="top: 180px;"]').click()
+
+    // Check if router redirects to login page
+    cy.url().should('include', '/login')
   })
 })
