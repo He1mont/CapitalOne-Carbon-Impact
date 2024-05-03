@@ -121,3 +121,5 @@ npx cypress open
 
 Once Cypress is launched, you will be presented with two testing options: **End-to-End Tests** and **Component Tests**. Click on either option to access a list of test files available for execution.
 
+All end-to-end and component tests have been successfully passed using **Chrome version 124**.
+
