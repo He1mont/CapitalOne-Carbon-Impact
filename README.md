@@ -34,8 +34,7 @@ npm install # or npm install --force
 ### Database
 This project utilizes [Prisma](https://www.prisma.io/docs) as the development tool. Detailed implementations of how to use prisma could be found the [Prisma Document](./docs/prisma-document.md).
 
-
-The database is deployed on [Amazon RDS](https://aws.amazon.com/rds/). Please note that some networks, such as `eduroam`, may block access to Amazon RDS. If you encounter any other errors accessing Amazon RDS, please contact scygs2@nottingham.ac.uk.
+The database is deployed on [Amazon RDS](https://aws.amazon.com/rds/). 
 
 ### APIs
 The APIs utilised in this project are listed below.
@@ -61,6 +60,10 @@ The [Currency Converter API](https://exchangeratesapi.io/documentation/) is used
 The currently implemented APIs are detailed in the [router configuration file](./backend/app/router.js). The full API document could be found [API document](./docs/api-document.md)
 
 ## 2. Launch the Project
+
+### Before All
+
+Please note that some networks, such as `eduroam`, may block access to Amazon RDS. If you encounter any other errors accessing Amazon RDS, please contact scygs2@nottingham.ac.uk.
 
 ### Backend
 
@@ -103,6 +106,10 @@ node index.js
 The openAI server is started at http://localhost:8080
 
 ## 3. Test
+
+### Before All
+
+Please note that some networks, such as `eduroam`, may block access to Amazon RDS. If you encounter any other errors accessing Amazon RDS, please contact scygs2@nottingham.ac.uk.
 
 ### Backend
 
